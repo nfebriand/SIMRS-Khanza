@@ -4,6 +4,8 @@
 /lib
 /setting/database*.xml
 /setting/database*.ini
+/webapps/conf/conf.php
+/webapps/inacbg/conf/ws*.php
 **/*.DS_Store
 **/.DS_Store
 **/*.html_files

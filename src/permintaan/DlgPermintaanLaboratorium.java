@@ -1340,9 +1340,9 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
             Valid.textKosong(TNoRw,"Pasien");
         }else if(KodePerujuk.getText().equals("")||NmPerujuk.getText().equals("")){
             Valid.textKosong(KodePerujuk,"Dokter Perujuk");
-        }else if(InformasiTambahan.getText().isBlank()){
+        }else if(InformasiTambahan.getText().equals("")){
             Valid.textKosong(InformasiTambahan,"Informasi Tambahan");
-        }else if(DiagnosisKlinis.getText().isBlank()){
+        }else if(DiagnosisKlinis.getText().equals("")){
             Valid.textKosong(DiagnosisKlinis,"Indikasi/Diagnosis Klinis");
         }else if((jml+jml2+jml3)==0){
             Valid.textKosong(DiagnosisKlinis,"Data Permintaan");
@@ -1416,9 +1416,9 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
             Valid.textKosong(TNoRw,"Pasien");
         }else if(KodePerujuk.getText().equals("")||NmPerujuk.getText().equals("")){
             Valid.textKosong(KodePerujuk,"Dokter Perujuk");
-        }else if(InformasiTambahan.getText().isBlank()){
+        }else if(InformasiTambahan.getText().equals("")){
             Valid.textKosong(InformasiTambahan,"Informasi Tambahan");
-        }else if(DiagnosisKlinis.getText().isBlank()){
+        }else if(DiagnosisKlinis.getText().equals("")){
             Valid.textKosong(DiagnosisKlinis,"Indikasi/Diagnosis Klinis");
         }else if((jml+jml2+jml3)==0){
             Valid.textKosong(Pemeriksaan,"Data Permintaan");
@@ -2505,7 +2505,7 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 //autoNomor();
                 if(jml>0){
                     if(Sequel.menyimpantf2("permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?","No.Permintaan",12,new String[]{
-                            TNoPermintaanPK.getText(),TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem().toString()),
+                            TNoPermintaanPK.getText(),TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+""),
                             CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(), 
                             "0000-00-00","00:00:00","0000-00-00","00:00:00",KodePerujuk.getText(),status.replaceAll("R","r"),
                             InformasiTambahan.getText(),DiagnosisKlinis.getText()
@@ -2758,21 +2758,15 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     }
                 }
                 
-                // Jaga-jaga, commit / rollback segera sebelum autoCommit dinyalakan
-                if (sukses) {
-                    Sequel.Commit();
+                if(sukses==true){
                     isReset();
                     emptTeks();
-                } else {
-                    Sequel.RollBack();
-                }
-                koneksi.setAutoCommit(true);
-                
-                if (sukses) {
                     JOptionPane.showMessageDialog(null,"Proses simpan selesai...!");
-                } else {
+                }else{
                     JOptionPane.showMessageDialog(null,"Proses simpan gagal...!");
                 }
+                koneksi.setAutoCommit(true);                    
+                
             } catch (Exception e) {
                 System.out.println(e);
             }  
