@@ -53,7 +53,7 @@ import javax.swing.event.DocumentEvent;
  *
  * @author perpustakaan
  */
-public class DlgRiwayatPenghargaan extends javax.swing.JDialog {
+public class DlgRiwayatSuratPeringatan extends javax.swing.JDialog {
     private final JFXPanel jfxPanel = new JFXPanel();
     private WebEngine engine;
  
@@ -64,7 +64,7 @@ public class DlgRiwayatPenghargaan extends javax.swing.JDialog {
     private final Properties prop = new Properties(); 
     private final validasi Valid=new validasi();
     
-    public DlgRiwayatPenghargaan(java.awt.Frame parent, boolean modal) {
+    public DlgRiwayatSuratPeringatan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         initComponents2();
@@ -126,7 +126,7 @@ public class DlgRiwayatPenghargaan extends javax.swing.JDialog {
                 
                 engine.titleProperty().addListener((ObservableValue<? extends String> observable, String oldValue, final String newValue) -> {
                     SwingUtilities.invokeLater(() -> {
-                        DlgRiwayatPenghargaan.this.setTitle(newValue);
+                        DlgRiwayatSuratPeringatan.this.setTitle(newValue);
                     });
                 });
                 
@@ -259,7 +259,7 @@ public class DlgRiwayatPenghargaan extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Riwayat Penghargaan ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50,50,50))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Riwayat Surat Peringatan ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -383,8 +383,8 @@ public class DlgRiwayatPenghargaan extends javax.swing.JDialog {
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
         try {
-            if(engine.getLocation().contains("ListRiwayatPenghargaan")){
-                loadURL("http://" +koneksiDB.HOSTHYBRIDWEB()+":"+prop.getProperty("PORTWEB")+"/"+prop.getProperty("HYBRIDWEB")+"/"+"penggajian/index.php?act=ListRiwayatPenghargaan&action=LIHAT&keyword="+TCari.getText().replaceAll(" ","_"));
+            if(engine.getLocation().contains("ListRiwayatSuratPeringatan")){
+                loadURL("http://" +koneksiDB.HOSTHYBRIDWEB()+":"+prop.getProperty("PORTWEB")+"/"+prop.getProperty("HYBRIDWEB")+"/"+"penggajian/index.php?act=ListRiwayatSuratPeringatan&action=LIHAT&keyword="+TCari.getText().replaceAll(" ","_"));
             }                
         } catch (Exception ex) {
             System.out.println("Notifikasi : "+ex);
@@ -427,7 +427,7 @@ public class DlgRiwayatPenghargaan extends javax.swing.JDialog {
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            DlgRiwayatPenghargaan dialog = new DlgRiwayatPenghargaan(new javax.swing.JFrame(), true);
+            DlgRiwayatSuratPeringatan dialog = new DlgRiwayatSuratPeringatan(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
