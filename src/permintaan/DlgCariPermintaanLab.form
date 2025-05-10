@@ -92,7 +92,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
-                    <StringItem index="0" value="07-05-2025 10:27:40"/>
+                    <StringItem index="0" value="10-05-2025 10:36:53"/>
                   </StringArray>
                 </Property>
                 <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy HH:mm:ss"/>
@@ -1195,7 +1195,6 @@
                           <Image iconType="3" name="/picture/item.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Kirim Permintaan ke Sysmex"/>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Tahoma" size="11" style="0"/>
@@ -1223,7 +1222,6 @@
                           <Image iconType="3" name="/picture/item.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Ambil Hasil dari Sysmex"/>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Tahoma" size="11" style="0"/>
