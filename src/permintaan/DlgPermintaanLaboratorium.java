@@ -2061,7 +2061,7 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             
             for(i2=0;i2<tbTarifPK.getRowCount();i2++){ 
                 if(tbTarifPK.getValueAt(i2,0).toString().equals("true")){
-                    tabMode.addRow(new Object[]{false,tbTarifPK.getValueAt(i2,2).toString(),"","",""});
+                    tabMode.addRow(new Object[]{true,tbTarifPK.getValueAt(i2,2).toString(),"","",""});
                     pstampil=koneksi.prepareStatement("select template_laboratorium.id_template,template_laboratorium.Pemeriksaan,template_laboratorium.satuan,template_laboratorium.nilai_rujukan_ld,template_laboratorium.nilai_rujukan_la,template_laboratorium.nilai_rujukan_pd,template_laboratorium.nilai_rujukan_pa from template_laboratorium where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? order by template_laboratorium.urut");
                     try {
                         pstampil.setString(1,tbTarifPK.getValueAt(i2,1).toString());
@@ -2082,7 +2082,7 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                                 pa=" PA : "+rstampil.getString("nilai_rujukan_pa");
                             }
                             tabMode.addRow(new Object[]{
-                                false,"   "+rstampil.getString("Pemeriksaan"),
+                                true,"   "+rstampil.getString("Pemeriksaan"),
                                  rstampil.getString("satuan"),
                                  ld+la+pd+pa,
                                  rstampil.getString("id_template"),tbTarifPK.getValueAt(i2,1).toString()
@@ -2151,7 +2151,7 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             
             for(i2=0;i2<tbTarifMB.getRowCount();i2++){ 
                 if(tbTarifMB.getValueAt(i2,0).toString().equals("true")){
-                    tabModeDetailMB.addRow(new Object[]{false,tbTarifMB.getValueAt(i2,2).toString(),"","","",""});
+                    tabModeDetailMB.addRow(new Object[]{true,tbTarifMB.getValueAt(i2,2).toString(),"","","",""});
                     pstampil=koneksi.prepareStatement("select template_laboratorium.id_template,template_laboratorium.Pemeriksaan,template_laboratorium.satuan,template_laboratorium.nilai_rujukan_ld,template_laboratorium.nilai_rujukan_la,template_laboratorium.nilai_rujukan_pd,template_laboratorium.nilai_rujukan_pa from template_laboratorium where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? order by template_laboratorium.urut");
                     try {
                         pstampil.setString(1,tbTarifMB.getValueAt(i2,1).toString());
@@ -2172,7 +2172,7 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                                 pa=" PA : "+rstampil.getString("nilai_rujukan_pa");
                             }
                             tabModeDetailMB.addRow(new Object[]{
-                                false,"   "+rstampil.getString("Pemeriksaan"),
+                                true,"   "+rstampil.getString("Pemeriksaan"),
                                  rstampil.getString("satuan"),
                                  ld+la+pd+pa,
                                  rstampil.getString("id_template"),tbTarifMB.getValueAt(i2,1).toString()
