@@ -46,7 +46,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         initComponents();
         
         tabMode=new DefaultTableModel(null,new Object[]{
-                "No.Rawat","Nama Pasien","Kamar","Tanggal","Waktu","Jam","Diet","Diagnosa","Kode Kamar","Kode Diet"
+                "No.Rawat","Nama Pasien","Kamar","Tanggal","Waktu","Jam","Diet","Diagnosa","Kode Kamar","Kode Diet","Keterangan"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -54,7 +54,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         tbDataDiet.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbDataDiet.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 11; i++) {
             TableColumn column = tbDataDiet.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -78,6 +78,8 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             }else if(i==9){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
+            }else if(i==10){
+                column.setPreferredWidth(200);
             }
         }
         tbDataDiet.setDefaultRenderer(Object.class, new WarnaTable());
@@ -131,8 +133,91 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         
         ChkInput.setSelected(false);
         isForm();
+        
+        diet.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(akses.getform().equals("DlgPemberianDiet")){
+                    if(diet.getTable().getSelectedRow()!= -1){  
+                        KdDiet.setText(diet.getTable().getValueAt(diet.getTable().getSelectedRow(),0).toString());
+                        NmDiet.setText(diet.getTable().getValueAt(diet.getTable().getSelectedRow(),01).toString());
+                        KdDiet.requestFocus();                           
+                    }                         
+                }
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        bangsal.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(akses.getform().equals("DlgPemberianDiet")){
+                    if(bangsal.getTable().getSelectedRow()!= -1){                          
+                        NmBangsalCari.setText(bangsal.getTable().getValueAt(bangsal.getTable().getSelectedRow(),1).toString());
+                        NmBangsalCari.requestFocus();                           
+                    }                         
+                }
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        jamdiet.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(akses.getform().equals("DlgPemberianDiet")){
+                    if(jamdiet.getTable().getSelectedRow()!= -1){  
+                        if(pilih==1){
+                            WaktuDiet.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),0).toString());
+                            JamDiet.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),1).toString());
+                            BtnJam.requestFocus(); 
+                        }else if(pilih==2){
+                            WaktuDiet2.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),0).toString());
+                            JamDiet2.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),1).toString());
+                            BtnJam2.requestFocus(); 
+                        }                             
+                    }                         
+                }
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
     }
     
+    private DlgCariDiet diet=new DlgCariDiet(null,false);
+    private DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
+    private DlgCariJamDiet jamdiet=new DlgCariJamDiet(null,false);
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -191,6 +276,8 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         WaktuDiet = new widget.TextBox();
         JamDiet = new widget.TextBox();
         BtnJam = new widget.Button();
+        jLabel5 = new widget.Label();
+        Keterangan = new widget.TextBox();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
         tbDataDiet = new widget.Table();
@@ -470,7 +557,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-04-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -484,7 +571,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-04-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -587,7 +674,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         TPasien.setBounds(205, 12, 290, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2023" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-04-2024" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -670,6 +757,16 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         });
         FormInput.add(BtnJam);
         BtnJam.setBounds(315, 42, 28, 23);
+
+        jLabel5.setText("Keterangan:");
+        jLabel5.setName("jLabel5"); // NOI18N
+        FormInput.add(jLabel5);
+        jLabel5.setBounds(740, 40, 74, 23);
+
+        Keterangan.setHighlighter(null);
+        Keterangan.setName("Keterangan"); // NOI18N
+        FormInput.add(Keterangan);
+        Keterangan.setBounds(820, 40, 360, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -757,9 +854,10 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
                 if(Sequel.menyimpantf("detail_beri_diet","'"+TNoRw.getText()+"','"+Kamar.getText()+"','"+
                         Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"','"+
                         WaktuDiet.getText()+"','"+
-                        KdDiet.getText()+"'","data")==true){
-                    tabMode.addRow(new Object[]{
-                        TNoRw.getText(),TPasien.getText(),Ruang.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),WaktuDiet.getText(),JamDiet.getText(),NmDiet.getText(),"-",Kamar.getText(),KdDiet.getText()
+                        KdDiet.getText()+"','"+
+                        Keterangan.getText()+"'","data")==true){
+                    tabMode.addRow(new String[]{
+                        TNoRw.getText(),TPasien.getText(),Ruang.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),WaktuDiet.getText(),JamDiet.getText(),NmDiet.getText(),"-",Kamar.getText(),KdDiet.getText(),Keterangan.getText()
                     });
                     LCount.setText(""+tabMode.getRowCount());
                     emptTeks();
@@ -943,7 +1041,9 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
 }//GEN-LAST:event_tbDataDietKeyPressed
 
 private void KdDietKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KdDietKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_UP){
+        if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
+            Sequel.cariIsi("select diet.nama_diet from diet where diet.kd_diet=? ",NmDiet,KdDiet.getText());
+        }else if(evt.getKeyCode()==KeyEvent.VK_UP){
             BtnSeek1ActionPerformed(null);
         }else{
             Valid.pindah(evt,WaktuDiet,BtnSimpan);
@@ -951,32 +1051,7 @@ private void KdDietKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Kd
 }//GEN-LAST:event_KdDietKeyPressed
 
 private void BtnSeek1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSeek1ActionPerformed
-        akses.setform("DlgPemberianDiet");  
-        DlgCariDiet diet=new DlgCariDiet(null,false);
-        diet.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(akses.getform().equals("DlgPemberianDiet")){
-                    if(diet.getTable().getSelectedRow()!= -1){  
-                        KdDiet.setText(diet.getTable().getValueAt(diet.getTable().getSelectedRow(),0).toString());
-                        NmDiet.setText(diet.getTable().getValueAt(diet.getTable().getSelectedRow(),01).toString());
-                        KdDiet.requestFocus();                           
-                    }                         
-                }
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
+        akses.setform("DlgPemberianDiet");        
         diet.emptTeks();
         diet.isCek();
         diet.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
@@ -994,30 +1069,6 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     private void BtnSeek2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSeek2ActionPerformed
         akses.setform("DlgPemberianDiet");
-        DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
-        bangsal.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(akses.getform().equals("DlgPemberianDiet")){
-                    if(bangsal.getTable().getSelectedRow()!= -1){                          
-                        NmBangsalCari.setText(bangsal.getTable().getValueAt(bangsal.getTable().getSelectedRow(),1).toString());
-                        NmBangsalCari.requestFocus();                           
-                    }                         
-                }
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
         bangsal.emptTeks();
         bangsal.isCek();
         bangsal.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
@@ -1043,7 +1094,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
             Valid.MyReportqry("rptLabelDiet.jasper","report","::[ Label Diet ]::",
                 "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.tgl_lahir, " +
-                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet " +
+                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.keterangan " +
                 "from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien " +
                 "on detail_beri_diet.no_rawat=reg_periksa.no_rawat " +
                 "and detail_beri_diet.kd_kamar=kamar.kd_kamar "+
@@ -1072,7 +1123,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
             Valid.MyReportqry("rptLabelDiet.jasper","report","::[ Label Diet ]::",
                 "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.tgl_lahir, " +
-                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet " +
+                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.keterangan " +
                 "from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien " +
                 "on detail_beri_diet.no_rawat=reg_periksa.no_rawat " +
                 "and detail_beri_diet.kd_kamar=kamar.kd_kamar "+
@@ -1101,37 +1152,6 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private void BtnJamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnJamActionPerformed
         akses.setform("DlgPemberianDiet");  
         pilih=1;
-        DlgCariJamDiet jamdiet=new DlgCariJamDiet(null,false);
-        jamdiet.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(akses.getform().equals("DlgPemberianDiet")){
-                    if(jamdiet.getTable().getSelectedRow()!= -1){  
-                        if(pilih==1){
-                            WaktuDiet.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),0).toString());
-                            JamDiet.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),1).toString());
-                            BtnJam.requestFocus(); 
-                        }else if(pilih==2){
-                            WaktuDiet2.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),0).toString());
-                            JamDiet2.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),1).toString());
-                            BtnJam2.requestFocus(); 
-                        }                             
-                    }                         
-                }
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
         jamdiet.emptTeks();
         jamdiet.isCek();
         jamdiet.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
@@ -1146,37 +1166,6 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private void BtnJam2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnJam2ActionPerformed
         akses.setform("DlgPemberianDiet");  
         pilih=2;
-        DlgCariJamDiet jamdiet=new DlgCariJamDiet(null,false);
-        jamdiet.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(akses.getform().equals("DlgPemberianDiet")){
-                    if(jamdiet.getTable().getSelectedRow()!= -1){  
-                        if(pilih==1){
-                            WaktuDiet.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),0).toString());
-                            JamDiet.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),1).toString());
-                            BtnJam.requestFocus(); 
-                        }else if(pilih==2){
-                            WaktuDiet2.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),0).toString());
-                            JamDiet2.setText(jamdiet.getTable().getValueAt(jamdiet.getTable().getSelectedRow(),1).toString());
-                            BtnJam2.requestFocus(); 
-                        }                             
-                    }                         
-                }
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
         jamdiet.emptTeks();
         jamdiet.isCek();
         jamdiet.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
@@ -1258,6 +1247,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox JamDiet2;
     private widget.TextBox Kamar;
     private widget.TextBox KdDiet;
+    private widget.TextBox Keterangan;
     private widget.Label LCount;
     private javax.swing.JMenuItem MnLabelDiet;
     private javax.swing.JMenuItem MnLabelDiet1;
@@ -1281,6 +1271,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Label jLabel19;
     private widget.Label jLabel21;
     private widget.Label jLabel4;
+    private widget.Label jLabel5;
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private widget.Label jLabel9;
@@ -1298,7 +1289,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             Valid.tabelKosong(tabMode);
             ps=koneksi.prepareStatement(
                 "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal),"+
-                "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet " +
+                "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet,detail_beri_diet.keterangan " +
                 "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
                 "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                 "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
@@ -1320,10 +1311,10 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 }
                 rs=ps.executeQuery();
                 while(rs.next()){
-                    tabMode.addRow(new Object[]{
+                    tabMode.addRow(new String[]{
                         rs.getString(1),rs.getString(2)+" "+rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),
                         Sequel.cariIsi("select kamar_inap.diagnosa_awal from kamar_inap where kamar_inap.no_rawat=? order by kamar_inap.tgl_masuk desc",rs.getString(1)),
-                        rs.getString("kd_kamar"),rs.getString("kd_diet")
+                        rs.getString("kd_kamar"),rs.getString("kd_diet"),rs.getString("keterangan")
                     });
                 }
             } catch (Exception e) {
@@ -1368,7 +1359,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 rs=ps2.executeQuery();
                 i=1;
                 while(rs.next()){
-                     tabMode2.addRow(new Object[]{i+"",rs.getString(1),rs.getString(2)});i++;                   
+                     tabMode2.addRow(new String[]{i+"",rs.getString(1),rs.getString(2)});i++;                   
                 }
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
@@ -1391,6 +1382,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         NmDiet.setText("");
         WaktuDiet.setText("");
         JamDiet.setText("");
+        Keterangan.setText("");
         DTPTgl.setDate(new Date());
         DTPTgl.requestFocus();
     }

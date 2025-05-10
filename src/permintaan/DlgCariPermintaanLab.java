@@ -497,10 +497,10 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         BtnCetakHasilLab = new widget.Button();
         BtnBarcodePermintaan = new widget.Button();
         BtnBarcodePermintaan2 = new widget.Button();
-        BtnKirimLica = new widget.Button();
-        BtnAmbilLica = new widget.Button();
         BtnKirimSysmex = new widget.Button();
         BtnAmbilSysmex = new widget.Button();
+        BtnKirimLica = new widget.Button();
+        BtnAmbilLica = new widget.Button();
         BtnKirimLISELIMS = new widget.Button();
         BtnAmbilLISELIMS = new widget.Button();
         BtnKirimLISTeras = new widget.Button();
@@ -556,7 +556,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         internalFrame5.add(jLabel26);
         jLabel26.setBounds(6, 32, 100, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2025 10:27:40" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-05-2025 14:39:38" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -1171,6 +1171,40 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         });
         FormMenu.add(BtnBarcodePermintaan2);
 
+        BtnKirimSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnKirimSysmex.setText("Kirim ke LIS");
+        BtnKirimSysmex.setFocusPainted(false);
+        BtnKirimSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnKirimSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnKirimSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnKirimSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnKirimSysmex.setName("BtnKirimSysmex"); // NOI18N
+        BtnKirimSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnKirimSysmex.setRoundRect(false);
+        BtnKirimSysmex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKirimSysmexActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnKirimSysmex);
+
+        BtnAmbilSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnAmbilSysmex.setText("Ambil dari LIS");
+        BtnAmbilSysmex.setFocusPainted(false);
+        BtnAmbilSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnAmbilSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnAmbilSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnAmbilSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnAmbilSysmex.setName("BtnAmbilSysmex"); // NOI18N
+        BtnAmbilSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnAmbilSysmex.setRoundRect(false);
+        BtnAmbilSysmex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilSysmexActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnAmbilSysmex);
+
         BtnKirimLica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
         BtnKirimLica.setText("Kirim Permintaan ke LICA");
         BtnKirimLica.setEnabled(false);
@@ -1206,40 +1240,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
             }
         });
         FormMenu.add(BtnAmbilLica);
-
-        BtnKirimSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
-        BtnKirimSysmex.setText("Kirim Permintaan ke Sysmex");
-        BtnKirimSysmex.setFocusPainted(false);
-        BtnKirimSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnKirimSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
-        BtnKirimSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnKirimSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        BtnKirimSysmex.setName("BtnKirimSysmex"); // NOI18N
-        BtnKirimSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
-        BtnKirimSysmex.setRoundRect(false);
-        BtnKirimSysmex.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnKirimSysmexActionPerformed(evt);
-            }
-        });
-        FormMenu.add(BtnKirimSysmex);
-
-        BtnAmbilSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
-        BtnAmbilSysmex.setText("Ambil Hasil dari Sysmex");
-        BtnAmbilSysmex.setFocusPainted(false);
-        BtnAmbilSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnAmbilSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
-        BtnAmbilSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnAmbilSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        BtnAmbilSysmex.setName("BtnAmbilSysmex"); // NOI18N
-        BtnAmbilSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
-        BtnAmbilSysmex.setRoundRect(false);
-        BtnAmbilSysmex.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAmbilSysmexActionPerformed(evt);
-            }
-        });
-        FormMenu.add(BtnAmbilSysmex);
 
         BtnKirimLISELIMS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
         BtnKirimLISELIMS.setText("Kirim Permintaan ke ELIMS");
