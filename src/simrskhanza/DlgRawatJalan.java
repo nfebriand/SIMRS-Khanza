@@ -14,6 +14,7 @@ package simrskhanza;
 
 import bridging.ICareRiwayatPerawatan;
 import fungsi.WarnaTable;
+import fungsi.WarnaTableSoap;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -544,7 +545,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                 column.setPreferredWidth(100);
             }
         }
-        tbPemeriksaan.setDefaultRenderer(Object.class, new WarnaTable());
+        tbPemeriksaan.setDefaultRenderer(Object.class, new WarnaTableSoap());
         
         tabModeObstetri=new DefaultTableModel(null,new Object[]{
             "P","No.Rawat","No.R.M","Nama Pasien","Tgl.Rawat","Jam Rawat",
@@ -10177,7 +10178,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         }
     }
     
-    private void BtnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPenilaianPreOperasiActionPerformed
+    private void BtnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             TCari.requestFocus();
@@ -10212,7 +10213,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         }
     }
     
-    private void BtnCatatanObservasiBayiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCatatanObservasiIGDActionPerformed
+    private void BtnCatatanObservasiBayiActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             TCari.requestFocus();
