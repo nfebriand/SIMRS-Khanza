@@ -3850,7 +3850,9 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
 
     private void exportAwalMedisRalanAnak(String urutan) {
         if (Sequel.cariExistsSmc("select * from reg_periksa where no_rawat = ? and kd_poli != 'IGDK'", lblNoRawat.getText())) return;
-                
+        
+        if (!btnAwalMedisIGD.isEnabled()) return;
+        
         String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from penilaian_medis_ralan_anak where no_rawat = ?", lblNoRawat.getText());
         String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
         String tgl = Sequel.cariIsiSmc("select date_format(tanggal, '%d-%m-%Y') from penilaian_medis_ralan_anak where no_rawat = ?", lblNoRawat.getText());
@@ -3882,7 +3884,9 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
    
     private void exportAwalMedisRalanKandungan(String urutan) {
         if (Sequel.cariExistsSmc("select * from reg_periksa where no_rawat = ? and kd_poli != 'IGDK'", lblNoRawat.getText())) return;
-                
+
+        if (!btnAwalMedisIGD.isEnabled()) return;
+        
         String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from penilaian_medis_ralan_kandungan where no_rawat = ?", lblNoRawat.getText());
         String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
         String tgl = Sequel.cariIsiSmc("select date_format(tanggal, '%d-%m-%Y') from penilaian_medis_ralan_kandungan where no_rawat = ?", lblNoRawat.getText());
@@ -3912,6 +3916,8 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
     private void exportAwalMedisRalanBedah(String urutan) {
     if (Sequel.cariExistsSmc("select * from reg_periksa where no_rawat = ? and kd_poli != 'IGDK'", lblNoRawat.getText())) return;
 
+    if (!btnAwalMedisIGD.isEnabled()) return;
+    
     String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from penilaian_medis_ralan_bedah where no_rawat = ?", lblNoRawat.getText());
     String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
     String tgl = Sequel.cariIsiSmc("select date_format(tanggal, '%d-%m-%Y') from penilaian_medis_ralan_bedah where no_rawat = ?", lblNoRawat.getText());
@@ -3945,6 +3951,8 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
     private void exportAwalMedisRalanPenyakitDalam(String urutan) {
     if (Sequel.cariExistsSmc("select * from reg_periksa where no_rawat = ? and kd_poli != 'IGDK'", lblNoRawat.getText())) return;
 
+    if (!btnAwalMedisIGD.isEnabled()) return;
+    
     String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from penilaian_medis_ralan_penyakit_dalam where no_rawat = ?", lblNoRawat.getText());
     String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
     String tgl = Sequel.cariIsiSmc("select date_format(tanggal, '%d-%m-%Y') from penilaian_medis_ralan_penyakit_dalam where no_rawat = ?", lblNoRawat.getText());
