@@ -4325,8 +4325,8 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         //chkTriase.setSelected(true);
         //chkAsuhanMedisIGD.setSelected(true);
         chkPenggunaanKamar.setSelected(true);       
-        chkPemeriksaanRalan.setSelected(true);
-        chkPemeriksaanRanap.setSelected(true);        
+        //chkPemeriksaanRalan.setSelected(true);
+        //chkPemeriksaanRanap.setSelected(true);        
         chkTindakanRalanDokter.setSelected(true);
         chkTindakanRalanParamedis.setSelected(true);
         chkTindakanRalanDokterParamedis.setSelected(true);
