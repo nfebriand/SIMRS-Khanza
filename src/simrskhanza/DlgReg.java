@@ -6720,7 +6720,7 @@ public final class DlgReg extends javax.swing.JDialog {
         PanelInput.setLayout(new java.awt.BorderLayout(1, 1));
 
         FormInput.setName("FormInput"); // NOI18N
-        FormInput.setPreferredSize(new java.awt.Dimension(490, 200));
+        FormInput.setPreferredSize(new java.awt.Dimension(490, 210));
         FormInput.setLayout(null);
 
         jLabel3.setText("No. Reg. :");
@@ -6993,7 +6993,7 @@ public final class DlgReg extends javax.swing.JDialog {
         nmpnj.setEditable(false);
         nmpnj.setName("nmpnj"); // NOI18N
         FormInput.add(nmpnj);
-        nmpnj.setBounds(520, 102, 140, 23);
+        nmpnj.setBounds(520, 105, 140, 20);
 
         btnPenjab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnPenjab.setMnemonic('2');
@@ -7054,7 +7054,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(NoKa);
-        NoKa.setBounds(738, 102, 112, 23);
+        NoKa.setBounds(738, 105, 112, 20);
 
         btnCekBridging.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnCekBridging.setMnemonic('2');
@@ -7101,7 +7101,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(Checkin);
-        Checkin.setBounds(520, 163, 150, 20);
+        Checkin.setBounds(520, 160, 150, 20);
 
         Booking.setName("Booking"); // NOI18N
         Booking.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -7110,7 +7110,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(Booking);
-        Booking.setBounds(680, 163, 150, 20);
+        Booking.setBounds(680, 160, 150, 20);
 
         BtnCheckin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
         BtnCheckin.setMnemonic('S');
