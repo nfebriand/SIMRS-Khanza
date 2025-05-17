@@ -8710,7 +8710,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="16-05-2025"/>
+                        <StringItem index="0" value="17-05-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8735,7 +8735,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="16-05-2025"/>
+                        <StringItem index="0" value="17-05-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8879,6 +8879,9 @@
           <Properties>
             <Property name="name" type="java.lang.String" value="PanelInput" noResource="true"/>
             <Property name="opaque" type="boolean" value="false"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[490, 225]"/>
+            </Property>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -8895,7 +8898,7 @@
               <Properties>
                 <Property name="name" type="java.lang.String" value="FormInput" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[490, 210]"/>
+                  <Dimension value="[490, 167]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -8995,7 +8998,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="16-05-2025"/>
+                        <StringItem index="0" value="17-05-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -9832,7 +9835,7 @@
             </Property>
             <Property name="name" type="java.lang.String" value="TabRawat" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[454, 100]"/>
+              <Dimension value="[454, 437]"/>
             </Property>
           </Properties>
           <Events>
@@ -9862,7 +9865,7 @@
                 <Property name="name" type="java.lang.String" value="Scroll" noResource="true"/>
                 <Property name="opaque" type="boolean" value="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[452, 100]"/>
+                  <Dimension value="[452, 402]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -9907,7 +9910,7 @@
                 <Property name="name" type="java.lang.String" value="Scroll1" noResource="true"/>
                 <Property name="opaque" type="boolean" value="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[452, 100]"/>
+                  <Dimension value="[452, 402]"/>
                 </Property>
               </Properties>
               <Constraints>
