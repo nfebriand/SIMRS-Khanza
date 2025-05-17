@@ -73,6 +73,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
@@ -363,6 +364,7 @@ public final class DlgReg extends javax.swing.JDialog {
 
         tbPetugas.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbPetugas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbPetugas.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         for (i = 0; i < 25; i++) {
             TableColumn column = tbPetugas.getColumnModel().getColumn(i);
@@ -974,7 +976,7 @@ public final class DlgReg extends javax.swing.JDialog {
         }
         
         try {
-            Sequel.cariIsi("select set_validasi_catatan.tampilkan_catatan from set_validasi_catatan");
+            validasicatatan=Sequel.cariIsi("select set_validasi_catatan.tampilkan_catatan from set_validasi_catatan");
             if(validasicatatan==null){
                 validasicatatan="No";
             }
@@ -1415,10 +1417,6 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel5 = new widget.Label();
         TNoAntrian = new widget.TextBox();
         labelKeterangan = new widget.Label();
-        Checkin = new widget.TextBox();
-        Booking = new widget.TextBox();
-        BtnCheckin = new widget.Button();
-        BtnCtkRegister = new widget.Button();
         ChkInput = new widget.CekBox();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
@@ -6610,7 +6608,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-05-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6623,7 +6621,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-05-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6717,7 +6715,6 @@ public final class DlgReg extends javax.swing.JDialog {
 
         PanelInput.setName("PanelInput"); // NOI18N
         PanelInput.setOpaque(false);
-        PanelInput.setPreferredSize(new java.awt.Dimension(490, 225));
         PanelInput.setLayout(new java.awt.BorderLayout(1, 1));
 
         FormInput.setName("FormInput"); // NOI18N
@@ -6765,7 +6762,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-05-2025" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2025" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -6805,7 +6802,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(TNoRM);
-        TNoRM.setBounds(520, 15, 110, 20);
+        TNoRM.setBounds(520, 12, 110, 23);
 
         TNoReg.setText("999");
         TNoReg.setHighlighter(null);
@@ -6816,7 +6813,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(TNoReg);
-        TNoReg.setBounds(74, 15, 60, 20);
+        TNoReg.setBounds(74, 12, 60, 23);
 
         jLabel21.setText("Alamat P.J. :");
         jLabel21.setName("jLabel21"); // NOI18N
@@ -6866,13 +6863,11 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(TAlmt);
-        TAlmt.setBounds(520, 75, 170, 20);
+        TAlmt.setBounds(520, 72, 170, 23);
 
         BtnPasien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnPasien.setMnemonic('1');
-        BtnPasien.setText("Pilih Pasien");
         BtnPasien.setToolTipText("ALt+1");
-        BtnPasien.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         BtnPasien.setName("BtnPasien"); // NOI18N
         BtnPasien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6880,13 +6875,13 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnPasien);
-        BtnPasien.setBounds(852, 12, 110, 23);
+        BtnPasien.setBounds(852, 12, 28, 23);
 
         TPasien.setEditable(false);
         TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         FormInput.add(TPasien);
-        TPasien.setBounds(632, 15, 218, 20);
+        TPasien.setBounds(632, 12, 218, 23);
 
         jLabel22.setText("Hubungan :");
         jLabel22.setName("jLabel22"); // NOI18N
@@ -6920,7 +6915,7 @@ public final class DlgReg extends javax.swing.JDialog {
         TPoli.setEditable(false);
         TPoli.setName("TPoli"); // NOI18N
         FormInput.add(TPoli);
-        TPoli.setBounds(141, 135, 156, 20);
+        TPoli.setBounds(141, 132, 156, 23);
 
         TBiaya.setName("TBiaya"); // NOI18N
         TBiaya.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -6929,7 +6924,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(TBiaya);
-        TBiaya.setBounds(298, 135, 94, 20);
+        TBiaya.setBounds(298, 132, 94, 23);
 
         KdDokter.setHighlighter(null);
         KdDokter.setName("KdDokter"); // NOI18N
@@ -6961,7 +6956,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(kdpoli);
-        kdpoli.setBounds(74, 135, 66, 20);
+        kdpoli.setBounds(74, 132, 66, 23);
 
         BtnUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnUnit.setMnemonic('4');
@@ -6984,7 +6979,7 @@ public final class DlgReg extends javax.swing.JDialog {
         TStatus.setHighlighter(null);
         TStatus.setName("TStatus"); // NOI18N
         FormInput.add(TStatus);
-        TStatus.setBounds(750, 75, 130, 20);
+        TStatus.setBounds(750, 72, 130, 23);
 
         jLabel18.setText("Jenis Bayar :");
         jLabel18.setName("jLabel18"); // NOI18N
@@ -6994,7 +6989,7 @@ public final class DlgReg extends javax.swing.JDialog {
         nmpnj.setEditable(false);
         nmpnj.setName("nmpnj"); // NOI18N
         FormInput.add(nmpnj);
-        nmpnj.setBounds(520, 105, 140, 20);
+        nmpnj.setBounds(520, 102, 140, 23);
 
         btnPenjab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnPenjab.setMnemonic('2');
@@ -7020,7 +7015,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(AsalRujukan);
-        AsalRujukan.setBounds(520, 135, 330, 20);
+        AsalRujukan.setBounds(520, 132, 330, 23);
 
         btnPenjab1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnPenjab1.setMnemonic('2');
@@ -7055,7 +7050,7 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(NoKa);
-        NoKa.setBounds(738, 105, 112, 20);
+        NoKa.setBounds(738, 102, 112, 23);
 
         btnCekBridging.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnCekBridging.setMnemonic('2');
@@ -7082,74 +7077,13 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         FormInput.add(TNoAntrian);
-        TNoAntrian.setBounds(234, 15, 60, 20);
+        TNoAntrian.setBounds(234, 12, 60, 23);
 
         labelKeterangan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelKeterangan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelKeterangan.setName("labelKeterangan"); // NOI18N
         FormInput.add(labelKeterangan);
         labelKeterangan.setBounds(884, 12, 280, 23);
-
-        Checkin.setName("Checkin"); // NOI18N
-        Checkin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckinActionPerformed(evt);
-            }
-        });
-        Checkin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                CheckinKeyPressed(evt);
-            }
-        });
-        FormInput.add(Checkin);
-        Checkin.setBounds(520, 160, 150, 20);
-
-        Booking.setName("Booking"); // NOI18N
-        Booking.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                BookingKeyPressed(evt);
-            }
-        });
-        FormInput.add(Booking);
-        Booking.setBounds(680, 160, 150, 20);
-
-        BtnCheckin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnCheckin.setMnemonic('S');
-        BtnCheckin.setText("Check in MJKN");
-        BtnCheckin.setToolTipText("Alt+S");
-        BtnCheckin.setName("BtnCheckin"); // NOI18N
-        BtnCheckin.setPreferredSize(new java.awt.Dimension(100, 30));
-        BtnCheckin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCheckinActionPerformed(evt);
-            }
-        });
-        BtnCheckin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                BtnCheckinKeyPressed(evt);
-            }
-        });
-        FormInput.add(BtnCheckin);
-        BtnCheckin.setBounds(840, 160, 130, 20);
-
-        BtnCtkRegister.setMnemonic('G');
-        BtnCtkRegister.setText("CETAK REG");
-        BtnCtkRegister.setToolTipText("Alt+G");
-        BtnCtkRegister.setGlassColor(new java.awt.Color(252, 177, 130));
-        BtnCtkRegister.setName("BtnCtkRegister"); // NOI18N
-        BtnCtkRegister.setPreferredSize(new java.awt.Dimension(100, 30));
-        BtnCtkRegister.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCtkRegisterActionPerformed(evt);
-            }
-        });
-        BtnCtkRegister.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                BtnCtkRegisterKeyPressed(evt);
-            }
-        });
-        FormInput.add(BtnCtkRegister);
-        BtnCtkRegister.setBounds(70, 160, 110, 30);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -7181,7 +7115,6 @@ public final class DlgReg extends javax.swing.JDialog {
         TabRawat.setForeground(new java.awt.Color(50, 50, 50));
         TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawat.setName("TabRawat"); // NOI18N
-        TabRawat.setPreferredSize(new java.awt.Dimension(454, 437));
         TabRawat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TabRawatMouseClicked(evt);
@@ -7193,7 +7126,6 @@ public final class DlgReg extends javax.swing.JDialog {
         Scroll.setComponentPopupMenu(jPopupMenu1);
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
-        Scroll.setPreferredSize(new java.awt.Dimension(452, 402));
 
         tbPetugas.setToolTipText("Klik data di table, kemudian klik kanan untuk memilih menu yang diinginkan");
         tbPetugas.setComponentPopupMenu(jPopupMenu1);
@@ -7220,7 +7152,6 @@ public final class DlgReg extends javax.swing.JDialog {
         Scroll1.setComponentPopupMenu(jPopupMenu2);
         Scroll1.setName("Scroll1"); // NOI18N
         Scroll1.setOpaque(true);
-        Scroll1.setPreferredSize(new java.awt.Dimension(452, 402));
 
         tbPetugas2.setToolTipText("Klik data di table, kemudian klik kanan untuk memilih menu yang diinginkan");
         tbPetugas2.setComponentPopupMenu(jPopupMenu2);
@@ -14749,44 +14680,6 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         }
     }//GEN-LAST:event_tbPetugas2MousePressed
 
-    private void CheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckinActionPerformed
-
-    private void CheckinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CheckinKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckinKeyPressed
-
-    private void BookingKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BookingKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BookingKeyPressed
-
-    private void BtnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCheckinActionPerformed
-        if (Sequel.mengedittf("referensi_mobilejkn_bpjs", "no_rawat=?", "status='Checkin',validasi=now()", 1, new String[]{
-            TNoRw.getText()
-        }) == true) {
-            Sequel.meghapus("referensi_mobilejkn_bpjs_batal", "nobooking", Booking.getText());
-            Sequel.queryu("update reg_periksa set jam_reg=current_time() where no_rawat='" + TNoRw.getText() + "'");
-        }
-        getData();
-    }//GEN-LAST:event_BtnCheckinActionPerformed
-
-    private void BtnCheckinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCheckinKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
-            BtnCheckinActionPerformed(null);
-        } else {
-            Valid.pindah(evt, BtnCari, BtnBatal);
-        }
-    }//GEN-LAST:event_BtnCheckinKeyPressed
-
-    private void BtnCtkRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCtkRegisterActionPerformed
-        MnCetakRegisterActionPerformed(null);
-    }//GEN-LAST:event_BtnCtkRegisterActionPerformed
-
-    private void BtnCtkRegisterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCtkRegisterKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnCtkRegisterKeyPressed
-
     private void MnSkorAldrettePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data registrasi sudah habis...!!!!");
@@ -16234,12 +16127,9 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.TextBox AsalRujukan;
-    private widget.TextBox Booking;
     private widget.Button BtnAll;
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
-    private widget.Button BtnCheckin;
-    private widget.Button BtnCtkRegister;
     private widget.Button BtnDokter;
     private widget.Button BtnEdit;
     private widget.Button BtnHapus;
@@ -16256,7 +16146,6 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.Button BtnSeek5;
     private widget.Button BtnSimpan;
     private widget.Button BtnUnit;
-    private widget.TextBox Checkin;
     private widget.CekBox ChkInput;
     private widget.CekBox ChkJln;
     private widget.CekBox ChkTracker;
@@ -16896,8 +16785,6 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             TNoReg.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),1).toString());
             TNoAntrian.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 24).toString());
             TNoAntrian.setEditable(false);
-            Checkin.setText(Sequel.cariIsi("select referensi_mobilejkn_bpjs.status from referensi_mobilejkn_bpjs where no_rawat=?", TNoRw.getText()));
-            Booking.setText(Sequel.cariIsi("select referensi_mobilejkn_bpjs.nobooking from referensi_mobilejkn_bpjs where no_rawat=?", TNoRw.getText()));           
         }
     }
 
@@ -18774,9 +18661,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             ) {
                 JOptionPane.showMessageDialog(null, "Maaf, pasien sudah menerima pelayanan...!!!!");
             } else {
-                if (Sequel.cekTanggal48jam(tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 3).toString() + " " + tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 4).toString(), Sequel.ambiltanggalsekarang())) {
+                String tglsekarang = Sequel.ambiltanggalsekarang();
+                if (Sequel.cekTanggal48jam(tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 3).toString() + " " + tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 4).toString(), tglsekarang)) {
                     Sequel.mengupdateSmc("reg_periksa", "jam_reg = current_time()", "no_rawat = ?", noRawat);
-                    tbPetugas.setValueAt(Sequel.ambiltanggalsekarang().substring(11), tbPetugas.getSelectedRow(), 4);
+                    tbPetugas.setValueAt(tglsekarang.substring(11), tbPetugas.getSelectedRow(), 4);
                 }
             }
         }
