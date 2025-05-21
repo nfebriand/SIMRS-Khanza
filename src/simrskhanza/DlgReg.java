@@ -27,7 +27,7 @@ import bridging.InhealthDataSJP;
 import bridging.PCareDataPendaftaran;
 import bridging.PilihanBridgingAsuransi;
 import bridging.SisruteRujukanKeluar;
-import fungsi.WarnaTable;
+import fungsi.WarnaTableRegistrasi;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -422,7 +422,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 column.setPreferredWidth(60);
             }
         }
-        tbPetugas.setDefaultRenderer(Object.class, new WarnaTable());
+        tbPetugas.setDefaultRenderer(Object.class, new WarnaTableRegistrasi());
 
         tabMode2=new DefaultTableModel(null,new Object[]{
             "P","No.Rawat","Tanggal","Jam","Kd.Dokter","Dokter Rujukan","Nomer RM",
@@ -500,7 +500,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 column.setMaxWidth(0);
             }
         }
-        tbPetugas2.setDefaultRenderer(Object.class, new WarnaTable());
+        tbPetugas2.setDefaultRenderer(Object.class, new WarnaTableRegistrasi());
         
         TNoReg.setDocument(new batasInput((byte)8).getKata(TNoReg));
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));

@@ -10,7 +10,7 @@ import bridging.koneksiDBVANSLAB;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.BackgroundMusic;
-import fungsi.WarnaTable;
+import fungsi.WarnaTablePermintaanLab;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
@@ -141,7 +141,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbLabRalan.setDefaultRenderer(Object.class, new WarnaTable());
+        tbLabRalan.setDefaultRenderer(Object.class, new WarnaTablePermintaanLab());
         
         tabMode2=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Detail Pemeriksaan","Satuan","Nilai Rujukan","Permintaan","Jam","Sampel","Jam","Hasil",
@@ -200,7 +200,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbLabRalan2.setDefaultRenderer(Object.class, new WarnaTable());
+        tbLabRalan2.setDefaultRenderer(Object.class, new WarnaTablePermintaanLab());
         
         tabMode3=new DefaultTableModel(null,new Object[]{
             "No.Permintaan","No.Rawat","Pasien","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter",
@@ -251,7 +251,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbLabRanap.setDefaultRenderer(Object.class, new WarnaTable());
+        tbLabRanap.setDefaultRenderer(Object.class, new WarnaTablePermintaanLab());
         
         tabMode4=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Detail Pemeriksaan","Satuan","Nilai Rujukan","Permintaan","Jam",
@@ -311,7 +311,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbLabRanap2.setDefaultRenderer(Object.class, new WarnaTable());
+        tbLabRanap2.setDefaultRenderer(Object.class, new WarnaTablePermintaanLab());
         
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
         if(koneksiDB.CARICEPAT().equals("aktif")){
