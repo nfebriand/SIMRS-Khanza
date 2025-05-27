@@ -1451,6 +1451,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
                 param.put("diagnosa",DiagnosisKlinis.getText());
                 param.put("kamar",kamar);
                 param.put("namakamar",namakamar);
+                param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", TNoRw.getText()));                
                 param.put("jam",CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem());
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());
@@ -1499,6 +1500,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
                 param.put("diagnosa",DiagnosisKlinis.getText());
                 param.put("kamar",kamar);
                 param.put("namakamar",namakamar);
+                param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", TNoRw.getText()));                
                 param.put("jam",CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem());
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());
@@ -1541,6 +1543,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
                 param.put("diagnosa",DiagnosisKlinis.getText());
                 param.put("kamar",kamar);
                 param.put("namakamar",namakamar);
+                param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", TNoRw.getText()));                
                 param.put("jam",CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem());
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());

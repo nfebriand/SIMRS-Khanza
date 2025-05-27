@@ -4024,130 +4024,6 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         );
     }
 
-    /*private void exportLaporanOperasi(String urutan) {                                                 
-    String norawat = lblNoRawat.getText();
-    String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from penilaian_medis_ralan_penyakit_dalam where no_rawat = ?", lblNoRawat.getText());
-    //String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
-    String tgl_operasi = Sequel.cariIsiSmc(
-        "select operasi.tgl_operasi from operasi inner join reg_periksa on operasi.no_rawat=reg_periksa.no_rawat where reg_periksa.no_rawat=?",
-        norawat
-    );
-
-    if (!norawat.equals("")) {
-        Map<String, Object> param = new HashMap<>();    
-        param.put("namars", akses.getnamars());
-        param.put("alamatrs", akses.getalamatrs());
-        param.put("kotars", akses.getkabupatenrs());
-        param.put("propinsirs", akses.getpropinsirs());
-        param.put("kontakrs", akses.getkontakrs());
-        param.put("emailrs", akses.getemailrs());   
-        param.put("logo", Sequel.cariGambar("select setting.logo from setting")); 
-        param.put("norawat", norawat);  
-        param.put("tanggaloperasi", tgl_operasi);  
-
-        kodeDokter = Sequel.cariIsiSmc("select operasi.operator1 from operasi where operasi.no_rawat=? and tgl_operasi=?", norawat, tgl_operasi);
-        finger = Sequel.cariIsiSmc("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?", kodeDokter);
-        param.put("finger", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() +
-            "\nDitandatangani secara elektronik oleh " + Sequel.cariIsiSmc("select nama from pegawai where nik=?", kodeDokter) +
-            "\nID " + (finger.equals("") ? kodeDokter : finger) +
-            "\n" + Valid.SetTgl3(tgl_operasi));  
-
-        finger = "";
-        try {
-            rs = koneksi.prepareStatement(
-                "select paket_operasi.nm_perawatan from operasi " +
-                "inner join paket_operasi on paket_operasi.kode_paket=operasi.kode_paket " +
-                "where operasi.no_rawat=? and operasi.tgl_operasi=?"
-            ).executeQuery();
-            while (rs.next()) {
-                finger += rs.getString("nm_perawatan") + ", ";
-            }
-        } catch (Exception e) {
-            System.out.println("Notif : " + e);
-        } finally {
-            if (rs != null) {
-                try { rs.close(); } catch (Exception e) {}
-            }
-        }
-
-        if (!finger.isEmpty()) {
-            finger = finger.substring(0, finger.length() - 2); // remove trailing comma
-        }
-        param.put("tindakan", finger);
-
-        if (Sequel.cariIsiSmc("select reg_periksa.status_lanjut from reg_periksa where reg_periksa.no_rawat=?", norawat).equals("Ralan")) {
-            // Rawat Jalan
-            try {
-                rs = koneksi.prepareStatement(
-                    "select * from pemeriksaan_ralan where no_rawat=? and " +
-                    "concat(tgl_perawatan, ' ', jam_rawat) <= ? order by tgl_perawatan desc, jam_rawat desc limit 1"
-                ).executeQuery();
-                if (rs.next()) {
-                    param.put("tgl_perawatan", rs.getDate("tgl_perawatan"));
-                    param.put("jam_rawat", rs.getString("jam_rawat"));
-                    param.put("alergi", rs.getString("alergi"));
-                    param.put("keluhan", rs.getString("keluhan"));
-                    param.put("pemeriksaan", rs.getString("pemeriksaan"));
-                    param.put("penilaian", rs.getString("penilaian"));
-                    param.put("rtl", rs.getString("rtl"));
-                    param.put("ruang", Sequel.cariIsi("select poliklinik.nm_poli from poliklinik inner join reg_periksa on reg_periksa.kd_poli=poliklinik.kd_poli where reg_periksa.no_rawat=?", norawat));
-                    param.put("suhu_tubuh", rs.getString("suhu_tubuh"));
-                    param.put("tensi", rs.getString("tensi"));
-                    param.put("tinggi", rs.getString("tinggi"));
-                    param.put("berat", rs.getString("berat"));
-                    param.put("nadi", rs.getString("nadi"));
-                    param.put("respirasi", rs.getString("respirasi"));
-                    param.put("gcs", rs.getString("gcs"));
-                }
-            } catch (Exception e) {
-                System.out.println("Notif : " + e);
-            } finally {
-                if (rs != null) {
-                    try { rs.close(); } catch (Exception e) {}
-                }
-            }
-        } else {
-            // Rawat Inap
-            try {
-                rs = koneksi.prepareStatement(
-                    "select * from pemeriksaan_ranap where no_rawat=? and " +
-                    "concat(tgl_perawatan, ' ', jam_rawat) <= ? order by tgl_perawatan desc, jam_rawat desc limit 1"
-                ).executeQuery();
-                if (rs.next()) {
-                    param.put("tgl_perawatan", rs.getDate("tgl_perawatan"));
-                    param.put("jam_rawat", rs.getString("jam_rawat"));
-                    param.put("alergi", rs.getString("alergi"));
-                    param.put("keluhan", rs.getString("keluhan"));
-                    param.put("pemeriksaan", rs.getString("pemeriksaan"));
-                    param.put("penilaian", rs.getString("penilaian"));
-                    param.put("rtl", rs.getString("rtl"));
-                    param.put("ruang", Sequel.cariIsi(
-                        "select nm_bangsal from bangsal " +
-                        "inner join kamar on bangsal.kd_bangsal=kamar.kd_bangsal " +
-                        "inner join kamar_inap on kamar_inap.kd_kamar=kamar.kd_kamar " +
-                        "where no_rawat=? order by tgl_masuk desc limit 1", norawat
-                    ));
-                    param.put("suhu_tubuh", rs.getString("suhu_tubuh"));
-                    param.put("tensi", rs.getString("tensi"));
-                    param.put("tinggi", rs.getString("tinggi"));
-                    param.put("berat", rs.getString("berat"));
-                    param.put("nadi", rs.getString("nadi"));
-                    param.put("respirasi", rs.getString("respirasi"));
-                    param.put("gcs", rs.getString("gcs"));
-                }
-            } catch (Exception e) {
-                System.out.println("Notif : " + e);
-            } finally {
-                if (rs != null) {
-                    try { rs.close(); } catch (Exception e) {}
-                }
-            }
-        }
-        exportPDF("rptLaporanOperasi.jasper", urutan + "_LaporanOperasi", param);
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "Silahkan pilih data, klik pada No.Rawat ..!!");
-    }
-}*/
     private void exportLaporanOperasi(String urutan) {                                                 
         String norawat = lblNoRawat.getText();
         String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from penilaian_medis_ralan_penyakit_dalam where no_rawat = ?", norawat);
@@ -4155,10 +4031,6 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
             "select operasi.tgl_operasi from operasi inner join reg_periksa on operasi.no_rawat=reg_periksa.no_rawat where reg_periksa.no_rawat=?",
             norawat
         );
-        
-        System.out.println(norawat);
-        System.out.println(kodeDokter);
-        System.out.println(tgl_operasi);
 
         if (norawat.isEmpty() || tgl_operasi.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Data tidak lengkap. Periksa No.Rawat dan Tgl Operasi.");
@@ -4179,9 +4051,6 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         String kodeoperator = Sequel.cariIsiSmc("select operator1 from operasi where no_rawat=? and tgl_operasi=?", norawat, tgl_operasi);
         String namaoperator = Sequel.cariIsiSmc("select nama from pegawai where nik=?", kodeoperator);
         String finger = Sequel.cariIsiSmc("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?", kodeoperator);
-        System.out.println(kodeoperator);
-        System.out.println(namaoperator);
-        System.out.println(finger);
 
         param.put("finger", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs()
             + "\nDitandatangani secara elektronik oleh " + namaoperator
@@ -4212,8 +4081,6 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
 
         String status = Sequel.cariIsiSmc("select status_lanjut from reg_periksa where no_rawat=?", norawat);
 
-        System.out.println(status);
-
         String queryPemeriksaan = "";
         if (status.equals("Ralan")) {
             queryPemeriksaan = "select pemeriksaan_ralan.no_rawat, pemeriksaan_ralan.tgl_perawatan, pemeriksaan_ralan.jam_rawat, " +
@@ -4234,7 +4101,6 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         }
 
         try (PreparedStatement ps = koneksi.prepareStatement(queryPemeriksaan)) {
-            System.out.println(queryPemeriksaan);            
             ps.setString(1, norawat);
             ps.setString(2, tgl_operasi);
             rs = ps.executeQuery();
@@ -4264,7 +4130,6 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
             System.out.println("Notif : " + e);
         }
         exportPDF("rptLaporanOperasi.jasper", urutan + "_LaporanOperasi", param);
-        Valid.MyReport("rptLaporanOperasi.jasper", "report", "::[ Laporan Operasi ]::", param);
     }
     
     

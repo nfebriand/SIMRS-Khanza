@@ -922,7 +922,7 @@ private void ppHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                                 "inner join ipsrsjenisbarang on ipsrsbarang.jenis=ipsrsjenisbarang.kd_jenis where "+
                                 " detail_permintaan_non_medis.no_permintaan=? and ipsrsbarang.nama_brng like ? and ipsrsjenisbarang.nm_jenis like ? and "+
                                 " (detail_permintaan_non_medis.kode_brng like ? or ipsrsbarang.nama_brng like ? or detail_permintaan_non_medis.kode_sat like ? or "+
-                                " ipsrsjenisbarang.nm_jenis like ?) order by detail_permintaan_non_medis.kode_brng ");
+                                " ipsrsjenisbarang.nm_jenis like ?) order by ipsrsbarang.nama_brng "); //order by asli : detail_permintaan_non_medis.kode_brng
                     try {
                         ps2.setString(1,rs.getString(2));
                         ps2.setString(2,"%"+nmbar.getText()+"%");
