@@ -545,13 +545,8 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                 column.setPreferredWidth(100);
             }
         }
-<<<<<<< HEAD
         tbPemeriksaan.setDefaultRenderer(Object.class, new WarnaTableSoap());
-        
-=======
-        tbPemeriksaan.setDefaultRenderer(Object.class, new WarnaTable());
 
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         tabModeObstetri=new DefaultTableModel(null,new Object[]{
             "P","No.Rawat","No.R.M","Nama Pasien","Tgl.Rawat","Jam Rawat",
             "Tinggi Fundus","Janin", "Letak","Panggul","Denyut","Kontraksi",
@@ -10182,13 +10177,9 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
             this.setCursor(Cursor.getDefaultCursor());
         }
     }
-<<<<<<< HEAD
     
     private void BtnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {                                                       
-=======
 
-    private void BtnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPenilaianPreOperasiActionPerformed
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             TCari.requestFocus();
@@ -10222,13 +10213,9 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
             this.setCursor(Cursor.getDefaultCursor());
         }
     }
-<<<<<<< HEAD
     
     private void BtnCatatanObservasiBayiActionPerformed(java.awt.event.ActionEvent evt) {                                                       
-=======
 
-    private void BtnCatatanObservasiBayiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCatatanObservasiIGDActionPerformed
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             TCari.requestFocus();

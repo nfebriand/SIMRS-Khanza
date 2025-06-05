@@ -286,16 +286,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                 column.setPreferredWidth(60);
             }
         }
-<<<<<<< HEAD
         tbKamIn.setDefaultRenderer(Object.class, new WarnaTableKamarInap());
-=======
-
-        if (koneksiDB.AKTIFKANWARNARALAN().equals("yes")) {
-            tbKamIn.setDefaultRenderer(Object.class, new WarnaTableKamarRanap());
-        } else {
-            tbKamIn.setDefaultRenderer(Object.class, new WarnaTable());
-        }
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
 
         norawat.setDocument(new batasInput((byte)17).getKata(norawat));
         kdkamar.setDocument(new batasInput((byte)15).getKata(kdkamar));
@@ -18474,13 +18465,8 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         }
     }
-<<<<<<< HEAD
     
     private void MnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-=======
-
-    private void MnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnPenilaianPreOpActionPerformed
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
             TCari.requestFocus();
@@ -18546,13 +18532,8 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         }
     }
-<<<<<<< HEAD
     
     private void MnCatatanObservasiBayiActionPerformed(java.awt.event.ActionEvent evt) {                                                        
-=======
-
-    private void MnCatatanObservasiBayiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCatatanObservasiRanapActionPerformed
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
             TCari.requestFocus();
@@ -20017,7 +19998,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnPenilaianPasienImunitasRendah.setName("MnPenilaianPasienImunitasRendah");
         MnPenilaianPasienImunitasRendah.setPreferredSize(new java.awt.Dimension(250, 26));
         MnPenilaianPasienImunitasRendah.addActionListener(this::MnPenilaianPasienImunitasRendahActionPerformed);
-<<<<<<< HEAD
         
         Nosep = new widget.Label();
         Nosep.setForeground(new java.awt.Color(51, 51, 255));
@@ -20027,9 +20007,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         Nosep.setName("Nosep"); // NOI18N
         panelCari.add(Nosep); 
         
-=======
-
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         MnCatatanKeseimbanganCairan = new javax.swing.JMenuItem();
         MnCatatanKeseimbanganCairan.setBackground(new java.awt.Color(255, 255, 254));
         MnCatatanKeseimbanganCairan.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -20403,9 +20380,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnPermintaan.add(MnPermintaanKonsultasiMedik);
         MnTindakan.add(MnDataOperasi);
     }
-<<<<<<< HEAD
-        
-=======
+
 
     private class WarnaTableKamarRanap extends DefaultTableCellRenderer {
         @Override
@@ -20429,7 +20404,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         }
     }
 
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
     private boolean bisaPindahKamar() {
         if (! koneksiDB.VALIDASIULANGPINDAHKAMAR()) return true;
 

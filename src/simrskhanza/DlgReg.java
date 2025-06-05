@@ -500,13 +500,8 @@ public final class DlgReg extends javax.swing.JDialog {
                 column.setMaxWidth(0);
             }
         }
-<<<<<<< HEAD
         tbPetugas2.setDefaultRenderer(Object.class, new WarnaTableRegistrasi());
-        
-=======
-        tbPetugas2.setDefaultRenderer(Object.class, new WarnaTable());
-
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
+       
         TNoReg.setDocument(new batasInput((byte)8).getKata(TNoReg));
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));
         TNoRM.setDocument(new batasInput((byte)15).getKata(TNoRM));

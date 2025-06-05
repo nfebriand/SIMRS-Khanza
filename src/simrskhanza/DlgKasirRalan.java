@@ -15193,13 +15193,8 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
             }
         }
     }
-<<<<<<< HEAD
-    
-    private void MnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-=======
 
-    private void MnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnPenilaianPreOpActionPerformed
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
+    private void MnCatatanPengkajianPaskaOperasiActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         if(tabModekasir.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
             //TNoReg.requestFocus();
@@ -16892,7 +16887,6 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
         MnPenilaianPasienImunitasRendah.setName("MnPenilaianPasienImunitasRendah");
         MnPenilaianPasienImunitasRendah.setPreferredSize(new java.awt.Dimension(250, 26));
         MnPenilaianPasienImunitasRendah.addActionListener(this::MnPenilaianPasienImunitasRendahActionPerformed);
-<<<<<<< HEAD
         
         Nosep = new widget.Label();
         Nosep.setForeground(new java.awt.Color(51, 51, 255));
@@ -16902,9 +16896,6 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
         Nosep.setName("Nosep"); // NOI18N
         panelGlass8.add(Nosep);         
         
-=======
-
->>>>>>> 25d21bd1836d8f97ab567db96c1f12e6ad08a74a
         MnCatatanKeseimbanganCairan = new javax.swing.JMenuItem();
         MnCatatanKeseimbanganCairan.setBackground(new java.awt.Color(255, 255, 254));
         MnCatatanKeseimbanganCairan.setFont(new java.awt.Font("Tahoma", 0, 11));
