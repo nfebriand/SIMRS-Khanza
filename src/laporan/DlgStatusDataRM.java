@@ -420,7 +420,6 @@ public final class DlgStatusDataRM extends javax.swing.JDialog {
         MnCariHasilResep = new javax.swing.JMenuItem();
         MnPemeriksaan = new javax.swing.JMenuItem();
         MnReviewTindakan = new javax.swing.JMenuItem();
-        MnRiwayat = new javax.swing.JMenuItem();
         TNoRw = new widget.TextBox();
         TPasien = new widget.TextBox();
         TNoRM = new widget.TextBox();
@@ -641,22 +640,6 @@ public final class DlgStatusDataRM extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(MnReviewTindakan);
-
-        MnRiwayat.setBackground(new java.awt.Color(255, 255, 254));
-        MnRiwayat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnRiwayat.setForeground(new java.awt.Color(50, 50, 50));
-        MnRiwayat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnRiwayat.setText("Riwayat Perawatan");
-        MnRiwayat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnRiwayat.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnRiwayat.setName("MnRiwayat"); // NOI18N
-        MnRiwayat.setPreferredSize(new java.awt.Dimension(250, 26));
-        MnRiwayat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnRiwayatBtnPrintActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnRiwayat);
 
         TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
@@ -1805,21 +1788,6 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         } */
     }//GEN-LAST:event_MnReviewTindakanBtnPrintActionPerformed
 
-    private void MnRiwayatBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnRiwayatBtnPrintActionPerformed
-        if(TNoRw.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
-            tbRawatJalan.requestFocus();
-        }else{
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            RMRiwayatPerawatan resume=new RMRiwayatPerawatan(null,true);
-            resume.setNoRm(TNoRM.getText(),TPasien.getText());
-            resume.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
-            resume.setLocationRelativeTo(internalFrame1);
-            resume.setVisible(true);
-            this.setCursor(Cursor.getDefaultCursor());
-        }
-    }//GEN-LAST:event_MnRiwayatBtnPrintActionPerformed
-
     private void TNoRwKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TNoRwKeyPressed
         //Valid.pindah(evt,TNoReg,DTPReg);
     }//GEN-LAST:event_TNoRwKeyPressed
@@ -1857,7 +1825,6 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private javax.swing.JMenuItem MnDataSEP;
     private javax.swing.JMenuItem MnPemeriksaan;
     private javax.swing.JMenuItem MnReviewTindakan;
-    private javax.swing.JMenuItem MnRiwayat;
     private javax.swing.JPanel PanelInput;
     private widget.ScrollPane Scroll;
     private widget.ScrollPane Scroll1;

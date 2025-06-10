@@ -77,6 +77,7 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import java.nio.channels.Channels;
+import javax.swing.SwingWorker;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import org.apache.hc.core5.http.io.entity.StringEntity;
@@ -100,7 +101,7 @@ public final class RMRiwayatPerawatan extends javax.swing.JDialog {
     private StringBuilder htmlContent;
     private HttpClient http = new HttpClient();
     private GetMethod get;
-    private boolean esign=false,sertisign=false;
+    private boolean esign=false,sertisign=false,ceksukses=false;
     private ObjectMapper mapper= new ObjectMapper();
     private JsonNode root;
 
@@ -786,11 +787,6 @@ public final class RMRiwayatPerawatan extends javax.swing.JDialog {
         R5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         R5.setName("R5"); // NOI18N
         R5.setPreferredSize(new java.awt.Dimension(120, 23));
-        R5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                R5ActionPerformed(evt);
-            }
-        });
         panelGlass5.add(R5);
 
         R1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.pink));
@@ -854,11 +850,6 @@ public final class RMRiwayatPerawatan extends javax.swing.JDialog {
         R4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         R4.setName("R4"); // NOI18N
         R4.setPreferredSize(new java.awt.Dimension(67, 23));
-        R4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                R4ActionPerformed(evt);
-            }
-        });
         panelGlass5.add(R4);
 
         NoRawat.setName("NoRawat"); // NOI18N
@@ -2869,7 +2860,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     panggilLaporan(LoadHTMLPiutang.getText()); 
                     break;
                 case 8:
-                     panggilLaporan(LoadHTMLRetensi.getText()); 
+                    panggilLaporan(LoadHTMLRetensi.getText()); 
                     break;
                 default:
                     break;
@@ -2896,30 +2887,142 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     tampilKunjungan();
                     break;
                 case 1:
-                    tampilSoapi();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilSoapi();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 2:
                     esign=false;
                     sertisign=false;
-                    tampilPerawatan();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilPerawatan();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 3:
-                    tampilTindakanLab();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilTindakanLab();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 4:
-                    tampilTindakanRadiologi();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilTindakanRadiologi();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 5:
-                    tampilBerkasDigitalPerawatan();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilBerkasDigitalPerawatan();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 6:
-                    tampilPembelian();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilPembelian();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 7:
-                    tampilPiutang();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilPiutang();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 8:
-                    tampilRetensi();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilRetensi();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 default:
                     break;
@@ -3309,14 +3412,6 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             BtnCari1ActionPerformed(null);
         }
     }//GEN-LAST:event_NoRawatKeyPressed
-
-    private void R4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_R4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_R4ActionPerformed
-
-    private void R5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_R5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_R5ActionPerformed
 
     private void MnGeneratePDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnGeneratePDFActionPerformed
         R4.setSelected(true);
@@ -4147,7 +4242,6 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         }
         isPasien();
         BtnCari1ActionPerformed(null);
-        NoRawat.setText("");
     }
     
     public void setNoRm(String norawat, String noRM, String nama) {
@@ -4503,7 +4597,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         }
     }
     
-    private void tampilKunjungan() {
+    private synchronized void tampilKunjungan() {
         Valid.tabelKosong(tabModeRegistrasi);
         try{   
             if(R1.isSelected()==true){
@@ -4564,7 +4658,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     ps.setString(2,NoRawat.getText().trim());
                 } else if (R5.isSelected()) {
                     ps.setString(1, NoRM.getText());
-                }
+                }                     
                 rs=ps.executeQuery();
                 while(rs.next()){
                     i++;
@@ -4740,8 +4834,8 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     ps.setString(2,NoRawat.getText().trim());
                 } else if (R5.isSelected()) {
                     ps.setString(1, NoRM.getText().trim());
-                }
-                
+                }            
+
                 urut=1;
                 rs=ps.executeQuery();
                 while(rs.next()){
@@ -4956,6 +5050,8 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     menampilkanAsuhanMedisRawatInapKebidanan(rs.getString("no_rawat"));
                     //menampilkan asuhan awal medis rawat inap neonatus
                     menampilkanAsuhanMedisRawatInapNeonatus(rs.getString("no_rawat"));
+                    //menampilkan asuhan awal hemodialisa
+                    menampilkanAsuhanMedisHemodialisa(rs.getString("no_rawat"));
                     //menampilkan edukasi pasien dan keluarga
                     menampilkanEdukasiPasienTerintegrasiRawatJalan(rs.getString("no_rawat"));
                     //menampilkan asuhan awal pre operasi
@@ -4982,6 +5078,8 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     menampilkanLanjutanResikoJatuhPsikiatri(rs.getString("no_rawat"));
                     //menampilkan penilaian lanjutan risiko jatuh neonatus
                     menampilkanLanjutanResikoJatuhNeonatus(rs.getString("no_rawat"));
+                    //menampilkan penilaian skrining fungsional
+                    menampilkanLanjutanSkriningFungsional(rs.getString("no_rawat"));
                     //menampilkan penilaian risiko dekubitus
                     menampilkanAsuhanResikoDekubitus(rs.getString("no_rawat"));
                     //menampilkan penilaian tambahan geriatri
@@ -6888,7 +6986,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         }
     }
 
-    private void tampilSoapi() {
+    private synchronized void tampilSoapi() {
         try {
             htmlContent = new StringBuilder();
             htmlContent.append("<tr class='isi'>").
@@ -6936,8 +7034,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     ps.setString(2,NoRawat.getText().trim());
                 } else if (R5.isSelected()) {
                     ps.setString(1, NoRM.getText().trim());
-                }
-                
+                }  
                 rs=ps.executeQuery();
                 while(rs.next()){
                     htmlContent.append("<tr class='isi'>").
@@ -7056,7 +7153,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         } 
     }
 
-    private void tampilPembelian() {
+    private synchronized void tampilPembelian() {
         try{
             htmlContent = new StringBuilder();
             htmlContent.append(
@@ -7129,8 +7226,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     ps.setString(2,NoRawat.getText().trim());
                 } else if (R5.isSelected()) {
                     ps.setString(1, NoRM.getText().trim());
-                }
-                
+                }  
                 rs=ps.executeQuery();
                 while(rs.next()){ 
                     htmlContent.append(
@@ -7305,7 +7401,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         } 
     }
 
-    private void tampilPiutang() {
+    private synchronized void tampilPiutang() {
         try{
             htmlContent = new StringBuilder();
             htmlContent.append(
@@ -7368,8 +7464,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     ps.setString(2,NoRawat.getText().trim());
                 } else if (R5.isSelected()) {
                     ps.setString(1, NoRM.getText().trim());
-                }
-                
+                } 
                 rs=ps.executeQuery();
                 while(rs.next()){ 
                     htmlContent.append(
@@ -7463,8 +7558,8 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         } 
     }
 
-    private void tampilRetensi() {
-        try {
+    private synchronized void tampilRetensi() {
+        try{
             htmlContent = new StringBuilder();
             try{
                 rs3=koneksi.prepareStatement(
@@ -7515,7 +7610,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         }
     }
     
-    private void tampilTindakanLab() {
+    private synchronized void tampilTindakanLab() {
         biayaperawatan = 0;
         try {
             htmlContent = new StringBuilder();
@@ -8120,7 +8215,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         }
     }
     
-    private void tampilTindakanRadiologi() {
+    private synchronized void tampilTindakanRadiologi() {
         biayaperawatan = 0;
         try {
             htmlContent = new StringBuilder();
@@ -8484,7 +8579,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         }
     }
     
-    private void tampilBerkasDigitalPerawatan() {
+    private synchronized void tampilBerkasDigitalPerawatan() {
         try {
             htmlContent = new StringBuilder();
             htmlContent.append(
@@ -8702,7 +8797,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
             ChkInput.setVisible(true);
         }
     }
-    
+
     private void menampilkanTriaseIGD(String norawat) {
         try {
             if(chkTriase.isSelected()==true){
@@ -27821,101 +27916,6 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
             System.out.println("Notif Hasil Pemeriksaan Endoskopi Telinga : "+e);
         }
     }
-    
-    /*
-    private void createScene() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                WebView view = new WebView();
-
-                engine = view.getEngine();
-                engine.setJavaScriptEnabled(true);
-
-                engine.setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
-                    @Override
-                    public WebEngine call(PopupFeatures p) {
-                        Stage stage = new Stage(StageStyle.TRANSPARENT);
-                        return view.getEngine();
-                    }
-                });
-
-                engine.titleProperty().addListener((ObservableValue<? extends String> observable, String oldValue, final String newValue) -> {
-                    SwingUtilities.invokeLater(() -> {
-                        
-                    });
-                });
-
-                engine.setOnStatusChanged((final WebEvent<String> event) -> {
-                    SwingUtilities.invokeLater(() -> {
-                        
-                    });
-                });
-
-                engine.getLoadWorker().workDoneProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldValue, final Number newValue) -> {
-                    SwingUtilities.invokeLater(() -> {
-                        
-                    });
-                });
-
-                engine.getLoadWorker().exceptionProperty().addListener((ObservableValue<? extends Throwable> o, Throwable old, final Throwable value) -> {
-                    if (engine.getLoadWorker().getState() == FAILED) {
-                        SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                PanelContentBerkasDigital,
-                                (value != null)
-                                    ? engine.getLocation() + "\n" + value.getMessage()
-                                    : engine.getLocation() + "\nUnexpected Catatan.",
-                                "Loading Catatan...",
-                                JOptionPane.ERROR_MESSAGE);
-                        });
-                    }
-                });
-
-                engine.locationProperty().addListener((ObservableValue<? extends String> ov, String oldValue, final String newValue) -> {
-                    SwingUtilities.invokeLater(() -> {
-                        
-                    });
-                });
-
-                engine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
-                    @Override
-                    public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
-                        if (newState == Worker.State.SUCCEEDED) {
-                            try {
-                                System.out.println("URL : " + engine.getLocation());
-                            } catch (Exception ex) {
-                                System.out.println("Notifikasi : " + ex);
-                            }
-                        }
-                    }
-                });
-
-                jfxPanel.setScene(new Scene(view));
-            }
-        });
-    }
-
-    public void loadURL() {
-        String url = "http://localhost/testimoni/";
-        
-        try {
-            createScene();
-        } catch (Exception e) {
-        }
-
-        Platform.runLater(() -> {
-            try {
-                engine.load(url);
-            } catch (Exception exception) {
-                engine.load(url);
-            }
-        });
-    }
-
-    public void CloseScane() {
-        Platform.setImplicitExit(false);
-    }
-    */
     
     private void menampilkanAsuhanKeperawatanRawatInapNeonatus(String norawat) {
         try {
