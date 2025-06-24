@@ -681,14 +681,8 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_btnPetugasActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        try {
-            if(Valid.daysOld("./cache/permintaanipsrs.iyem")<8){
-                tampil2();
-            }else{
-                tampil();
-            }
-        } catch (Exception e) {
-        }
+    // Buat ulang list barang tiap kali buka menu 
+        tampil();
     }//GEN-LAST:event_formWindowOpened
 
     private void BtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahActionPerformed
@@ -780,7 +774,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             ps=koneksi.prepareStatement(
                 "select ipsrsbarang.kode_brng,ipsrsbarang.nama_brng,ipsrsbarang.kode_sat,ipsrsjenisbarang.nm_jenis "+
                 " from ipsrsbarang inner join ipsrsjenisbarang on ipsrsbarang.jenis=ipsrsjenisbarang.kd_jenis "+
-                " where ipsrsbarang.status='1' order by ipsrsbarang.nama_brng");
+                " where ipsrsbarang.status='1' and ipsrsbarang.stok>1 order by ipsrsbarang.nama_brng");
             try {
                 rs=ps.executeQuery();
                 while(rs.next()){

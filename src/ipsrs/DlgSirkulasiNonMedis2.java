@@ -30,7 +30,7 @@ public class DlgSirkulasiNonMedis2 extends javax.swing.JDialog {
     private double ttltotalbeli=0,totalbeli=0,stok=0,totalstok=0,jumlahbeli=0,ttltotalpesan=0,totalpesan=0,jumlahpesan=0,
             jumlahkeluar,totalkeluar,ttltotalkeluar,ttltotalstokawal=0,ttltotalstokakhir=0,stokakhir=0,totalstokawal=0,
             totalstokakhir=0,stokawal=0,jumlahutd=0,totalutd=0,ttltotalutd=0,jumlahhibah=0,totalhibah=0,ttltotalhibah=0;
-    private IPSRSBarang barang=new IPSRSBarang(null,false);
+    private IPSRSCariJenis barang=new IPSRSCariJenis(null,false);
     private PreparedStatement ps,ps2;
     private ResultSet rs,rs2;
     private String tglopname="";
@@ -129,8 +129,8 @@ public class DlgSirkulasiNonMedis2 extends javax.swing.JDialog {
             public void windowClosed(WindowEvent e) {
                 if(akses.getform().equals("DlgSirkulasiBarang")){
                     if(barang.getTable().getSelectedRow()!= -1){                   
-                        kdbar.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),1).toString());                    
-                        nmbar.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),2).toString());
+                        kdbar.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),0).toString());                    
+                        nmbar.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),1).toString());
                     }  
                     kdbar.requestFocus();
                 }
@@ -158,9 +158,7 @@ public class DlgSirkulasiNonMedis2 extends javax.swing.JDialog {
             }
             @Override
             public void keyReleased(KeyEvent e) {}
-        });
-        
-     
+        });      
     }    
     /** This method is called from within the constructor to
      * initialize the form.
@@ -254,7 +252,7 @@ public class DlgSirkulasiNonMedis2 extends javax.swing.JDialog {
         Tgl2.setPreferredSize(new java.awt.Dimension(110, 23));
         panelisi4.add(Tgl2);
 
-        label17.setText("Barang :");
+        label17.setText("Jenis :");
         label17.setName("label17"); // NOI18N
         label17.setPreferredSize(new java.awt.Dimension(85, 23));
         panelisi4.add(label17);
@@ -556,12 +554,13 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
        Valid.tabelKosong(tabMode);      
        try{   
             ps=koneksi.prepareStatement("select ipsrsbarang.kode_brng,ipsrsbarang.nama_brng, "+
-                        "kodesatuan.satuan,ipsrsbarang.stok,(ipsrsbarang.stok*ipsrsbarang.harga) as aset "+
-                        "from ipsrsbarang inner join kodesatuan on ipsrsbarang.kode_sat=kodesatuan.kode_sat "+
-                        "where ipsrsbarang.nama_brng like ? and ipsrsbarang.kode_brng like ? or "+
+                        "kodesatuan.satuan,ipsrsbarang.stok,(ipsrsbarang.stok*ipsrsbarang.harga) as aset from ipsrsbarang "+
+                        "inner join kodesatuan on ipsrsbarang.kode_sat=kodesatuan.kode_sat "+
+                        "inner join ipsrsjenisbarang on ipsrsbarang.jenis=ipsrsjenisbarang.kd_jenis "+                    
+                        "where ipsrsjenisbarang.nm_jenis like ? and ipsrsjenisbarang.kd_jenis like ? or "+
                         "ipsrsbarang.nama_brng like ? and ipsrsbarang.nama_brng like ? or "+
                         "ipsrsbarang.nama_brng like ? and kodesatuan.satuan like ? "+
-                        " order by ipsrsbarang.kode_brng");
+                        "order by ipsrsbarang.kode_brng");
             try {
                 ttltotalbeli=0;ttltotalpesan=0;ttltotalkeluar=0;ttltotalstokawal=0;ttltotalstokakhir=0;ttltotalutd=0;ttltotalhibah=0;
                 ps.setString(1,"%"+nmbar.getText()+"%");
@@ -570,6 +569,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                 ps.setString(4,"%"+TCari.getText().trim()+"%");
                 ps.setString(5,"%"+nmbar.getText()+"%");
                 ps.setString(6,"%"+TCari.getText().trim()+"%");
+                System.out.println("Kode: " + ps );                
                 rs=ps.executeQuery();            
                 while(rs.next()){
                     totalbeli=0;jumlahbeli=0;totalpesan=0;jumlahpesan=0;jumlahkeluar=0;totalkeluar=0;stok=0;totalstok=0;

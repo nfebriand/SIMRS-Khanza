@@ -2721,11 +2721,8 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
                     ps.setString(8,"%"+TCari.getText()+"%");
                     ps.setString(9,"%"+TCari.getText()+"%");
                     ps.setString(10,"%"+TCari.getText()+"%");
-<<<<<<< HEAD
                     ps.setString(11,"%"+TCari.getText()+"%");
                     ps.setString(12,"%"+TCari.getText()+"%");
-=======
->>>>>>> 472e8b7c8e0df29bd2e0d09889973ca9abe8250f
                 }
                     
                 rs=ps.executeQuery();
