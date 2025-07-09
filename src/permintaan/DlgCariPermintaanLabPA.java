@@ -1957,6 +1957,7 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             "where reg_periksa.no_rawat=?",NoRawat);
                     param.put("kamar",kamar);
                     param.put("namakamar",namakamar);
+                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     param.put("jam",JamPermintaan);
                     param.put("informasitambahan",InformasiTambahan);
                     param.put("diagnosa",DiagnosaKlinis);
@@ -2040,6 +2041,7 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             " where kamar.kd_kamar=? ",kamar);            
                     kamar="Kamar";  
                     param.put("kamar",kamar);
+                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     param.put("informasitambahan",InformasiTambahan);
                     param.put("diagnosa",DiagnosaKlinis);
                     param.put("tanggalbahan",tanggalbahan);
@@ -2092,6 +2094,7 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
                     param.put("emailrs",akses.getemailrs());   
+                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     Valid.MyReportqry("rptBarcodePermintaanLab.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param); 
                     TeksKosong();
@@ -2119,6 +2122,7 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
                     param.put("emailrs",akses.getemailrs());   
+                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     Valid.MyReportqry("rptBarcodePermintaanLab.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param); 
                     TeksKosong();
@@ -2150,6 +2154,7 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
                     param.put("emailrs",akses.getemailrs());   
+                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     Valid.MyReportqry("rptBarcodePermintaanLab2.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param); 
                     TeksKosong();
@@ -2177,6 +2182,7 @@ private void tbLabRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
                     param.put("emailrs",akses.getemailrs());   
+                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     Valid.MyReportqry("rptBarcodePermintaanLab2.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param); 
                     TeksKosong();

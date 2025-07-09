@@ -560,7 +560,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         "where ipsrsjenisbarang.nm_jenis like ? and ipsrsjenisbarang.kd_jenis like ? or "+
                         "ipsrsbarang.nama_brng like ? and ipsrsbarang.nama_brng like ? or "+
                         "ipsrsbarang.nama_brng like ? and kodesatuan.satuan like ? "+
-                        "order by ipsrsbarang.kode_brng");
+                        "order by ipsrsbarang.nama_brng");
             try {
                 ttltotalbeli=0;ttltotalpesan=0;ttltotalkeluar=0;ttltotalstokawal=0;ttltotalstokakhir=0;ttltotalutd=0;ttltotalhibah=0;
                 ps.setString(1,"%"+nmbar.getText()+"%");
