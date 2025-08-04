@@ -6807,6 +6807,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                             akses.setkdbangsal(bangsal);
                                         }
                                       billing.rawatinap.isCek();
+                                      billing.rawatinap.emptTeks();
                                       billing.rawatinap.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                       billing.rawatinap.setLocationRelativeTo(internalFrame1);
                                       if(R1.isSelected()==true){
@@ -6850,6 +6851,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                         akses.setkdbangsal(bangsal);
                     }
                     billing.rawatinap.isCek();
+                    billing.rawatinap.emptTeks();
                     billing.rawatinap.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                     billing.rawatinap.setLocationRelativeTo(internalFrame1);
                     if(R1.isSelected()==true){
