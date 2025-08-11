@@ -4541,7 +4541,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
                 exportSPRI("003");
                 exportSKDP("004");
                 exportTriaseIGD("005");
-                exportAwalMedisIGD("006");
+            //  exportAwalMedisIGD("006");
                 exportRiwayatPasienRanap("007");
             //  exportSOAP("005");
                 exportResumeRanap("008");
