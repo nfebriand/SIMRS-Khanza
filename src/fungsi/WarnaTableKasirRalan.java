@@ -69,6 +69,11 @@ public class WarnaTableKasirRalan extends DefaultTableCellRenderer {
             setBackground(new Color(50, 50, 50));
         }
 
+        // Penanganan jika baris sedang dipilih
+        if (isSelected) {
+            setBackground(new Color(0, 120, 215)); // Warna biru untuk baris yang dipilih
+            setForeground(Color.WHITE);           // Warna teks putih agar kontras
+        }        
         return this;
     }
 
