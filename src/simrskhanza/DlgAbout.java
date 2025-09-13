@@ -1,11 +1,11 @@
 /*
-  Dilarang keras menggandakan/mengcopy/menyebarkan/membajak/mendecompile 
+  Dilarang keras menggandakan/mengcopy/menyebarkan/membajak/mendecompile
   Software ini dalam bentuk apapun tanpa seijin pembuat software
   (Khanza.Soft Media). Bagi yang sengaja membajak softaware ini ta
   npa ijin, kami sumpahi sial 1000 turunan, miskin sampai 500 turu
   nan. Selalu mendapat kecelakaan sampai 400 turunan. Anak pertama
   nya cacat tidak punya kaki sampai 300 turunan. Susah cari jodoh
-  sampai umur 50 tahun sampai 200 turunan. Ya Alloh maafkan kami 
+  sampai umur 50 tahun sampai 200 turunan. Ya Alloh maafkan kami
   karena telah berdoa buruk, semua ini kami lakukan karena kami ti
   dak pernah rela karya kami dibajak tanpa ijin.
  */
@@ -18,7 +18,7 @@ package simrskhanza;
  */
 public class DlgAbout extends javax.swing.JDialog {
 
-    
+
     public DlgAbout(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -94,14 +94,13 @@ public class DlgAbout extends javax.swing.JDialog {
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel17.setText("2025-08-01");
+        jLabel17.setText("2025-09-11");
         jLabel17.setName("jLabel17"); // NOI18N
         panelGlass1.add(jLabel17);
         jLabel17.setBounds(107, 8, 90, 17);
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel18.setText("Patch 1");
         jLabel18.setName("jLabel18"); // NOI18N
         panelGlass1.add(jLabel18);
         jLabel18.setBounds(107, 28, 90, 17);
@@ -170,7 +169,7 @@ public class DlgAbout extends javax.swing.JDialog {
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel25.setText("RS Puri Husada Sleman Yogyakarta, RS Pelita Insani Martapura,");
+        jLabel25.setText("RS Permata Hati Bungo, RS Pelita Insani Martapura,");
         jLabel25.setName("jLabel25"); // NOI18N
         panelGlass4.add(jLabel25);
         jLabel25.setBounds(126, 120, 320, 14);
@@ -192,7 +191,6 @@ public class DlgAbout extends javax.swing.JDialog {
         panelGlass5.setBounds(0, 280, 330, 70);
 
         BtnKeluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
-        BtnKeluar.setMnemonic('K');
         BtnKeluar.setText("Close");
         BtnKeluar.setToolTipText("Alt+K");
         BtnKeluar.setIconTextGap(3);
