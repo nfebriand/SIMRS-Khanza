@@ -46,7 +46,7 @@ import kepegawaian.DlgCariPetugas;
  *
  * @author perpustakaan
  */
-public final class RMSkriningTBC extends javax.swing.JDialog {
+public final class RMSkriningPneumoniaSeverityIndex extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
     private Connection koneksi=koneksiDB.condb();
     private sekuel Sequel=new sekuel();
@@ -61,7 +61,7 @@ public final class RMSkriningTBC extends javax.swing.JDialog {
     /** Creates new form DlgRujuk
      * @param parent
      * @param modal */
-    public RMSkriningTBC(java.awt.Frame parent, boolean modal) {
+    public RMSkriningPneumoniaSeverityIndex(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(8,1);
@@ -2104,7 +2104,7 @@ public final class RMSkriningTBC extends javax.swing.JDialog {
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            RMSkriningTBC dialog = new RMSkriningTBC(new javax.swing.JFrame(), true);
+            RMSkriningPneumoniaSeverityIndex dialog = new RMSkriningPneumoniaSeverityIndex(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {

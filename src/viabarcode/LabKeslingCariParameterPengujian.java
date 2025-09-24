@@ -9,12 +9,10 @@
  * Created on May 23, 2010, 12:57:16 AM
  */
 
-package simrskhanza;
+package viabarcode;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -38,7 +36,7 @@ import javax.swing.table.TableColumn;
  *
  * @author dosen
  */
-public final class DlgCariPoli extends javax.swing.JDialog {
+public final class LabKeslingCariParameterPengujian extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
@@ -53,16 +51,16 @@ public final class DlgCariPoli extends javax.swing.JDialog {
     /** Creates new form DlgPenyakit
      * @param parent
      * @param modal */
-    public DlgCariPoli(java.awt.Frame parent, boolean modal) {
+    public LabKeslingCariParameterPengujian(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(10,2);
         setSize(656,250);
 
-        Object[] row={"Kode Unit","Nama Unit","Registrasi Baru","Registrasi Lama"};
-        tabMode=new DefaultTableModel(null,row){
+        tabMode=new DefaultTableModel(null,new Object[]{"Kode","Nama Parameter","Metode Pengujian","Satuan"}){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
+
         tbKamar.setModel(tabMode);
         //tbPenyakit.setDefaultRenderer(Object.class, new WarnaTable(panelJudul.getBackground(),tbPenyakit.getBackground()));
         tbKamar.setPreferredScrollableViewportSize(new Dimension(500,500));
@@ -71,13 +69,13 @@ public final class DlgCariPoli extends javax.swing.JDialog {
         for (int i = 0; i < 4; i++) {
             TableColumn column = tbKamar.getColumnModel().getColumn(i);
             if(i==0){
-                column.setPreferredWidth(90);
+                column.setPreferredWidth(80);
             }else if(i==1){
-                column.setPreferredWidth(300);
+                column.setPreferredWidth(220);
             }else if(i==2){
-                column.setPreferredWidth(120);
+                column.setPreferredWidth(190);
             }else if(i==3){
-                column.setPreferredWidth(120);
+                column.setPreferredWidth(90);
             }
         }
         tbKamar.setDefaultRenderer(Object.class, new WarnaTable());
@@ -140,7 +138,7 @@ public final class DlgCariPoli extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Unit/Poliklinik ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Parameter Pengujian Laboratorium Kesehatan Lingkungan ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -173,7 +171,7 @@ public final class DlgCariPoli extends javax.swing.JDialog {
         panelisi3.add(label9);
 
         TCari.setName("TCari"); // NOI18N
-        TCari.setPreferredSize(new java.awt.Dimension(312, 23));
+        TCari.setPreferredSize(new java.awt.Dimension(272, 23));
         TCari.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TCariKeyPressed(evt);
@@ -309,15 +307,15 @@ public final class DlgCariPoli extends javax.swing.JDialog {
 
     private void BtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        DlgPoli poli=new DlgPoli(null,false);
-        poli.emptTeks();
-        poli.isCek();
-        poli.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        poli.setLocationRelativeTo(internalFrame1);
-        poli.setAlwaysOnTop(false);
-        poli.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-
+        LabKeslingMasterSampelBakuMutu form=new LabKeslingMasterSampelBakuMutu(null,false);
+        form.emptTeks();
+        form.isCek();
+        form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        form.setLocationRelativeTo(internalFrame1);
+        form.setAlwaysOnTop(false);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());   
+        
     }//GEN-LAST:event_BtnTambahActionPerformed
 
     private void tbKamarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbKamarKeyPressed
@@ -336,10 +334,13 @@ public final class DlgCariPoli extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (Valid.umurcacheSmc("./cache/poli.iyem", 30)) {
-            tampil();
-        } else {
-            tampil2();
+        try {
+            if(Valid.daysOld("./cache/parameterpengujianlabkesling.iyem")<30){
+                tampil2();
+            }else{
+                tampil();
+            }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -348,7 +349,7 @@ public final class DlgCariPoli extends javax.swing.JDialog {
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            DlgCariPoli dialog = new DlgCariPoli(new javax.swing.JFrame(), true);
+            LabKeslingCariParameterPengujian dialog = new LabKeslingCariParameterPengujian(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -375,80 +376,88 @@ public final class DlgCariPoli extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void tampil() {
-        Valid.tabelKosongSmc(tabMode);
+        Valid.tabelKosong(tabMode);
         try {
-            File file = new File("./cache/poli.iyem");
+            file=new File("./cache/parameterpengujianlabkesling.iyem");
             file.createNewFile();
-            try (FileWriter fw = new FileWriter(file); ResultSet rs = koneksi.createStatement().executeQuery("select * from poliklinik where poliklinik.status = '1' order by poliklinik.nm_poli")) {
-                if (rs.next()) {
-                    ObjectNode root = mapper.createObjectNode();
-                    ArrayNode array = mapper.createArrayNode();
-                    do {
-                        ObjectNode poli = mapper.createObjectNode();
-                        poli.put("KodeUnit", rs.getString(1));
-                        poli.put("NamaUnit", rs.getString(2));
-                        poli.put("RegistrasiBaru", rs.getString(3));
-                        poli.put("RegistrasiLama", rs.getString(4));
-                        array.add(poli);
-                        tabMode.addRow(new Object[] {
-                            rs.getString(1), rs.getString(2),
-                            rs.getString(3), rs.getString(4)
-                        });
-                    } while (rs.next());
-                    root.set("poli", array);
-                    fw.write(mapper.writeValueAsString(root));
-                    fw.flush();
+            fileWriter = new FileWriter(file);
+            StringBuilder iyembuilder = new StringBuilder();
+            ps=koneksi.prepareStatement("select laborat_kesling_parameter_pengujian.kode_parameter,laborat_kesling_parameter_pengujian.nama_parameter,laborat_kesling_parameter_pengujian.metode_pengujian,laborat_kesling_parameter_pengujian.satuan from laborat_kesling_parameter_pengujian");
+            try{           
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    tabMode.addRow(new Object[]{rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)});
+                    iyembuilder.append("{\"Kode\":\"").append(rs.getString(1)).append("\",\"NamaParameter\":\"").append(rs.getString(2)).append("\",\"MetodePengujian\":\"").append(rs.getString(3)).append("\",\"Satuan\":\"").append(rs.getString(4)).append("\"},");
                 }
-                tabMode.fireTableDataChanged();
+            }catch(Exception e){
+                System.out.println("Notifikasi : "+e);
+            }finally{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(ps != null){
+                    ps.close();
+                }
             }
+
+            if (iyembuilder.length() > 0) {
+                iyembuilder.setLength(iyembuilder.length() - 1);
+                fileWriter.write("{\"parameterpengujianlabkesling\":["+iyembuilder+"]}");
+                fileWriter.flush();
+            }
+            
+            fileWriter.close();
+            iyembuilder=null;
         } catch (Exception e) {
-            System.out.println("Notif : " + e);
+            System.out.println("Notifikasi : "+e);
         }
         LCount.setText(""+tabMode.getRowCount());
     }
 
-    public void emptTeks() {
+    public void emptTeks() {   
         TCari.requestFocus();
     }
-
+  
     public JTable getTable(){
         return tbKamar;
     }
-
-    public void isCek(){
-        BtnTambah.setEnabled(akses.getadmin());
+    
+    public void isCek(){        
+        BtnTambah.setEnabled(akses.getparameter_pengujian_lab_kesehatan_lingkungan());
     }
-
+    
     private void tampil2() {
-        Valid.tabelKosongSmc(tabMode);
-        try (FileReader fr = new FileReader("./cache/poli.iyem")) {
-            JsonNode response = mapper.readTree(fr).path("poli");
-            if (response.isArray()) {
-                if (TCari.getText().isBlank()) {
-                    for (JsonNode list : response) {
-                        tabMode.addRow(new Object[] {
-                            list.path("KodeUnit").asText(), list.path("NamaUnit").asText(),
-                            list.path("RegistrasiBaru").asText(), list.path("RegistrasiLama").asText()
+        try {
+            myObj = new FileReader("./cache/parameterpengujianlabkesling.iyem");
+            root = mapper.readTree(myObj);
+            Valid.tabelKosong(tabMode);
+            response = root.path("parameterpengujianlabkesling");
+            if(response.isArray()){
+                if(TCari.getText().trim().equals("")){
+                    for(JsonNode list:response){
+                        tabMode.addRow(new Object[]{
+                            list.path("Kode").asText(),list.path("NamaParameter").asText(),list.path("MetodePengujian").asText(),list.path("Satuan").asText()
                         });
                     }
-                } else {
-                    for (JsonNode list : response) {
-                        if (list.path("KodeUnit").asText().toLowerCase().contains(TCari.getText().toLowerCase())
-                            || list.path("NamaUnit").asText().toLowerCase().contains(TCari.getText().toLowerCase())
-                        ) {
-                            tabMode.addRow(new Object[] {
-                                list.path("KodeUnit").asText(), list.path("NamaUnit").asText(),
-                                list.path("RegistrasiBaru").asText(), list.path("RegistrasiLama").asText()
+                }else{
+                    for(JsonNode list:response){
+                        if(list.path("Kode").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("NamaParameter").asText().toLowerCase().contains(TCari.getText().toLowerCase())){
+                            tabMode.addRow(new Object[]{
+                                list.path("Kode").asText(),list.path("NamaParameter").asText(),list.path("MetodePengujian").asText(),list.path("Satuan").asText()
                             });
                         }
                     }
                 }
             }
-            tabMode.fireTableDataChanged();
-        } catch (Exception e) {
-            System.out.println("Notif : " + e);
-            tampil();
+            myObj.close();
+        } catch (Exception ex) {
+            if(ex.toString().contains("java.io.FileNotFoundException")){
+                tampil();
+            }else{
+                System.out.println("Notifikasi : "+ex);
+            }
         }
         LCount.setText(""+tabMode.getRowCount());
-    }
+    } 
 }
