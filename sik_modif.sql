@@ -1689,4 +1689,35 @@ ALTER TABLE `user` MODIFY COLUMN IF EXISTS `satu_sehat_kirim_clinicalimpression`
 
 ALTER TABLE `user` MODIFY COLUMN IF EXISTS `template_persetujuan_penolakan_tindakan` enum('true','false') NULL DEFAULT NULL AFTER `laporan_anestesi`;
 
+
+CREATE TABLE `hasil_pemeriksaan_gdt` (
+  `no_rawat` varchar(17) NOT NULL,
+  `TglSampel` date NOT NULL,
+  `TglHasil` date NOT NULL,
+  `kd_dokter` varchar(20) NOT NULL,
+  `nip` varchar(20) NOT NULL,
+  `kesan_eritorsit` text NOT NULL,
+  `kesan_leukosit` text NOT NULL,
+  `kesan_trombosit` text NOT NULL,
+  `kesan` text NOT NULL,
+  `kesimpulan` text NOT NULL,
+  `saran` text NOT NULL,
+  `diff_manual` text NOT NULL,
+  `HB` varchar(8) NOT NULL,
+  `WBC` varchar(8) NOT NULL,
+  `PLT` varchar(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `hasil_pemeriksaan_gdt`
+  ADD PRIMARY KEY (`no_rawat`) USING BTREE,
+  ADD UNIQUE KEY `nip` (`nip`),
+  ADD KEY `kd_dokter` (`kd_dokter`) USING BTREE;
+
+
+ALTER TABLE `hasil_pemeriksaan_gdt`
+  ADD CONSTRAINT `hasil_pemeriksaan_gdt_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `hasil_pemeriksaan_gdt_ibfk_2` FOREIGN KEY (`kd_dokter`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `hasil_pemeriksaan_gdt_ibfk_3` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 SET FOREIGN_KEY_CHECKS=1;
