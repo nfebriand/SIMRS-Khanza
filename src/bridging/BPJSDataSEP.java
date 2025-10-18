@@ -1355,7 +1355,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel47.setBounds(0, 62, 135, 23);
 
         NoSuratKematian.setEditable(false);
-        NoSuratKematian.setHighlighter(null);
         NoSuratKematian.setName("NoSuratKematian"); // NOI18N
         NoSuratKematian.setPreferredSize(new java.awt.Dimension(130, 23));
         internalFrame5.add(NoSuratKematian);
@@ -1382,7 +1381,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel49.setBounds(0, 92, 109, 23);
 
         NoLPManual.setEditable(false);
-        NoLPManual.setHighlighter(null);
         NoLPManual.setName("NoLPManual"); // NOI18N
         NoLPManual.setPreferredSize(new java.awt.Dimension(130, 23));
         internalFrame5.add(NoLPManual);
@@ -1390,7 +1388,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         WindowUpdatePulang.getContentPane().add(internalFrame5, java.awt.BorderLayout.CENTER);
 
-        NoBalasan.setHighlighter(null);
         NoBalasan.setName("NoBalasan"); // NOI18N
 
         WindowRujukan.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1449,14 +1446,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPpkRujukan1.setEditable(false);
         KdPpkRujukan1.setBackground(new java.awt.Color(245, 250, 240));
-        KdPpkRujukan1.setHighlighter(null);
         KdPpkRujukan1.setName("KdPpkRujukan1"); // NOI18N
         internalFrame6.add(KdPpkRujukan1);
         KdPpkRujukan1.setBounds(105, 55, 75, 23);
 
         NmPpkRujukan1.setEditable(false);
         NmPpkRujukan1.setBackground(new java.awt.Color(245, 250, 240));
-        NmPpkRujukan1.setHighlighter(null);
         NmPpkRujukan1.setName("NmPpkRujukan1"); // NOI18N
         internalFrame6.add(NmPpkRujukan1);
         NmPpkRujukan1.setBounds(182, 55, 200, 23);
@@ -1506,14 +1501,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPenyakit1.setEditable(false);
         KdPenyakit1.setBackground(new java.awt.Color(245, 250, 240));
-        KdPenyakit1.setHighlighter(null);
         KdPenyakit1.setName("KdPenyakit1"); // NOI18N
         internalFrame6.add(KdPenyakit1);
         KdPenyakit1.setBounds(105, 85, 75, 23);
 
         NmPenyakit1.setEditable(false);
         NmPenyakit1.setBackground(new java.awt.Color(245, 250, 240));
-        NmPenyakit1.setHighlighter(null);
         NmPenyakit1.setName("NmPenyakit1"); // NOI18N
         internalFrame6.add(NmPenyakit1);
         NmPenyakit1.setBounds(182, 85, 200, 23);
@@ -1542,14 +1535,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPoli1.setEditable(false);
         KdPoli1.setBackground(new java.awt.Color(245, 250, 240));
-        KdPoli1.setHighlighter(null);
         KdPoli1.setName("KdPoli1"); // NOI18N
         internalFrame6.add(KdPoli1);
         KdPoli1.setBounds(514, 85, 65, 23);
 
         NmPoli1.setEditable(false);
         NmPoli1.setBackground(new java.awt.Color(245, 250, 240));
-        NmPoli1.setHighlighter(null);
         NmPoli1.setName("NmPoli1"); // NOI18N
         internalFrame6.add(NmPoli1);
         NmPoli1.setBounds(581, 85, 200, 23);
@@ -1601,7 +1592,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         internalFrame6.add(jLabel34);
         jLabel34.setBounds(425, 25, 85, 23);
 
-        Catatan1.setHighlighter(null);
         Catatan1.setName("Catatan1"); // NOI18N
         Catatan1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1765,7 +1755,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         internalFrame7.add(jLabel35);
         jLabel35.setBounds(0, 25, 102, 23);
 
-        NoSEP.setHighlighter(null);
         NoSEP.setName("NoSEP"); // NOI18N
         NoSEP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1795,7 +1784,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         WindowCariSEP.getContentPane().add(internalFrame7, java.awt.BorderLayout.CENTER);
 
-        NIK.setHighlighter(null);
         NIK.setName("NIK"); // NOI18N
         NIK.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1846,18 +1834,15 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel4.setBounds(0, 12, 90, 23);
 
         TNoRw.setBackground(new java.awt.Color(245, 250, 240));
-        TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
         FormInput.add(TNoRw);
         TNoRw.setBounds(93, 12, 152, 23);
 
         TPasien.setBackground(new java.awt.Color(245, 250, 240));
-        TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         FormInput.add(TPasien);
         TPasien.setBounds(359, 12, 368, 23);
 
-        TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
         TNoRM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1875,7 +1860,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         NoKartu.setEditable(false);
         NoKartu.setBackground(new java.awt.Color(245, 250, 240));
         NoKartu.setComponentPopupMenu(Popup1);
-        NoKartu.setHighlighter(null);
         NoKartu.setName("NoKartu"); // NOI18N
         FormInput.add(NoKartu);
         NoKartu.setBounds(93, 72, 152, 23);
@@ -1926,7 +1910,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel23);
         jLabel23.setBounds(444, 72, 70, 23);
 
-        NoRujukan.setHighlighter(null);
         NoRujukan.setName("NoRujukan"); // NOI18N
         NoRujukan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1943,14 +1926,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPPK.setEditable(false);
         KdPPK.setBackground(new java.awt.Color(245, 250, 240));
-        KdPPK.setHighlighter(null);
         KdPPK.setName("KdPPK"); // NOI18N
         FormInput.add(KdPPK);
         KdPPK.setBounds(93, 282, 75, 23);
 
         NmPPK.setEditable(false);
         NmPPK.setBackground(new java.awt.Color(245, 250, 240));
-        NmPPK.setHighlighter(null);
         NmPPK.setName("NmPPK"); // NOI18N
         FormInput.add(NmPPK);
         NmPPK.setBounds(170, 282, 180, 23);
@@ -1979,14 +1960,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPpkRujukan.setEditable(false);
         KdPpkRujukan.setBackground(new java.awt.Color(245, 250, 240));
-        KdPpkRujukan.setHighlighter(null);
         KdPpkRujukan.setName("KdPpkRujukan"); // NOI18N
         FormInput.add(KdPpkRujukan);
         KdPpkRujukan.setBounds(93, 162, 75, 23);
 
         NmPpkRujukan.setEditable(false);
         NmPpkRujukan.setBackground(new java.awt.Color(245, 250, 240));
-        NmPpkRujukan.setHighlighter(null);
         NmPpkRujukan.setName("NmPpkRujukan"); // NOI18N
         FormInput.add(NmPpkRujukan);
         NmPpkRujukan.setBounds(170, 162, 180, 23);
@@ -1998,14 +1977,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPenyakit.setEditable(false);
         KdPenyakit.setBackground(new java.awt.Color(245, 250, 240));
-        KdPenyakit.setHighlighter(null);
         KdPenyakit.setName("KdPenyakit"); // NOI18N
         FormInput.add(KdPenyakit);
         KdPenyakit.setBounds(93, 192, 75, 23);
 
         NmPenyakit.setEditable(false);
         NmPenyakit.setBackground(new java.awt.Color(245, 250, 240));
-        NmPenyakit.setHighlighter(null);
         NmPenyakit.setName("NmPenyakit"); // NOI18N
         FormInput.add(NmPenyakit);
         NmPenyakit.setBounds(170, 192, 180, 23);
@@ -2046,14 +2023,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         NmPoli.setEditable(false);
         NmPoli.setBackground(new java.awt.Color(245, 250, 240));
-        NmPoli.setHighlighter(null);
         NmPoli.setName("NmPoli"); // NOI18N
         FormInput.add(NmPoli);
         NmPoli.setBounds(170, 222, 180, 23);
 
         KdPoli.setEditable(false);
         KdPoli.setBackground(new java.awt.Color(245, 250, 240));
-        KdPoli.setHighlighter(null);
         KdPoli.setName("KdPoli"); // NOI18N
         FormInput.add(KdPoli);
         KdPoli.setBounds(93, 222, 75, 23);
@@ -2073,7 +2048,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel14);
         jLabel14.setBounds(0, 432, 90, 23);
 
-        Catatan.setHighlighter(null);
         Catatan.setName("Catatan"); // NOI18N
         Catatan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2142,7 +2116,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         TglLahir.setEditable(false);
         TglLahir.setBackground(new java.awt.Color(245, 250, 240));
-        TglLahir.setHighlighter(null);
         TglLahir.setName("TglLahir"); // NOI18N
         FormInput.add(TglLahir);
         TglLahir.setBounds(93, 42, 80, 23);
@@ -2154,7 +2127,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         JK.setEditable(false);
         JK.setBackground(new java.awt.Color(245, 250, 240));
-        JK.setHighlighter(null);
         JK.setName("JK"); // NOI18N
         FormInput.add(JK);
         JK.setBounds(457, 42, 40, 23);
@@ -2167,7 +2139,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         JenisPeserta.setEditable(false);
         JenisPeserta.setBackground(new java.awt.Color(245, 250, 240));
-        JenisPeserta.setHighlighter(null);
         JenisPeserta.setName("JenisPeserta"); // NOI18N
         FormInput.add(JenisPeserta);
         JenisPeserta.setBounds(241, 42, 173, 23);
@@ -2180,7 +2151,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         Status.setEditable(false);
         Status.setBackground(new java.awt.Color(245, 250, 240));
-        Status.setHighlighter(null);
         Status.setName("Status"); // NOI18N
         FormInput.add(Status);
         Status.setBounds(304, 72, 130, 23);
@@ -2236,7 +2206,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel29);
         jLabel29.setBounds(571, 102, 58, 23);
 
-        NoTelp.setHighlighter(null);
         NoTelp.setName("NoTelp"); // NOI18N
         NoTelp.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2288,7 +2257,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel39);
         jLabel39.setBounds(0, 132, 90, 23);
 
-        NoSKDP.setHighlighter(null);
         NoSKDP.setName("NoSKDP"); // NOI18N
         NoSKDP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2317,14 +2285,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdDPJP.setEditable(false);
         KdDPJP.setBackground(new java.awt.Color(245, 250, 240));
-        KdDPJP.setHighlighter(null);
         KdDPJP.setName("KdDPJP"); // NOI18N
         FormInput.add(KdDPJP);
         KdDPJP.setBounds(93, 252, 75, 23);
 
         NmDPJP.setEditable(false);
         NmDPJP.setBackground(new java.awt.Color(245, 250, 240));
-        NmDPJP.setHighlighter(null);
         NmDPJP.setName("NmDPJP"); // NOI18N
         FormInput.add(NmDPJP);
         NmDPJP.setBounds(170, 252, 180, 23);
@@ -2352,7 +2318,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel36);
         jLabel36.setBounds(380, 162, 87, 23);
 
-        Keterangan.setHighlighter(null);
         Keterangan.setName("Keterangan"); // NOI18N
         Keterangan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2377,7 +2342,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(Suplesi);
         Suplesi.setBounds(470, 192, 90, 23);
 
-        NoSEPSuplesi.setHighlighter(null);
         NoSEPSuplesi.setName("NoSEPSuplesi"); // NOI18N
         NoSEPSuplesi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2400,14 +2364,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdPropinsi.setEditable(false);
         KdPropinsi.setBackground(new java.awt.Color(245, 250, 240));
-        KdPropinsi.setHighlighter(null);
         KdPropinsi.setName("KdPropinsi"); // NOI18N
         FormInput.add(KdPropinsi);
         KdPropinsi.setBounds(470, 222, 55, 23);
 
         NmPropinsi.setEditable(false);
         NmPropinsi.setBackground(new java.awt.Color(245, 250, 240));
-        NmPropinsi.setHighlighter(null);
         NmPropinsi.setName("NmPropinsi"); // NOI18N
         FormInput.add(NmPropinsi);
         NmPropinsi.setBounds(527, 222, 170, 23);
@@ -2436,14 +2398,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdKabupaten.setEditable(false);
         KdKabupaten.setBackground(new java.awt.Color(245, 250, 240));
-        KdKabupaten.setHighlighter(null);
         KdKabupaten.setName("KdKabupaten"); // NOI18N
         FormInput.add(KdKabupaten);
         KdKabupaten.setBounds(470, 252, 55, 23);
 
         NmKabupaten.setEditable(false);
         NmKabupaten.setBackground(new java.awt.Color(245, 250, 240));
-        NmKabupaten.setHighlighter(null);
         NmKabupaten.setName("NmKabupaten"); // NOI18N
         FormInput.add(NmKabupaten);
         NmKabupaten.setBounds(527, 252, 170, 23);
@@ -2472,14 +2432,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdKecamatan.setEditable(false);
         KdKecamatan.setBackground(new java.awt.Color(245, 250, 240));
-        KdKecamatan.setHighlighter(null);
         KdKecamatan.setName("KdKecamatan"); // NOI18N
         FormInput.add(KdKecamatan);
         KdKecamatan.setBounds(470, 282, 55, 23);
 
         NmKecamatan.setEditable(false);
         NmKecamatan.setBackground(new java.awt.Color(245, 250, 240));
-        NmKecamatan.setHighlighter(null);
         NmKecamatan.setName("NmKecamatan"); // NOI18N
         FormInput.add(NmKecamatan);
         NmKecamatan.setBounds(527, 282, 170, 23);
@@ -2560,7 +2518,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         PenanggungJawab.setEditable(false);
         PenanggungJawab.setBackground(new java.awt.Color(245, 250, 240));
-        PenanggungJawab.setHighlighter(null);
         PenanggungJawab.setName("PenanggungJawab"); // NOI18N
         FormInput.add(PenanggungJawab);
         PenanggungJawab.setBounds(93, 372, 258, 23);
@@ -2644,14 +2601,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         KdDPJPLayanan.setEditable(false);
         KdDPJPLayanan.setBackground(new java.awt.Color(245, 250, 240));
-        KdDPJPLayanan.setHighlighter(null);
         KdDPJPLayanan.setName("KdDPJPLayanan"); // NOI18N
         FormInput.add(KdDPJPLayanan);
         KdDPJPLayanan.setBounds(470, 430, 55, 23);
 
         NmDPJPLayanan.setEditable(false);
         NmDPJPLayanan.setBackground(new java.awt.Color(245, 250, 240));
-        NmDPJPLayanan.setHighlighter(null);
         NmDPJPLayanan.setName("NmDPJPLayanan"); // NOI18N
         FormInput.add(NmDPJPLayanan);
         NmDPJPLayanan.setBounds(527, 430, 170, 23);
@@ -2709,7 +2664,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel55);
         jLabel55.setBounds(589, 162, 40, 23);
 
-        NoLP.setHighlighter(null);
         NoLP.setName("NoLP"); // NOI18N
         NoLP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -3179,7 +3133,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             }
 
         }
-}//GEN-LAST:event_BtnSimpanActionPerformed
+    }//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -3187,17 +3141,17 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt,btnKecamatan,BtnBatal);
         }
-}//GEN-LAST:event_BtnSimpanKeyPressed
+    }//GEN-LAST:event_BtnSimpanKeyPressed
 
     private void BtnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBatalActionPerformed
         emptTeks();
-}//GEN-LAST:event_BtnBatalActionPerformed
+    }//GEN-LAST:event_BtnBatalActionPerformed
 
     private void BtnBatalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnBatalKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             emptTeks();
         }else{Valid.pindah(evt, BtnSimpan, BtnHapus);}
-}//GEN-LAST:event_BtnBatalKeyPressed
+    }//GEN-LAST:event_BtnBatalKeyPressed
 
     private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusActionPerformed
         if(TabRawat.getSelectedIndex()==1){
@@ -3228,7 +3182,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             }
         }
 
-}//GEN-LAST:event_BtnHapusActionPerformed
+    }//GEN-LAST:event_BtnHapusActionPerformed
 
     private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnHapusKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -3236,7 +3190,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnBatal, BtnEdit);
         }
-}//GEN-LAST:event_BtnHapusKeyPressed
+    }//GEN-LAST:event_BtnHapusKeyPressed
 
     private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
         if(tab==1){
@@ -3364,7 +3318,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else if(tab==2){
             JOptionPane.showMessageDialog(null,"SEP Internal tidak bisa diubah...!!!");
         }
-}//GEN-LAST:event_BtnEditActionPerformed
+    }//GEN-LAST:event_BtnEditActionPerformed
 
     private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnEditKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -3372,7 +3326,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnHapus, BtnPrint);
         }
-}//GEN-LAST:event_BtnEditKeyPressed
+    }//GEN-LAST:event_BtnEditKeyPressed
 
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
         WindowRujukan.dispose();
@@ -3383,13 +3337,13 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         kabupaten.dispose();
         kecamatan.dispose();
         dispose();
-}//GEN-LAST:event_BtnKeluarActionPerformed
+    }//GEN-LAST:event_BtnKeluarActionPerformed
 
     private void BtnKeluarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnKeluarKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             BtnKeluarActionPerformed(null);
         }else{Valid.pindah(evt,BtnEdit,TCari);}
-}//GEN-LAST:event_BtnKeluarKeyPressed
+    }//GEN-LAST:event_BtnKeluarKeyPressed
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -3432,7 +3386,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }
 
         this.setCursor(Cursor.getDefaultCursor());
-}//GEN-LAST:event_BtnPrintActionPerformed
+    }//GEN-LAST:event_BtnPrintActionPerformed
 
     private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPrintKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -3440,7 +3394,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnEdit, BtnKeluar);
         }
-}//GEN-LAST:event_BtnPrintKeyPressed
+    }//GEN-LAST:event_BtnPrintKeyPressed
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -3450,11 +3404,11 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
             BtnKeluar.requestFocus();
         }
-}//GEN-LAST:event_TCariKeyPressed
+    }//GEN-LAST:event_TCariKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
         tampil();
-}//GEN-LAST:event_BtnCariActionPerformed
+    }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -3462,7 +3416,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, TCari, BtnAll);
         }
-}//GEN-LAST:event_BtnCariKeyPressed
+    }//GEN-LAST:event_BtnCariKeyPressed
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         query="";
@@ -3474,7 +3428,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             TCariInternal.setText("");
             tampilInternal();
         }
-}//GEN-LAST:event_BtnAllActionPerformed
+    }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -3482,7 +3436,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnCari, TPasien);
         }
-}//GEN-LAST:event_BtnAllKeyPressed
+    }//GEN-LAST:event_BtnAllKeyPressed
 
     private void tbDataSEPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDataSEPMouseClicked
         if(tabMode.getRowCount()!=0){
@@ -3503,7 +3457,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 }
             }
         }
-}//GEN-LAST:event_tbDataSEPMouseClicked
+    }//GEN-LAST:event_tbDataSEPMouseClicked
 
     private void tbDataSEPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDataSEPKeyPressed
         if(tabMode.getRowCount()!=0){
@@ -3530,7 +3484,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             }
 
         }
-}//GEN-LAST:event_tbDataSEPKeyPressed
+    }//GEN-LAST:event_tbDataSEPKeyPressed
 
     private void NoRujukanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NoRujukanKeyPressed
         Valid.pindah(evt, TCari, TanggalRujuk);

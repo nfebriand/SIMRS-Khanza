@@ -1,5 +1,3 @@
-SET FOREIGN_KEY_CHECKS = 0;
-
 insert into inacbg_referensi_icd9cm_smc values ('00', '00', 'Procedures and interventions, Not Elsewhere Classified', '0');
 insert into inacbg_referensi_icd9cm_smc values ('00.0', '000', 'Therapeutic ultrasound', '0');
 insert into inacbg_referensi_icd9cm_smc values ('00.01', '0001', 'Therapeutic ultrasound of vessels of head and neck', '1');
@@ -69449,5 +69447,3 @@ INSERT INTO `idrg_referensi_icd10_smc` VALUES ('Z99.2', 'Z992', 'Dependence on r
 INSERT INTO `idrg_referensi_icd10_smc` VALUES ('Z99.3', 'Z993', 'Dependence on wheelchair', '1', 'N', '0', '0');
 INSERT INTO `idrg_referensi_icd10_smc` VALUES ('Z99.8', 'Z998', 'Dependence on other enabling machines and devices', '1', 'N', '0', '0');
 INSERT INTO `idrg_referensi_icd10_smc` VALUES ('Z99.9', 'Z999', 'Dependence on unspecified enabling machine and device', '1', 'N', '0', '0');
-
-SET FOREIGN_KEY_CHECKS = 1;

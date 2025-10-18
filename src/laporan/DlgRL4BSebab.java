@@ -61,15 +61,15 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
     private DlgKecamatan kecamatan=new DlgKecamatan(null,false);
     private DlgKelurahan kelurahan=new DlgKelurahan(null,false);
     private DlgCariCaraBayar penjab=new DlgCariCaraBayar(null,false);
-    
+
     /** Creates new form DlgProgramStudi
      * @param parent
      * @param modal */
     public DlgRL4BSebab(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        
+
+
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
         LoadHTML.setEditorKit(kit);
@@ -82,7 +82,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
         );
         Document doc = kit.createDefaultDocument();
         LoadHTML.setDocument(doc);
-        
+
         poli.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -93,7 +93,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
                 if(poli.getTable().getSelectedRow()!= -1){
                     kdpoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),0).toString());
                     nmpoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),1).toString());
-                }      
+                }
                 kdpoli.requestFocus();
             }
             @Override
@@ -104,8 +104,8 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {poli.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         penjab.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -116,7 +116,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
                 if(penjab.getTable().getSelectedRow()!= -1){
                     kdpenjab.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),1).toString());
                     nmpenjab.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),2).toString());
-                }      
+                }
                 kdpenjab.requestFocus();
             }
             @Override
@@ -127,8 +127,8 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {penjab.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         penjab.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -141,7 +141,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             @Override
             public void keyReleased(KeyEvent e) {}
         });
-        
+
         kabupaten.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -151,7 +151,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowClosed(WindowEvent e) {
                 if(kabupaten.getTable().getSelectedRow()!= -1){
                     nmkabupaten.setText(kabupaten.getTable().getValueAt(kabupaten.getTable().getSelectedRow(),0).toString());
-                }      
+                }
                 nmkabupaten.requestFocus();
             }
             @Override
@@ -162,8 +162,8 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {kabupaten.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         kabupaten.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -176,7 +176,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             @Override
             public void keyReleased(KeyEvent e) {}
         });
-        
+
         kecamatan.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -186,7 +186,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowClosed(WindowEvent e) {
                 if(kecamatan.getTable().getSelectedRow()!= -1){
                     nmkecamatan.setText(kecamatan.getTable().getValueAt(kecamatan.getTable().getSelectedRow(),0).toString());
-                }      
+                }
                 nmkecamatan.requestFocus();
             }
             @Override
@@ -197,8 +197,8 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {kecamatan.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         kecamatan.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -211,7 +211,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             @Override
             public void keyReleased(KeyEvent e) {}
         });
-        
+
         kelurahan.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -221,7 +221,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowClosed(WindowEvent e) {
                 if(kelurahan.getTable().getSelectedRow()!= -1){
                     nmkelurahan.setText(kelurahan.getTable().getValueAt(kelurahan.getTable().getSelectedRow(),0).toString());
-                }      
+                }
                 nmkelurahan.requestFocus();
             }
             @Override
@@ -232,8 +232,8 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {kelurahan.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         kelurahan.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -246,7 +246,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             @Override
             public void keyReleased(KeyEvent e) {}
         });
-        
+
         dokter.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -257,7 +257,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
                 if(dokter.getTable().getSelectedRow()!= -1){
                     kddokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                     nmdokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
-                }      
+                }
                 kddokter.requestFocus();
             }
             @Override
@@ -268,8 +268,8 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {dokter.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         dokter.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -282,7 +282,7 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
             @Override
             public void keyReleased(KeyEvent e) {}
         });
-        
+
         ChkInput.setSelected(false);
         isForm();
     }
@@ -713,25 +713,25 @@ public class DlgRL4BSebab extends javax.swing.JDialog {
 /*
 private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKeyPressed
     Valid.pindah(evt,BtnCari,Nm);
-}//GEN-LAST:event_TKdKeyPressed
+    }//GEN-LAST:event_TKdKeyPressed
 */
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
-            
-            File g = new File("file2.css");            
+
+            File g = new File("file2.css");
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
             bg.write(
                     ".isi td{border-right: 1px solid #e2e7dd;font: 11px tahoma;height:12px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
-                    ".isi2 td{font: 11px tahoma;height:12px;background: #ffffff;color:#323232;}"+                    
+                    ".isi2 td{font: 11px tahoma;height:12px;background: #ffffff;color:#323232;}"+
                     ".isi3 td{border-right: 1px solid #e2e7dd;font: 11px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
                     ".isi4 td{font: 11px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"
             );
             bg.close();
-            
-            File f = new File("rl4bsebab.html");            
-            BufferedWriter bw = new BufferedWriter(new FileWriter(f));            
+
+            File f = new File("rl4bsebab.html");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             bw.write(LoadHTML.getText().replaceAll("<head>","<head><link href=\"file2.css\" rel=\"stylesheet\" type=\"text/css\" />"+
                         "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"+
                             "<tr class='isi2'>"+
@@ -739,17 +739,17 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                     "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                     akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                     akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                    "<font size='2' face='Tahoma'>DATA KEADAAN MORBIDITAS PASIEN RAWAT JALAN RUMAH SAKIT PENYEBAB KECELAKAN<br>PERIODE "+Tgl1.getSelectedItem()+" s.d. "+Tgl2.getSelectedItem()+"<br><br></font>"+        
+                                    "<font size='2' face='Tahoma'>DATA KEADAAN MORBIDITAS PASIEN RAWAT JALAN RUMAH SAKIT PENYEBAB KECELAKAN<br>PERIODE "+Tgl1.getSelectedItem()+" s.d. "+Tgl2.getSelectedItem()+"<br><br></font>"+
                                 "</td>"+
                            "</tr>"+
                         "</table>")
             );
-            bw.close();                         
+            bw.close();
             Desktop.getDesktop().browse(f.toURI());
         } catch (Exception e) {
             System.out.println("Notifikasi : "+e);
-        }     
-        
+        }
+
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_BtnPrintActionPerformed
 
@@ -771,17 +771,17 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         }else{Valid.pindah(evt,BtnPrint,Tgl1);}
     }//GEN-LAST:event_BtnKeluarKeyPressed
 
-private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
     prosesCari();
-}//GEN-LAST:event_btnCariActionPerformed
+    }//GEN-LAST:event_btnCariActionPerformed
 
-private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCariKeyPressed
+    private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCariKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             btnCariActionPerformed(null);
         }else{
             Valid.pindah(evt, Tgl2, BtnPrint);
         }
-}//GEN-LAST:event_btnCariKeyPressed
+    }//GEN-LAST:event_btnCariKeyPressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         prosesCari();
@@ -1002,30 +1002,54 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' rowspan='2'>LK</td>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' rowspan='2'>PR</td>"+
                 "</tr>"+
-                 "<tr class='isi'>");
-            // Loop untuk L/P di setiap kolom umur
-            for(int k=0; k<23; k++){ // 23 kelompok umur baru (tanpa jam)
-                htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td><td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>");
-            }
-            htmlContent.append("</tr>");
-
-            // Baris nomor kolom (Disesuaikan kembali untuk menyertakan kolom Hidup & Mati)
-            htmlContent.append("<tr class='isi'>");
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>1</td>"); // No Urut
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>2</td>"); // No Daftar
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>3</td>"); // Golongan Sebab
-            int colNum = 4;
-            for(int k=0; k< (23 * 2); k++){ // Kolom 4 sampai 49 untuk L/P
-                 htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>");
-            }
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Total LK Kasus Baru (Kolom 50)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Total PR Kasus Baru (Kolom 51)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Jumlah Hidup (Kolom 52)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum).append("</td>");   // Jumlah Mati (Kolom 53)
-            htmlContent.append("</tr>");
-
-
-            // Query Utama (Dipertahankan dari DlgRL4BSebab.java ASLI)
+                "<tr class='isi'>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                "</tr>"+
+                "<tr class='isi'>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>1</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>2</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>3</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>4</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>5</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>6</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>7</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>8</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>9</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>10</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>11</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>12</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>13</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>14</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>15</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>16</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>17</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>18</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>19</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>20</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>21</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>22</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>23</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>24</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>25</td>"+
+                "</tr>"
+            );
             ps=koneksi.prepareStatement("select diagnosa_pasien.kd_penyakit,SUBSTRING(penyakit.nm_penyakit,1,80) as nm_penyakit from diagnosa_pasien "+
                     "inner join penyakit on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit "+
                     "inner join reg_periksa on reg_periksa.no_rawat=diagnosa_pasien.no_rawat "+
@@ -1173,9 +1197,9 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                         if(ps2!=null){
                             ps2.close();
                         }
-                    } // End Try Catch Finally ps2
-
                     // Query Pasien Mati (Dikembalikan ke query asli DlgRL4BSebab)
+                    }
+
                     ps3=koneksi.prepareStatement(
                             "select count(pasien_mati.no_rkm_medis) from diagnosa_pasien "+
                             "inner join reg_periksa on reg_periksa.no_rawat=diagnosa_pasien.no_rawat "+
@@ -1289,27 +1313,27 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                       "</table>"+
                     "</html>");
         } catch (Exception e) {
-            System.out.println("Notifikasi prosesCari: "+e);
+            System.out.println("laporan.DlgRL4A.prosesCari() 5 : "+e);
         }
         this.setCursor(Cursor.getDefaultCursor());
     }
-    
+
     public void isCek(){
         BtnPrint.setEnabled(akses.getrl4bsebab());
     }
-    
+
     private void isForm(){
         if(ChkInput.isSelected()==true){
             ChkInput.setVisible(false);
             PanelInput.setPreferredSize(new Dimension(WIDTH,126));
-            FormInput.setVisible(true);      
+            FormInput.setVisible(true);
             ChkInput.setVisible(true);
-        }else if(ChkInput.isSelected()==false){           
-            ChkInput.setVisible(false);            
+        }else if(ChkInput.isSelected()==false){
+            ChkInput.setVisible(false);
             PanelInput.setPreferredSize(new Dimension(WIDTH,20));
-            FormInput.setVisible(false);      
+            FormInput.setVisible(false);
             ChkInput.setVisible(true);
         }
     }
-    
+
 }

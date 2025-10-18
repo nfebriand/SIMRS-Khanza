@@ -1135,7 +1135,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame2.setName("internalFrame2"); // NOI18N
         internalFrame2.setLayout(null);
 
-        norawat.setHighlighter(null);
         norawat.setName("norawat"); // NOI18N
         norawat.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1146,12 +1145,10 @@ public class DlgKamarInap extends javax.swing.JDialog {
         norawat.setBounds(75, 25, 150, 23);
 
         TPasien.setEditable(false);
-        TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         internalFrame2.add(TPasien);
         TPasien.setBounds(359, 25, 269, 23);
 
-        kdkamar.setHighlighter(null);
         kdkamar.setName("kdkamar"); // NOI18N
         kdkamar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1168,7 +1165,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         ttlbiaya.setEditable(false);
         ttlbiaya.setText("0");
-        ttlbiaya.setHighlighter(null);
         ttlbiaya.setName("ttlbiaya"); // NOI18N
         ttlbiaya.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1206,7 +1202,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         btnReg.setBounds(630, 25, 28, 23);
 
         TNoRM.setEditable(false);
-        TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
         internalFrame2.add(TNoRM);
         TNoRM.setBounds(227, 25, 130, 23);
@@ -1284,7 +1279,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         cmbJam.setBounds(75, 115, 62, 23);
 
         TBangsal.setEditable(false);
-        TBangsal.setHighlighter(null);
         TBangsal.setName("TBangsal"); // NOI18N
         TBangsal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1301,7 +1295,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel11.setBounds(173, 145, 15, 23);
 
         TJmlHari.setText("0");
-        TJmlHari.setHighlighter(null);
         TJmlHari.setName("TJmlHari"); // NOI18N
         internalFrame2.add(TJmlHari);
         TJmlHari.setBounds(75, 145, 96, 23);
@@ -1386,7 +1379,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel16.setBounds(0, 145, 72, 23);
 
         TTarif.setText("0");
-        TTarif.setHighlighter(null);
         TTarif.setName("TTarif"); // NOI18N
         internalFrame2.add(TTarif);
         TTarif.setBounds(188, 145, 160, 23);
@@ -1402,7 +1394,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame2.add(jLabel18);
         jLabel18.setBounds(295, 85, 140, 23);
 
-        diagnosaawal.setHighlighter(null);
         diagnosaawal.setName("diagnosaawal"); // NOI18N
         diagnosaawal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1412,7 +1403,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame2.add(diagnosaawal);
         diagnosaawal.setBounds(438, 85, 220, 23);
 
-        diagnosaakhir.setHighlighter(null);
         diagnosaakhir.setName("diagnosaakhir"); // NOI18N
         diagnosaakhir.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1507,7 +1497,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         TOut.setEditable(false);
         TOut.setForeground(new java.awt.Color(255, 255, 255));
-        TOut.setHighlighter(null);
         TOut.setName("TOut"); // NOI18N
         TOut.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1517,7 +1506,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         TIn.setEditable(false);
         TIn.setForeground(new java.awt.Color(255, 255, 255));
-        TIn.setHighlighter(null);
         TIn.setName("TIn"); // NOI18N
         TIn.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -4853,7 +4841,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         JamMasuk.setEditable(false);
         JamMasuk.setForeground(new java.awt.Color(255, 255, 255));
-        JamMasuk.setHighlighter(null);
         JamMasuk.setName("JamMasuk"); // NOI18N
 
         WindowPindahKamar.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -4871,18 +4858,15 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame3.setLayout(null);
 
         norawatpindah.setEditable(false);
-        norawatpindah.setHighlighter(null);
         norawatpindah.setName("norawatpindah"); // NOI18N
         internalFrame3.add(norawatpindah);
         norawatpindah.setBounds(75, 25, 150, 23);
 
         TPasienpindah.setEditable(false);
-        TPasienpindah.setHighlighter(null);
         TPasienpindah.setName("TPasienpindah"); // NOI18N
         internalFrame3.add(TPasienpindah);
         TPasienpindah.setBounds(359, 25, 299, 23);
 
-        kdkamarpindah.setHighlighter(null);
         kdkamarpindah.setName("kdkamarpindah"); // NOI18N
         kdkamarpindah.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -4894,7 +4878,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         ttlbiayapindah.setEditable(false);
         ttlbiayapindah.setText("0");
-        ttlbiayapindah.setHighlighter(null);
         ttlbiayapindah.setName("ttlbiayapindah"); // NOI18N
         internalFrame3.add(ttlbiayapindah);
         ttlbiayapindah.setBounds(368, 145, 290, 23);
@@ -4905,7 +4888,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel4.setBounds(0, 25, 72, 23);
 
         TNoRMpindah.setEditable(false);
-        TNoRMpindah.setHighlighter(null);
         TNoRMpindah.setName("TNoRMpindah"); // NOI18N
         internalFrame3.add(TNoRMpindah);
         TNoRMpindah.setBounds(227, 25, 130, 23);
@@ -4948,7 +4930,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         cmbJampindah.setBounds(270, 115, 62, 23);
 
         TBangsalpindah.setEditable(false);
-        TBangsalpindah.setHighlighter(null);
         TBangsalpindah.setName("TBangsalpindah"); // NOI18N
         TBangsalpindah.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -4965,7 +4946,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel28.setBounds(173, 145, 15, 23);
 
         TJmlHaripindah.setText("1");
-        TJmlHaripindah.setHighlighter(null);
         TJmlHaripindah.setName("TJmlHaripindah"); // NOI18N
         internalFrame3.add(TJmlHaripindah);
         TJmlHaripindah.setBounds(75, 145, 96, 23);
@@ -5033,7 +5013,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         TTarifpindah.setEditable(false);
         TTarifpindah.setText("0");
-        TTarifpindah.setHighlighter(null);
         TTarifpindah.setName("TTarifpindah"); // NOI18N
         internalFrame3.add(TTarifpindah);
         TTarifpindah.setBounds(188, 145, 160, 23);
@@ -5079,7 +5058,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel42.setBounds(0, 85, 72, 23);
 
         TBangsalasal.setEditable(false);
-        TBangsalasal.setHighlighter(null);
         TBangsalasal.setName("TBangsalasal"); // NOI18N
         internalFrame3.add(TBangsalasal);
         TBangsalasal.setBounds(256, 55, 170, 23);
@@ -5089,7 +5067,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame3.add(TKdBngsalasal);
         TKdBngsalasal.setBounds(172, 55, 82, 23);
 
-        kdkamarasal.setHighlighter(null);
         kdkamarasal.setName("kdkamarasal"); // NOI18N
         internalFrame3.add(kdkamarasal);
         kdkamarasal.setBounds(75, 55, 95, 23);
@@ -5141,7 +5118,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame5.add(jLabel17);
         jLabel17.setBounds(0, 32, 77, 23);
 
-        kdpenjab.setHighlighter(null);
         kdpenjab.setName("kdpenjab"); // NOI18N
         kdpenjab.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -5210,7 +5186,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame6.add(jLabel34);
         jLabel34.setBounds(2, 30, 87, 23);
 
-        NoRmBayi.setHighlighter(null);
         NoRmBayi.setName("NoRmBayi"); // NOI18N
         NoRmBayi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -5251,7 +5226,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame6.add(BtnHapusGabung);
         BtnHapusGabung.setBounds(123, 70, 100, 30);
 
-        NoRawatGabung.setHighlighter(null);
         NoRawatGabung.setName("NoRawatGabung"); // NOI18N
         internalFrame6.add(NoRawatGabung);
         NoRawatGabung.setBounds(230, 220, 190, 23);
@@ -5315,7 +5289,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelBiasa4.add(BtnKeluar4);
         BtnKeluar4.setBounds(430, 80, 100, 30);
 
-        NomorSurat.setHighlighter(null);
         NomorSurat.setName("NomorSurat"); // NOI18N
         panelBiasa4.add(NomorSurat);
         NomorSurat.setBounds(150, 10, 370, 23);
@@ -5389,7 +5362,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame8.add(jLabel39);
         jLabel39.setBounds(0, 32, 95, 23);
 
-        DiagnosaAwalSementara.setHighlighter(null);
         DiagnosaAwalSementara.setName("DiagnosaAwalSementara"); // NOI18N
         DiagnosaAwalSementara.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -5441,7 +5413,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame9.add(jLabel40);
         jLabel40.setBounds(0, 32, 95, 23);
 
-        DiagnosaAkhirSementara.setHighlighter(null);
         DiagnosaAkhirSementara.setName("DiagnosaAkhirSementara"); // NOI18N
         DiagnosaAkhirSementara.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -5523,7 +5494,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel47.setBounds(0, 122, 120, 23);
 
         NoSuratKematian.setEditable(false);
-        NoSuratKematian.setHighlighter(null);
         NoSuratKematian.setName("NoSuratKematian"); // NOI18N
         NoSuratKematian.setPreferredSize(new java.awt.Dimension(130, 23));
         internalFrame11.add(NoSuratKematian);
@@ -5550,7 +5520,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame11.add(jLabel49);
         jLabel49.setBounds(0, 152, 120, 23);
 
-        NoLPManual.setHighlighter(null);
         NoLPManual.setName("NoLPManual"); // NOI18N
         NoLPManual.setPreferredSize(new java.awt.Dimension(130, 23));
         internalFrame11.add(NoLPManual);
@@ -5562,19 +5531,16 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel8.setBounds(0, 32, 78, 23);
 
         TNoRwPulang.setEditable(false);
-        TNoRwPulang.setHighlighter(null);
         TNoRwPulang.setName("TNoRwPulang"); // NOI18N
         internalFrame11.add(TNoRwPulang);
         TNoRwPulang.setBounds(81, 32, 180, 23);
 
         TNoRMPulang.setEditable(false);
-        TNoRMPulang.setHighlighter(null);
         TNoRMPulang.setName("TNoRMPulang"); // NOI18N
         internalFrame11.add(TNoRMPulang);
         TNoRMPulang.setBounds(81, 62, 130, 23);
 
         TPasienPulang.setEditable(false);
-        TPasienPulang.setHighlighter(null);
         TPasienPulang.setName("TPasienPulang"); // NOI18N
         internalFrame11.add(TPasienPulang);
         TPasienPulang.setBounds(214, 62, 361, 23);
@@ -5584,7 +5550,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame11.add(jLabel41);
         jLabel41.setBounds(0, 62, 78, 23);
 
-        TNoSEPRanapPulang.setHighlighter(null);
         TNoSEPRanapPulang.setName("TNoSEPRanapPulang"); // NOI18N
         internalFrame11.add(TNoSEPRanapPulang);
         TNoSEPRanapPulang.setBounds(395, 32, 180, 23);
@@ -5991,7 +5956,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass9.add(jLabel5);
 
         TNoRwCari.setEditable(false);
-        TNoRwCari.setHighlighter(null);
         TNoRwCari.setName("TNoRwCari"); // NOI18N
         TNoRwCari.setPreferredSize(new java.awt.Dimension(130, 23));
         TNoRwCari.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -6002,13 +5966,11 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass9.add(TNoRwCari);
 
         TNoRMCari.setEditable(false);
-        TNoRMCari.setHighlighter(null);
         TNoRMCari.setName("TNoRMCari"); // NOI18N
         TNoRMCari.setPreferredSize(new java.awt.Dimension(90, 23));
         panelGlass9.add(TNoRMCari);
 
         TPasienCari.setEditable(false);
-        TPasienCari.setHighlighter(null);
         TPasienCari.setName("TPasienCari"); // NOI18N
         TPasienCari.setPreferredSize(new java.awt.Dimension(210, 23));
         panelGlass9.add(TPasienCari);

@@ -24,38 +24,16 @@ public class DlgRL4ASebab extends javax.swing.JDialog {
     private PreparedStatement ps,ps2,ps3;
     private ResultSet rs,rs2;
     private StringBuilder htmlContent;
-    // Variabel Baru Sesuai Kebutuhan (Tanpa Jam karena keterbatasan data)
-    private int hr1s7l=0, hr1s7p=0, hr8s28l=0, hr8s28p=0,
-                hr29k3blnl=0, hr29k3blnp=0, // 29 hari sd < 3 bulan
-                bln3s5l=0, bln3s5p=0,     // 3 bulan sd < 6 bulan (atau 3-5 bulan)
-                bln6s11l=0, bln6s11p=0,   // 6 bulan sd 11 bulan
-                th1s4l=0, th1s4p=0,       // 1 th sd 4 th
-                th5s9l=0, th5s9p=0,       // 5 th sd 9 th
-                th10s14l=0, th10s14p=0,   // 10 th sd 14 th
-                th15s19l=0, th15s19p=0,   // 15 th sd 19 th
-                th20s24l=0, th20s24p=0,   // 20 th sd 24 th
-                th25s29l=0, th25s29p=0,   // 25 th sd 29 th
-                th30s34l=0, th30s34p=0,   // 30 th sd 34 th
-                th35s39l=0, th35s39p=0,   // 35 th sd 39 th
-                th40s44l=0, th40s44p=0,   // 40 th sd 44 th
-                th45s49l=0, th45s49p=0,   // 45 th sd 49 th
-                th50s54l=0, th50s54p=0,   // 50 th sd 54 th
-                th55s59l=0, th55s59p=0,   // 55 th sd 59 th
-                th60s64l=0, th60s64p=0,   // 60 th sd 64 th
-                th65s69l=0, th65s69p=0,   // 65 th sd 69 th
-                th70s74l=0, th70s74p=0,   // 70 th sd 74 th
-                th75s79l=0, th75s79p=0,   // 75 th sd 79 th
-                th80s84l=0, th80s84p=0,   // 80 th sd 84 th
-                lbth85l=0, lbth85p=0,     // >= 85 th
-                mati=0;
-    
+    private int hr0s6l=0,hr0s6p=0,hr7s28l=0,hr7s28p=0,hr28s1thl=0,hr28s1thp=0,th1s4l=0,th1s4p=0,th5s14l=0,th5s14p=0,
+                th15s24l=0,th15s24p=0,th25s44l=0,th25s44p=0,th45s64l=0,th45s64p=0,lbth65l=0,lbth65p=0,mati=0;
+
     /** Creates new form DlgProgramStudi
      * @param parent
      * @param modal */
     public DlgRL4ASebab(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
         LoadHTML.setEditorKit(kit);
@@ -242,24 +220,24 @@ public class DlgRL4ASebab extends javax.swing.JDialog {
 /*
 private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKeyPressed
     Valid.pindah(evt,BtnCari,Nm);
-}//GEN-LAST:event_TKdKeyPressed
+    }//GEN-LAST:event_TKdKeyPressed
 */
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
-            
-            File g = new File("file2.css");            
+
+            File g = new File("file2.css");
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
             bg.write(
                     ".isi td{border-right: 1px solid #e2e7dd;font: 11px tahoma;height:12px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
-                    ".isi2 td{font: 11px tahoma;height:12px;background: #ffffff;color:#323232;}"+                    
+                    ".isi2 td{font: 11px tahoma;height:12px;background: #ffffff;color:#323232;}"+
                     ".isi3 td{border-right: 1px solid #e2e7dd;font: 11px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
                     ".isi4 td{font: 11px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"
             );
             bg.close();
-            
-            File f = new File("rl4a.html");            
+
+            File f = new File("rl4a.html");
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             if(TabRawat.getSelectedIndex()==0){
                 bw.write(LoadHTML.getText().replaceAll("<head>","<head><link href=\"file2.css\" rel=\"stylesheet\" type=\"text/css\" />"+
@@ -269,7 +247,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                         "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                         akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                         akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                        "<font size='2' face='Tahoma'>DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT PENYEBAB KECELAKAN<br>PERIODE "+Tgl1.getSelectedItem()+" s.d. "+Tgl2.getSelectedItem()+"<br><br></font>"+        
+                                        "<font size='2' face='Tahoma'>DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT PENYEBAB KECELAKAN<br>PERIODE "+Tgl1.getSelectedItem()+" s.d. "+Tgl2.getSelectedItem()+"<br><br></font>"+
                                     "</td>"+
                                "</tr>"+
                             "</table>")
@@ -283,18 +261,18 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                         "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                         akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                         akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                        "<font size='2' face='Tahoma'>DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT PENYEBAB KECELAKAN<br>PERIODE "+Tgl1.getSelectedItem()+" s.d. "+Tgl2.getSelectedItem()+"<br><br></font>"+        
+                                        "<font size='2' face='Tahoma'>DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT PENYEBAB KECELAKAN<br>PERIODE "+Tgl1.getSelectedItem()+" s.d. "+Tgl2.getSelectedItem()+"<br><br></font>"+
                                     "</td>"+
                                "</tr>"+
                             "</table>")
                 );
                 bw.close();
-            }                
+            }
             Desktop.getDesktop().browse(f.toURI());
         } catch (Exception e) {
             System.out.println("Notifikasi : "+e);
-        }     
-        
+        }
+
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_BtnPrintActionPerformed
 
@@ -316,21 +294,21 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         }else{Valid.pindah(evt,BtnPrint,Tgl1);}
     }//GEN-LAST:event_BtnKeluarKeyPressed
 
-private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         if(TabRawat.getSelectedIndex()==0){
             prosesCari();
         }else if(TabRawat.getSelectedIndex()==1){
             prosesCari2();
         }
-}//GEN-LAST:event_btnCariActionPerformed
+    }//GEN-LAST:event_btnCariActionPerformed
 
-private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCariKeyPressed
+    private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCariKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             btnCariActionPerformed(null);
         }else{
             Valid.pindah(evt, Tgl2, BtnPrint);
         }
-}//GEN-LAST:event_btnCariKeyPressed
+    }//GEN-LAST:event_btnCariKeyPressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         prosesCari();
@@ -386,7 +364,6 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
             htmlContent = new StringBuilder();
-            // Membuat Header Tabel HTML Baru
             htmlContent.append(
                 "<tr class='isi'>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' width='2%' rowspan='3'>No.Urut</td>"+
@@ -425,29 +402,54 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' rowspan='2'>LK</td>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' rowspan='2'>PR</td>"+
                 "</tr>"+
-                 "<tr class='isi'>");
-            // Loop untuk L/P di setiap kolom umur
-            for(int k=0; k<23; k++){ // 23 kelompok umur baru (tanpa jam)
-                htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td><td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>");
-            }
-            htmlContent.append("</tr>");
-
-            // Baris nomor kolom (Contoh, sesuaikan nomornya jika perlu)
-            htmlContent.append("<tr class='isi'>");
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>1</td>"); // No Urut
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>2</td>"); // No Daftar
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>3</td>"); // Golongan Sebab
-            int colNum = 4;
-            for(int k=0; k< (23 * 2); k++){ // Kolom 4 sampai 49 untuk L/P
-                 htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>");
-            }
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Total LK (Kolom 50)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Total PR (Kolom 51)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Jumlah Hidup (Kolom 52)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum).append("</td>");   // Jumlah Mati (Kolom 53)
-            htmlContent.append("</tr>");
-
-            // Query Utama (Berdasarkan Tanggal Masuk)
+                "<tr class='isi'>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                "</tr>"+
+                "<tr class='isi'>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>1</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>2</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>3</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>4</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>5</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>6</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>7</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>8</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>9</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>10</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>11</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>12</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>13</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>14</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>15</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>16</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>17</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>18</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>19</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>20</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>21</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>22</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>23</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>24</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>25</td>"+
+                "</tr>"
+            );
             ps=koneksi.prepareStatement("select diagnosa_pasien.kd_penyakit,SUBSTRING(penyakit.nm_penyakit,1,80) as nm_penyakit from diagnosa_pasien inner join penyakit "+
                     "inner join reg_periksa on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit and reg_periksa.no_rawat=diagnosa_pasien.no_rawat "+
                     "where diagnosa_pasien.status='Ranap' and reg_periksa.tgl_registrasi between ? and ? and (left(diagnosa_pasien.kd_penyakit,1)='V' or "+
@@ -553,9 +555,8 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                         if(ps2!=null){
                             ps2.close();
                         }
-                    } // End Try Catch Finally ps2
+                    }
 
-                    // Query Pasien Mati (Berdasarkan Tanggal Masuk)
                     ps3=koneksi.prepareStatement(
                             "select count(pasien_mati.no_rkm_medis) "+
                             "from diagnosa_pasien inner join reg_periksa inner join pasien inner join pasien_mati "+
@@ -646,20 +647,16 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                       "</table>"+
                     "</html>");
         } catch (Exception e) {
-            System.out.println("Notifikasi prosesCari: "+e);
+            System.out.println("laporan.DlgRL4A.prosesCari() 5 : "+e);
         }
         this.setCursor(Cursor.getDefaultCursor());
+
     }
-    
-    // ==================================================================================================================
-    // == METODE prosesCari2() DIMODIFIKASI ==
-    // ==================================================================================================================
+
     private void prosesCari2() {
        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
             htmlContent = new StringBuilder();
-
-            // Membuat Header Tabel HTML Baru (Sama seperti prosesCari)
             htmlContent.append(
                 "<tr class='isi'>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' width='2%' rowspan='3'>No.Urut</td>"+
@@ -698,30 +695,54 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' rowspan='2'>LK</td>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center' rowspan='2'>PR</td>"+
                 "</tr>"+
-                 "<tr class='isi'>");
-            // Loop untuk L/P di setiap kolom umur
-            for(int k=0; k<23; k++){ // 23 kelompok umur baru (tanpa jam)
-                htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td><td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>");
-            }
-            htmlContent.append("</tr>");
-
-            // Baris nomor kolom (Sama seperti prosesCari)
-            htmlContent.append("<tr class='isi'>");
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>1</td>"); // No Urut
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>2</td>"); // No Daftar
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>3</td>"); // Golongan Sebab
-            int colNum = 4;
-            for(int k=0; k< (23 * 2); k++){ // Kolom 4 sampai 49 untuk L/P
-                 htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>");
-            }
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Total LK (Kolom 50)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Total PR (Kolom 51)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum++).append("</td>"); // Jumlah Hidup (Kolom 52)
-            htmlContent.append("<td valign='middle' bgcolor='#FFFAFA' align='center'>").append(colNum).append("</td>");   // Jumlah Mati (Kolom 53)
-            htmlContent.append("</tr>");
-
-
-            // Query Utama (BEDA: Berdasarkan Tanggal Keluar & Prioritas 1)
+                "<tr class='isi'>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>L</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>P</td>"+
+                "</tr>"+
+                "<tr class='isi'>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>1</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>2</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>3</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>4</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>5</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>6</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>7</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>8</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>9</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>10</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>11</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>12</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>13</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>14</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>15</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>16</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>17</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>18</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>19</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>20</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>21</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>22</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>23</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>24</td>"+
+                    "<td valign='middle' bgcolor='#FFFAFA' align='center'>25</td>"+
+                "</tr>"
+            );
             ps=koneksi.prepareStatement("select diagnosa_pasien.kd_penyakit,SUBSTRING(penyakit.nm_penyakit,1,80) as nm_penyakit from diagnosa_pasien inner join penyakit "+
                     "inner join reg_periksa inner join kamar_inap on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit and reg_periksa.no_rawat=diagnosa_pasien.no_rawat "+
                     "and kamar_inap.no_rawat=reg_periksa.no_rawat where diagnosa_pasien.status='Ranap' and diagnosa_pasien.prioritas='1' and "+
@@ -826,9 +847,8 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                         if(ps2!=null){
                             ps2.close();
                         }
-                    } // End Try Catch Finally ps2
+                    }
 
-                    // Query Pasien Mati (BEDA: Berdasarkan Tanggal Keluar)
                     ps3=koneksi.prepareStatement(
                         "select count(pasien_mati.no_rkm_medis) " +
                         "from diagnosa_pasien " +
@@ -925,15 +945,15 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                       "</table>"+
                     "</html>");
         } catch (Exception e) {
-             System.out.println("Notifikasi prosesCari2: "+e);
+            System.out.println("laporan.DlgRL4A.prosesCari() 5 : "+e);
         }
         this.setCursor(Cursor.getDefaultCursor());
     }
-    
-    
-    
+
+
+
     public void isCek(){
         BtnPrint.setEnabled(akses.getrl4asebab());
     }
-    
+
 }
