@@ -41,7 +41,7 @@ public class DlgCariPermintaanLabMB extends javax.swing.JDialog {
     private ResultSet rs,rs2,rs3;
     private BackgroundMusic music;
     private Date now;
-    private boolean aktif=false,semua;
+    private boolean aktif=false,semua, VALIDASIULANGHASILPERMINTAANLABMB = koneksiDB.VALIDASIULANGHASILPERMINTAAN("labmb");
     private String pilihan="",alarm="",formalarm="",nol_detik,detik,tglsampel="",tglhasil="",norm="",kamar="",namakamar="",la="",ld="",pa="",pd="",InformasiTambahan,DiagnosaKlinis,
                     NoPermintaan="",NoRawat="",Pasien="",Permintaan="",JamPermintaan="",Sampel="",JamSampel="",Hasil="",JamHasil="",KodeDokter="",DokterPerujuk="",Ruang="",json="",finger="";
 
@@ -1958,7 +1958,6 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             "where reg_periksa.no_rawat=?",NoRawat);
                     param.put("kamar",kamar);
                     param.put("namakamar",namakamar);
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     param.put("jam",JamPermintaan);
                     param.put("informasitambahan",InformasiTambahan);
                     param.put("diagnosa",DiagnosaKlinis);
@@ -2072,7 +2071,6 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             " where kamar.kd_kamar=? ",kamar);
                     kamar="Kamar";
                     param.put("kamar",kamar);
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     param.put("informasitambahan",InformasiTambahan);
                     param.put("diagnosa",DiagnosaKlinis);
                     param.put("namakamar",namakamar);
@@ -2116,8 +2114,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labmb where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
@@ -2144,8 +2141,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labmb where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
@@ -2176,8 +2172,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab2.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labmb where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
@@ -2204,8 +2199,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab2.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labmb where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();

@@ -41,7 +41,7 @@ public class DlgCariPermintaanLabPA extends javax.swing.JDialog {
     private ResultSet rs,rs2;
     private BackgroundMusic music;
     private Date now;
-    private boolean aktif=false,semua;
+    private boolean aktif=false,semua, VALIDASIULANGHASILPERMINTAANLABPA = koneksiDB.VALIDASIULANGHASILPERMINTAAN("labpa");
     private String pilihan="",alarm="",formalarm="",nol_detik,detik,tglsampel="",tglhasil="",norm="",kamar="",namakamar="",InformasiTambahan,DiagnosaKlinis,
                     tanggalbahan,diperolehdengan,lokasijaringan,diawetkandengan,pernahdilakukandi,tanggalpa,diagnosapa,nomorpa,
                     NoPermintaan="",NoRawat="",Pasien="",Permintaan="",JamPermintaan="",Sampel="",JamSampel="",Hasil="",JamHasil="",KodeDokter="",DokterPerujuk="",Ruang="",
@@ -1682,32 +1682,35 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         Valid.SetTgl(TanggalPulang.getSelectedItem()+""),TanggalPulang.getSelectedItem().toString().substring(11,19),NoPermintaan
                         })==true){
                             WindowAmbilSampel.dispose();
-                            pilihan = (String)JOptionPane.showInputDialog(null,"Waktu pengambilan sampel berhasil disimpan, apakah ada yang ingin dicetak..?","Konfirmasi",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Tidak Ada","Barcode No.Permintaan 1","Barcode No.Permintaan 2","Lembar Permintaan Lab","Lembar Permintaan Lab & Barcode No.Permintaan 1","Lembar Permintaan Lab & Barcode No.Permintaan 2"},"Tidak Ada");
-                            switch (pilihan) {
-                                case "Tidak Ada":
-                                    break;
-                                case "Barcode No.Permintaan 1":
-                                    BtnBarcodePermintaanActionPerformed(evt);
-                                    break;
-                                case "Barcode No.Permintaan 2":
-                                    BtnBarcodePermintaan2ActionPerformed(evt);
-                                    break;
-                                case "Lembar Permintaan Lab":
-                                    BtnCetakHasilLabActionPerformed(evt);
-                                    break;
-                                case "Lembar Permintaan Lab & Barcode No.Permintaan 1":
-                                    BtnBarcodePermintaanActionPerformed(evt);
-                                    getData();
-                                    getData2();
-                                    BtnCetakHasilLabActionPerformed(evt);
-                                    break;
-                                case "Lembar Permintaan Lab & Barcode No.Permintaan 2":
-                                    BtnBarcodePermintaan2ActionPerformed(evt);
-                                    getData();
-                                    getData2();
-                                    BtnCetakHasilLabActionPerformed(evt);
-                                    break;
-                            }  
+                            try {
+                                pilihan = (String)JOptionPane.showInputDialog(null,"Waktu pengambilan sampel berhasil disimpan, apakah ada yang ingin dicetak..?","Konfirmasi",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Tidak Ada","Barcode No.Permintaan 1","Barcode No.Permintaan 2","Lembar Permintaan Lab","Lembar Permintaan Lab & Barcode No.Permintaan 1","Lembar Permintaan Lab & Barcode No.Permintaan 2"},"Tidak Ada");
+                                switch (pilihan) {
+                                    case "Tidak Ada":
+                                        break;
+                                    case "Barcode No.Permintaan 1":
+                                        BtnBarcodePermintaanActionPerformed(evt);
+                                        break;
+                                    case "Barcode No.Permintaan 2":
+                                        BtnBarcodePermintaan2ActionPerformed(evt);
+                                        break;
+                                    case "Lembar Permintaan Lab":
+                                        BtnCetakHasilLabActionPerformed(evt);
+                                        break;
+                                    case "Lembar Permintaan Lab & Barcode No.Permintaan 1":
+                                        BtnBarcodePermintaanActionPerformed(evt);
+                                        getData();
+                                        getData2();
+                                        BtnCetakHasilLabActionPerformed(evt);
+                                        break;
+                                    case "Lembar Permintaan Lab & Barcode No.Permintaan 2":
+                                        BtnBarcodePermintaan2ActionPerformed(evt);
+                                        getData();
+                                        getData2();
+                                        BtnCetakHasilLabActionPerformed(evt);
+                                        break;
+                                }
+                            } catch (Exception e) {
+                            }
                             Sequel.queryu("delete from antrilabpa");
                             Sequel.queryu("insert into antrilabpa values('1')");
                             TeksKosong();
@@ -1728,25 +1731,28 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         Valid.SetTgl(TanggalPulang.getSelectedItem()+""),TanggalPulang.getSelectedItem().toString().substring(11,19),NoPermintaan
                         })==true){
                             WindowAmbilSampel.dispose();
-                            pilihan = (String)JOptionPane.showInputDialog(null,"Waktu pengambilan sampel berhasil disimpan, Apakah ada yang ingin dicetak..?","Konfirmasi",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Tidak Ada","Barcode No.Permintaan 1","Barcode No.Permintaan 2","Lembar Permintaan Lab & Barcode No.Permintaan 1","Lembar Permintaan Lab & Barcode No.Permintaan 2"},"Tidak Ada");
-                            switch (pilihan) {
-                                case "Tidak Ada":
-                                    break;
-                                case "Barcode No.Permintaan 1":
-                                    BtnBarcodePermintaanActionPerformed(evt);
-                                    break;
-                                case "Barcode No.Permintaan 2":
-                                    BtnBarcodePermintaan2ActionPerformed(evt);
-                                    break;
-                                case "Lembar Permintaan Lab & Barcode No.Permintaan 1":
-                                    BtnBarcodePermintaanActionPerformed(evt);
-                                    BtnCetakHasilLabActionPerformed(null);
-                                    break;
-                                case "Lembar Permintaan Lab & Barcode No.Permintaan 2":
-                                    BtnBarcodePermintaan2ActionPerformed(evt);
-                                    BtnCetakHasilLabActionPerformed(null);
-                                    break;
-                            }  
+                            try {
+                                pilihan = (String)JOptionPane.showInputDialog(null,"Waktu pengambilan sampel berhasil disimpan, Apakah ada yang ingin dicetak..?","Konfirmasi",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Tidak Ada","Barcode No.Permintaan 1","Barcode No.Permintaan 2","Lembar Permintaan Lab & Barcode No.Permintaan 1","Lembar Permintaan Lab & Barcode No.Permintaan 2"},"Tidak Ada");
+                                switch (pilihan) {
+                                    case "Tidak Ada":
+                                        break;
+                                    case "Barcode No.Permintaan 1":
+                                        BtnBarcodePermintaanActionPerformed(evt);
+                                        break;
+                                    case "Barcode No.Permintaan 2":
+                                        BtnBarcodePermintaan2ActionPerformed(evt);
+                                        break;
+                                    case "Lembar Permintaan Lab & Barcode No.Permintaan 1":
+                                        BtnBarcodePermintaanActionPerformed(evt);
+                                        BtnCetakHasilLabActionPerformed(null);
+                                        break;
+                                    case "Lembar Permintaan Lab & Barcode No.Permintaan 2":
+                                        BtnBarcodePermintaan2ActionPerformed(evt);
+                                        BtnCetakHasilLabActionPerformed(null);
+                                        break;
+                                }
+                            } catch (Exception e) {
+                            }
                             TeksKosong();
                             tbLabRanap.setValueAt(Valid.SetTgl(TanggalPulang.getSelectedItem()+""),tbLabRanap.getSelectedRow(),5);
                             tbLabRanap.setValueAt(TanggalPulang.getSelectedItem().toString().substring(11,19),tbLabRanap.getSelectedRow(),6);
@@ -1993,7 +1999,6 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             "where reg_periksa.no_rawat=?",NoRawat);
                     param.put("kamar",kamar);
                     param.put("namakamar",namakamar);
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     param.put("jam",JamPermintaan);
                     param.put("informasitambahan",InformasiTambahan);
                     param.put("diagnosa",DiagnosaKlinis);
@@ -2077,7 +2082,6 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             " where kamar.kd_kamar=? ",kamar);
                     kamar="Kamar";
                     param.put("kamar",kamar);
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
                     param.put("informasitambahan",InformasiTambahan);
                     param.put("diagnosa",DiagnosaKlinis);
                     param.put("tanggalbahan",tanggalbahan);
@@ -2129,8 +2133,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
@@ -2157,8 +2160,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
@@ -2189,8 +2191,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab2.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
@@ -2217,8 +2218,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     param.put("kotars",akses.getkabupatenrs());
                     param.put("propinsirs",akses.getpropinsirs());
                     param.put("kontakrs",akses.getkontakrs());
-                    param.put("emailrs",akses.getemailrs());   
-                    param.put("penjab",Sequel.cariIsi("select penjab.png_jawab from penjab inner join reg_periksa on penjab.kd_pj=reg_periksa.kd_pj where reg_periksa.no_rawat=? ", NoRawat));                
+                    param.put("emailrs",akses.getemailrs());
                     Valid.MyReportqry("rptBarcodePermintaanLab2.jasper","report","::[ Barcode No.Permintaan Lab ]::",
                             "select noorder from permintaan_labpa where no_rawat='"+NoRawat+"'",param);
                     TeksKosong();
