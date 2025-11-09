@@ -85,7 +85,7 @@ public final class koneksiDB {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
             var=EnkripsiAES.decrypt(prop.getProperty("PORT"));
         }catch(Exception e){
-            var="3306"; 
+            var="6033"; 
         }
         return var;
     }
@@ -95,7 +95,7 @@ public final class koneksiDB {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
             var=EnkripsiAES.decrypt(prop.getProperty("DATABASE"));
         }catch(Exception e){
-            var="sik"; 
+            var="sikupdate"; 
         }
         return var;
     }
