@@ -124,6 +124,10 @@ ALTER TABLE `datasuplier` MODIFY COLUMN IF EXISTS `no_telp` varchar(20) NULL DEF
 
 ALTER TABLE `datasuplier` MODIFY COLUMN IF EXISTS `nama_bank` varchar(50) NULL DEFAULT NULL AFTER `no_telp`;
 
+ALTER TABLE `detail_nota_inap` ADD COLUMN IF NOT EXISTS `keterangan` varchar(40) NULL DEFAULT NULL AFTER `besar_bayar`;
+
+ALTER TABLE `detail_nota_jalan` ADD COLUMN IF NOT EXISTS `keterangan` varchar(40) NULL DEFAULT NULL AFTER `besar_bayar`;
+
 CREATE TABLE IF NOT EXISTS `detail_pemberian_obat_selanjutnya`  (
   `tgl_perawatan` date NOT NULL,
   `jam` time NOT NULL,
@@ -265,7 +269,7 @@ CREATE TABLE IF NOT EXISTS `inacbg_pasien_tb_smc`  (
   `no_sep` varchar(40) NOT NULL,
   `no_rkm_medis` varchar(15) NOT NULL,
   `no_sitb` varchar(30) NOT NULL,
-  `status_validasi` varchar(50) NULL DEFAULT NULL,
+  `status_validasi` varchar(80) NULL DEFAULT NULL,
   PRIMARY KEY (`no_sep`) USING BTREE,
   INDEX `inacbg_pasien_tb_smc_ibfk_2`(`no_rkm_medis`) USING BTREE,
   CONSTRAINT `inacbg_pasien_tb_smc_ibfk_1` FOREIGN KEY (`no_sep`) REFERENCES `bridging_sep` (`no_sep`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -317,6 +321,8 @@ ALTER TABLE `ipsrssuplier` MODIFY COLUMN IF EXISTS `no_telp` varchar(20) NULL DE
 ALTER TABLE `ipsrssuplier` MODIFY COLUMN IF EXISTS `nama_bank` varchar(50) NULL DEFAULT NULL AFTER `no_telp`;
 
 ALTER TABLE `jns_perawatan_inap` MODIFY COLUMN IF EXISTS `nm_perawatan` varchar(200) NULL DEFAULT NULL AFTER `kd_jenis_prw`;
+
+ALTER TABLE `jurnal` DROP INDEX IF EXISTS `no_jurnal`;
 
 ALTER TABLE `maping_dokter_dpjpvclaim` ADD UNIQUE INDEX IF NOT EXISTS `maping_dokter_dpjpvclaim_unique`(`kd_dokter_bpjs`) USING BTREE;
 
@@ -1192,6 +1198,12 @@ ALTER TABLE `perusahaan_pasien` ADD COLUMN IF NOT EXISTS `no_npwp` varchar(30) N
 
 ALTER TABLE `perusahaan_pasien` MODIFY COLUMN IF EXISTS `nama_perusahaan` varchar(120) NULL DEFAULT NULL AFTER `kode_perusahaan`;
 
+ALTER TABLE `prosedur_pasien` DROP INDEX IF EXISTS `PRIMARY`;
+
+ALTER TABLE `prosedur_pasien` ADD PRIMARY KEY IF NOT EXISTS (`no_rawat`, `kode`, `status`, `prioritas`) USING BTREE;
+
+ALTER TABLE `referensi_mobilejkn_bpjs` DROP INDEX IF EXISTS `no_rawat`;
+
 CREATE TABLE IF NOT EXISTS `referensi_mobilejkn_bpjs_taskid_response2`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `no_rawat` varchar(17) NOT NULL,
@@ -1263,6 +1275,8 @@ ALTER TABLE `resume_pasien_ranap` MODIFY COLUMN IF EXISTS `prosedur_sekunder3` v
 
 ALTER TABLE `riwayat_barang_medis` MODIFY COLUMN IF EXISTS `keterangan` varchar(500) NOT NULL AFTER `no_faktur`;
 
+ALTER TABLE `riwayat_barang_medis` ADD INDEX IF NOT EXISTS `riwayat_barang_medis_ibfk_2`(`tanggal`) USING BTREE;
+
 ALTER TABLE `saran_kesan_lab` MODIFY COLUMN IF EXISTS `saran` varchar(1000) NULL DEFAULT NULL AFTER `jam`;
 
 ALTER TABLE `saran_kesan_lab` MODIFY COLUMN IF EXISTS `kesan` varchar(1000) NULL DEFAULT NULL AFTER `saran`;
@@ -1290,10 +1304,10 @@ CREATE TABLE IF NOT EXISTS `satu_sehat_referensi_lab_loinc`  (
 ) ENGINE = MyISAM CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 CREATE TABLE IF NOT EXISTS `satu_sehat_referensi_lab_snomed`  (
-  `code` varchar(30) NOT NULL,
+  `code` varchar(40) NOT NULL,
   `system` varchar(100) NOT NULL,
-  `display` varchar(300) NULL DEFAULT NULL,
-  `display_ind` varchar(300) NULL DEFAULT NULL,
+  `display` varchar(600) NULL DEFAULT NULL,
+  `display_ind` varchar(600) NULL DEFAULT NULL,
   PRIMARY KEY (`code`, `system`) USING BTREE,
   INDEX `display`(`display`) USING BTREE,
   INDEX `display_ind`(`display_ind`) USING BTREE
@@ -1386,7 +1400,7 @@ ALTER TABLE `surat_keterangan_rawat_inap` ADD COLUMN IF NOT EXISTS `kd_dokter` v
 
 ALTER TABLE `surat_keterangan_rawat_inap` ADD COLUMN IF NOT EXISTS `lamasakit` varchar(20) NULL DEFAULT NULL AFTER `kd_dokter`;
 
-ALTER TABLE `surat_keterangan_rawat_inap` ADD CONSTRAINT `surat_keterangan_rawat_inap_dokter_FK` FOREIGN KEY IF NOT EXISTS(`kd_dokter`) REFERENCES `dokter` (`kd_dokter`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `surat_keterangan_rawat_inap` ADD CONSTRAINT `surat_keterangan_rawat_inap_dokter_FK` FOREIGN KEY IF NOT EXISTS (`kd_dokter`) REFERENCES `dokter` (`kd_dokter`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 ALTER TABLE `surat_keterangan_rawat_inap` ADD INDEX IF NOT EXISTS `surat_keterangan_rawat_inap_dokter_FK`(`kd_dokter`) USING BTREE;
 
@@ -1424,6 +1438,12 @@ CREATE TABLE IF NOT EXISTS `tempinacbg`  (
   `cmg_type` varchar(50) NULL DEFAULT NULL,
   PRIMARY KEY (`coder_nik`, `cmg_code`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+ALTER TABLE `temporary` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary_bayar_ralan` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary_bayar_ranap` DROP INDEX IF EXISTS `no`;
 
 CREATE TABLE IF NOT EXISTS `temporary_besar`  (
   `userid` varchar(30) NOT NULL,
@@ -1511,6 +1531,20 @@ CREATE TABLE IF NOT EXISTS `temporary_besar`  (
   INDEX `userid`(`userid`) USING BTREE,
   INDEX `ipaddress`(`ipaddress`) USING BTREE
 ) ENGINE = MyISAM CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+ALTER TABLE `temporary_lab` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary_permintaan_lab` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary_permintaan_labmb` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary_radiologi` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary_resep` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `temporary2` DROP INDEX IF EXISTS `no`;
+
+ALTER TABLE `trackersql` ADD INDEX IF NOT EXISTS `trackersql_tanggal_IDX`(`tanggal`) USING BTREE;
 
 ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `edit_hapus_spo_medis` enum('true','false') NULL DEFAULT NULL AFTER `penatalaksanaan_terapi_okupasi`;
 

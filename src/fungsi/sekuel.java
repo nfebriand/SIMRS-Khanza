@@ -212,7 +212,11 @@ public final class sekuel {
             }
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString(1);
+                    String output = rs.getString(1);
+                    if (output == null) {
+                        return "";
+                    }
+                    return output;
                 }
             }
         } catch (Exception e) {
@@ -475,24 +479,6 @@ public final class sekuel {
             } else {
                 JOptionPane.showMessageDialog(null, "Gagal menghapus data!");
             }
-        }
-    }
-    
-    public void menghapusIgnoreSmc(String table, String where, String... values) {
-        String sql = "delete from " + table + " where " + where;
-        if (where == null || where.isBlank()) {
-            sql = "delete from " + table;
-        }
-
-        try (PreparedStatement ps = connect.prepareStatement(sql)) {
-            for (int i = 0; i < values.length; i++) {
-                ps.setString(i + 1, values[i]);
-            }
-            track = ps.toString();
-            SimpanTrack(track.substring(track.indexOf("delete")));
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Notif : " + e);
         }
     }
 

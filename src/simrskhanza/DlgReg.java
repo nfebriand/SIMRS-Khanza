@@ -19365,8 +19365,7 @@ public final class DlgReg extends javax.swing.JDialog {
         if (akses.getadmin()) {
             Sequel.mengupdateSmc("reg_periksa", "jam_reg = current_time()", "no_rawat = ?", tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 2).toString());
         } else {
-            if (
-                Sequel.cariExistsSmc("select * from pemeriksaan_ralan where no_rawat = ?", tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 2).toString()) ||
+            if (Sequel.cariExistsSmc("select * from pemeriksaan_ralan where no_rawat = ?", tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 2).toString()) ||
                 Sequel.cariIsiSmc("select stts from reg_periksa where no_rawat = ?", tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 2).toString()).equalsIgnoreCase("sudah")
             ) {
                 JOptionPane.showMessageDialog(null, "Maaf, pasien sudah menerima pelayanan...!!!!");
@@ -19377,6 +19376,11 @@ public final class DlgReg extends javax.swing.JDialog {
                     tbPetugas.setValueAt(tglsekarang.substring(11), tbPetugas.getSelectedRow(), 4);
                     if (BOOKINGLANGSUNGREGISTRASI) {
                         Sequel.mengupdateSmc("booking_registrasi", "waktu_kunjungan = now(), status = 'Checkin'", "no_rawat = ?", tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 2).toString());
+                        if (koneksiDB.JADIKANBOOKINGSURATKONTROL().equals("yes")) {
+                            Sequel.mengupdatetfSmc("skdp_bpjs", "status = 'Sudah Periksa'", "no_rkm_medis = ? and tanggal_datang = current_date() and kd_dokter = ?",
+                                tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 7).toString(), tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 5).toString()
+                            );
+                        }
                     }
                 }
             }

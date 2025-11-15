@@ -160,6 +160,8 @@ public class ApiADAMLABS
                     for (JsonNode error : response.path("message")) {
                         messages.add(new StringBuilder("- ").append(error.path("msg").asText()).toString());
                     }
+                } else {
+                    messages.add(response.path("message").asText());
                 }
                 if (messages.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat memproses order lab..!!", "Gagal", JOptionPane.ERROR_MESSAGE);
@@ -169,9 +171,7 @@ public class ApiADAMLABS
             }
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             System.out.println(e.getResponseBodyAsString());
-            if (e.getResponseBodyAsString().contains("<title>Error</title>")) {
-                JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat memproses order lab..!!");
-            }
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat memproses order lab..!!");
         } catch (Exception e) {
             System.out.println("Notif : " + e);
             if (e.getMessage().contains("HostException")) {
