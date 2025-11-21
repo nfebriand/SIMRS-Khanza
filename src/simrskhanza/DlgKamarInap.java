@@ -26,6 +26,7 @@ import bridging.PCareDataPendaftaran;
 import bridging.SisruteRujukanKeluar;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fungsi.WarnaTable;
 import fungsi.WarnaTableKamarInap;
 import fungsi.akses;
 import fungsi.batasInput;
@@ -302,7 +303,12 @@ public class DlgKamarInap extends javax.swing.JDialog {
                 column.setPreferredWidth(60);
             }
         }
-        tbKamIn.setDefaultRenderer(Object.class, new WarnaTableKamarInap());
+
+        if (koneksiDB.AKTIFKANWARNARALAN().equals("yes")) {
+            tbKamIn.setDefaultRenderer(Object.class, new WarnaTableKamarInap());
+        } else {
+            tbKamIn.setDefaultRenderer(Object.class, new WarnaTable());
+        }
 
         norawat.setDocument(new batasInput((byte)17).getKata(norawat));
         kdkamar.setDocument(new batasInput((byte)15).getKata(kdkamar));
@@ -21379,29 +21385,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnSuratPersetujuan.add(MnPersetujuanUmum);
         MnSuratPersetujuan.add(MnPersetujuanPemeriksaanHIV);
         MnSuratPersetujuan.add(MnSuratPernyataanMemilihDPJP);
-    }
-
-
-    private class WarnaTableKamarRanap extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            if (row % 2 == 1) {
-                component.setBackground(new Color(255, 244, 244));
-                component.setForeground(new Color(50, 50, 50));
-            } else {
-                component.setBackground(new Color(255, 255, 255));
-                component.setForeground(new Color(50, 50, 50));
-            }
-
-            if (table.getValueAt(row, 20).toString().equals("Sudah Bayar")) {
-                component.setBackground(new Color(50, 50, 50));
-                component.setForeground(new Color(255, 255, 255));
-            }
-
-            return component;
-        }
     }
 
     private boolean bisaPindahKamar() {
