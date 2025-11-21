@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c482ae7c-edf6-4053-86a6-1fc7ebd84ac2">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
@@ -17,7 +17,7 @@
 	<queryString>
 		<![CDATA[select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, 
 concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as namakamar,
-detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet 
+detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.catatan 
 from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien 
 on detail_beri_diet.no_rawat=reg_periksa.no_rawat 
 and detail_beri_diet.kd_kamar=kamar.kd_kamar
@@ -71,6 +71,11 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 		<property name="com.jaspersoft.studio.field.label" value="nama_diet"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="diet"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="catatan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="catatan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_beri_diet"/>
+		<property name="com.jaspersoft.studio.field.name" value="catatan"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -135,57 +140,57 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 	<columnHeader>
 		<band height="17" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="445" y="1" width="30" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="60635b82-f59b-486c-a749-05458dac5589"/>
+				<reportElement mode="Opaque" x="375" y="0" width="30" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="60635b82-f59b-486c-a749-05458dac5589"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Jam]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="1" width="85" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="1c7e3d3b-6ea2-4b03-8f3d-6e938b0d76d4"/>
+				<reportElement mode="Opaque" x="0" y="1" width="67" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="1c7e3d3b-6ea2-4b03-8f3d-6e938b0d76d4"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[ No.Rawat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="85" y="1" width="175" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="21e6ddd8-704d-463a-86bd-e6fbeec3e2ef"/>
+				<reportElement mode="Opaque" x="67" y="1" width="123" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="21e6ddd8-704d-463a-86bd-e6fbeec3e2ef"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Nama Pasien]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="260" y="1" width="93" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="b4f29238-f96a-4499-a760-984f1d39e37c"/>
+				<reportElement mode="Opaque" x="190" y="0" width="93" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="b4f29238-f96a-4499-a760-984f1d39e37c"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Kamar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="353" y="1" width="54" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="ca8e1834-212e-42d9-9f54-7b72aeb1d686"/>
+				<reportElement mode="Opaque" x="283" y="0" width="54" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="ca8e1834-212e-42d9-9f54-7b72aeb1d686"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Tanggal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="407" y="1" width="38" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="2fca6d23-3964-46ef-b8ce-35c0c52ceebf"/>
+				<reportElement mode="Opaque" x="337" y="0" width="38" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="2fca6d23-3964-46ef-b8ce-35c0c52ceebf"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Waktu]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="475" y="1" width="80" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="e6048080-876f-4149-a443-8fcb7e0f542e"/>
+				<reportElement mode="Opaque" x="405" y="0" width="65" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="e6048080-876f-4149-a443-8fcb7e0f542e"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Diet]]></text>
@@ -202,70 +207,78 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="470" y="1" width="85" height="15" forecolor="#000000" backcolor="#F0F0DC" uuid="1b90b6c9-c5bc-450e-8195-a47923cc6773"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Catatan]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="12" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" mode="Transparent" x="2" y="0" width="83" height="10" uuid="472ea96c-a30c-4e70-9ce6-c7297dc8d367"/>
+				<reportElement positionType="Float" mode="Transparent" x="2" y="0" width="65" height="10" uuid="472ea96c-a30c-4e70-9ce6-c7297dc8d367"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no_rawat}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" mode="Transparent" x="85" y="0" width="47" height="10" uuid="ef8139be-bfc7-4c42-948d-e5a3cca41eeb"/>
+				<reportElement positionType="Float" mode="Transparent" x="67" y="0" width="35" height="10" uuid="ef8139be-bfc7-4c42-948d-e5a3cca41eeb"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" mode="Transparent" x="260" y="0" width="93" height="10" uuid="81653903-ca74-4d87-9a71-eecd376b4f01"/>
+				<reportElement positionType="Float" mode="Transparent" x="190" y="-1" width="93" height="10" uuid="81653903-ca74-4d87-9a71-eecd376b4f01"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namakamar}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" mode="Transparent" x="132" y="0" width="128" height="10" uuid="eaa86363-6e98-4384-b877-ee6d721bc78e"/>
+				<reportElement positionType="Float" mode="Transparent" x="102" y="0" width="88" height="10" uuid="eaa86363-6e98-4384-b877-ee6d721bc78e"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nm_pasien}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
-				<reportElement positionType="Float" mode="Transparent" x="353" y="0" width="54" height="10" uuid="602bcfe5-2cd1-461b-b7ef-1b437eaf5e92"/>
+				<reportElement positionType="Float" mode="Transparent" x="283" y="-1" width="54" height="10" uuid="602bcfe5-2cd1-461b-b7ef-1b437eaf5e92"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="">
-				<reportElement positionType="Float" mode="Transparent" x="407" y="0" width="38" height="10" uuid="4018588f-c4e8-4d47-85c1-6f5fd4126be6"/>
+				<reportElement positionType="Float" mode="Transparent" x="337" y="-1" width="38" height="10" uuid="4018588f-c4e8-4d47-85c1-6f5fd4126be6"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{waktu}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="">
-				<reportElement positionType="Float" mode="Transparent" x="475" y="0" width="76" height="10" uuid="66bd6602-e133-438c-b13f-dfc2207897ba"/>
+				<reportElement positionType="Float" mode="Transparent" x="405" y="-1" width="65" height="10" uuid="66bd6602-e133-438c-b13f-dfc2207897ba"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nama_diet}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="">
-				<reportElement positionType="Float" mode="Transparent" x="445" y="0" width="30" height="10" uuid="471b2081-eb31-4fd3-b60e-3fbc9bcecca4"/>
+				<reportElement positionType="Float" mode="Transparent" x="375" y="-1" width="30" height="10" uuid="471b2081-eb31-4fd3-b60e-3fbc9bcecca4"/>
 				<textElement>
-					<font fontName="Tahoma" size="8"/>
+					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jam}]]></textFieldExpression>
@@ -278,6 +291,14 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 					<pen lineWidth="0.25" lineStyle="Solid"/>
 				</graphicElement>
 			</line>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement positionType="Float" mode="Transparent" x="470" y="0" width="85" height="10" uuid="7fba3c56-6564-44ab-849d-474f1bccc292"/>
+				<textElement>
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catatan}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -294,7 +315,7 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
@@ -308,7 +329,7 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
@@ -322,7 +343,7 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Tahoma" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="7" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>

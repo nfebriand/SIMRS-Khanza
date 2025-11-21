@@ -370,9 +370,11 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         BtnAmbilLISSOFTMEDIX.setVisible(false);
         BtnKirimVansLab.setVisible(false);
         BtnAmbilVanslab.setVisible(false);
-        BtnKirimLISSLIMS.setVisible(false);
-        BtnAmbilLISSLIMS.setVisible(false);
+        BtnKirimLISSLIMS.setVisible(true);
+        BtnAmbilLISSLIMS.setVisible(true);
         BtnAmbilAdamLabs.setVisible(false);
+        BtnKirimAdamLabs.setVisible(false);
+        
     }
 
     /** This method is called from within the constructor to
@@ -454,10 +456,12 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         BtnCetakHasilLab = new widget.Button();
         BtnBarcodePermintaan = new widget.Button();
         BtnBarcodePermintaan2 = new widget.Button();
-        BtnKirimLica = new widget.Button();
-        BtnAmbilLica = new widget.Button();
+        BtnKirimLISSLIMS = new widget.Button();
+        BtnAmbilLISSLIMS = new widget.Button();
         BtnKirimSysmex = new widget.Button();
         BtnAmbilSysmex = new widget.Button();
+        BtnKirimLica = new widget.Button();
+        BtnAmbilLica = new widget.Button();
         BtnKirimLISELIMS = new widget.Button();
         BtnAmbilLISELIMS = new widget.Button();
         BtnKirimLISTeras = new widget.Button();
@@ -470,8 +474,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         BtnAmbilLISSOFTMEDIX = new widget.Button();
         BtnKirimVansLab = new widget.Button();
         BtnAmbilVanslab = new widget.Button();
-        BtnKirimLISSLIMS = new widget.Button();
-        BtnAmbilLISSLIMS = new widget.Button();
         BtnKirimAdamLabs = new widget.Button();
         BtnAmbilAdamLabs = new widget.Button();
 
@@ -515,7 +517,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         internalFrame5.add(jLabel26);
         jLabel26.setBounds(6, 32, 100, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-10-2025 00:44:46" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2025 15:05:52" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -1179,6 +1181,76 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         });
         FormMenu.add(BtnBarcodePermintaan2);
 
+        BtnKirimLISSLIMS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnKirimLISSLIMS.setText("Kirim Permintaan ke LIS Baru");
+        BtnKirimLISSLIMS.setFocusPainted(false);
+        BtnKirimLISSLIMS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnKirimLISSLIMS.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnKirimLISSLIMS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnKirimLISSLIMS.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnKirimLISSLIMS.setName("BtnKirimLISSLIMS"); // NOI18N
+        BtnKirimLISSLIMS.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnKirimLISSLIMS.setRoundRect(false);
+        BtnKirimLISSLIMS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKirimLISSLIMSActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnKirimLISSLIMS);
+
+        BtnAmbilLISSLIMS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnAmbilLISSLIMS.setText("Ambil Hasil dari LIS Baru");
+        BtnAmbilLISSLIMS.setFocusPainted(false);
+        BtnAmbilLISSLIMS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnAmbilLISSLIMS.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnAmbilLISSLIMS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnAmbilLISSLIMS.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnAmbilLISSLIMS.setName("BtnAmbilLISSLIMS"); // NOI18N
+        BtnAmbilLISSLIMS.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnAmbilLISSLIMS.setRoundRect(false);
+        BtnAmbilLISSLIMS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilLISSLIMSActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnAmbilLISSLIMS);
+
+        BtnKirimSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnKirimSysmex.setText("Kirim Permintaan ke Sysmex");
+        BtnKirimSysmex.setEnabled(false);
+        BtnKirimSysmex.setFocusPainted(false);
+        BtnKirimSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnKirimSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnKirimSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnKirimSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnKirimSysmex.setName("BtnKirimSysmex"); // NOI18N
+        BtnKirimSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnKirimSysmex.setRoundRect(false);
+        BtnKirimSysmex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKirimSysmexActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnKirimSysmex);
+
+        BtnAmbilSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnAmbilSysmex.setText("Ambil Hasil dari Sysmex");
+        BtnAmbilSysmex.setEnabled(false);
+        BtnAmbilSysmex.setFocusPainted(false);
+        BtnAmbilSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnAmbilSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnAmbilSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnAmbilSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnAmbilSysmex.setName("BtnAmbilSysmex"); // NOI18N
+        BtnAmbilSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnAmbilSysmex.setRoundRect(false);
+        BtnAmbilSysmex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilSysmexActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnAmbilSysmex);
+
         BtnKirimLica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
         BtnKirimLica.setText("Kirim Permintaan ke LICA");
         BtnKirimLica.setEnabled(false);
@@ -1214,40 +1286,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
             }
         });
         FormMenu.add(BtnAmbilLica);
-
-        BtnKirimSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
-        BtnKirimSysmex.setText("Kirim Permintaan ke Sysmex");
-        BtnKirimSysmex.setFocusPainted(false);
-        BtnKirimSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnKirimSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
-        BtnKirimSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnKirimSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        BtnKirimSysmex.setName("BtnKirimSysmex"); // NOI18N
-        BtnKirimSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
-        BtnKirimSysmex.setRoundRect(false);
-        BtnKirimSysmex.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnKirimSysmexActionPerformed(evt);
-            }
-        });
-        FormMenu.add(BtnKirimSysmex);
-
-        BtnAmbilSysmex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
-        BtnAmbilSysmex.setText("Ambil Hasil dari Sysmex");
-        BtnAmbilSysmex.setFocusPainted(false);
-        BtnAmbilSysmex.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnAmbilSysmex.setGlassColor(new java.awt.Color(255, 255, 255));
-        BtnAmbilSysmex.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnAmbilSysmex.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        BtnAmbilSysmex.setName("BtnAmbilSysmex"); // NOI18N
-        BtnAmbilSysmex.setPreferredSize(new java.awt.Dimension(190, 23));
-        BtnAmbilSysmex.setRoundRect(false);
-        BtnAmbilSysmex.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAmbilSysmexActionPerformed(evt);
-            }
-        });
-        FormMenu.add(BtnAmbilSysmex);
 
         BtnKirimLISELIMS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
         BtnKirimLISELIMS.setText("Kirim Permintaan ke ELIMS");
@@ -1464,40 +1502,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
             }
         });
         FormMenu.add(BtnAmbilVanslab);
-
-        BtnKirimLISSLIMS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
-        BtnKirimLISSLIMS.setText("Kirim Permintaan ke SLIMS");
-        BtnKirimLISSLIMS.setFocusPainted(false);
-        BtnKirimLISSLIMS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnKirimLISSLIMS.setGlassColor(new java.awt.Color(255, 255, 255));
-        BtnKirimLISSLIMS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnKirimLISSLIMS.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        BtnKirimLISSLIMS.setName("BtnKirimLISSLIMS"); // NOI18N
-        BtnKirimLISSLIMS.setPreferredSize(new java.awt.Dimension(190, 23));
-        BtnKirimLISSLIMS.setRoundRect(false);
-        BtnKirimLISSLIMS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnKirimLISSLIMSActionPerformed(evt);
-            }
-        });
-        FormMenu.add(BtnKirimLISSLIMS);
-
-        BtnAmbilLISSLIMS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
-        BtnAmbilLISSLIMS.setText("Ambil Hasil dari SLIMS");
-        BtnAmbilLISSLIMS.setFocusPainted(false);
-        BtnAmbilLISSLIMS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnAmbilLISSLIMS.setGlassColor(new java.awt.Color(255, 255, 255));
-        BtnAmbilLISSLIMS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnAmbilLISSLIMS.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        BtnAmbilLISSLIMS.setName("BtnAmbilLISSLIMS"); // NOI18N
-        BtnAmbilLISSLIMS.setPreferredSize(new java.awt.Dimension(190, 23));
-        BtnAmbilLISSLIMS.setRoundRect(false);
-        BtnAmbilLISSLIMS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAmbilLISSLIMSActionPerformed(evt);
-            }
-        });
-        FormMenu.add(BtnAmbilLISSLIMS);
 
         BtnKirimAdamLabs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
         BtnKirimAdamLabs.setText("Kirim Permintaan ke ADAMLABS");
@@ -1859,7 +1863,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             tampil();
                         }
                     }else{
-                        JOptionPane.showMessageDialog(null,"Maaf, Sudah dilakukan pengambilan sampel...!!!!");
+                        JOptionPane.showMessageDialog(null,"Maaf, Sudah dilakukan pengambilan sampel...!!!! Hubungi LAB bila ada ubah/tambah pemeriksaan");
                     }
                 }
             }else{
@@ -4025,7 +4029,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             "select permintaan_lab.noorder,permintaan_lab.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,permintaan_lab.tgl_permintaan,pasien.tgl_lahir,"+
                             "permintaan_lab.jam_permintaan,pasien.alamat,kelurahan.nm_kel,kecamatan.nm_kec,kabupaten.nm_kab,propinsi.nm_prop,pasien.email,"+
                             "pasien.jk,permintaan_lab.dokter_perujuk,dokter.nm_dokter,reg_periksa.kd_poli,pasien.tmp_lahir,permintaan_lab.status,"+
-                            "poliklinik.nm_poli,permintaan_lab.informasi_tambahan,permintaan_lab.diagnosa_klinis,reg_periksa.kd_pj,penjab.png_jawab "+
+                            "poliklinik.nm_poli,permintaan_lab.informasi_tambahan,permintaan_lab.diagnosa_klinis,reg_periksa.kd_pj,penjab.png_jawab,pasien.no_ktp "+
                             "from permintaan_lab inner join reg_periksa on permintaan_lab.no_rawat=reg_periksa.no_rawat "+
                             "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                             "inner join dokter on permintaan_lab.dokter_perujuk=dokter.kd_dokter "+
@@ -4046,7 +4050,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                         "'"+rs.getString("alamat")+", "+rs.getString("nm_kel")+", "+rs.getString("nm_kec")+", "+rs.getString("nm_kab")+", "+rs.getString("nm_prop")+"',"+
                                         "'"+rs.getString("tgl_permintaan")+"','"+rs.getString("jam_permintaan")+"','"+rs.getString("dokter_perujuk")+"','"+rs.getString("nm_dokter")+"',"+
                                         "'"+rs.getString("status")+"','"+rs.getString("kd_poli")+"','"+rs.getString("nm_poli")+"','"+rs.getString("kd_pj")+"','"+rs.getString("png_jawab")+"',"+
-                                        "'"+rs.getString("informasi_tambahan")+"','"+rs.getString("diagnosa_klinis")+"','0')").executeUpdate();
+                                        "'"+rs.getString("informasi_tambahan")+"','"+rs.getString("diagnosa_klinis")+"','0','"+rs.getString("no_ktp")+"')").executeUpdate();
                                 ps2=koneksi.prepareStatement("select permintaan_detail_permintaan_lab.noorder,permintaan_detail_permintaan_lab.kd_jenis_prw,permintaan_detail_permintaan_lab.id_template from permintaan_detail_permintaan_lab where permintaan_detail_permintaan_lab.noorder=?");
                                 try {
                                     ps2.setString(1,NoPermintaan);
@@ -4099,7 +4103,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             "select permintaan_lab.noorder,permintaan_lab.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,permintaan_lab.tgl_permintaan,pasien.tgl_lahir,"+
                             "permintaan_lab.jam_permintaan,pasien.alamat,kelurahan.nm_kel,kecamatan.nm_kec,kabupaten.nm_kab,propinsi.nm_prop,pasien.jk,pasien.tmp_lahir,"+
                             "permintaan_lab.dokter_perujuk,dokter.nm_dokter,kamar_inap.kd_kamar,bangsal.kd_bangsal,bangsal.nm_bangsal,permintaan_lab.informasi_tambahan,"+
-                            "pasien.email,permintaan_lab.diagnosa_klinis,permintaan_lab.status,reg_periksa.kd_pj,penjab.png_jawab "+
+                            "pasien.email,permintaan_lab.diagnosa_klinis,permintaan_lab.status,reg_periksa.kd_pj,penjab.png_jawab,pasien.no_ktp "+
                             "from permintaan_lab inner join reg_periksa on permintaan_lab.no_rawat=reg_periksa.no_rawat "+
                             "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                             "inner join dokter on permintaan_lab.dokter_perujuk=dokter.kd_dokter "+
@@ -4122,7 +4126,9 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                         "'"+rs.getString("alamat")+", "+rs.getString("nm_kel")+", "+rs.getString("nm_kec")+", "+rs.getString("nm_kab")+", "+rs.getString("nm_prop")+"',"+
                                         "'"+rs.getString("tgl_permintaan")+"','"+rs.getString("jam_permintaan")+"','"+rs.getString("dokter_perujuk")+"','"+rs.getString("nm_dokter")+"',"+
                                         "'"+rs.getString("status")+"','"+rs.getString("kd_kamar")+"','"+rs.getString("nm_bangsal")+"','"+rs.getString("kd_pj")+"','"+rs.getString("png_jawab")+"',"+
-                                        "'"+rs.getString("informasi_tambahan")+"','"+rs.getString("diagnosa_klinis")+"','0')").executeUpdate();
+                                        "'"+rs.getString("informasi_tambahan")+"','"+rs.getString("diagnosa_klinis")+"','0','"+rs.getString("no_ktp")+"')").executeUpdate();
+                                
+                                
 
                                 ps2=koneksi.prepareStatement("select permintaan_detail_permintaan_lab.noorder,permintaan_detail_permintaan_lab.kd_jenis_prw,permintaan_detail_permintaan_lab.id_template from permintaan_detail_permintaan_lab where permintaan_detail_permintaan_lab.noorder=?");
                                 try {
@@ -4269,7 +4275,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             dlgro1.setLocationRelativeTo(internalFrame1);
                             dlgro1.emptTeks();
                             dlgro1.isCek();
-                            dlgro1.setOrderAdam(NoPermintaan,NoRawat,"Ralan");
+                          //  dlgro1.setOrderAdam(NoPermintaan,NoRawat,"Ralan");
                             dlgro1.setDokterPerujuk(KodeDokter,DokterPerujuk);
                             TeksKosong();
                             dlgro1.setVisible(true);
@@ -4300,7 +4306,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             dlgro1.setLocationRelativeTo(internalFrame1);
                             dlgro1.emptTeks();
                             dlgro1.isCek();
-                            dlgro1.setOrderAdam(NoPermintaan,NoRawat,"Ranap");
+                    //        dlgro1.setOrderAdam(NoPermintaan,NoRawat,"Ranap");
                             dlgro1.setDokterPerujuk(KodeDokter,DokterPerujuk);
                             TeksKosong();
                             dlgro1.setVisible(true);

@@ -46,7 +46,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         initComponents();
 
         tabMode=new DefaultTableModel(null,new Object[]{
-                "No.Rawat","Nama Pasien","Kamar","Tanggal","Waktu","Jam","Diet","Diagnosa","Kode Kamar","Kode Diet"
+                "No.Rawat","Nama Pasien","Kamar","Tanggal","Waktu","Jam","Diet","Diagnosa","Catatan","Kode Kamar","Kode Diet"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -54,7 +54,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         tbDataDiet.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbDataDiet.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 11; i++) {
             TableColumn column = tbDataDiet.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -73,9 +73,11 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             }else if(i==7){
                 column.setPreferredWidth(170);
             }else if(i==8){
+                column.setPreferredWidth(170);
+            }else if(i==9){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
-            }else if(i==9){
+            }else if(i==10){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
             }
@@ -191,6 +193,8 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         WaktuDiet = new widget.TextBox();
         JamDiet = new widget.TextBox();
         BtnJam = new widget.Button();
+        jLabel13 = new widget.Label();
+        Catatan = new widget.TextBox();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
         tbDataDiet = new widget.Table();
@@ -465,7 +469,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -479,7 +483,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -563,10 +567,10 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         FormInput.add(TNoRw);
         TNoRw.setBounds(78, 12, 125, 23);
 
-        jLabel9.setText("Diet :");
+        jLabel9.setText("Catatan :");
         jLabel9.setName("jLabel9"); // NOI18N
         FormInput.add(jLabel9);
-        jLabel9.setBounds(367, 42, 39, 23);
+        jLabel9.setBounds(740, 40, 60, 23);
 
         NmDiet.setEditable(false);
         NmDiet.setName("NmDiet"); // NOI18N
@@ -579,7 +583,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         TPasien.setBounds(205, 12, 290, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-05-2023" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2025" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -597,13 +601,18 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         jLabel10.setBounds(0, 42, 74, 23);
 
         KdDiet.setName("KdDiet"); // NOI18N
+        KdDiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KdDietActionPerformed(evt);
+            }
+        });
         KdDiet.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 KdDietKeyPressed(evt);
             }
         });
         FormInput.add(KdDiet);
-        KdDiet.setBounds(410, 42, 85, 23);
+        KdDiet.setBounds(410, 40, 80, 23);
 
         BtnSeek1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnSeek1.setMnemonic('X');
@@ -658,6 +667,25 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         });
         FormInput.add(BtnJam);
         BtnJam.setBounds(315, 42, 28, 23);
+
+        jLabel13.setText("Diet :");
+        jLabel13.setName("jLabel13"); // NOI18N
+        FormInput.add(jLabel13);
+        jLabel13.setBounds(367, 42, 39, 23);
+
+        Catatan.setName("Catatan"); // NOI18N
+        Catatan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CatatanActionPerformed(evt);
+            }
+        });
+        Catatan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CatatanKeyPressed(evt);
+            }
+        });
+        FormInput.add(Catatan);
+        Catatan.setBounds(805, 40, 260, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -745,9 +773,10 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
                 if(Sequel.menyimpantf("detail_beri_diet","'"+TNoRw.getText()+"','"+Kamar.getText()+"','"+
                         Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"','"+
                         WaktuDiet.getText()+"','"+
-                        KdDiet.getText()+"'","data")==true){
+                        KdDiet.getText()+"','"+
+                        Catatan.getText()+"'","data")==true){                    
                     tabMode.addRow(new Object[]{
-                        TNoRw.getText(),TPasien.getText(),Ruang.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),WaktuDiet.getText(),JamDiet.getText(),NmDiet.getText(),"-",Kamar.getText(),KdDiet.getText()
+                        TNoRw.getText(),TPasien.getText(),Ruang.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),WaktuDiet.getText(),JamDiet.getText(),NmDiet.getText(),"-",Catatan.getText(),Kamar.getText(),KdDiet.getText()
                     });
                     LCount.setText(""+tabMode.getRowCount());
                     emptTeks();
@@ -791,7 +820,8 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
                             "where no_rawat='"+TNoRw.getText()+"' " +
                             "and tanggal='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' " +
                             "and waktu='"+WaktuDiet.getText()+"' " +
-                            "and kd_diet='"+KdDiet.getText()+"'")==true){
+                            "and kd_diet='"+KdDiet.getText()+"' " +
+                            "and catatan='"+Catatan.getText()+"'")==true){
                         tabMode.removeRow(tbDataDiet.getSelectedRow());
                         LCount.setText(""+tabMode.getRowCount());
                     }
@@ -836,8 +866,8 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
                 param.put("emailrs",akses.getemailrs());
                 param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
                 Valid.MyReportqry("rptBrDiet.jasper","report","::[ Data Pemberian Diet ]::",
-                    "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as namakamar,"+
-                    "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet " +
+                    "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.umur,concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as namakamar,"+
+                    "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet,detail_beri_diet.catatan " +
                     "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
                     "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                     "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
@@ -894,6 +924,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         NmDiet.setText("");
         WaktuDiet2.setText("");
         JamDiet2.setText("");
+        Catatan.setText("");
         if(TabRawat.getSelectedIndex()==0){
             tampil();
         }else if(TabRawat.getSelectedIndex()==1){
@@ -1031,7 +1062,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
             Valid.MyReportqry("rptLabelDiet.jasper","report","::[ Label Diet ]::",
                 "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.tgl_lahir, " +
-                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet " +
+                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.catatan " +
                 "from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien " +
                 "on detail_beri_diet.no_rawat=reg_periksa.no_rawat " +
                 "and detail_beri_diet.kd_kamar=kamar.kd_kamar "+
@@ -1060,7 +1091,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
             Valid.MyReportqry("rptLabelDiet.jasper","report","::[ Label Diet ]::",
                 "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.tgl_lahir, " +
-                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet " +
+                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.catatan " +
                 "from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien " +
                 "on detail_beri_diet.no_rawat=reg_periksa.no_rawat " +
                 "and detail_beri_diet.kd_kamar=kamar.kd_kamar "+
@@ -1208,6 +1239,18 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_MnSisaDietPasienActionPerformed
 
+    private void CatatanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CatatanKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CatatanKeyPressed
+
+    private void KdDietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KdDietActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KdDietActionPerformed
+
+    private void CatatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatatanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CatatanActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1236,6 +1279,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
     private widget.Button BtnSeek1;
     private widget.Button BtnSeek2;
     private widget.Button BtnSimpan;
+    private widget.TextBox Catatan;
     private widget.CekBox ChkInput;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
@@ -1266,6 +1310,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
     private widget.Label jLabel10;
     private widget.Label jLabel11;
     private widget.Label jLabel12;
+    private widget.Label jLabel13;
     private widget.Label jLabel19;
     private widget.Label jLabel21;
     private widget.Label jLabel4;
@@ -1286,7 +1331,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             Valid.tabelKosong(tabMode);
             ps=koneksi.prepareStatement(
                 "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal),"+
-                "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet " +
+                "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet,detail_beri_diet.catatan " +
                 "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
                 "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                 "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
@@ -1311,7 +1356,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
                     tabMode.addRow(new Object[]{
                         rs.getString(1),rs.getString(2)+" "+rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),
                         Sequel.cariIsi("select kamar_inap.diagnosa_awal from kamar_inap where kamar_inap.no_rawat=? order by kamar_inap.tgl_masuk desc",rs.getString(1)),
-                        rs.getString("kd_kamar"),rs.getString("kd_diet")
+                        rs.getString("catatan"),rs.getString("kd_kamar"),rs.getString("kd_diet")
                     });
                 }
             } catch (Exception e) {
@@ -1379,6 +1424,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         NmDiet.setText("");
         WaktuDiet.setText("");
         JamDiet.setText("");
+        Catatan.setText("");        
         DTPTgl.setDate(new Date());
         DTPTgl.requestFocus();
     }
@@ -1391,8 +1437,9 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             WaktuDiet.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),4).toString());
             JamDiet.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),5).toString());
             NmDiet.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),6).toString());
-            Kamar.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),8).toString());
-            KdDiet.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),9).toString());
+            Catatan.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),8).toString());
+            Kamar.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),9).toString());
+            KdDiet.setText(tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),10).toString());
             Valid.SetTgl(DTPTgl,tbDataDiet.getValueAt(tbDataDiet.getSelectedRow(),3).toString());
         }
     }

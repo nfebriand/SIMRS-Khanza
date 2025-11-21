@@ -23,7 +23,7 @@
 	<parameter name="kontakrs" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, pasien.tgl_lahir,
-concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet 
+concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as kamar,detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.catatan 
 from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien 
 on detail_beri_diet.no_rawat=reg_periksa.no_rawat 
 and detail_beri_diet.kd_kamar=kamar.kd_kamar 
@@ -83,6 +83,11 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 		<property name="com.jaspersoft.studio.field.label" value="nama_diet"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="diet"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="catatan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="catatan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_beri_diet"/>
+		<property name="com.jaspersoft.studio.field.name" value="catatan"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -184,9 +189,7 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 				<text><![CDATA[Diet]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="41" y="78" width="146" height="39" uuid="dcced494-7d32-4df5-9824-c955a3f7293e">
-					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
-				</reportElement>
+				<reportElement x="41" y="78" width="146" height="10" uuid="dcced494-7d32-4df5-9824-c955a3f7293e"/>
 				<textElement>
 					<font fontName="Tahoma" size="8"/>
 					<paragraph lineSpacing="Single"/>
@@ -308,6 +311,24 @@ and detail_beri_diet.waktu=jam_diet_pasien.waktu]]>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Setelah Disajikan]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="41" y="88" width="146" height="10" uuid="37f56ba7-d417-4449-8390-35fdda596741"/>
+				<textElement>
+					<font fontName="Tahoma" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "+$F{catatan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="88" width="37" height="10" uuid="7aba3092-ae3b-412f-9923-302efab9584f">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Catatan]]></text>
 			</staticText>
 		</band>
 	</detail>
