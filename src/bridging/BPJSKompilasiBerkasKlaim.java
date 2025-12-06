@@ -496,6 +496,8 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         tabPaneKoding = new widget.TabPane();
         panelIdrg = new laporan.PanelIdrgSmc();
         panelInacbg = new laporan.PanelInacbgSmc();
+        jLabel26 = new widget.Label();
+        btnResumeRalan = new widget.Button();
         panelBiasa2 = new widget.PanelBiasa();
         BtnKompilasi = new widget.Button();
         jPanel5 = new javax.swing.JPanel();
@@ -599,7 +601,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         internalFrame11.add(jLabel44);
         jLabel44.setBounds(0, 92, 78, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-10-2025 11:25:10" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-10-2025 12:37:49" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -639,7 +641,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         internalFrame11.add(jLabel48);
         jLabel48.setBounds(300, 122, 100, 23);
 
-        TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-10-2025" }));
+        TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-10-2025" }));
         TanggalKematian.setDisplayFormat("dd-MM-yyyy");
         TanggalKematian.setEnabled(false);
         TanggalKematian.setName("TanggalKematian"); // NOI18N
@@ -994,7 +996,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-10-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-10-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1008,7 +1010,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-10-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-10-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1442,6 +1444,29 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
 
         panelBiasa1.add(tabPaneKoding);
         tabPaneKoding.setBounds(0, 270, 800, 462);
+
+        jLabel26.setText("Ralan :");
+        jLabel26.setName("jLabel26"); // NOI18N
+        jLabel26.setPreferredSize(new java.awt.Dimension(120, 14));
+        panelBiasa1.add(jLabel26);
+        jLabel26.setBounds(230, 150, 60, 16);
+
+        btnResumeRalan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnResumeRalan.setMnemonic('1');
+        btnResumeRalan.setText("Tidak ada");
+        btnResumeRalan.setToolTipText("ALt+1");
+        btnResumeRalan.setEnabled(false);
+        btnResumeRalan.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        btnResumeRalan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnResumeRalan.setName("btnResumeRalan"); // NOI18N
+        btnResumeRalan.setPreferredSize(new java.awt.Dimension(100, 16));
+        btnResumeRalan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResumeRalanActionPerformed(evt);
+            }
+        });
+        panelBiasa1.add(btnResumeRalan);
+        btnResumeRalan.setBounds(290, 150, 100, 16);
 
         scrollPane1.setViewportView(panelBiasa1);
 
@@ -2872,6 +2897,63 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtnSimpanKodingKeyPressed
 
+    private void btnResumeRalanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumeRalanActionPerformed
+    if (lblNoRawat.getText().isBlank()) {
+            JOptionPane.showMessageDialog(rootPane, "Maaf, silahkan pilih pasien terlebih dahulu...!!!");
+        } else {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Map<String, Object> param = new HashMap<>();
+            param.put("namars", akses.getnamars());
+            param.put("alamatrs", akses.getalamatrs());
+            param.put("kotars", akses.getkabupatenrs());
+            param.put("propinsirs", akses.getpropinsirs());
+            param.put("kontakrs", akses.getkontakrs());
+            param.put("emailrs", akses.getemailrs());
+            param.put("logo", Sequel.cariGambar("select setting.logo from setting"));
+            param.put("norawat", lblNoRawat.getText());
+            String waktuKeluar = "", tglKeluar = "", jamKeluar = "";
+            waktuKeluar = Sequel.cariIsiSmc("select concat(tgl_keluar, ' ', jam_keluar) from kamar_inap where no_rawat = ? and stts_pulang != 'Pindah Kamar' order by concat(tgl_keluar, ' ', jam_keluar) limit 1", lblNoRawat.getText());
+            if (!waktuKeluar.isBlank()) {
+                tglKeluar = waktuKeluar.substring(0, 10);
+                jamKeluar = waktuKeluar.substring(11, 19);
+            }
+            String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from resume_pasien_ranap where no_rawat = ?", lblNoRawat.getText());
+            String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
+            finger = Sequel.cariIsiSmc("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik = ?", kodeDokter);
+            param.put("finger", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() + "\nDitandatangani secara elektronik oleh " + namaDokter + "\nID " + (finger.isBlank() ? kodeDokter : finger) + "\n" + Valid.SetTgl3(tglKeluar));
+            param.put("ruang", Sequel.cariIsiSmc(
+                "select concat(kamar_inap.kd_kamar, ' ', bangsal.nm_bangsal) from kamar_inap join kamar on kamar_inap.kd_kamar = kamar.kd_kamar " +
+                "join bangsal on kamar.kd_bangsal = bangsal.kd_bangsal where kamar_inap.no_rawat = ? and kamar_inap.tgl_keluar = ? and kamar_inap.jam_keluar = ?",
+                lblNoRawat.getText(), tglKeluar, jamKeluar)
+            );
+            param.put("tanggalkeluar", Valid.SetTgl3(tglKeluar));
+            param.put("jamkeluar", jamKeluar);
+            try (PreparedStatement ps = koneksi.prepareStatement("select dpjp_ranap.kd_dokter, dokter.nm_dokter from dpjp_ranap join dokter on dpjp_ranap.kd_dokter = dokter.kd_dokter where dpjp_ranap.no_rawat = ? and dpjp_ranap.kd_dokter != ?")) {
+                ps.setString(1, lblNoRawat.getText());
+                ps.setString(2, kodeDokter);
+                try (ResultSet rs = ps.executeQuery()) {
+                    int i = 2;
+                    while (rs.next()) {
+                        if (i == 2) {
+                            finger = Sequel.cariIsiSmc("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id = sidikjari.id where pegawai.nik = ?", rs.getString("kd_dokter"));
+                            param.put("finger2", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() + "\nDitandatangani secara elektronik oleh " + rs.getString("nm_dokter") + "\nID " + (finger.isBlank() ? rs.getString("kd_dokter") : finger) + "\n" + Valid.SetTgl3(tglKeluar));
+                            param.put("namadokter2", rs.getString("nm_dokter"));
+                        }
+                        if (i == 3) {
+                            finger = Sequel.cariIsiSmc("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id = sidikjari.id where pegawai.nik = ?", rs.getString("kd_dokter"));
+                            param.put("finger3", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() + "\nDitandatangani secara elektronik oleh " + rs.getString("nm_dokter") + "\nID " + (finger.isBlank() ? rs.getString("kd_dokter") : finger) + "\n" + Valid.SetTgl3(tglKeluar));
+                            param.put("namadokter3", rs.getString("nm_dokter"));
+                        }
+                        i++;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : " + e);
+            }
+            Valid.reportSmc("rptLaporanResumeRanapKompilasi.jasper", "report", "::[ Laporan Resume Pasien ]::", param);
+            setCursor(Cursor.getDefaultCursor());
+        }    }//GEN-LAST:event_btnResumeRalanActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.Button BtnAll;
     private widget.Button BtnBukaFolderExport;
@@ -2917,6 +2999,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
     private widget.Button btnHasilLab;
     private widget.Button btnHasilRad;
     private widget.Button btnInvoice;
+    private widget.Button btnResumeRalan;
     private widget.Button btnResumeRanap;
     private widget.Button btnRiwayatPasien;
     private widget.Button btnSEP;
@@ -2940,6 +3023,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
     private widget.Label jLabel21;
     private widget.Label jLabel22;
     private widget.Label jLabel25;
+    private widget.Label jLabel26;
     private widget.Label jLabel27;
     private widget.Label jLabel28;
     private widget.Label jLabel29;
@@ -3113,6 +3197,8 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         btnSEP.setEnabled(false);
         btnResumeRanap.setText("Tidak Ada");
         btnResumeRanap.setEnabled(false);
+        btnResumeRalan.setText("Tidak Ada");
+        btnResumeRalan.setEnabled(false);        
         btnInvoice.setEnabled(false);
         btnAwalMedisIGD.setText("Tidak Ada");
         btnAwalMedisIGD.setEnabled(false);
@@ -3157,6 +3243,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
             try (PreparedStatement ps = koneksi.prepareStatement(
                 "select exists(select * from data_triase_igd t where t.no_rawat = s.no_rawat) as ada_triase, " +
                 "exists(select * from resume_pasien_ranap r where r.no_rawat = s.no_rawat) as ada_resume_ranap, " +
+                "exists(select * from resume_pasien r where r.no_rawat = s.no_rawat) as ada_resume_ralan, " +
                 "exists(select * from penilaian_medis_igd p where p.no_rawat = s.no_rawat) as ada_awal_medis_igd, " +
                 "exists(select * from periksa_lab pl where pl.no_rawat = s.no_rawat) as ada_periksa_lab, " +
                 "exists(select * from periksa_radiologi pr where pr.no_rawat = s.no_rawat) as ada_periksa_rad, " +
@@ -3172,6 +3259,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
                         flipStatus(btnTriaseIGD, rs.getBoolean("ada_triase"));
                         flipStatus(btnAwalMedisIGD, rs.getBoolean("ada_awal_medis_igd"));
                         flipStatus(btnResumeRanap, rs.getBoolean("ada_resume_ranap"));
+                        flipStatus(btnResumeRalan, rs.getBoolean("ada_resume_ralan"));                        
                         flipStatus(btnHasilLab, rs.getBoolean("ada_periksa_lab"));
                         flipStatus(btnHasilRad, rs.getBoolean("ada_periksa_rad"));
                         flipStatus(btnSPRI, rs.getBoolean("ada_spri"));
@@ -3184,6 +3272,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
                 flipStatus(btnTriaseIGD, false);
                 flipStatus(btnAwalMedisIGD, false);
                 flipStatus(btnResumeRanap, false);
+                flipStatus(btnResumeRalan, false);
                 flipStatus(btnHasilLab, false);
                 flipStatus(btnHasilRad, false);
                 flipStatus(btnSPRI, false);

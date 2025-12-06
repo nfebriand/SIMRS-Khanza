@@ -41,7 +41,7 @@ public class WarnaTableKamarInap extends DefaultTableCellRenderer {
             component.setFont(component.getFont().deriveFont(Font.BOLD));
 			
         } else {
-            component.setForeground(Color.WHITE);           // Warna teks putih agar kontras
+            component.setForeground(new Color(50, 50, 50));
             component.setFont(component.getFont().deriveFont(Font.PLAIN));
         }
         return component;
