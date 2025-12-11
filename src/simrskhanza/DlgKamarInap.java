@@ -208,6 +208,7 @@ import surat.SuratPersetujuanUmum;
 import surat.SuratPulangAtasPermintaanSendiri;
 import surat.SuratSakit;
 import surat.SuratSakitPihak2;
+import java.util.List;
 
 /**
  *
@@ -19833,7 +19834,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                   MnCheckListKriteriaMasukPICU,MnCheckListKriteriaKeluarPICU,MnHasilPemeriksaanTreadmill,MnHasilPemeriksaanECHOPediatrik,MnPenilaianAwalMedisJantung;
     private javax.swing.JMenu MnHasilUSG,MnHasilEndoskopi,MnCatatanObservasi,MnEdukasi,MnSuratPersetujuan,MnHasilPemeriksaanAlat;
 
-    private synchronized void tampil() {
+    private void tampil() {
         if(ceksukses==false){
             ceksukses=true;
             if(R1.isSelected()==true){
@@ -19877,7 +19878,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
     private synchronized void tampil2() {
         Valid.tabelKosong(tabMode);
-        new SwingWorker<Void, Void>() {
+        new SwingWorker<Void, Object[]>() {
             @Override
             protected Void doInBackground() {
                 try{
@@ -19904,7 +19905,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                 rs.getString("lama"),(namadokter.equals("")?rs.getString("nm_dokter"):dokterranap),rs.getString("kd_kamar"),rs.getString("status_bayar"),rs.getString("agama")
                             };
                             i++;
-                            SwingUtilities.invokeLater(() -> tabMode.addRow(row));
+                            publish(row);
                             psanak=koneksi.prepareStatement(
                                 "select pasien.no_rkm_medis,pasien.nm_pasien,ranap_gabung.no_rawat2,concat(reg_periksa.umurdaftar,' ',reg_periksa.sttsumur)as umur,pasien.no_peserta, "+
                                 "concat(pasien.alamatpj,', ',pasien.kelurahanpj,', ',pasien.kecamatanpj,', ',pasien.kabupatenpj) as alamat "+
@@ -19923,7 +19924,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                         rs.getString("lama"),rs.getString("nm_dokter"),rs.getString("kd_kamar"),rs.getString("status_bayar")
                                     };
                                     i++;
-                                    SwingUtilities.invokeLater(() -> tabMode.addRow(row2));
+                                    publish(row2);
                                 }
                             }catch(Exception ex){
                                 System.out.println("Notifikasi : "+ex);
@@ -19951,6 +19952,13 @@ public class DlgKamarInap extends javax.swing.JDialog {
                 }
                 return null;
             }
+
+                @Override
+                protected void process(List<Object[]> data) {
+                    for (Object[] row : data) {
+                        tabMode.addRow(row);
+                    }
+                }
             @Override
             protected void done() {
                 LCount.setText(""+i);

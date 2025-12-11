@@ -179,6 +179,7 @@ import rekammedis.RMSignInSebelumAnastesi;
 import rekammedis.RMSignOutSebelumMenutupLuka;
 import rekammedis.RMSkriningAdiksiNikotin;
 import rekammedis.RMSkriningAnemia;
+import rekammedis.RMSkriningCURB65;
 import rekammedis.RMSkriningDiabetesMelitus;
 import rekammedis.RMSkriningFrailtySyndrome;
 import rekammedis.RMSkriningHipertensi;
@@ -5333,10 +5334,6 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
             if(akses.getkode().equals("Admin Utama")){
                 simpan();
             }else{
-                /*if(TanggalRegistrasi.getText().equals("")){
-                    TanggalRegistrasi.setText(Sequel.cariIsi("select concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) from reg_periksa where reg_periksa.no_rawat=?",TNoRw.getText()));
-                }
-                if(Sequel.cekTanggalRegistrasi(TanggalRegistrasi.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+"")+" "+cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem())==true){*/
                 if (Sequel.cekTanggalRegistrasiSmc(TNoRw.getText(), Valid.getTglJamSmc(DTPTgl, cmbJam, cmbMnt, cmbDtk))) {
                     simpan();
                 }
@@ -5439,26 +5436,25 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     sukses=true;
                     ttljmdokter=0;ttljmperawat=0;ttlkso=0;ttlpendapatan=0;ttljasasarana=0;ttlbhp=0;ttlmenejemen=0;
                     for(i=0;i<tbRawatDr.getRowCount();i++){
-                        if(tbRawatDr.getValueAt(i,0).toString().equals("true")){
+                        if (tbRawatDr.getValueAt(i, 0).toString().equals("true") && TNoRw.getText().equals(tbRawatDr.getValueAt(i, 1).toString())) {
                             if(akses.getkode().equals("Admin Utama")){
                                 if(Sequel.cariRegistrasi(tbRawatDr.getValueAt(i,1).toString())>0){
                                     JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi, data tidak boleh dihapus.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                     tbRawatDr.setValueAt(false,i,0);
                                     TCari.requestFocus();
                                 }else{
-                                    if(Sequel.queryutf("delete from rawat_jl_dr where no_rawat='"+tbRawatDr.getValueAt(i,1).toString()+
-                                            "' and kd_jenis_prw='"+tbRawatDr.getValueAt(i,10)+
-                                            "' and kd_dokter='"+tbRawatDr.getValueAt(i,5).toString()+
-                                            "' and tgl_perawatan='"+tbRawatDr.getValueAt(i,7).toString()+
-                                            "' and jam_rawat='"+tbRawatDr.getValueAt(i,8).toString()+"'")==true){
-                                        ttljmdokter=ttljmdokter+Double.parseDouble(tbRawatDr.getValueAt(i,11).toString());
-                                        ttlkso=ttlkso+Double.parseDouble(tbRawatDr.getValueAt(i,12).toString());
-                                        ttlpendapatan=ttlpendapatan+Double.parseDouble(tbRawatDr.getValueAt(i,9).toString());
-                                        ttljasasarana=ttljasasarana+Double.parseDouble(tbRawatDr.getValueAt(i,13).toString());
-                                        ttlbhp=ttlbhp+Double.parseDouble(tbRawatDr.getValueAt(i,14).toString());
-                                        ttlmenejemen=ttlmenejemen+Double.parseDouble(tbRawatDr.getValueAt(i,15).toString());
-                                    }else{
-                                        sukses=false;
+                                    if (Sequel.menghapustfSmc("rawat_jl_dr", "no_rawat = ? and kd_jenis_prw = ? and kd_dokter = ? and tgl_perawatan = ? and jam_rawat = ?",
+                                        tbRawatDr.getValueAt(i, 1).toString(), tbRawatDr.getValueAt(i, 10).toString(), tbRawatDr.getValueAt(i, 5).toString(),
+                                        tbRawatDr.getValueAt(i, 7).toString(), tbRawatDr.getValueAt(i, 8).toString()
+                                    )) {
+                                        ttljmdokter += Double.parseDouble(tbRawatDr.getValueAt(i, 11).toString());
+                                        ttlkso += Double.parseDouble(tbRawatDr.getValueAt(i, 12).toString());
+                                        ttlpendapatan += Double.parseDouble(tbRawatDr.getValueAt(i, 9).toString());
+                                        ttljasasarana += Double.parseDouble(tbRawatDr.getValueAt(i, 13).toString());
+                                        ttlbhp += Double.parseDouble(tbRawatDr.getValueAt(i, 14).toString());
+                                        ttlmenejemen += Double.parseDouble(tbRawatDr.getValueAt(i, 15).toString());
+                                    } else {
+                                        sukses = false;
                                     }
                                 }
                             }else{
@@ -5468,19 +5464,18 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                                         tbRawatDr.setValueAt(false,i,0);
                                         TCari.requestFocus();
                                     }else{
-                                        if(Sequel.queryutf("delete from rawat_jl_dr where no_rawat='"+tbRawatDr.getValueAt(i,1).toString()+
-                                                "' and kd_jenis_prw='"+tbRawatDr.getValueAt(i,10)+
-                                                "' and kd_dokter='"+tbRawatDr.getValueAt(i,5).toString()+
-                                                "' and tgl_perawatan='"+tbRawatDr.getValueAt(i,7).toString()+
-                                                "' and jam_rawat='"+tbRawatDr.getValueAt(i,8).toString()+"'")==true){
-                                            ttljmdokter=ttljmdokter+Double.parseDouble(tbRawatDr.getValueAt(i,11).toString());
-                                            ttlkso=ttlkso+Double.parseDouble(tbRawatDr.getValueAt(i,12).toString());
-                                            ttlpendapatan=ttlpendapatan+Double.parseDouble(tbRawatDr.getValueAt(i,9).toString());
-                                            ttljasasarana=ttljasasarana+Double.parseDouble(tbRawatDr.getValueAt(i,13).toString());
-                                            ttlbhp=ttlbhp+Double.parseDouble(tbRawatDr.getValueAt(i,14).toString());
-                                            ttlmenejemen=ttlmenejemen+Double.parseDouble(tbRawatDr.getValueAt(i,15).toString());
-                                        }else{
-                                            sukses=false;
+                                        if (Sequel.menghapustfSmc("rawat_jl_dr", "no_rawat = ? and kd_jenis_prw = ? and kd_dokter = ? and tgl_perawatan = ? and jam_rawat = ?",
+                                            tbRawatDr.getValueAt(i, 1).toString(), tbRawatDr.getValueAt(i, 10).toString(), tbRawatDr.getValueAt(i, 5).toString(),
+                                            tbRawatDr.getValueAt(i, 7).toString(), tbRawatDr.getValueAt(i, 8).toString()
+                                        )) {
+                                            ttljmdokter += Double.parseDouble(tbRawatDr.getValueAt(i, 11).toString());
+                                            ttlkso += Double.parseDouble(tbRawatDr.getValueAt(i, 12).toString());
+                                            ttlpendapatan += Double.parseDouble(tbRawatDr.getValueAt(i, 9).toString());
+                                            ttljasasarana += Double.parseDouble(tbRawatDr.getValueAt(i, 13).toString());
+                                            ttlbhp += Double.parseDouble(tbRawatDr.getValueAt(i, 14).toString());
+                                            ttlmenejemen += Double.parseDouble(tbRawatDr.getValueAt(i, 15).toString());
+                                        } else {
+                                            sukses = false;
                                         }
                                     }
                                 }else{
@@ -5522,7 +5517,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     if(sukses==true){
                         Sequel.Commit();
                         for(i=0;i<tbRawatDr.getRowCount();i++){
-                            if(tbRawatDr.getValueAt(i,0).toString().equals("true")){
+                            if (tbRawatDr.getValueAt(i, 0).toString().equals("true") && TNoRw.getText().equals(tbRawatDr.getValueAt(i, 1).toString())) {
                                 tabModeDr.removeRow(i);
                                 i--;
                             }
@@ -5544,26 +5539,25 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     sukses=true;
                     ttljmdokter=0;ttljmperawat=0;ttlkso=0;ttlpendapatan=0;ttljasasarana=0;ttlbhp=0;ttlmenejemen=0;
                     for(i=0;i<tbRawatPr.getRowCount();i++){
-                        if(tbRawatPr.getValueAt(i,0).toString().equals("true")){
+                        if (tbRawatPr.getValueAt(i, 0).toString().equals("true") && TNoRw.getText().equals(tbRawatPr.getValueAt(i, 1).toString())) {
                             if(akses.getkode().equals("Admin Utama")){
                                 if(Sequel.cariRegistrasi(tbRawatPr.getValueAt(i,1).toString())>0){
                                     JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi, data tidak boleh dihapus.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                     tbRawatPr.setValueAt(false,i,0);
                                     TCari.requestFocus();
                                 }else{
-                                    if(Sequel.queryutf("delete from rawat_jl_pr where no_rawat='"+tbRawatPr.getValueAt(i,1).toString()+
-                                            "' and kd_jenis_prw='"+tbRawatPr.getValueAt(i,10)+
-                                            "' and nip='"+tbRawatPr.getValueAt(i,5).toString()+
-                                            "' and tgl_perawatan='"+tbRawatPr.getValueAt(i,7).toString()+
-                                            "' and jam_rawat='"+tbRawatPr.getValueAt(i,8).toString()+"' ")==true){
-                                        ttljmperawat=ttljmperawat+Double.parseDouble(tbRawatPr.getValueAt(i,11).toString());
-                                        ttlkso=ttlkso+Double.parseDouble(tbRawatPr.getValueAt(i,12).toString());
-                                        ttlpendapatan=ttlpendapatan+Double.parseDouble(tbRawatPr.getValueAt(i,9).toString());
-                                        ttljasasarana=ttljasasarana+Double.parseDouble(tbRawatPr.getValueAt(i,13).toString());
-                                        ttlbhp=ttlbhp+Double.parseDouble(tbRawatPr.getValueAt(i,14).toString());
-                                        ttlmenejemen=ttlmenejemen+Double.parseDouble(tbRawatPr.getValueAt(i,15).toString());
-                                    }else{
-                                        sukses=false;
+                                    if (Sequel.menghapustfSmc("rawat_jl_pr", "no_rawat = ? and kd_jenis_prw = ? and nip = ? and tgl_perawatan = ? and jam_rawat = ?",
+                                        tbRawatPr.getValueAt(i, 1).toString(), tbRawatPr.getValueAt(i, 10).toString(), tbRawatPr.getValueAt(i, 5).toString(),
+                                        tbRawatPr.getValueAt(i, 7).toString(), tbRawatPr.getValueAt(i, 8).toString()
+                                    )) {
+                                        ttljmperawat += Double.parseDouble(tbRawatPr.getValueAt(i, 11).toString());
+                                        ttlkso += Double.parseDouble(tbRawatPr.getValueAt(i, 12).toString());
+                                        ttlpendapatan += Double.parseDouble(tbRawatPr.getValueAt(i, 9).toString());
+                                        ttljasasarana += Double.parseDouble(tbRawatPr.getValueAt(i, 13).toString());
+                                        ttlbhp += Double.parseDouble(tbRawatPr.getValueAt(i, 14).toString());
+                                        ttlmenejemen += Double.parseDouble(tbRawatPr.getValueAt(i, 15).toString());
+                                    } else {
+                                        sukses = false;
                                     }
                                 }
                             }else{
@@ -5573,19 +5567,18 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                                         tbRawatPr.setValueAt(false,i,0);
                                         TCari.requestFocus();
                                     }else{
-                                        if(Sequel.queryutf("delete from rawat_jl_pr where no_rawat='"+tbRawatPr.getValueAt(i,1).toString()+
-                                                "' and kd_jenis_prw='"+tbRawatPr.getValueAt(i,10)+
-                                                "' and nip='"+tbRawatPr.getValueAt(i,5).toString()+
-                                                "' and tgl_perawatan='"+tbRawatPr.getValueAt(i,7).toString()+
-                                                "' and jam_rawat='"+tbRawatPr.getValueAt(i,8).toString()+"' ")==true){
-                                            ttljmperawat=ttljmperawat+Double.parseDouble(tbRawatPr.getValueAt(i,11).toString());
-                                            ttlkso=ttlkso+Double.parseDouble(tbRawatPr.getValueAt(i,12).toString());
-                                            ttlpendapatan=ttlpendapatan+Double.parseDouble(tbRawatPr.getValueAt(i,9).toString());
-                                            ttljasasarana=ttljasasarana+Double.parseDouble(tbRawatPr.getValueAt(i,13).toString());
-                                            ttlbhp=ttlbhp+Double.parseDouble(tbRawatPr.getValueAt(i,14).toString());
-                                            ttlmenejemen=ttlmenejemen+Double.parseDouble(tbRawatPr.getValueAt(i,15).toString());
-                                        }else{
-                                            sukses=false;
+                                        if (Sequel.menghapustfSmc("rawat_jl_pr", "no_rawat = ? and kd_jenis_prw = ? and nip = ? and tgl_perawatan = ? and jam_rawat = ?",
+                                            tbRawatPr.getValueAt(i, 1).toString(), tbRawatPr.getValueAt(i, 10).toString(), tbRawatPr.getValueAt(i, 5).toString(),
+                                            tbRawatPr.getValueAt(i, 7).toString(), tbRawatPr.getValueAt(i, 8).toString()
+                                        )) {
+                                            ttljmperawat += Double.parseDouble(tbRawatPr.getValueAt(i, 11).toString());
+                                            ttlkso += Double.parseDouble(tbRawatPr.getValueAt(i, 12).toString());
+                                            ttlpendapatan += Double.parseDouble(tbRawatPr.getValueAt(i, 9).toString());
+                                            ttljasasarana += Double.parseDouble(tbRawatPr.getValueAt(i, 13).toString());
+                                            ttlbhp += Double.parseDouble(tbRawatPr.getValueAt(i, 14).toString());
+                                            ttlmenejemen += Double.parseDouble(tbRawatPr.getValueAt(i, 15).toString());
+                                        } else {
+                                            sukses = false;
                                         }
                                     }
                                 }else{
@@ -5627,7 +5620,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     if(sukses==true){
                         Sequel.Commit();
                         for(i=0;i<tbRawatPr.getRowCount();i++){
-                            if(tbRawatPr.getValueAt(i,0).toString().equals("true")){
+                            if (tbRawatPr.getValueAt(i, 0).toString().equals("true") && TNoRw.getText().equals(tbRawatPr.getValueAt(i, 1).toString())) {
                                 tabModePr.removeRow(i);
                                 i--;
                             }
@@ -5649,28 +5642,26 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     sukses=true;
                     ttljmdokter=0;ttljmperawat=0;ttlkso=0;ttlpendapatan=0;ttljasasarana=0;ttlbhp=0;ttlmenejemen=0;
                     for(i=0;i<tbRawatDrPr.getRowCount();i++){
-                        if(tbRawatDrPr.getValueAt(i,0).toString().equals("true")){
+                        if (tbRawatDrPr.getValueAt(i, 0).toString().equals("true") && TNoRw.getText().equals(tbRawatDrPr.getValueAt(i, 1).toString())) {
                             if(akses.getkode().equals("Admin Utama")){
                                 if(Sequel.cariRegistrasi(tbRawatDrPr.getValueAt(i,1).toString())>0){
                                     JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi, data tidak boleh dihapus.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                     tbRawatDrPr.setValueAt(false,i,0);
                                     TCari.requestFocus();
                                 }else{
-                                    if(Sequel.queryutf("delete from rawat_jl_drpr where no_rawat='"+tbRawatDrPr.getValueAt(i,1).toString()+
-                                            "' and kd_jenis_prw='"+tbRawatDrPr.getValueAt(i,12)+
-                                            "' and kd_dokter='"+tbRawatDrPr.getValueAt(i,5).toString()+
-                                            "' and nip='"+tbRawatDrPr.getValueAt(i,7).toString()+
-                                            "' and tgl_perawatan='"+tbRawatDrPr.getValueAt(i,9).toString()+
-                                            "' and jam_rawat='"+tbRawatDrPr.getValueAt(i,10).toString()+"' ")==true){
-                                        ttljmdokter=ttljmdokter+Double.parseDouble(tbRawatDrPr.getValueAt(i,13).toString());
-                                        ttljmperawat=ttljmperawat+Double.parseDouble(tbRawatDrPr.getValueAt(i,14).toString());
-                                        ttlkso=ttlkso+Double.parseDouble(tbRawatDrPr.getValueAt(i,15).toString());
-                                        ttlpendapatan=ttlpendapatan+Double.parseDouble(tbRawatDrPr.getValueAt(i,11).toString());
-                                        ttljasasarana=ttljasasarana+Double.parseDouble(tbRawatDrPr.getValueAt(i,16).toString());
-                                        ttlbhp=ttlbhp+Double.parseDouble(tbRawatDrPr.getValueAt(i,17).toString());
-                                        ttlmenejemen=ttlmenejemen+Double.parseDouble(tbRawatDrPr.getValueAt(i,18).toString());
-                                    }else{
-                                        sukses=false;
+                                    if (Sequel.menghapustfSmc("rawat_jl_drpr", "no_rawat = ? and kd_jenis_prw = ? and kd_dokter = ? and nip = ? and tgl_perawatan = ? and jam_rawat = ?",
+                                        tbRawatDrPr.getValueAt(i, 1).toString(), tbRawatDrPr.getValueAt(i, 12).toString(), tbRawatDrPr.getValueAt(i, 5).toString(),
+                                        tbRawatDrPr.getValueAt(i, 7).toString(), tbRawatDrPr.getValueAt(i, 9).toString(), tbRawatDrPr.getValueAt(i, 10).toString()
+                                    )) {
+                                        ttljmdokter += Double.parseDouble(tbRawatDrPr.getValueAt(i, 13).toString());
+                                        ttljmperawat += Double.parseDouble(tbRawatDrPr.getValueAt(i, 14).toString());
+                                        ttlkso += Double.parseDouble(tbRawatDrPr.getValueAt(i, 15).toString());
+                                        ttlpendapatan += Double.parseDouble(tbRawatDrPr.getValueAt(i, 11).toString());
+                                        ttljasasarana += Double.parseDouble(tbRawatDrPr.getValueAt(i, 16).toString());
+                                        ttlbhp += Double.parseDouble(tbRawatDrPr.getValueAt(i, 17).toString());
+                                        ttlmenejemen += Double.parseDouble(tbRawatDrPr.getValueAt(i, 18).toString());
+                                    } else {
+                                        sukses = false;
                                     }
                                 }
                             }else{
@@ -5680,21 +5671,19 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                                         tbRawatDrPr.setValueAt(false,i,0);
                                         TCari.requestFocus();
                                     }else{
-                                        if(Sequel.queryutf("delete from rawat_jl_drpr where no_rawat='"+tbRawatDrPr.getValueAt(i,1).toString()+
-                                                "' and kd_jenis_prw='"+tbRawatDrPr.getValueAt(i,12)+
-                                                "' and kd_dokter='"+tbRawatDrPr.getValueAt(i,5).toString()+
-                                                "' and nip='"+tbRawatDrPr.getValueAt(i,7).toString()+
-                                                "' and tgl_perawatan='"+tbRawatDrPr.getValueAt(i,9).toString()+
-                                                "' and jam_rawat='"+tbRawatDrPr.getValueAt(i,10).toString()+"' ")==true){
-                                            ttljmdokter=ttljmdokter+Double.parseDouble(tbRawatDrPr.getValueAt(i,13).toString());
-                                            ttljmperawat=ttljmperawat+Double.parseDouble(tbRawatDrPr.getValueAt(i,14).toString());
-                                            ttlkso=ttlkso+Double.parseDouble(tbRawatDrPr.getValueAt(i,15).toString());
-                                            ttlpendapatan=ttlpendapatan+Double.parseDouble(tbRawatDrPr.getValueAt(i,11).toString());
-                                            ttljasasarana=ttljasasarana+Double.parseDouble(tbRawatDrPr.getValueAt(i,16).toString());
-                                            ttlbhp=ttlbhp+Double.parseDouble(tbRawatDrPr.getValueAt(i,17).toString());
-                                            ttlmenejemen=ttlmenejemen+Double.parseDouble(tbRawatDrPr.getValueAt(i,18).toString());
-                                        }else{
-                                            sukses=false;
+                                        if (Sequel.menghapustfSmc("rawat_jl_drpr", "no_rawat = ? and kd_jenis_prw = ? and kd_dokter = ? and nip = ? and tgl_perawatan = ? and jam_rawat = ?",
+                                            tbRawatDrPr.getValueAt(i, 1).toString(), tbRawatDrPr.getValueAt(i, 12).toString(), tbRawatDrPr.getValueAt(i, 5).toString(),
+                                            tbRawatDrPr.getValueAt(i, 7).toString(), tbRawatDrPr.getValueAt(i, 9).toString(), tbRawatDrPr.getValueAt(i, 10).toString()
+                                        )) {
+                                            ttljmdokter += Double.parseDouble(tbRawatDrPr.getValueAt(i, 13).toString());
+                                            ttljmperawat += Double.parseDouble(tbRawatDrPr.getValueAt(i, 14).toString());
+                                            ttlkso += Double.parseDouble(tbRawatDrPr.getValueAt(i, 15).toString());
+                                            ttlpendapatan += Double.parseDouble(tbRawatDrPr.getValueAt(i, 11).toString());
+                                            ttljasasarana += Double.parseDouble(tbRawatDrPr.getValueAt(i, 16).toString());
+                                            ttlbhp += Double.parseDouble(tbRawatDrPr.getValueAt(i, 17).toString());
+                                            ttlmenejemen += Double.parseDouble(tbRawatDrPr.getValueAt(i, 18).toString());
+                                        } else {
+                                            sukses = false;
                                         }
                                     }
                                 }else{
@@ -5740,7 +5729,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                     if(sukses==true){
                         Sequel.Commit();
                         for(i=0;i<tbRawatDrPr.getRowCount();i++){
-                            if(tbRawatDrPr.getValueAt(i,0).toString().equals("true")){
+                            if (tbRawatDrPr.getValueAt(i, 0).toString().equals("true") && TNoRw.getText().equals(tbRawatDrPr.getValueAt(i, 1).toString())) {
                                 tabModeDrPr.removeRow(i);
                                 i--;
                             }
@@ -10444,6 +10433,24 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         }
     }
 
+    private void BtnSkriningCURB65ActionPerformed(java.awt.event.ActionEvent evt) {
+        if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            TCari.requestFocus();
+        }else{
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            RMSkriningCURB65 form=new RMSkriningCURB65(null,false);
+            form.isCek();
+            form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            form.setLocationRelativeTo(internalFrame1);
+            form.setVisible(true);
+            form.emptTeks();
+            form.setNoRm(TNoRw.getText(),DTPCari2.getDate());
+            form.tampil();
+            this.setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
     /**
     * @param args the command line arguments
     */
@@ -10812,7 +10819,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                           BtnCatatanObservasiHemodialisa,BtnSkriningKesehatanGigiMulutDewasa,BtnSkriningRisikoKankerServiks,BtnCatatanCairanHemodialisa,BtnSkriningKesehatanGigiMulutLansia,BtnSkriningIndraPendengaran,
                           BtnCatatanPengkajianPaskaOperasi,BtnSkriningFrailtySyndrome,BtnCatatanObservasiBayi,BtnChecklistKesiapanAnestesi,BtnHasilPemeriksaanSlitLamp,BtnHasilPemeriksaanOCT,BtnSkriningInstrumenACRS,
                           BtnChecklistKriteriaMasukNICU,BtnChecklistKriteriaMasukPICU,BtnSkriningInstrumenMentalEmosional,BtnSkriningInstrumenAMT,BtnSkriningPneumoniaSeverityIndex,BtnAwalMedisJantung,BtnAwalMedisUrologi,
-                          BtnHasilPemeriksaanTreadmill,BtnHasilPemeriksaanECHOPediatrik;
+                          BtnHasilPemeriksaanTreadmill,BtnHasilPemeriksaanECHOPediatrik,BtnSkriningCURB65;
 
     private void tampilDr() {
         Valid.tabelKosong(tabModeDr);
@@ -11731,6 +11738,10 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         }
         BtnSkriningPneumoniaSeverityIndex.setVisible(akses.getskrining_pneumonia_severity_index());
         if(akses.getskrining_pneumonia_severity_index()==true){
+            tinggi=tinggi+24;
+        }
+        BtnSkriningCURB65.setVisible(akses.getskrining_curb65());
+        if(akses.getskrining_curb65()==true){
             tinggi=tinggi+24;
         }
         BtnSkriningKankerKolorektal.setVisible(akses.getskrining_kanker_kolorektal());
@@ -13660,6 +13671,19 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         BtnSkriningPneumoniaSeverityIndex.setRoundRect(false);
         BtnSkriningPneumoniaSeverityIndex.addActionListener(this::BtnSkriningPneumoniaSeverityIndexActionPerformed);
 
+        BtnSkriningCURB65 = new widget.Button();
+        BtnSkriningCURB65.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png")));
+        BtnSkriningCURB65.setText("Skrining CURB-65");
+        BtnSkriningCURB65.setFocusPainted(false);
+        BtnSkriningCURB65.setFont(new java.awt.Font("Tahoma", 0, 11));
+        BtnSkriningCURB65.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnSkriningCURB65.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnSkriningCURB65.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnSkriningCURB65.setName("BtnSkriningCURB65");
+        BtnSkriningCURB65.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnSkriningCURB65.setRoundRect(false);
+        BtnSkriningCURB65.addActionListener(this::BtnSkriningPneumoniaSeverityIndexActionPerformed);
+
         BtnSkriningInstrumenSRQ = new widget.Button();
         BtnSkriningInstrumenSRQ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png")));
         BtnSkriningInstrumenSRQ.setText("Skrining Instrumen SRQ");
@@ -13942,6 +13966,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         FormMenu.add(BtnSkriningTBC);
         FormMenu.add(BtnSkriningPUMA);
         FormMenu.add(BtnSkriningPneumoniaSeverityIndex);
+        FormMenu.add(BtnSkriningCURB65);
         FormMenu.add(BtnSkriningAdiksiNikotin);
         FormMenu.add(BtnSkriningThalassemia);
         FormMenu.add(BtnSkriningInstrumenSDQ);
