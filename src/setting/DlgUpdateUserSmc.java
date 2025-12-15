@@ -473,6 +473,7 @@ public class DlgUpdateUserSmc extends javax.swing.JDialog {
         namaakses.put("akses_dokter_lain_rawat_jalan", "[A] Akses Ke Dokter Lain Rawat Jalan");
         namaakses.put("booking_mcu_perusahaan", "[A] Booking MCU Perusahaan");
         namaakses.put("pindah_kamar_pilihan_2", "[A] Pindah Kamar Pilihan 2");
+        namaakses.put("apt_restore", "[A] Restore data APT");        
         namaakses.put("barcoderalan", "[B] Barcode Ralan");
         namaakses.put("barcoderanap", "[B] Barcode Ranap");
         namaakses.put("pelanggan_lab_kesehatan_lingkungan", "[B] Pelanggan Lab Kesehatan Lingkungan");

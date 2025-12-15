@@ -56,7 +56,7 @@ public class DlgBarang extends javax.swing.JDialog {
     private ResultSet rs, rs2, rs3;
     private int i = 0;
     public String aktifkanbatch="no",pengaturanharga=Sequel.cariIsi("select set_harga_obat.setharga from set_harga_obat");
-    private String kdlokasi = "", nmlokasi = "", tanggal = "0000-00-00",qrystok="";
+    private String kdlokasi = "", nmlokasi = "", tanggal = "0000-00-00",qrystok="",apt_restore="";
 
 
     public DlgBarang(java.awt.Frame parent, boolean modal) {
@@ -3396,7 +3396,11 @@ public class DlgBarang extends javax.swing.JDialog {
         if(akses.getkode().equals("Admin Utama")){
             MnRestore.setEnabled(true);
         }else{
-            MnRestore.setEnabled(false);
+            if(akses.getapt_restore()){
+                MnRestore.setEnabled(true);
+            }else{
+                MnRestore.setEnabled(false);
+            }
         }
     }
 
