@@ -702,7 +702,7 @@
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{tanggal}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="354" y="8" width="51" height="15" forecolor="#000000" backcolor="#F0F0DC" uuid="01bd8522-00a9-4755-a87b-f0f9f072cd9a"/>

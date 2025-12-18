@@ -883,10 +883,11 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
                 param.put("emailrs",akses.getemailrs());
                 param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
                 Valid.MyReportqry("rptBrDiet.jasper","report","::[ Data Pemberian Diet ]::",
-                    "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.umur,concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as namakamar,"+
+                    "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.umur,penjab.png_jawab as jaminan,bangsal.nm_bangsal as namakamar,"+
                     "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet,detail_beri_diet.catatan " +
                     "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
                     "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
+                    "inner join penjab on reg_periksa.kd_pj=penjab.kd_pj "+                            
                     "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
                     "inner join kamar on detail_beri_diet.kd_kamar=kamar.kd_kamar "+
                     "inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal "+

@@ -52,7 +52,7 @@ public class koneksiDB {
                                     "  #    ___) || | | |  | ||  _ <  ___) | | . \\ | | | || (_| || | | | / /| (_| |\n" +
                                     "  #   |____/|___||_|  |_||_| \\_\\|____/  |_|\\_\\|_| |_| \\__,_||_| |_|/___|\\__,_|\n" +
                                     "  #                                                                           \n\n"+
-                                    "  Versi : 25fb5525fe31f5783c2bed0019eba7adca28c37d 12/12/2025 \n\n"+
+                                    "  Versi : c1733dad5f47a0e739e6cdcc9d66919441bac966 15/12/2025 \n\n"+
                                     "  Lisensi yang dianut di software ini https://en.wikipedia.org/wiki/Aladdin_Free_Public_License \n"+                                    
                                     "  Informasi dan panduan bisa dicek di halaman https://github.com/mas-elkhanza/SIMRS-Khanza/wiki \n"+                                    
                                     "  Bagi yang ingin berdonasi untuk pengembangan aplikasi ini bisa ke BSI 1015369872 atas nama Windiarto");
