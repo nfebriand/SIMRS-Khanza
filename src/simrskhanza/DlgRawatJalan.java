@@ -7341,7 +7341,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
             dlgrwinap.setLocationRelativeTo(internalFrame1);
             dlgrwinap.isCek();
             dlgrwinap.setNoRm2(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),"ralan");
-            dlgrwinap.tampilPO();
+            dlgrwinap.tampilPO3();
             dlgrwinap.setVisible(true);
             this.setCursor(Cursor.getDefaultCursor());
         }
@@ -7722,7 +7722,6 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                 resep.setLocationRelativeTo(internalFrame1);
                 resep.setNoRm(TNoRw.getText(),KdDok.getText(),TDokter.getText(),TNoRM.getText()+" "+TPasien.getText());
                 resep.isCek();
-                resep.tampilobat();
                 resep.setVisible(true);
             }
         }
@@ -13682,7 +13681,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         BtnSkriningCURB65.setName("BtnSkriningCURB65");
         BtnSkriningCURB65.setPreferredSize(new java.awt.Dimension(190, 23));
         BtnSkriningCURB65.setRoundRect(false);
-        BtnSkriningCURB65.addActionListener(this::BtnSkriningPneumoniaSeverityIndexActionPerformed);
+        BtnSkriningCURB65.addActionListener(this::BtnSkriningCURB65ActionPerformed);
 
         BtnSkriningInstrumenSRQ = new widget.Button();
         BtnSkriningInstrumenSRQ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png")));

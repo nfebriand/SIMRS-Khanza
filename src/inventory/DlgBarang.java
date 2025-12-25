@@ -1635,7 +1635,6 @@ public class DlgBarang extends javax.swing.JDialog {
             }
         }
         LCount.setText("" + tabMode.getRowCount());
-        emptTeks();
     }//GEN-LAST:event_BtnHapusActionPerformed
 
     private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnHapusKeyPressed
@@ -2883,7 +2882,7 @@ public class DlgBarang extends javax.swing.JDialog {
         }
     }
 
-    public void tampil3() {
+    private void tampil3() {
         Valid.tabelKosong(tabMode);
         try {
             if(aktifkanbatch.equals("yes")){
@@ -3028,6 +3027,10 @@ public class DlgBarang extends javax.swing.JDialog {
     }
 
     public void tampil4(String NoRetur) {
+        runBackground(() ->tampilretur(NoRetur));
+    }
+    
+    private void tampilretur(String NoRetur) {
         if(akses.getform().equals("DlgReturJual")){
             if(aktifkanbatch.equals("yes")){
                 Valid.tabelKosong(tabMode);

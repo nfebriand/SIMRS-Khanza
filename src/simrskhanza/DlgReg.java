@@ -7789,7 +7789,7 @@ public final class DlgReg extends javax.swing.JDialog {
                     dlgrwinap.setLocationRelativeTo(internalFrame1);
                     dlgrwinap.isCek();
                     dlgrwinap.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),"ralan");
-                    dlgrwinap.tampilPO();
+                    dlgrwinap.tampilPO3();
                     dlgrwinap.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -7819,7 +7819,7 @@ public final class DlgReg extends javax.swing.JDialog {
                                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                                  DlgLhtPiutang piutang=new DlgLhtPiutang(null,false);
                                  piutang.setNoRm(TNoRM.getText(),rs.getDate(1));
-                                 piutang.tampil();
+                                 piutang.tampil2();
                                  piutang.isCek();
                                  piutang.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                  piutang.setLocationRelativeTo(internalFrame1);
@@ -8244,7 +8244,7 @@ public final class DlgReg extends javax.swing.JDialog {
                     resep.emptTeks();
                     resep.isCek();
                     resep.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),CmbJam.getSelectedItem().toString(),CmbMenit.getSelectedItem().toString(),CmbDetik.getSelectedItem().toString(),"ralan");
-                    resep.tampil();
+                    resep.tampil2();
                     resep.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -9819,7 +9819,7 @@ public final class DlgReg extends javax.swing.JDialog {
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),4).toString(),
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),5).toString()
                     );
-                    dlgrwinap.tampilPO();
+                    dlgrwinap.tampilPO3();
                     dlgrwinap.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -9875,7 +9875,7 @@ public final class DlgReg extends javax.swing.JDialog {
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),4).toString(),
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),5).toString(),"ralan"
                     );
-                    resep.tampil();
+                    resep.tampil2();
                     resep.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -9903,7 +9903,7 @@ public final class DlgReg extends javax.swing.JDialog {
                                     this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                                      DlgLhtPiutang piutang=new DlgLhtPiutang(null,false);
                                      piutang.setNoRm(tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),6).toString(),rs.getDate(1));
-                                     piutang.tampil();
+                                     piutang.tampil2();
                                      piutang.isCek();
                                      piutang.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                      piutang.setLocationRelativeTo(internalFrame1);
@@ -10619,7 +10619,7 @@ public final class DlgReg extends javax.swing.JDialog {
                                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                                  DlgLhtPiutang piutang=new DlgLhtPiutang(null,false);
                                  piutang.setNoRm(TNoRM.getText(),rs.getDate(1));
-                                 piutang.tampil();
+                                 piutang.tampil2();
                                  piutang.isCek();
                                  piutang.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                  piutang.setLocationRelativeTo(internalFrame1);

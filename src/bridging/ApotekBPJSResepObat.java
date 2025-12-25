@@ -1557,27 +1557,17 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     }
                     
                     if(sukses==true){
-                        Sequel.queryu("delete from tampjurnal");    
+                        Sequel.deleteTampJurnal();
                         if(ttljual>0){
-                            if(Sequel.menyimpantf2("tampjurnal","'"+Suspen_Piutang_Obat_Ralan+"','Suspen Piutang Obat Ralan','"+ttljual+"','0'","Rekening")==false){
-                                sukses=false;
-                            }    
-                            if(Sequel.menyimpantf2("tampjurnal","'"+Obat_Ralan+"','Pendapatan Obat Rawat Jalan','0','"+ttljual+"'","Rekening")==false){
-                                sukses=false;
-                            }                              
+                            if (sukses) sukses = Sequel.insertTampJurnal(Suspen_Piutang_Obat_Ralan, "Suspen Piutang Obat Ralan", ttljual, 0);
+                            if (sukses) sukses = Sequel.insertTampJurnal(Obat_Ralan, "Pendapatan Obat Rawat Jalan", 0, ttljual);
                         }
                         if(ttlhpp>0){
-                            if(Sequel.menyimpantf2("tampjurnal","'"+HPP_Obat_Rawat_Jalan+"','HPP Persediaan Obat Rawat Jalan','"+ttlhpp+"','0'","Rekening")==false){
-                                sukses=false;
-                            }    
-                            if(Sequel.menyimpantf2("tampjurnal","'"+Persediaan_Obat_Rawat_Jalan+"','Persediaan Obat Rawat Jalan','0','"+ttlhpp+"'","Rekening")==false){
-                                sukses=false;
-                            }                              
+                            if (sukses) sukses = Sequel.insertTampJurnal(HPP_Obat_Rawat_Jalan, "HPP Persediaan Obat Rawat Jalan", ttlhpp, 0);
+                            if (sukses) sukses = Sequel.insertTampJurnal(Persediaan_Obat_Rawat_Jalan, "Persediaan Obat Rawat Jalan", 0, ttlhpp);
                         }
-                        if(sukses==true){
-                            if((ttljual>0)||(ttlhpp>0)){
-                                sukses=jur.simpanJurnal(TNoRw.getText(),"U","PEMBERIAN OBAT RAWAT JALAN PASIEN "+TNoRM.getText()+" "+TPasien.getText()+", DIPOSTING OLEH "+akses.getkode());     
-                            }
+                        if (ttljual > 0 || ttlhpp > 0) {
+                            if (sukses) sukses = jur.simpanJurnal(TNoRw.getText(), "U", "PEMBERIAN OBAT RAWAT JALAN PASIEN " + TNoRM.getText() + " " + TPasien.getText() + ", DIPOSTING OLEH " + akses.getkode());
                         }
                     }
                     
@@ -1613,7 +1603,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                 resep.setNoRm(TNoRw.getText(),DTPTgl.getDate(),DTPTgl.getDate(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(),"ralan");
                                 resep.setDokterRalan();
                             }
-                            resep.tampil();
+                            resep.tampil2();
                             resep.setVisible(true);
                         }
                         dispose();
@@ -1656,7 +1646,9 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_ppBersihkanActionPerformed
 
 private void JeniskelasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JeniskelasItemStateChanged
-       tampilcacheberiobat();
+       if(this.isActive()==true){
+           tampilcacheberiobat();
+       }
 }//GEN-LAST:event_JeniskelasItemStateChanged
 
 private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JeniskelasKeyPressed
@@ -1688,7 +1680,7 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                 resep.setNoRm(TNoRw.getText(),DTPTgl.getDate(),DTPTgl.getDate(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(),"ralan");
                 resep.setDokterRalan();
             }
-            resep.tampil();
+            resep.tampil2();
             resep.setVisible(true);
         }
     }//GEN-LAST:event_ChkNoResepItemStateChanged
