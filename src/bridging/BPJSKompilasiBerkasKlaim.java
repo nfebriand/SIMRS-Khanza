@@ -97,7 +97,7 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
         KODEPJBPJS = Sequel.cariIsiSmc("select password_asuransi.kd_pj from password_asuransi"),
         NAMAPJBPJS = Sequel.cariIsiSmc("select penjab.png_jawab from penjab where penjab.kd_pj = ?", KODEPJBPJS),
         KODEPPKBPJS = Sequel.cariIsiSmc("select setting.kode_ppk from setting limit 1") + "%";
-    private String finger = "", tanggalExport = "",
+    private String finger = "", tanggalExport = "", tanggal = "", rs = "",
         gunakanTanggalExport = koneksiDB.KOMPILASIBERKASGUNAKANTANGGALEXPORT(),
         aplikasiPDF = koneksiDB.KOMPILASIBERKASAPLIKASIPDF(),
         kategoriUploadBerkas = "";
@@ -4937,8 +4937,8 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
                 exportSEP("002");
                 exportSKDP("003");            
                 exportTriaseIGD("004");
-                exportAwalMedisIGD("005");
-                exportAwalMedisRalanSesuaiPoli("006");               
+            //    exportAwalMedisIGD("005");
+            //    exportAwalMedisRalanSesuaiPoli("006");               
                 exportRiwayatPasien("007"); 
                 exportResumeRalan("008");                
                 exportBilling("009");
