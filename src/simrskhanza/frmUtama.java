@@ -25,9 +25,14 @@ import bridging.ApotekBPJSCekReferensiPoli;
 import bridging.ApotekBPJSCekReferensiSettingPPK;
 import bridging.ApotekBPJSCekReferensiSpesialistik;
 import bridging.ApotekBPJSDaftarPelayananObat;
+import bridging.ApotekBPJSDaftarPelayananObat2SMC;
+import bridging.ApotekBPJSEditResepObatSMC;
+import bridging.ApotekBPJSKirimResepObatSMC;
 import bridging.ApotekBPJSKunjunganSEP;
 import bridging.ApotekBPJSMapingObat;
 import bridging.ApotekBPJSMonitoringKlaim;
+import bridging.ApotekBPJSRiwayatPelayananObatSMC;
+import bridging.ApotekBPJSRiwayatPelayananResepSMC;
 import bridging.BPJSAntreanPerKodebooking;
 import bridging.BPJSAntreanPerTanggal;
 import bridging.BPJSCekDataIndukKecelakaan;
@@ -1920,7 +1925,7 @@ public class frmUtama extends javax.swing.JFrame {
         internalFrame3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(100, 125, 90), 1, true), ":: Silahkan Anda Login ::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame3.setName("internalFrame3"); // NOI18N
         internalFrame3.setRequestFocusEnabled(false);
-        internalFrame3.setWarnaAtas(new java.awt.Color(250, 215, 215));
+        internalFrame3.setWarnaAtas(new java.awt.Color(210, 240, 210));
         internalFrame3.setLayout(null);
 
         panelGlass1.setBackground(java.awt.Color.red);
@@ -2110,7 +2115,7 @@ public class frmUtama extends javax.swing.JFrame {
 
         tanggal.setEditable(false);
         tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29/12/2025" }));
+        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30/12/2025" }));
         tanggal.setDisplayFormat("dd/MM/yyyy");
         tanggal.setName("tanggal"); // NOI18N
         tanggal.setOpaque(false);
@@ -7218,7 +7223,7 @@ public class frmUtama extends javax.swing.JFrame {
         jSeparator4.setBackground(new java.awt.Color(0, 158, 96));
         jSeparator4.setForeground(new java.awt.Color(0, 158, 96));
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 1, 122)));
+        jSeparator4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 158, 96)));
         jSeparator4.setName("jSeparator4"); // NOI18N
         jSeparator4.setOpaque(true);
         jSeparator4.setPreferredSize(new java.awt.Dimension(1, 36));
@@ -7263,7 +7268,7 @@ public class frmUtama extends javax.swing.JFrame {
         jSeparator5.setBackground(new java.awt.Color(0, 158, 96));
         jSeparator5.setForeground(new java.awt.Color(0, 158, 96));
         jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 1, 122)));
+        jSeparator5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 158, 96)));
         jSeparator5.setName("jSeparator5"); // NOI18N
         jSeparator5.setOpaque(true);
         jSeparator5.setPreferredSize(new java.awt.Dimension(1, 36));
@@ -7323,7 +7328,7 @@ public class frmUtama extends javax.swing.JFrame {
         jSeparator9.setBackground(new java.awt.Color(0, 158, 96));
         jSeparator9.setForeground(new java.awt.Color(0, 158, 96));
         jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 1, 122)));
+        jSeparator9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 158, 96)));
         jSeparator9.setName("jSeparator9"); // NOI18N
         jSeparator9.setOpaque(true);
         jSeparator9.setPreferredSize(new java.awt.Dimension(1, 36));
@@ -7368,7 +7373,7 @@ public class frmUtama extends javax.swing.JFrame {
         jSeparator7.setBackground(new java.awt.Color(0, 158, 96));
         jSeparator7.setForeground(new java.awt.Color(0, 158, 96));
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 1, 122)));
+        jSeparator7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 158, 96)));
         jSeparator7.setName("jSeparator7"); // NOI18N
         jSeparator7.setOpaque(true);
         jSeparator7.setPreferredSize(new java.awt.Dimension(1, 36));
@@ -9121,7 +9126,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgBayarPiutang bayarpiutang=new DlgBayarPiutang(this,false);
-        bayarpiutang.tampil();
         bayarpiutang.emptTeks();
         bayarpiutang.isCek();
         bayarpiutang.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
@@ -11394,7 +11398,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         KeuanganRincianPiutangPasien billing=new KeuanganRincianPiutangPasien(this,false);
-        billing.tampil();
         billing.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         billing.setLocationRelativeTo(PanelUtama);
         billing.setVisible(true);
@@ -12008,7 +12011,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         KeuanganRekapPoliAnak aplikasi=new KeuanganRekapPoliAnak(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -27714,6 +27716,11 @@ public class frmUtama extends javax.swing.JFrame {
 
             if(akses.getduta_parkir_rekap_keluar()==true){
                 Panelmenu.add(btnRekapKeluarDutaParking);
+                jmlmenu++;
+            }
+
+            if (akses.getbpjs_daftar_pelayanan_obat_apotek()) {
+                Panelmenu.add(btnBPJSDaftarPelayananObat2Apotek);
                 jmlmenu++;
             }
         }else if(cmbMenu.getSelectedIndex()==12){
@@ -44095,34 +44102,6 @@ public class frmUtama extends javax.swing.JFrame {
                 jmlmenu++;
             }
         }
-
-        if (akses.getbpjs_kompilasi_berkas_klaim()) {
-            if (btnBPJSKompilasiBerkasKlaim.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
-                Panelmenu.add(btnBPJSKompilasiBerkasKlaim);
-                jmlmenu++;
-            }
-        }
-
-        if (akses.getadmin()) {
-            if (btnSetAksesEditSementara.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
-                Panelmenu.add(btnSetAksesEditSementara);
-                jmlmenu++;
-            }
-        }
-
-        if (akses.getbpjs_antrean_pertanggal()) {
-            if (btnBPJSAntreanPerKodebookingMobileJKN.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
-                Panelmenu.add(btnBPJSAntreanPerKodebookingMobileJKN);
-                jmlmenu++;
-            }
-        }
-
-        if (akses.getadmin()) {
-            if (btnSetTampilJenisObatResep.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
-                Panelmenu.add(btnSetTampilJenisObatResep);
-                jmlmenu++;
-            }
-        }
     }
 
     private void initKhanza() {
@@ -49770,7 +49749,9 @@ public class frmUtama extends javax.swing.JFrame {
         btnEEksekutif.addActionListener(this::btnEEksekutifActionPerformed);
     }
 
-    private widget.ButtonBig btnBPJSKompilasiBerkasKlaim, btnUserSmc, btnSetAksesEditSementara, btnBPJSAntreanPerKodebookingMobileJKN, btnSetTampilJenisObatResep, btnSetPintuPoliSmc;
+    private widget.ButtonBig btnBPJSKompilasiBerkasKlaim, btnUserSmc, btnSetAksesEditSementara, btnBPJSAntreanPerKodebookingMobileJKN, btnSetTampilJenisObatResep, btnSetPintuPoliSmc,
+                             btnBPJSDaftarPelayananObat2Apotek, btnBPJSKirimObatApotek, btnBPJSKirimEditObatApotek, btnBPJSRiwayatPelayananObatApotek,
+                             btnBPJSRiwayatPelayananResepApotek;
 
     private void initSMC() {
         btnBPJSKompilasiBerkasKlaim = new widget.ButtonBig();
@@ -49820,6 +49801,46 @@ public class frmUtama extends javax.swing.JFrame {
         btnSetPintuPoliSmc.setName("btnSetPintuPoliSmc");
         btnSetPintuPoliSmc.setPreferredSize(new java.awt.Dimension(200, 90));
         btnSetPintuPoliSmc.addActionListener(this::btnSetPintuPoliSmcActionPerformed);
+
+        btnBPJSDaftarPelayananObat2Apotek = new widget.ButtonBig();
+        btnBPJSDaftarPelayananObat2Apotek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/bpjs_apotek.png")));
+        btnBPJSDaftarPelayananObat2Apotek.setText("Daftar Pelayanan Obat 2 Apotek BPJS");
+        btnBPJSDaftarPelayananObat2Apotek.setIconTextGap(0);
+        btnBPJSDaftarPelayananObat2Apotek.setName("btnBPJSDaftarPelayananObat2Apotek");
+        btnBPJSDaftarPelayananObat2Apotek.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnBPJSDaftarPelayananObat2Apotek.addActionListener(this::btnBPJSDaftarPelayananObat2ApotekActionPerformed);
+
+        btnBPJSKirimObatApotek = new widget.ButtonBig();
+        btnBPJSKirimObatApotek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/bpjs_apotek.png")));
+        btnBPJSKirimObatApotek.setText("Kirim Obat Apotek BPJS");
+        btnBPJSKirimObatApotek.setIconTextGap(0);
+        btnBPJSKirimObatApotek.setName("btnBPJSKirimObatApotek");
+        btnBPJSKirimObatApotek.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnBPJSKirimObatApotek.addActionListener(this::btnBPJSKirimObatApotekActionPerformed);
+
+        btnBPJSKirimEditObatApotek = new widget.ButtonBig();
+        btnBPJSKirimEditObatApotek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/bpjs_apotek.png")));
+        btnBPJSKirimEditObatApotek.setText("Edit Kirim Obat Apotek BPJS");
+        btnBPJSKirimEditObatApotek.setIconTextGap(0);
+        btnBPJSKirimEditObatApotek.setName("btnBPJSKirimEditObatApotek");
+        btnBPJSKirimEditObatApotek.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnBPJSKirimEditObatApotek.addActionListener(this::btnBPJSKirimEditObatApotekActionPerformed);
+
+        btnBPJSRiwayatPelayananObatApotek = new widget.ButtonBig();
+        btnBPJSRiwayatPelayananObatApotek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/bpjs_apotek.png")));
+        btnBPJSRiwayatPelayananObatApotek.setText("Riwayat Pelayanan Obat Apotek BPJS");
+        btnBPJSRiwayatPelayananObatApotek.setIconTextGap(0);
+        btnBPJSRiwayatPelayananObatApotek.setName("btnBPJSRiwayatPelayananObatApotek");
+        btnBPJSRiwayatPelayananObatApotek.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnBPJSRiwayatPelayananObatApotek.addActionListener(this::btnBPJSRiwayatPelayananObatApotekActionPerformed);
+
+        btnBPJSRiwayatPelayananResepApotek = new widget.ButtonBig();
+        btnBPJSRiwayatPelayananResepApotek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/bpjs_apotek.png")));
+        btnBPJSRiwayatPelayananResepApotek.setText("Riwayat Pelayanan Resep Apotek BPJS");
+        btnBPJSRiwayatPelayananResepApotek.setIconTextGap(0);
+        btnBPJSRiwayatPelayananResepApotek.setName("btnBPJSRiwayatPelayananResepApotek");
+        btnBPJSRiwayatPelayananResepApotek.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnBPJSRiwayatPelayananResepApotek.addActionListener(this::btnBPJSRiwayatPelayananResepApotekActionPerformed);
     }
 
     private void isComboSMC() {
@@ -49831,6 +49852,26 @@ public class frmUtama extends javax.swing.JFrame {
 
             if (akses.getbpjs_antrean_pertanggal()) {
                 Panelmenu.add(btnBPJSAntreanPerKodebookingMobileJKN);
+                jmlmenu++;
+            }
+
+            if (akses.getbpjs_kirim_obat_smc()) {
+                Panelmenu.add(btnBPJSKirimObatApotek);
+                jmlmenu++;
+            }
+
+            if (akses.getbpjs_edit_kirim_obat_smc()) {
+                Panelmenu.add(btnBPJSKirimEditObatApotek);
+                jmlmenu++;
+            }
+
+            if (akses.getbpjs_riwayat_pelayanan_obat_smc()) {
+                Panelmenu.add(btnBPJSRiwayatPelayananObatApotek);
+                jmlmenu++;
+            }
+
+            if (akses.getbpjs_riwayat_pelayanan_resep_smc()) {
+                Panelmenu.add(btnBPJSRiwayatPelayananResepApotek);
                 jmlmenu++;
             }
         } else if (cmbMenu.getSelectedIndex() == 19) {
@@ -49886,6 +49927,31 @@ public class frmUtama extends javax.swing.JFrame {
             Panelmenu.add(btnSetPintuPoliSmc);
             jmlmenu++;
         }
+
+        if (akses.getbpjs_daftar_pelayanan_obat_apotek()) {
+            Panelmenu.add(btnBPJSDaftarPelayananObat2Apotek);
+            jmlmenu++;
+        }
+
+        if (akses.getbpjs_kirim_obat_smc()) {
+            Panelmenu.add(btnBPJSKirimObatApotek);
+            jmlmenu++;
+        }
+
+        if (akses.getbpjs_edit_kirim_obat_smc()) {
+            Panelmenu.add(btnBPJSKirimEditObatApotek);
+            jmlmenu++;
+        }
+
+        if (akses.getbpjs_riwayat_pelayanan_obat_smc()) {
+            Panelmenu.add(btnBPJSRiwayatPelayananObatApotek);
+            jmlmenu++;
+        }
+
+        if (akses.getbpjs_riwayat_pelayanan_resep_smc()) {
+            Panelmenu.add(btnBPJSRiwayatPelayananResepApotek);
+            jmlmenu++;
+        }
     }
 
     private void isCariIsiSMC() {
@@ -49904,8 +49970,8 @@ public class frmUtama extends javax.swing.JFrame {
         }
 
         if (akses.getbpjs_antrean_pertanggal()) {
-            if (btnSetAksesEditSementara.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
-                Panelmenu.add(btnSetAksesEditSementara);
+            if (btnBPJSAntreanPerKodebookingMobileJKN.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnBPJSAntreanPerKodebookingMobileJKN);
                 jmlmenu++;
             }
         }
@@ -49927,6 +49993,41 @@ public class frmUtama extends javax.swing.JFrame {
         if (akses.getset_pintu_poli()) {
             if (btnSetPintuPoliSmc.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
                 Panelmenu.add(btnSetPintuPoliSmc);
+                jmlmenu++;
+            }
+        }
+
+        if (akses.getbpjs_daftar_pelayanan_obat_apotek()) {
+            if (btnBPJSDaftarPelayananObat2Apotek.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnBPJSDaftarPelayananObat2Apotek);
+                jmlmenu++;
+            }
+        }
+
+        if (akses.getbpjs_kirim_obat_smc()) {
+            if (btnBPJSRiwayatPelayananResepApotek.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnBPJSKirimObatApotek);
+                jmlmenu++;
+            }
+        }
+
+        if (akses.getbpjs_edit_kirim_obat_smc()) {
+            if (btnBPJSRiwayatPelayananResepApotek.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnBPJSKirimEditObatApotek);
+                jmlmenu++;
+            }
+        }
+
+        if (akses.getbpjs_riwayat_pelayanan_obat_smc()) {
+            if (btnBPJSRiwayatPelayananResepApotek.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnBPJSRiwayatPelayananObatApotek);
+                jmlmenu++;
+            }
+        }
+
+        if (akses.getbpjs_riwayat_pelayanan_resep_smc()) {
+            if (btnBPJSRiwayatPelayananResepApotek.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnBPJSRiwayatPelayananResepApotek);
                 jmlmenu++;
             }
         }
@@ -50019,6 +50120,61 @@ public class frmUtama extends javax.swing.JFrame {
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
         DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
+    private void btnBPJSDaftarPelayananObat2ApotekActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ApotekBPJSDaftarPelayananObat2SMC form = new ApotekBPJSDaftarPelayananObat2SMC(this, false);
+        form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        form.setLocationRelativeTo(PanelUtama);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
+    private void btnBPJSKirimObatApotekActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ApotekBPJSKirimResepObatSMC form = new ApotekBPJSKirimResepObatSMC(this, false);
+        form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        form.setLocationRelativeTo(PanelUtama);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
+    private void btnBPJSKirimEditObatApotekActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ApotekBPJSEditResepObatSMC form = new ApotekBPJSEditResepObatSMC(this, false);
+        form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        form.setLocationRelativeTo(PanelUtama);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
+    private void btnBPJSRiwayatPelayananObatApotekActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ApotekBPJSRiwayatPelayananObatSMC form = new ApotekBPJSRiwayatPelayananObatSMC(this, false);
+        form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        form.setLocationRelativeTo(PanelUtama);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
+    private void btnBPJSRiwayatPelayananResepApotekActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ApotekBPJSRiwayatPelayananResepSMC form = new ApotekBPJSRiwayatPelayananResepSMC(this, false);
+        form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        form.setLocationRelativeTo(PanelUtama);
+        form.setVisible(true);
         this.setCursor(Cursor.getDefaultCursor());
     }
 }
