@@ -1393,7 +1393,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         }
     }
 
-    public void tampil2() {
+    private void tampil2() {
         try{
             Valid.tabelKosong(tabMode2);
             ps2=koneksi.prepareStatement(
