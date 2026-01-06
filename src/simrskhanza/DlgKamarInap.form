@@ -6978,6 +6978,7 @@
                   <ComponentRef name="buttonGroup2"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="2. Kamar Inap sebelumnya diganti kamarnya dengan Kamar Inap terbaru dan harga kamar menyesuaikan harga baru"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="Rganti2" noResource="true"/>
               </Properties>
               <Constraints>
@@ -6992,6 +6993,7 @@
                   <ComponentRef name="buttonGroup2"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="1. Kamar Inap sebelumnya dihapus dan pasien dihitung menginap mulai saat ini (Kamar Inap lama dihapus dari billing)"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="Rganti1" noResource="true"/>
               </Properties>
               <Constraints>
@@ -7006,6 +7008,7 @@
                   <ComponentRef name="buttonGroup2"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="4. Seperti nomer 3, Kamar Inap sebelumnya mengikuti harga tertinggi"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="Rganti4" noResource="true"/>
               </Properties>
               <Constraints>
@@ -7880,7 +7883,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
-                    <StringItem index="0" value="05-12-2025 16:33:00"/>
+                    <StringItem index="0" value="18-11-2025 08:18:26"/>
                   </StringArray>
                 </Property>
                 <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy HH:mm:ss"/>
@@ -7975,7 +7978,7 @@
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
-                    <StringItem index="0" value="05-12-2025"/>
+                    <StringItem index="0" value="18-11-2025"/>
                   </StringArray>
                 </Property>
                 <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8429,51 +8432,6 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnAllKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="widget.Button" name="BtnReview">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/picture/tasksgroup.png"/>
-                    </Property>
-                    <Property name="mnemonic" type="int" value="75"/>
-                    <Property name="text" type="java.lang.String" value="Review Tindakan &amp; Obat"/>
-                    <Property name="toolTipText" type="java.lang.String" value=""/>
-                    <Property name="glassColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="99" green="99" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="name" type="java.lang.String" value="BtnReview" noResource="true"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[250, 26]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnReviewActionPerformed"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnReviewKeyPressed"/>
-                  </Events>
-                </Component>
-                <Component class="widget.Button" name="BtnUpdateHari">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/picture/report24.png"/>
-                    </Property>
-                    <Property name="mnemonic" type="int" value="75"/>
-                    <Property name="text" type="java.lang.String" value="Update Hari Rawat"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Alt+K"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="SansSerif" size="11" style="0"/>
-                    </Property>
-                    <Property name="glassColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="99" green="99" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="name" type="java.lang.String" value="BtnUpdateHari" noResource="true"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[170, 30]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnUpdateHariActionPerformed"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnUpdateHariKeyPressed"/>
-                  </Events>
-                </Component>
               </SubComponents>
             </Container>
             <Container class="widget.panelisi" name="panelCari">
@@ -8542,7 +8500,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="05-12-2025"/>
+                        <StringItem index="0" value="18-11-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8571,7 +8529,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="05-12-2025"/>
+                        <StringItem index="0" value="18-11-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8611,7 +8569,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="05-12-2025"/>
+                        <StringItem index="0" value="18-11-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8639,7 +8597,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="05-12-2025"/>
+                        <StringItem index="0" value="18-11-2025"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -8780,48 +8738,6 @@
                   <Dimension value="[120, 23]"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="widget.Button" name="BtnTampilDpjp">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/picture/Surgeon SH.png"/>
-                </Property>
-                <Property name="mnemonic" type="int" value="75"/>
-                <Property name="text" type="java.lang.String" value="Tampilkan DPJP"/>
-                <Property name="toolTipText" type="java.lang.String" value="Alt+K"/>
-                <Property name="glassColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="99" green="ff" red="99" type="rgb"/>
-                </Property>
-                <Property name="name" type="java.lang.String" value="BtnTampilDpjp" noResource="true"/>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[180, 30]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnTampilDpjpActionPerformed"/>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnTampilDpjpKeyPressed"/>
-              </Events>
-            </Component>
-            <Component class="widget.Button" name="BtnInputDpjp">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/picture/Doctor.png"/>
-                </Property>
-                <Property name="mnemonic" type="int" value="75"/>
-                <Property name="text" type="java.lang.String" value="Input DPJP Ranap"/>
-                <Property name="toolTipText" type="java.lang.String" value="Alt+K"/>
-                <Property name="glassColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="99" green="ff" red="99" type="rgb"/>
-                </Property>
-                <Property name="name" type="java.lang.String" value="BtnInputDpjp" noResource="true"/>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[180, 30]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnInputDpjpActionPerformed"/>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnInputDpjpKeyPressed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
