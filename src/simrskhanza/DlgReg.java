@@ -677,7 +677,7 @@ public final class DlgReg extends javax.swing.JDialog {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-                
+
         pasien.kab.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -749,9 +749,9 @@ public final class DlgReg extends javax.swing.JDialog {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
-        DlgCatatan.setSize(595,34);        
-                
+
+        DlgCatatan.setSize(595,34);
+
         try {
             aktifjadwal=koneksiDB.JADWALDOKTERDIREGISTRASI();
         } catch (Exception e) {
@@ -7414,7 +7414,7 @@ public final class DlgReg extends javax.swing.JDialog {
                     @Override
                     public void windowClosed(WindowEvent e) {
                         if(akses.getform().equals("DlgReg")){
-                            if(dokter2.getTable().getSelectedRow()!= -1){                    
+                            if(dokter2.getTable().getSelectedRow()!= -1){
                                 KdDokter.setText(dokter2.getTable().getValueAt(dokter2.getTable().getSelectedRow(),0).toString());
                                 TDokter.setText(dokter2.getTable().getValueAt(dokter2.getTable().getSelectedRow(),1).toString());
                                 if(aktifjadwal.equals("aktif")){
@@ -7422,7 +7422,7 @@ public final class DlgReg extends javax.swing.JDialog {
                                 }
                                 isNumber();
                                 KdDokter.requestFocus();
-                            }                
+                            }
                         }
                     }
                     @Override
@@ -7435,14 +7435,14 @@ public final class DlgReg extends javax.swing.JDialog {
                     public void windowDeactivated(WindowEvent e) {}
                 });
                 dokter2.setPoli(TPoli.getText());
-                dokter2.isCek();                 
+                dokter2.isCek();
                 dokter2.SetHari(DTPReg.getDate());
                 dokter2.tampil3();
                 dokter2.TCari.requestFocus();
                 dokter2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                 dokter2.setLocationRelativeTo(internalFrame1);
                 dokter2.setVisible(true);
-            }                
+            }
         }else{
             dokter.isCek();
             dokter.TCari.requestFocus();
@@ -7473,7 +7473,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     public void windowClosing(WindowEvent e) {}
                     @Override
                     public void windowClosed(WindowEvent e) {
-                        if(poli.getTable().getSelectedRow()!= -1){    
+                        if(poli.getTable().getSelectedRow()!= -1){
                             kdpoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),0).toString());
                             TPoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),1).toString());
                             switch (TStatus.getText()) {
@@ -7487,9 +7487,9 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                                     TBiaya.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),2).toString());
                                     break;
                             }
-                            isNumber();                            
+                            isNumber();
                             kdpoli.requestFocus();
-                        }  
+                        }
                     }
                     @Override
                     public void windowIconified(WindowEvent e) {}
@@ -7499,7 +7499,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     public void windowActivated(WindowEvent e) {}
                     @Override
                     public void windowDeactivated(WindowEvent e) {}
-                });  
+                });
                 poli.isCek();
                 poli.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                 poli.setLocationRelativeTo(internalFrame1);
@@ -7513,7 +7513,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     public void windowClosing(WindowEvent e) {}
                     @Override
                     public void windowClosed(WindowEvent e) {
-                        if(poli2.getTable().getSelectedRow()!= -1){    
+                        if(poli2.getTable().getSelectedRow()!= -1){
                             kdpoli.setText(poli2.getTable().getValueAt(poli2.getTable().getSelectedRow(),0).toString());
                             TPoli.setText(poli2.getTable().getValueAt(poli2.getTable().getSelectedRow(),1).toString());
                             switch (TStatus.getText()) {
@@ -7527,9 +7527,9 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                                     TBiaya.setText(poli2.getTable().getValueAt(poli2.getTable().getSelectedRow(),2).toString());
                                     break;
                             }
-                            isNumber();                            
+                            isNumber();
                             kdpoli.requestFocus();
-                        }  
+                        }
                     }
                     @Override
                     public void windowIconified(WindowEvent e) {}
@@ -7539,7 +7539,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     public void windowActivated(WindowEvent e) {}
                     @Override
                     public void windowDeactivated(WindowEvent e) {}
-                });   
+                });
                 poli2.isCek();
                 poli2.SetHari(DTPReg.getDate());
                 poli2.tampil3();
@@ -7556,7 +7556,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 public void windowClosing(WindowEvent e) {}
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(poli.getTable().getSelectedRow()!= -1){    
+                    if(poli.getTable().getSelectedRow()!= -1){
                         kdpoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),0).toString());
                         TPoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),1).toString());
                         switch (TStatus.getText()) {
@@ -7570,9 +7570,9 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                                 TBiaya.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),2).toString());
                                 break;
                         }
-                        isNumber();                            
+                        isNumber();
                         kdpoli.requestFocus();
-                    } 
+                    }
                 }
                 @Override
                 public void windowIconified(WindowEvent e) {}
@@ -7582,7 +7582,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 public void windowActivated(WindowEvent e) {}
                 @Override
                 public void windowDeactivated(WindowEvent e) {}
-            });  
+            });
             poli.isCek();
             poli.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             poli.setLocationRelativeTo(internalFrame1);
@@ -7609,11 +7609,11 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(poli.getTable().getSelectedRow()!= -1){       
+                if(poli.getTable().getSelectedRow()!= -1){
                     CrPoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),1).toString());
                     CrPoli.requestFocus();
                     tampil();
-                } 
+                }
             }
             @Override
             public void windowIconified(WindowEvent e) {}
@@ -7623,7 +7623,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             public void windowActivated(WindowEvent e) {}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });  
+        });
         poli.isCek();
         poli.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
         poli.setLocationRelativeTo(internalFrame1);
@@ -8106,7 +8106,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 if(penjab.getTable().getSelectedRow()!= -1){
                     kdpnj.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),1).toString());
                     nmpnj.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),2).toString());
-                }  
+                }
                 kdpnj.requestFocus();
             }
             @Override
@@ -8118,7 +8118,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
+
         penjab.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -8126,8 +8126,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_SPACE){
                     penjab.dispose();
-        pasien.penjab.tampil2();
-                } 
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {}
@@ -8373,7 +8372,6 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     resep.setLocationRelativeTo(internalFrame1);
                     resep.isCek();
                     resep.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),"Ralan");
-                    resep.panelDiagnosa1.tampil();
                     resep.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -8605,7 +8603,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     if(rujukmasuk.tbPerujuk.getSelectedRow()!= -1){
                         AsalRujukan.setText(rujukmasuk.tbPerujuk.getValueAt(rujukmasuk.tbPerujuk.getSelectedRow(),0).toString());
                         alamatperujuk=rujukmasuk.tbPerujuk.getValueAt(rujukmasuk.tbPerujuk.getSelectedRow(),1).toString();
-                    }    
+                    }
                     AsalRujukan.requestFocus();
                 }
             }
@@ -9966,7 +9964,6 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     resep.setNoRm(tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),1).toString(),
                         DTPCari1.getDate(),DTPCari2.getDate(),"Ralan"
                     );
-                    resep.panelDiagnosa1.tampil();
                     resep.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
