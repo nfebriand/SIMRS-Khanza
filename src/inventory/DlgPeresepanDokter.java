@@ -51,6 +51,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -74,7 +75,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     private WarnaTable2 warna=new WarnaTable2();
     private WarnaTable2 warna2=new WarnaTable2();
     private WarnaTable2 warna3=new WarnaTable2();
-    private DlgCariDokter dokter=new DlgCariDokter(null,false);
+    private DlgCariDokter dokter;
     private DlgCariTemplateResep cariTemplateResep = new DlgCariTemplateResep(null, false);
     private String noracik="",aktifkanbatch="no",STOKKOSONGRESEP="no",qrystokkosong="",tampilkan_ppnobat_ralan="",status="",bangsal="",resep="",DEPOAKTIFOBAT="",
             kamar="",norawatibu="",kelas,bangsaldefault=Sequel.cariIsi("select set_lokasi.kd_bangsal from set_lokasi limit 1"),RESEPRAJALKEPLAN="no", kodeunit = "";
@@ -307,29 +308,6 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                 }
             });
         }
-
-        dokter.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(dokter.getTable().getSelectedRow()!= -1){
-                     KdDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
-                     NmDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
-                }
-                KdDokter.requestFocus();
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
 
         cariTemplateResep.addWindowListener(new WindowAdapter() {
             @Override
@@ -1402,6 +1380,37 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_KdDokterKeyPressed
 
+    private void btnDokterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDokterActionPerformed
+        if (dokter == null || !dokter.isDisplayable()) {
+            dokter=new DlgCariDokter(null,false);
+            dokter.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            dokter.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(dokter.getTable().getSelectedRow()!= -1){
+                         KdDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
+                         NmDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
+                    }
+                    KdDokter.requestFocus();
+                    dokter=null;
+                }
+            });
+            dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            dokter.setLocationRelativeTo(internalFrame1);
+        }
+        if (dokter == null) return;
+        dokter.isCek();
+        if (dokter.isVisible()) {
+            dokter.toFront();
+            return;
+        }
+        dokter.setVisible(true);
+    }//GEN-LAST:event_btnDokterActionPerformed
+
+    private void btnDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDokterKeyPressed
+        Valid.pindah(evt,KdDokter,BtnSimpan);
+    }//GEN-LAST:event_btnDokterKeyPressed
+
     private void NoResepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NoResepKeyPressed
         Valid.pindah(evt,cmbDtk,KdDokter);
     }//GEN-LAST:event_NoResepKeyPressed
@@ -1669,7 +1678,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if(ubah==false){
             emptTeksobat();
-        } 
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void btnPilihTemplateResepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihTemplateResepActionPerformed
@@ -1693,17 +1702,6 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             textTemplateResep.setText(null);
         }
     }//GEN-LAST:event_checkboxSimpanTemplateResepItemStateChanged
-
-    private void btnDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDokterKeyPressed
-        Valid.pindah(evt,KdDokter,BtnSimpan);
-    }//GEN-LAST:event_btnDokterKeyPressed
-
-    private void btnDokterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDokterActionPerformed
-        dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        dokter.isCek();
-        dokter.setLocationRelativeTo(internalFrame1);
-        dokter.setVisible(true);
-    }//GEN-LAST:event_btnDokterActionPerformed
 
     /**
     * @param args the command line arguments
@@ -1779,8 +1777,12 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void tampilobat() {
+        runBackground(() -> LoadData());
+    }
+
+    private void LoadData() {
         buatcacheresep();
-        runBackground(() -> tampilcacheresep());
+        tampilcacheresep();
     }
 
     private void filterResepPerJenisObat() {
@@ -1956,7 +1958,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             iyembuilder=null;
         }catch(Exception e){
             System.out.println("Notifikasi Buat Cache : "+e);
-        }  
+        }
     }
 
     private void tampilcacheresep() {
@@ -2140,7 +2142,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             myObj.close();
         }catch(Exception e){
             System.out.println("Notifikasi Tampil Cache : "+e);
-        }            
+        }
     }
 
     public void emptTeksobat() {
@@ -2148,11 +2150,11 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             autonomor(1);
         }
     }
-    
+
     private void emptTeksobat2() {
         if(ChkRM.isSelected()==true){
-            Valid.autoNomer7(NoResep.getText().substring(NoResep.getText().length()-4),DTPBeri.getSelectedItem().toString().substring(6,10)+DTPBeri.getSelectedItem().toString().substring(3,5)+DTPBeri.getSelectedItem().toString().substring(0,2),4,NoResep);  
-        } 
+            Valid.autoNomer7(NoResep.getText().substring(NoResep.getText().length()-4),DTPBeri.getSelectedItem().toString().substring(6,10)+DTPBeri.getSelectedItem().toString().substring(3,5)+DTPBeri.getSelectedItem().toString().substring(0,2),4,NoResep);
+        }
     }
 
     public void autonomor(int next) {
@@ -2248,7 +2250,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         if(KdDokter.getText().equals("")){
             KdDokter.setText(Sequel.cariIsi("select reg_periksa.kd_dokter from reg_periksa where reg_periksa.no_rawat=?",norwt));
         }
-        NmDokter.setText(dokter.tampil3(KdDokter.getText()));
+        NmDokter.setText(Sequel.CariDokter(KdDokter.getText()));
 
         KdPj.setText(Sequel.cariIsi("select reg_periksa.kd_pj from reg_periksa where reg_periksa.no_rawat=?",norwt));
         TCari.requestFocus();
@@ -3831,13 +3833,13 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             hitungResep();
         } catch (Exception e) {
             System.out.println("Notifikasi Tampil Ubah : "+e);
-        } 
+        }
     }
 
     public void tampilobat3(String no_resep) {
         runBackground(() -> tampilobat(no_resep));
     }
-    
+
     private void tampilobat2(String no_resep) {
         try {
             Valid.tabelKosong(tabModeResep);
@@ -4219,9 +4221,9 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             hitungResep();
         } catch (Exception e) {
             System.out.println("Notifikasi Tampil Copy : "+e);
-        } 
+        }
     }
-    
+
     public void tampilobat4(String no_resep) {
         runBackground(() -> tampilobat2(no_resep));
     }
