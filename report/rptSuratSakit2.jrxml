@@ -154,14 +154,6 @@
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="100" width="555" height="14" uuid="815b1917-bb0f-473c-b39d-c77df0ab08ab"/>
-				<textElement textAlignment="Center">
-					<font fontName="Tahoma" size="10" isUnderline="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[SURAT KETERANGAN]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="70" y="272" width="113" height="14" uuid="06925126-39bd-4831-8cc0-c14ac6c8fbc0"/>
 				<textElement>
 					<font fontName="Tahoma" size="10"/>
@@ -183,7 +175,7 @@
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nm_dokter}+" menerangkan"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{dokterpj}+" menerangkan"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="191" y="232" width="301" height="14" uuid="da9dd610-7ea0-4d76-835d-cdb666faa53e"/>
@@ -250,7 +242,7 @@
 				<textFieldExpression><![CDATA[$P{dokterpj}]]></textFieldExpression>
 			</textField>
 			<image scaleImage="FillFrame" onErrorType="Blank">
-				<reportElement x="4" y="1" width="48" height="45" uuid="ddec6168-762d-4a55-a4e3-47ef95904424"/>
+				<reportElement x="4" y="1" width="40" height="45" uuid="ddec6168-762d-4a55-a4e3-47ef95904424"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<line direction="BottomUp">
@@ -273,7 +265,7 @@
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{kotars}+", "+$P{TanggalAwal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{kotars} + ", " + new SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="183" y="115" width="180" height="1" uuid="7e7fc752-033b-4c49-a28e-880f14cc3858"/>
@@ -295,7 +287,7 @@
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Double"/>
 				</textElement>
-				<textFieldExpression><![CDATA["     Karena sakit yang diderita dirawat di "+$P{namars}+", sejak tanggal "+$P{TanggalAwal}+", sampai dengan sekarang pasien masih harus mendapatkan perawatan di ruang rawat inap "+$P{namars}+"."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["     Karena sakit yang diderita dirawat di "+$P{namars}+", sejak tanggal "+new SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date($P{TanggalAwal}))+", sampai dengan sekarang pasien masih harus mendapatkan perawatan di ruang rawat inap "+$P{namars}+"."]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="44" y="456" width="448" height="58" uuid="ca9f62fa-cb1e-4e9f-afb5-b3c211fd323b"/>
@@ -312,6 +304,14 @@
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[bahwa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="102" width="555" height="17" uuid="727e7eb6-1ffa-4997-8399-7b2d212118b0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="12" isBold="true" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SURAT KETERANGAN DIRAWAT]]></text>
 			</staticText>
 		</band>
 	</detail>
