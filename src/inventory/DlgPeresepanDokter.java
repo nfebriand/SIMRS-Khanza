@@ -1819,7 +1819,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                         " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
                         " inner join kategori_barang on databarang.kode_kategori = kategori_barang.kode "+
                         " where databarang.status='1' "+qrystokkosong+" and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.kd_bangsal=? "+
-                        " group by gudangbarang.kode_brng order by databarang.nama_brng");
+                        " group by gudangbarang.kode_brng order by gudangbarang.stok DESC, databarang.nama_brng ASC");
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
@@ -1832,7 +1832,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                         " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
                         " inner join kategori_barang on databarang.kode_kategori = kategori_barang.kode "+
                         " where databarang.status='1' "+qrystokkosong+" and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.kd_bangsal=?  "+
-                        " order by databarang.nama_brng");
+                        " order by gudangbarang.stok DESC, databarang.nama_brng ASC");
                 }
 
                 try{
@@ -1892,7 +1892,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                         " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
                         " inner join kategori_barang on databarang.kode_kategori = kategori_barang.kode "+
                         " where  databarang.status='1' "+qrystokkosong+" and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.kd_bangsal=? "+
-                        " group by gudangbarang.kode_brng order by databarang.nama_brng");
+                        " group by gudangbarang.kode_brng order by gudangbarang.stok DESC, databarang.nama_brng ASC");
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
@@ -1908,7 +1908,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                         " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
                         " inner join kategori_barang on databarang.kode_kategori = kategori_barang.kode "+
                         " where  databarang.status='1' "+qrystokkosong+" and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.kd_bangsal=? "+
-                        " order by databarang.nama_brng");
+                        " order by gudangbarang.stok DESC, databarang.nama_brng ASC");
                 }
 
                 try{
