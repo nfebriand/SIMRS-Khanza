@@ -87,6 +87,8 @@ import bridging.ICareRiwayatPerawatanFKTP;
 import bridging.INACBGPerawatanCorona;
 import bridging.PilihanBridgingAsuransi;
 import inventory.DlgCopyResep;
+import java.awt.event.KeyAdapter;
+import java.awt.event.WindowAdapter;
 import javax.swing.SwingWorker;
 import laporan.DlgDiagnosaPenyakit;
 import laporan.DlgFrekuensiPenyakitRalan;
@@ -275,6 +277,7 @@ import surat.SuratSakit;
 import surat.SuratSakitPihak2;
 import surat.SuratTidakHamil;
 import java.util.List;
+import javax.swing.WindowConstants;
 import rekammedis.RMDataSkriningGiziKehamilan;
 /**
  *
@@ -289,6 +292,7 @@ public final class DlgReg extends javax.swing.JDialog {
     private PreparedStatement ps,ps3,pscaripiutang;
     private ResultSet rs;
     private int i=0,kuota=0,jmlparsial=0;
+    private DlgCariCaraBayar penjab;
     private boolean ceksukses=false;
     private String nosisrute="",aktifkanparsial="no",BASENOREG="",TANGGALMUNDUR="yes",
             URUTNOREG="",status="Baru",order="reg_periksa.tgl_registrasi,reg_periksa.jam_reg desc",alamatperujuk="-",aktifjadwal="",IPPRINTERTRACER="",umur="0",sttsumur="Th",terbitsep="",
@@ -641,8 +645,8 @@ public final class DlgReg extends javax.swing.JDialog {
             }
             @Override
             public void keyReleased(KeyEvent e) {}
-        }); 
-        
+        });
+
         pasien.kab.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -2429,7 +2433,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 ppSkriningNutrisiLansiaBtnPrintActionPerformed(evt);
             }
         });
-        
+
         ppSkriningNutrisiAnak.setBackground(new java.awt.Color(255, 255, 254));
         ppSkriningNutrisiAnak.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         ppSkriningNutrisiAnak.setForeground(new java.awt.Color(50, 50, 50));
@@ -2444,7 +2448,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 ppSkriningNutrisiAnakBtnPrintActionPerformed(evt);
             }
         });
-        
+
         ppSkriningGizi.setBackground(new java.awt.Color(255, 255, 254));
         ppSkriningGizi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         ppSkriningGizi.setForeground(new java.awt.Color(50, 50, 50));
@@ -2459,7 +2463,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 ppSkriningGiziBtnPrintActionPerformed(evt);
             }
         });
-        
+
         ppAsuhanGizi.setBackground(new java.awt.Color(255, 255, 254));
         ppAsuhanGizi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         ppAsuhanGizi.setForeground(new java.awt.Color(50, 50, 50));
@@ -7362,7 +7366,7 @@ public final class DlgReg extends javax.swing.JDialog {
                     public void windowClosing(WindowEvent e) {}
                     @Override
                     public void windowClosed(WindowEvent e) {
-                        if(dokter.getTable().getSelectedRow()!= -1){     
+                        if(dokter.getTable().getSelectedRow()!= -1){
                             KdDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                             TDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                             isNumber();
@@ -7431,7 +7435,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 public void windowClosing(WindowEvent e) {}
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(dokter.getTable().getSelectedRow()!= -1){    
+                    if(dokter.getTable().getSelectedRow()!= -1){
                         KdDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         TDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         isNumber();
@@ -7465,7 +7469,7 @@ public final class DlgReg extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_kdpoliKeyPressed
 
-private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUnitActionPerformed
+    private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUnitActionPerformed
         if(aktifjadwal.equals("aktif")){
             if(akses.getkode().equals("Admin Utama")){
                 DlgCariPoli poli=new DlgCariPoli(null,false);
@@ -7602,7 +7606,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(dokter.getTable().getSelectedRow()!= -1){    
+                if(dokter.getTable().getSelectedRow()!= -1){
                     CrDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                     CrDokter.requestFocus();
                     tampil();
@@ -8119,46 +8123,42 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     }//GEN-LAST:event_kdpnjKeyPressed
 
     private void btnPenjabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjabActionPerformed
-        DlgCariCaraBayar penjab=new DlgCariCaraBayar(null,false);
-        penjab.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(penjab.getTable().getSelectedRow()!= -1){
-                    kdpnj.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),1).toString());
-                    nmpnj.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),2).toString());
+        if (penjab == null || !penjab.isDisplayable()) {
+            penjab=new DlgCariCaraBayar(null,false);
+            penjab.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            penjab.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(penjab.getTable().getSelectedRow()!= -1){
+                        kdpnj.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),1).toString());
+                        nmpnj.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),2).toString());
+                    }
+                    kdpnj.requestFocus();
+                    penjab=null;
                 }
-                kdpnj.requestFocus();
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
+            });
 
-        penjab.getTable().addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {}
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode()==KeyEvent.VK_SPACE){
-                    penjab.dispose();
+            penjab.getTable().addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                        penjab.dispose();
+                    }
                 }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {}
-        });
-        penjab.isCek();
-        penjab.onCari();
-        penjab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        penjab.setLocationRelativeTo(internalFrame1);
+            });
+            penjab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            penjab.setLocationRelativeTo(internalFrame1);
+        }
+
+        if (penjab == null) return;
+        if (!penjab.isVisible()) {
+            penjab.emptTeks();
+            penjab.isCek();
+        }
+        if (penjab.isVisible()) {
+            penjab.toFront();
+            return;
+        }
         penjab.setVisible(true);
     }//GEN-LAST:event_btnPenjabActionPerformed
 
@@ -8742,7 +8742,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(dokter.getTable().getSelectedRow()!= -1){        
+                if(dokter.getTable().getSelectedRow()!= -1){
                     CrDokter3.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                     CrDokter3.requestFocus();
                 }
@@ -16571,11 +16571,11 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 form.emptTeks();
                 form.setNoRm(TNoRw.getText(),DTPCari2.getDate());
                 form.tampil();
-                this.setCursor(Cursor.getDefaultCursor());  
-            }                
+                this.setCursor(Cursor.getDefaultCursor());
+            }
         }
     }
-    
+
     private void MnSkriningGiziKehamilanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppSkriningGiziBtnPrintActionPerformed
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data registrasi sudah habis...!!!!");
@@ -19113,12 +19113,12 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
         MnPenilaianAwalMedisRalanUrologi.setName("MnPenilaianAwalMedisRalanUrologi");
         MnPenilaianAwalMedisRalanUrologi.setPreferredSize(new java.awt.Dimension(260, 26));
         MnPenilaianAwalMedisRalanUrologi.addActionListener(this::MnPenilaianAwalMedisRalanUrologiActionPerformed);
-        
+
         MnSkriningGiziKehamilan = new javax.swing.JMenuItem();
         MnSkriningGiziKehamilan.setBackground(new java.awt.Color(255, 255, 254));
         MnSkriningGiziKehamilan.setFont(new java.awt.Font("Tahoma", 0, 11));
         MnSkriningGiziKehamilan.setForeground(new java.awt.Color(50, 50, 50));
-        MnSkriningGiziKehamilan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); 
+        MnSkriningGiziKehamilan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png")));
         MnSkriningGiziKehamilan.setText("Skrining Gizi Kehamilan/Obstetri/Nifas");
         MnSkriningGiziKehamilan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         MnSkriningGiziKehamilan.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -19429,7 +19429,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
         MnSuratPersetujuan.add(MnPenolakanAnjuranMedis);
         MnSuratPersetujuan.add(MnPersetujuanPemeriksaanHIV);
         MnSuratPersetujuan.add(MnPernyataanMemilihDPJP);
-        
+
         MnGizi.add(ppSkriningNutrisiDewasa);
         MnGizi.add(ppSkriningNutrisiLansia);
         MnGizi.add(ppSkriningNutrisiAnak);

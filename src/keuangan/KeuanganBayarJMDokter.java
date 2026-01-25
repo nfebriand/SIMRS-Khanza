@@ -44,6 +44,7 @@ public final class KeuanganBayarJMDokter extends javax.swing.JDialog {
     private Connection koneksi=koneksiDB.condb();
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
+    private DlgCariCaraBayar penjab;
     private PreparedStatement ps,
             psrawatjalandr,
             psrawatjalandrpr,
@@ -1394,7 +1395,7 @@ public final class KeuanganBayarJMDokter extends javax.swing.JDialog {
             @Override
             public void windowDeiconified(WindowEvent e) {}
             @Override
-            public void windowActivated(WindowEvent e) {carabayar.onCari();}
+            public void windowActivated(WindowEvent e) {/*carabayar.onCari();*/}
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
@@ -2895,7 +2896,7 @@ public final class KeuanganBayarJMDokter extends javax.swing.JDialog {
             }
         }
     }
-    
+
     private void runBackground(Runnable task) {
         if (ceksukses) return;
         if (executor.isShutdown() || executor.isTerminated()) return;
@@ -2921,7 +2922,7 @@ public final class KeuanganBayarJMDokter extends javax.swing.JDialog {
             ceksukses = false;
         }
     }
-    
+
     @Override
     public void dispose() {
         executor.shutdownNow();
