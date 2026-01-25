@@ -10,40 +10,38 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ *
+ * @author USER
+ */
 public class WarnaTableKamarInap extends DefaultTableCellRenderer {
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        
-        // Warna default berdasarkan baris ganjil/genap
-        if (row % 2 == 1){
-            component.setBackground(new Color(255, 244, 244)); // Warna merah muda pucat untuk baris ganjil
-            component.setForeground(new Color(50, 50, 50));   // Warna teks abu-abu gelap
+
+        if (row % 2 == 1) {
+            component.setBackground(new Color(255, 244, 244));
+            component.setForeground(new Color(50, 50, 50));
         } else {
-            component.setBackground(new Color(255, 255, 255)); // Warna putih untuk baris genap
-            component.setForeground(new Color(50, 50, 50));   // Warna teks abu-abu gelap
-        }
-        
-        // Pengecekan jumlah kolom agar tidak terjadi out of bounds exception
-        if (table.getColumnCount() > 20) {
-            Object status = table.getValueAt(row, 20); // Kolom ke-21 (index 20)
-            
-            if (status != null && "Sudah Bayar".equals(status.toString())) {
-                component.setBackground(new Color(50, 50, 50)); // Warna latar abu-abu gelap
-                component.setForeground(new Color(255, 255, 255)); // Warna teks putih
-            }
+            component.setBackground(new Color(255, 255, 255));
+            component.setForeground(new Color(50, 50, 50));
         }
 
-        // Penanganan jika baris sedang dipilih
         if (isSelected) {
-            component.setBackground(new Color(0, 120, 215)); // Warna biru untuk baris yang dipilih
-            component.setForeground(Color.WHITE);           // Warna teks putih agar kontras
+            component.setBackground(new Color(3, 192, 60));
+            component.setForeground(new Color(255, 255, 255));            
+//            component.setForeground(new Color(255, 0, 0));
             component.setFont(component.getFont().deriveFont(Font.BOLD));
-			
         } else {
             component.setForeground(new Color(50, 50, 50));
             component.setFont(component.getFont().deriveFont(Font.PLAIN));
         }
+
+        if (table.getValueAt(row, 20).toString().equals("Sudah Bayar")) {
+            component.setBackground(new Color(50, 50, 50));
+            component.setForeground(new Color(255, 255, 255));
+        }
+
         return component;
     }
 }
