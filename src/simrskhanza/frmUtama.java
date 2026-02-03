@@ -444,7 +444,7 @@ import inventory.InventoryRingkasanPiutangBarangMedis;
 import inventory.InventoryRingkasanReturJualBarangMedis;
 import inventory.InventoryRingkasanReturSuplierBarangMedis;
 import inventory.InventoryRingkasanStokKeluarBarangMedis;
-import inventory.InventoryStokAkhirFarmasiPerTanggal;
+import inventory.InventoryStokAkhirFarmasiPerTanggalSMC;
 import inventory.InventorySuplier;
 import inventory.InventorySuratPemesanan;
 import inventory.InventoryTelaahResep;
@@ -2121,7 +2121,7 @@ public class frmUtama extends javax.swing.JFrame {
 
         tanggal.setEditable(false);
         tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22/01/2026" }));
+        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30/01/2026" }));
         tanggal.setDisplayFormat("dd/MM/yyyy");
         tanggal.setName("tanggal"); // NOI18N
         tanggal.setOpaque(false);
@@ -8644,21 +8644,20 @@ public class frmUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnToolRegActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-    if(this.getState()==1){
-        isTutup();
-    }
+        if(this.getState()==1){
+            isTutup();
+        }
     }//GEN-LAST:event_formWindowStateChanged
 
     private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnGantiPasswordBtnLogActionPerformed
-    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-    isTutup();
-    WindowInputPassword barcode=new WindowInputPassword(this,true);
-    barcode.SetUserPass(lblUser.getText(),edPwd.getText());
-    barcode.setLocationRelativeTo(PanelUtama);
-    barcode.setVisible(true);
-    DlgHome.dispose();
-    this.setCursor(Cursor.getDefaultCursor());
-
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        isTutup();
+        WindowInputPassword barcode=new WindowInputPassword(this,true);
+        barcode.SetUserPass(lblUser.getText(),edPwd.getText());
+        barcode.setLocationRelativeTo(PanelUtama);
+        barcode.setVisible(true);
+        DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_MnGantiPasswordBtnLogActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -8673,7 +8672,6 @@ public class frmUtama extends javax.swing.JFrame {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         isTutup();
         DlgBarcode barcode=new DlgBarcode(this,false);
-        barcode.tampil();
         barcode.isCek();
         barcode.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         barcode.setLocationRelativeTo(PanelUtama);
@@ -8854,7 +8852,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgRujuk rujuk=new DlgRujuk(this,false);
-        rujuk.tampil();
         rujuk.emptTeks();
         rujuk.isCek();
         rujuk.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
@@ -11215,7 +11212,6 @@ public class frmUtama extends javax.swing.JFrame {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgCariPengambilanUTD form=new DlgCariPengambilanUTD(this,false);
         form.setHapus();
-        form.tampil();
         form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         form.setLocationRelativeTo(PanelUtama);
         form.setVisible(true);
@@ -11398,7 +11394,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         ReklasifikasiRalan billing=new ReklasifikasiRalan(this,false);
-        billing.tampil();
         billing.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         billing.setLocationRelativeTo(PanelUtama);
         billing.setVisible(true);
@@ -11410,7 +11405,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         ReklasifikasiRanap billing=new ReklasifikasiRanap(this,false);
-        billing.tampil();
         billing.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         billing.setLocationRelativeTo(PanelUtama);
         billing.setVisible(true);
@@ -18760,7 +18754,7 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        InventoryStokAkhirFarmasiPerTanggal aplikasi=new InventoryStokAkhirFarmasiPerTanggal(this,false);
+        InventoryStokAkhirFarmasiPerTanggalSMC aplikasi=new InventoryStokAkhirFarmasiPerTanggalSMC(this,false);
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);

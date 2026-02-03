@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 public final class DlgCariPoli extends widget.Dialog {
     private final DefaultTableModel tabMode;

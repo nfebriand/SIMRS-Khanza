@@ -248,7 +248,7 @@ public final class BPJSRiwayatPelayananPasien extends widget.Dialog {
     private widget.Table tbRiwayat;
     // End of variables declaration//GEN-END:variables
 
-    public void tampil() {
+    private void tampil() {
         if (!isLoading) {
             isLoading = true;
             Valid.tabelKosongSmc(tabMode);
@@ -259,7 +259,7 @@ public final class BPJSRiwayatPelayananPasien extends widget.Dialog {
                 private final String tglAkhir = Valid.getTglSmc(DTPCari2);
                 private volatile int i = 0;
                 private String pesan = null;
-                
+
                 @Override
                 protected Void doInBackground() throws Exception {
                     HttpHeaders headers = new HttpHeaders();
@@ -269,7 +269,7 @@ public final class BPJSRiwayatPelayananPasien extends widget.Dialog {
                     headers.add("X-Timestamp", utc);
                     headers.add("X-Signature", api.getHmac(utc));
                     headers.add("user_key", koneksiDB.USERKEYAPIBPJS());
-                    
+
                     final ObjectMapper mapper = new ObjectMapper();
                     JsonNode root = mapper.readTree(api.getRest().exchange(
                         koneksiDB.URLAPIBPJS() + "/monitoring/HistoriPelayanan/NoKartu/" + noPeserta + "/tglMulai/" + tglAwal + "/tglAkhir/" + tglAkhir,
@@ -278,10 +278,10 @@ public final class BPJSRiwayatPelayananPasien extends widget.Dialog {
 
                     if (metadata.path("code").asText().equals("200")) {
                         JsonNode response = mapper.readTree(api.Decrypt(root.path("response").asText(), utc));
-                        if (response.path("list").isArray()) {
-                            StreamSupport.stream(response.path("list").spliterator(), false)
+                        if (response.path("histori").isArray()) {
+                            StreamSupport.stream(response.path("histori").spliterator(), false)
                                 .forEach(list -> publish(new Object[] {
-                                    (++i) + ".", list.path("diagnosa").asText(), list.path("jnsPelayanan").asText().replaceAll("1", "Rawat Inap").replaceAll("2", "Rawat Jalan"),
+                                    (++i), list.path("diagnosa").asText(), list.path("jnsPelayanan").asText().replaceAll("1", "Rawat Inap").replaceAll("2", "Rawat Jalan"),
                                     list.path("kelasRawat").asText(), list.path("namaPeserta").asText(), list.path("noKartu").asText(), list.path("noSep").asText(),
                                     list.path("noRujukan").asText(), list.path("poli").asText(), list.path("ppkPelayanan").asText(), list.path("tglPlgSep").asText(),
                                     list.path("tglSep").asText()

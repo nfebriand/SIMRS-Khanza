@@ -196,7 +196,7 @@ public final class BPJSRiwayatRujukanPasien extends widget.Dialog {
             new SwingWorker<Void, Object[]>() {
                 private final String noPeserta = BPJSRiwayatRujukanPasien.this.noPeserta.getText();
                 private String pesan = null;
-                
+
                 @Override
                 protected Void doInBackground() throws Exception {
                     HttpHeaders headers = new HttpHeaders();
@@ -206,7 +206,7 @@ public final class BPJSRiwayatRujukanPasien extends widget.Dialog {
                     headers.add("X-Timestamp", utc);
                     headers.add("X-Signature", api.getHmac(utc));
                     headers.add("user_key", koneksiDB.USERKEYAPIBPJS());
-                    
+
                     final ObjectMapper mapper = new ObjectMapper();
                     JsonNode root = mapper.readTree(api.getRest().exchange(
                         koneksiDB.URLAPIBPJS() + "/Rujukan/List/Peserta/" + noPeserta,
@@ -215,8 +215,8 @@ public final class BPJSRiwayatRujukanPasien extends widget.Dialog {
 
                     if (metadata.path("code").asText().equals("200")) {
                         JsonNode response = mapper.readTree(api.Decrypt(root.path("response").asText(), utc));
-                        if (response.path("list").isArray()) {
-                            StreamSupport.stream(response.path("list").spliterator(), false)
+                        if (response.path("rujukan").isArray()) {
+                            StreamSupport.stream(response.path("rujukan").spliterator(), false)
                                 .forEach(list -> publish(new Object[] {
                                     list.path("diagnosa").path("kode").asText(), list.path("diagnosa").path("nama").asText(), list.path("noKunjungan").asText(),
                                     list.path("poliRujukan").path("kode").asText(), list.path("poliRujukan").path("nama").asText(), list.path("tglKunjungan").asText(),
@@ -242,8 +242,8 @@ public final class BPJSRiwayatRujukanPasien extends widget.Dialog {
 
                     if (metadata.path("code").asText().equals("200")) {
                         JsonNode response = mapper.readTree(api.Decrypt(root.path("response").asText(), utc));
-                        if (response.path("list").isArray()) {
-                            StreamSupport.stream(response.path("list").spliterator(), false)
+                        if (response.path("rujukan").isArray()) {
+                            StreamSupport.stream(response.path("rujukan").spliterator(), false)
                                 .forEach(list -> publish(new Object[] {
                                     list.path("diagnosa").path("kode").asText(), list.path("diagnosa").path("nama").asText(), list.path("noKunjungan").asText(),
                                     list.path("poliRujukan").path("kode").asText(), list.path("poliRujukan").path("nama").asText(), list.path("tglKunjungan").asText(),

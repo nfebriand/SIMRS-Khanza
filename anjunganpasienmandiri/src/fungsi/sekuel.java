@@ -343,9 +343,11 @@ public final class sekuel {
     }
 
     private void SimpanTrack(String sql) {
-        if (!AKTIFKANTRACKSQL) return;
+        if (!AKTIFKANTRACKSQL) {
+            return;
+        }
 
-        try (PreparedStatement ps = connect.prepareStatement("insert into tracksql values(now(), ?, ?)")) {
+        try (PreparedStatement ps = connect.prepareStatement("insert into trackersql values(now(), ?, ?)")) {
             InetAddress inetAddress = InetAddress.getLocalHost();
             ps.setString(1, inetAddress.getHostAddress() + " " + sql);
             ps.setString(2, "APM");
