@@ -17963,7 +17963,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                     }
                 }
             }
-            
+
             //menampilkan skrining gizi kehamilan
             if(chkSkriningGiziKehamilan.isSelected()==true){
                 try {
@@ -18040,7 +18040,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                                                     append("</tr>").
                                                 append("</table>").
                                             append("</td>").
-                                        append("</tr>"); 
+                                        append("</tr>");
                         }while(rs2.next());
                         htmlContent.append("</table>").
                                     append("</td>").
@@ -38402,10 +38402,12 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

@@ -147,50 +147,6 @@ public class DlgDpjp extends javax.swing.JDialog {
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
         TCariPasien.setDocument(new batasInput((byte)20).getKata(TCariPasien));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-            });
-        }
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            Dokter.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(Dokter.getText().length()>2){
-                        runBackground(() ->tampildiagnosa());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(Dokter.getText().length()>2){
-                        runBackground(() ->tampildiagnosa());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(Dokter.getText().length()>2){
-                        runBackground(() ->tampildiagnosa());
-                    }
-                }
-            });
-        }
         ChkInput.setSelected(false);
         isForm();
     }
@@ -962,6 +918,49 @@ public class DlgDpjp extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         runBackground(() ->tampildiagnosa());
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+
+            Dokter.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(Dokter.getText().length()>2){
+                        runBackground(() ->tampildiagnosa());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(Dokter.getText().length()>2){
+                        runBackground(() ->tampildiagnosa());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(Dokter.getText().length()>2){
+                        runBackground(() ->tampildiagnosa());
+                    }
+                }
+            });
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -1040,21 +1039,21 @@ public class DlgDpjp extends javax.swing.JDialog {
                 ps2.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps2.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
                 if(!TCariPasien.getText().trim().equals("")){
-                    ps2.setString(i,TCariPasien.getText().trim());  
+                    ps2.setString(i,TCariPasien.getText().trim());
                     i++;
                 }
                 if(!TCari.getText().trim().equals("")){
-                    ps2.setString(i,"%"+TCari.getText().trim()+"%");     
-                    i++;
-                    ps2.setString(i,"%"+TCari.getText().trim()+"%");    
+                    ps2.setString(i,"%"+TCari.getText().trim()+"%");
                     i++;
                     ps2.setString(i,"%"+TCari.getText().trim()+"%");
                     i++;
-                    ps2.setString(i,"%"+TCari.getText().trim()+"%");    
+                    ps2.setString(i,"%"+TCari.getText().trim()+"%");
                     i++;
-                    ps2.setString(i,"%"+TCari.getText().trim()+"%");   
-                }            
-                     
+                    ps2.setString(i,"%"+TCari.getText().trim()+"%");
+                    i++;
+                    ps2.setString(i,"%"+TCari.getText().trim()+"%");
+                }
+
                 rs=ps2.executeQuery();
                 while(rs.next()){
                     TabModePasien.addRow(new Object[]{
@@ -1076,7 +1075,7 @@ public class DlgDpjp extends javax.swing.JDialog {
             System.out.println("Notifikasi : "+e);
         }
     }
-    
+
     public void tampil2() {
         runBackground(() ->tampil());
     }
@@ -1168,8 +1167,8 @@ public class DlgDpjp extends javax.swing.JDialog {
             try {
                 if(!Dokter.getText().trim().equals("")){
                     ps.setString(1,"%"+Dokter.getText().trim()+"%");
-                    ps.setString(2,"%"+Dokter.getText().trim()+"%");   
-                }         
+                    ps.setString(2,"%"+Dokter.getText().trim()+"%");
+                }
                 rs=ps.executeQuery();
                 while(rs.next()){
                     tabModeDiagnosa.addRow(new Object[]{false,rs.getString(1),rs.getString(2)});
@@ -1188,7 +1187,7 @@ public class DlgDpjp extends javax.swing.JDialog {
             System.out.println("Notifikasi : "+e);
         }
     }
-    
+
     private void runBackground(Runnable task) {
         if (ceksukses) return;
         if (executor.isShutdown() || executor.isTerminated()) return;
@@ -1214,10 +1213,12 @@ public class DlgDpjp extends javax.swing.JDialog {
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

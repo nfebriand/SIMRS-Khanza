@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
@@ -47,7 +48,7 @@ public class DlgSOAPRanapAggotaPolri extends javax.swing.JDialog {
     public DlgSOAPRanapAggotaPolri(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
         LoadHTML.setEditorKit(kit);
@@ -518,6 +519,28 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         runBackground(() ->prosesCari());
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->prosesCari());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->prosesCari());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->prosesCari());
+                    }
+                }
+            });
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
@@ -559,7 +582,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosed(WindowEvent e) {
                 if(satuanpolri.getTable().getSelectedRow()!= -1){
                     Satuan.setText(satuanpolri.getTable().getValueAt(satuanpolri.getTable().getSelectedRow(),1).toString());
-                }  
+                }
                 Satuan.requestFocus();
             }
             @Override
@@ -571,7 +594,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
+
         satuanpolri.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -579,7 +602,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void keyPressed(KeyEvent e) {
                     if(e.getKeyCode()==KeyEvent.VK_SPACE){
                         satuanpolri.dispose();
-                    }                
+                    }
             }
             @Override
             public void keyReleased(KeyEvent e) {}
@@ -601,7 +624,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosed(WindowEvent e) {
                 if(golonganpolri.getTable().getSelectedRow()!= -1){
                     Golongan.setText(golonganpolri.getTable().getValueAt(golonganpolri.getTable().getSelectedRow(),1).toString());
-                }  
+                }
                 Golongan.requestFocus();
             }
             @Override
@@ -613,7 +636,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
+
         golonganpolri.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -621,7 +644,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_SPACE){
                     golonganpolri.dispose();
-                }                
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {}
@@ -643,7 +666,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosed(WindowEvent e) {
                 if(jabatanpolri.getTable().getSelectedRow()!= -1){
                     Jabatan.setText(jabatanpolri.getTable().getValueAt(jabatanpolri.getTable().getSelectedRow(),1).toString());
-                }  
+                }
                 Jabatan.requestFocus();
             }
             @Override
@@ -655,7 +678,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
+
         jabatanpolri.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -663,7 +686,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_SPACE){
                     jabatanpolri.dispose();
-                }                
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {}
@@ -685,7 +708,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosed(WindowEvent e) {
                 if(pangkatpolri.getTable().getSelectedRow()!= -1){
                     Pangkat.setText(pangkatpolri.getTable().getValueAt(pangkatpolri.getTable().getSelectedRow(),1).toString());
-                }  
+                }
                 Pangkat.requestFocus();
             }
             @Override
@@ -697,7 +720,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
+
         pangkatpolri.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -705,7 +728,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_SPACE){
                     pangkatpolri.dispose();
-                }                
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {}
@@ -725,9 +748,9 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                    if(kamar.getTable().getSelectedRow()!= -1){   
-                        Bangsal.setText(kamar.getTable().getValueAt(kamar.getTable().getSelectedRow(),1).toString());  
-                    }                  
+                    if(kamar.getTable().getSelectedRow()!= -1){
+                        Bangsal.setText(kamar.getTable().getValueAt(kamar.getTable().getSelectedRow(),1).toString());
+                    }
             }
             @Override
             public void windowIconified(WindowEvent e) {}
@@ -755,7 +778,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosed(WindowEvent e) {
                 if(penjab.getTable().getSelectedRow()!= -1){
                     CaraBayar.setText(penjab.getTable().getValueAt(penjab.getTable().getSelectedRow(),2).toString());
-                }      
+                }
             }
             @Override
             public void windowIconified(WindowEvent e) {}
@@ -765,8 +788,8 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowActivated(WindowEvent e) {penjab.emptTeks();}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });   
-        
+        });
+
         penjab.getTable().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -1086,10 +1109,12 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

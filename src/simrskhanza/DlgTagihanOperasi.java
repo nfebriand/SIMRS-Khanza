@@ -201,153 +201,10 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
 
         TCariPaket.setDocument(new batasInput((byte)100).getKata(TCari));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCariPaket.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCariPaket.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCariPaket.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCariPaket.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-            });
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil2());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil2());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil2());
-                    }
-                }
-            });
-        }  
-        
+
         TCari.requestFocus();
         ChkInput.setSelected(false);
         isForm();
-
-        try {
-            psrekening=koneksi.prepareStatement(
-                "select set_akun_ralan.Suspen_Piutang_Operasi_Ralan,set_akun_ralan.Operasi_Ralan,set_akun_ralan.Beban_Jasa_Medik_Dokter_Operasi_Ralan,"+
-                "set_akun_ralan.Utang_Jasa_Medik_Dokter_Operasi_Ralan,set_akun_ralan.Beban_Jasa_Medik_Paramedis_Operasi_Ralan,"+
-                "set_akun_ralan.Utang_Jasa_Medik_Paramedis_Operasi_Ralan,set_akun_ralan.HPP_Obat_Operasi_Ralan,"+
-                "set_akun_ralan.Persediaan_Obat_Kamar_Operasi_Ralan from set_akun_ralan");
-            try {
-                rsrekening=psrekening.executeQuery();
-                while(rsrekening.next()){
-                    Suspen_Piutang_Operasi_Ralan=rsrekening.getString("Suspen_Piutang_Operasi_Ralan");
-                    Operasi_Ralan=rsrekening.getString("Operasi_Ralan");
-                    Beban_Jasa_Medik_Dokter_Operasi_Ralan=rsrekening.getString("Beban_Jasa_Medik_Dokter_Operasi_Ralan");
-                    Utang_Jasa_Medik_Dokter_Operasi_Ralan=rsrekening.getString("Utang_Jasa_Medik_Dokter_Operasi_Ralan");
-                    Beban_Jasa_Medik_Paramedis_Operasi_Ralan=rsrekening.getString("Beban_Jasa_Medik_Paramedis_Operasi_Ralan");
-                    Utang_Jasa_Medik_Paramedis_Operasi_Ralan=rsrekening.getString("Utang_Jasa_Medik_Paramedis_Operasi_Ralan");
-                    HPP_Obat_Operasi_Ralan=rsrekening.getString("HPP_Obat_Operasi_Ralan");
-                    Persediaan_Obat_Kamar_Operasi_Ralan=rsrekening.getString("Persediaan_Obat_Kamar_Operasi_Ralan");
-                }
-            } catch (Exception e) {
-                System.out.println("Notif Rekening : "+e);
-            } finally{
-                if(rsrekening!=null){
-                    rsrekening.close();
-                }
-                if(psrekening!=null){
-                    psrekening.close();
-                }
-            }
-
-            psrekening=koneksi.prepareStatement(
-               "select set_akun_ranap.Suspen_Piutang_Operasi_Ranap,set_akun_ranap.Operasi_Ranap,set_akun_ranap.Beban_Jasa_Medik_Dokter_Operasi_Ranap,"+
-               "set_akun_ranap.Utang_Jasa_Medik_Dokter_Operasi_Ranap,set_akun_ranap.Beban_Jasa_Medik_Paramedis_Operasi_Ranap,"+
-               "set_akun_ranap.Utang_Jasa_Medik_Paramedis_Operasi_Ranap,set_akun_ranap.HPP_Obat_Operasi_Ranap from set_akun_ranap");
-            try {
-                rsrekening=psrekening.executeQuery();
-                while(rsrekening.next()){
-                    Suspen_Piutang_Operasi_Ranap=rsrekening.getString("Suspen_Piutang_Operasi_Ranap");
-                    Operasi_Ranap=rsrekening.getString("Operasi_Ranap");
-                    Beban_Jasa_Medik_Dokter_Operasi_Ranap=rsrekening.getString("Beban_Jasa_Medik_Dokter_Operasi_Ranap");
-                    Utang_Jasa_Medik_Dokter_Operasi_Ranap=rsrekening.getString("Utang_Jasa_Medik_Dokter_Operasi_Ranap");
-                    Beban_Jasa_Medik_Paramedis_Operasi_Ranap=rsrekening.getString("Beban_Jasa_Medik_Paramedis_Operasi_Ranap");
-                    Utang_Jasa_Medik_Paramedis_Operasi_Ranap=rsrekening.getString("Utang_Jasa_Medik_Paramedis_Operasi_Ranap");
-                    HPP_Obat_Operasi_Ranap=rsrekening.getString("HPP_Obat_Operasi_Ranap");
-                }
-            } catch (Exception e) {
-                System.out.println("Notif Rekening : "+e);
-            } finally{
-                if(rsrekening!=null){
-                    rsrekening.close();
-                }
-                if(psrekening!=null){
-                    psrekening.close();
-                }
-            }
-
-            psrekening=koneksi.prepareStatement("select set_akun_ranap2.Persediaan_Obat_Kamar_Operasi_Ranap from set_akun_ranap2");
-            try {
-                rsrekening=psrekening.executeQuery();
-                while(rsrekening.next()){
-                    Persediaan_Obat_Kamar_Operasi_Ranap=rsrekening.getString("Persediaan_Obat_Kamar_Operasi_Ranap");
-                }
-            } catch (Exception e) {
-                System.out.println("Notif Rekening : "+e);
-            } finally{
-                if(rsrekening!=null){
-                    rsrekening.close();
-                }
-                if(psrekening!=null){
-                    psrekening.close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        try {
-            psset_tarif=koneksi.prepareStatement("select set_tarif.cara_bayar_operasi,set_tarif.kelas_operasi from set_tarif");
-            try {
-                rsset_tarif=psset_tarif.executeQuery();
-                if(rsset_tarif.next()){
-                    cara_bayar_operasi=rsset_tarif.getString("cara_bayar_operasi");
-                    kelas_operasi=rsset_tarif.getString("kelas_operasi");
-                }else{
-                    cara_bayar_operasi="Yes";
-                    kelas_operasi="Yes";
-                }
-            } catch (Exception e) {
-                System.out.println("Notifikasi : "+e);
-            }finally{
-                if(rsset_tarif != null){
-                    rsset_tarif.close();
-                }
-                if(psset_tarif != null){
-                    psset_tarif.close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Notifikasi : "+e);
-        }
-
     }
 
     /** This method is called from within the constructor to
@@ -533,6 +390,11 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Tagihan Operasi ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
@@ -1926,23 +1788,23 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         kdoperator1.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmoperator1.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kdoperator1.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_BtnOperator1ActionPerformed
 
@@ -1986,11 +1848,11 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdasistoperator1.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmasistoperator1.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdasistoperator1.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -1998,16 +1860,16 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnAsis1ActionPerformed
 
@@ -2189,23 +2051,23 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         kdoperator2.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmoperator2.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kdoperator2.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_BtnOperator2ActionPerformed
 
@@ -2230,23 +2092,23 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         kdoperator3.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmoperator3.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kdoperator3.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_btnOperator3ActionPerformed
 
@@ -2271,23 +2133,23 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         kdanestesi.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmanestesi.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kdanestesi.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_BtnAnastesiActionPerformed
 
@@ -2312,23 +2174,23 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                         kddranak.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmdranak.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kddranak.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_btnAnakActionPerformed
 
@@ -2339,11 +2201,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdasistoperator2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmasistoperator2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdasistoperator2.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2351,16 +2213,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnAsis2ActionPerformed
 
@@ -2379,11 +2241,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdInstrumen.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nminstrumen.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdInstrumen.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2391,16 +2253,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnAsis3ActionPerformed
 
@@ -2421,11 +2283,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdprwresust.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmprwresust.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdprwresust.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2433,16 +2295,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnPrwResActionPerformed
 
@@ -2465,11 +2327,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdasistanestesi.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmasistanestesi.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdasistanestesi.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2477,16 +2339,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_BtnAsnesActionPerformed
 
@@ -2505,11 +2367,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdbidan.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmbidan.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdbidan.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2517,16 +2379,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnBidanActionPerformed
 
@@ -2545,11 +2407,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdprwluar.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmprwluar.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdprwluar.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2557,16 +2419,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnPrwLuarActionPerformed
 
@@ -2585,11 +2447,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdbidan2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmbidan2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdbidan2.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2597,16 +2459,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnBidan2ActionPerformed
 
@@ -2633,11 +2495,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdbidan3.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmbidan3.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdbidan3.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2645,16 +2507,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnBidan3ActionPerformed
 
@@ -2669,11 +2531,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdonloop1.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmonloop1.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdonloop1.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2681,16 +2543,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnOnloop1ActionPerformed
 
@@ -2701,11 +2563,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdonloop2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmonloop2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdonloop2.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2713,16 +2575,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnOnloop2ActionPerformed
 
@@ -2737,11 +2599,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdonloop3.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmonloop3.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdonloop3.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -2749,16 +2611,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnOnloop3ActionPerformed
 
@@ -2787,23 +2649,23 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                         kdpjanak.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmpjanak.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kdpjanak.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_btndrpjanakActionPerformed
 
@@ -2828,23 +2690,23 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                         kddrumum.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                         nmdrumum.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
                         kddrumum.requestFocus();
-                    }  
+                    }
                     dokter=null;
                 }
             });
             dokter.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dokter.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (dokter == null) return;
         if (!dokter.isVisible()) {
-            dokter.isCek();    
+            dokter.isCek();
             dokter.emptTeks();
-        }  
+        }
         if (dokter.isVisible()) {
             dokter.toFront();
             return;
-        }    
+        }
         dokter.setVisible(true);
     }//GEN-LAST:event_btndrumumActionPerformed
 
@@ -3212,11 +3074,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdasistoperator3.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmasistoperator3.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdasistoperator3.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -3224,16 +3086,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnAsis4ActionPerformed
 
@@ -3248,11 +3110,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdasistanestesi2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmasistanestesi2.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdasistanestesi2.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -3260,16 +3122,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_BtnAsnes1ActionPerformed
 
@@ -3284,11 +3146,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdonloop4.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmonloop4.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdonloop4.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -3296,16 +3158,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnOnloop4ActionPerformed
 
@@ -3316,11 +3178,11 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                    if(petugas.getTable().getSelectedRow()!= -1){
                         kdonloop5.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
                         nmonloop5.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
                         kdonloop5.requestFocus();
-                    } 
+                    }
                     petugas=null;
                 }
             });
@@ -3328,16 +3190,16 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             petugas.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (petugas == null) return;
         if (!petugas.isVisible()) {
-            petugas.isCek();    
+            petugas.isCek();
             petugas.emptTeks();
-        }  
+        }
         if (petugas.isVisible()) {
             petugas.toFront();
             return;
-        }    
+        }
         petugas.setVisible(true);
     }//GEN-LAST:event_btnOnloop5ActionPerformed
 
@@ -3414,6 +3276,152 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     private void NomorImplantKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NomorImplantKeyPressed
         Valid.pindah(evt,DikirimPA,Laporan);
     }//GEN-LAST:event_NomorImplantKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            psrekening=koneksi.prepareStatement(
+                "select set_akun_ralan.Suspen_Piutang_Operasi_Ralan,set_akun_ralan.Operasi_Ralan,set_akun_ralan.Beban_Jasa_Medik_Dokter_Operasi_Ralan,"+
+                "set_akun_ralan.Utang_Jasa_Medik_Dokter_Operasi_Ralan,set_akun_ralan.Beban_Jasa_Medik_Paramedis_Operasi_Ralan,"+
+                "set_akun_ralan.Utang_Jasa_Medik_Paramedis_Operasi_Ralan,set_akun_ralan.HPP_Obat_Operasi_Ralan,"+
+                "set_akun_ralan.Persediaan_Obat_Kamar_Operasi_Ralan from set_akun_ralan");
+            try {
+                rsrekening=psrekening.executeQuery();
+                while(rsrekening.next()){
+                    Suspen_Piutang_Operasi_Ralan=rsrekening.getString("Suspen_Piutang_Operasi_Ralan");
+                    Operasi_Ralan=rsrekening.getString("Operasi_Ralan");
+                    Beban_Jasa_Medik_Dokter_Operasi_Ralan=rsrekening.getString("Beban_Jasa_Medik_Dokter_Operasi_Ralan");
+                    Utang_Jasa_Medik_Dokter_Operasi_Ralan=rsrekening.getString("Utang_Jasa_Medik_Dokter_Operasi_Ralan");
+                    Beban_Jasa_Medik_Paramedis_Operasi_Ralan=rsrekening.getString("Beban_Jasa_Medik_Paramedis_Operasi_Ralan");
+                    Utang_Jasa_Medik_Paramedis_Operasi_Ralan=rsrekening.getString("Utang_Jasa_Medik_Paramedis_Operasi_Ralan");
+                    HPP_Obat_Operasi_Ralan=rsrekening.getString("HPP_Obat_Operasi_Ralan");
+                    Persediaan_Obat_Kamar_Operasi_Ralan=rsrekening.getString("Persediaan_Obat_Kamar_Operasi_Ralan");
+                }
+            } catch (Exception e) {
+                System.out.println("Notif Rekening : "+e);
+            } finally{
+                if(rsrekening!=null){
+                    rsrekening.close();
+                }
+                if(psrekening!=null){
+                    psrekening.close();
+                }
+            }
+
+            psrekening=koneksi.prepareStatement(
+               "select set_akun_ranap.Suspen_Piutang_Operasi_Ranap,set_akun_ranap.Operasi_Ranap,set_akun_ranap.Beban_Jasa_Medik_Dokter_Operasi_Ranap,"+
+               "set_akun_ranap.Utang_Jasa_Medik_Dokter_Operasi_Ranap,set_akun_ranap.Beban_Jasa_Medik_Paramedis_Operasi_Ranap,"+
+               "set_akun_ranap.Utang_Jasa_Medik_Paramedis_Operasi_Ranap,set_akun_ranap.HPP_Obat_Operasi_Ranap from set_akun_ranap");
+            try {
+                rsrekening=psrekening.executeQuery();
+                while(rsrekening.next()){
+                    Suspen_Piutang_Operasi_Ranap=rsrekening.getString("Suspen_Piutang_Operasi_Ranap");
+                    Operasi_Ranap=rsrekening.getString("Operasi_Ranap");
+                    Beban_Jasa_Medik_Dokter_Operasi_Ranap=rsrekening.getString("Beban_Jasa_Medik_Dokter_Operasi_Ranap");
+                    Utang_Jasa_Medik_Dokter_Operasi_Ranap=rsrekening.getString("Utang_Jasa_Medik_Dokter_Operasi_Ranap");
+                    Beban_Jasa_Medik_Paramedis_Operasi_Ranap=rsrekening.getString("Beban_Jasa_Medik_Paramedis_Operasi_Ranap");
+                    Utang_Jasa_Medik_Paramedis_Operasi_Ranap=rsrekening.getString("Utang_Jasa_Medik_Paramedis_Operasi_Ranap");
+                    HPP_Obat_Operasi_Ranap=rsrekening.getString("HPP_Obat_Operasi_Ranap");
+                }
+            } catch (Exception e) {
+                System.out.println("Notif Rekening : "+e);
+            } finally{
+                if(rsrekening!=null){
+                    rsrekening.close();
+                }
+                if(psrekening!=null){
+                    psrekening.close();
+                }
+            }
+
+            psrekening=koneksi.prepareStatement("select set_akun_ranap2.Persediaan_Obat_Kamar_Operasi_Ranap from set_akun_ranap2");
+            try {
+                rsrekening=psrekening.executeQuery();
+                while(rsrekening.next()){
+                    Persediaan_Obat_Kamar_Operasi_Ranap=rsrekening.getString("Persediaan_Obat_Kamar_Operasi_Ranap");
+                }
+            } catch (Exception e) {
+                System.out.println("Notif Rekening : "+e);
+            } finally{
+                if(rsrekening!=null){
+                    rsrekening.close();
+                }
+                if(psrekening!=null){
+                    psrekening.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
+            psset_tarif=koneksi.prepareStatement("select set_tarif.cara_bayar_operasi,set_tarif.kelas_operasi from set_tarif");
+            try {
+                rsset_tarif=psset_tarif.executeQuery();
+                if(rsset_tarif.next()){
+                    cara_bayar_operasi=rsset_tarif.getString("cara_bayar_operasi");
+                    kelas_operasi=rsset_tarif.getString("kelas_operasi");
+                }else{
+                    cara_bayar_operasi="Yes";
+                    kelas_operasi="Yes";
+                }
+            } catch (Exception e) {
+                System.out.println("Notifikasi : "+e);
+            }finally{
+                if(rsset_tarif != null){
+                    rsset_tarif.close();
+                }
+                if(psset_tarif != null){
+                    psset_tarif.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notifikasi : "+e);
+        }
+
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCariPaket.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCariPaket.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCariPaket.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCariPaket.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil2());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil2());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil2());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -4106,10 +4114,12 @@ private void btnAnakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

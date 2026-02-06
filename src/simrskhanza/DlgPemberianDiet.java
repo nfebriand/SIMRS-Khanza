@@ -114,41 +114,6 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
         KdDiet.setDocument(new batasInput((byte)3).getKata(KdDiet));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        if(TabRawat.getSelectedIndex()==0){
-                            runBackground(() ->tampil());
-                        }else if(TabRawat.getSelectedIndex()==1){
-                            runBackground(() ->tampil2());
-                        }
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        if(TabRawat.getSelectedIndex()==0){
-                            runBackground(() ->tampil());
-                        }else if(TabRawat.getSelectedIndex()==1){
-                            runBackground(() ->tampil2());
-                        }
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        if(TabRawat.getSelectedIndex()==0){
-                            runBackground(() ->tampil());
-                        }else if(TabRawat.getSelectedIndex()==1){
-                            runBackground(() ->tampil2());
-                        }
-                    }
-                }
-            });
-        }
-
         ChkInput.setSelected(false);
         isForm();
     }
@@ -272,6 +237,11 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Diet Harian Pasien ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
@@ -487,7 +457,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -501,7 +471,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -601,7 +571,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         TPasien.setBounds(205, 12, 290, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2025" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-02-2026" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -1258,17 +1228,42 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_MnSisaDietPasienActionPerformed
 
-    private void CatatanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CatatanKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CatatanKeyPressed
-
-    private void KdDietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KdDietActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_KdDietActionPerformed
-
-    private void CatatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatatanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CatatanActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        if(TabRawat.getSelectedIndex()==0){
+                            runBackground(() ->tampil());
+                        }else if(TabRawat.getSelectedIndex()==1){
+                            runBackground(() ->tampil2());
+                        }
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        if(TabRawat.getSelectedIndex()==0){
+                            runBackground(() ->tampil());
+                        }else if(TabRawat.getSelectedIndex()==1){
+                            runBackground(() ->tampil2());
+                        }
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        if(TabRawat.getSelectedIndex()==0){
+                            runBackground(() ->tampil());
+                        }else if(TabRawat.getSelectedIndex()==1){
+                            runBackground(() ->tampil2());
+                        }
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -1501,7 +1496,7 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         BtnPrint.setEnabled(akses.getdiet_pasien());
         MnSisaDietPasien.setEnabled(akses.getsisa_diet_pasien());
     }
-    
+
     private void runBackground(Runnable task) {
         if (ceksukses) return;
         if (executor.isShutdown() || executor.isTerminated()) return;
@@ -1527,10 +1522,12 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

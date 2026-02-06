@@ -637,29 +637,7 @@ public class MasterTemplatePemeriksaanDokter extends javax.swing.JDialog {
         CariTindakan.setDocument(new batasInput((byte)100).getKata(CariTindakan));
 
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-            });
-        }  
-        
+
         ChkAccor.setSelected(false);
         isDetail();
 
@@ -850,6 +828,11 @@ public class MasterTemplatePemeriksaanDokter extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Master Template Pemeriksaan Dokter ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
@@ -2274,10 +2257,10 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(dokter.getTable().getSelectedRow()!= -1){        
+                if(dokter.getTable().getSelectedRow()!= -1){
                      KdDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),0).toString());
                      NmDokter.setText(dokter.getTable().getValueAt(dokter.getTable().getSelectedRow(),1).toString());
-                }  
+                }
                 KdDokter.requestFocus();
             }
             @Override
@@ -2616,10 +2599,10 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         public void windowClosing(WindowEvent e) {}
                         @Override
                         public void windowClosed(WindowEvent e) {
-                            if(aturanpakai.getTable().getSelectedRow()!= -1){  
+                            if(aturanpakai.getTable().getSelectedRow()!= -1){
                                 tbObatNonRacikan.setValueAt(aturanpakai.getTable().getValueAt(aturanpakai.getTable().getSelectedRow(),0).toString(),tbObatNonRacikan.getSelectedRow(),7);
                                 tbObatNonRacikan.requestFocus();
-                            }   
+                            }
                         }
                         @Override
                         public void windowIconified(WindowEvent e) {}
@@ -2651,10 +2634,10 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         public void windowClosing(WindowEvent e) {}
                         @Override
                         public void windowClosed(WindowEvent e) {
-                            if(aturanpakai.getTable().getSelectedRow()!= -1){  
+                            if(aturanpakai.getTable().getSelectedRow()!= -1){
                                 tbObatRacikan.setValueAt(aturanpakai.getTable().getValueAt(aturanpakai.getTable().getSelectedRow(),0).toString(),tbObatRacikan.getSelectedRow(),5);
                                 tbObatRacikan.requestFocus();
-                            }   
+                            }
                         }
                         @Override
                         public void windowIconified(WindowEvent e) {}
@@ -2681,11 +2664,11 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             public void windowClosing(WindowEvent e) {}
                             @Override
                             public void windowClosed(WindowEvent e) {
-                                if(metoderacik.getTable().getSelectedRow()!= -1){  
+                                if(metoderacik.getTable().getSelectedRow()!= -1){
                                     tbObatRacikan.setValueAt(metoderacik.getTable().getValueAt(metoderacik.getTable().getSelectedRow(),1).toString(),tbObatRacikan.getSelectedRow(),2);
                                     tbObatRacikan.setValueAt(metoderacik.getTable().getValueAt(metoderacik.getTable().getSelectedRow(),2).toString(),tbObatRacikan.getSelectedRow(),3);
                                     tbObatRacikan.requestFocus();
-                                }  
+                                }
                             }
                             @Override
                             public void windowIconified(WindowEvent e) {}
@@ -2708,7 +2691,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                             }
                             @Override
                             public void keyReleased(KeyEvent e) {}
-                        }); 
+                        });
                         metoderacik.isCek();
                         metoderacik.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                         metoderacik.setLocationRelativeTo(internalFrame1);
@@ -2947,6 +2930,31 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             }
         }
     }//GEN-LAST:event_tbProsedurPropertyChange
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -5074,7 +5082,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             JOptionPane.showMessageDialog(null,"Gagal menghapus..!!");
         }
     }
-    
+
     private void runBackground(Runnable task) {
         if (ceksukses) return;
         if (executor.isShutdown() || executor.isTerminated()) return;
@@ -5100,10 +5108,12 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

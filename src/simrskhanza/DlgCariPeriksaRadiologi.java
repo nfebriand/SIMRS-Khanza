@@ -131,33 +131,6 @@ public class DlgCariPeriksaRadiologi extends javax.swing.JDialog {
         kdmem.setDocument(new batasInput((byte)8).getKata(kdmem));
         kdptg.setDocument(new batasInput((byte)25).getKata(kdptg));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        InformasiTambahan.setDocument(new batasInput((int)60).getKata(InformasiTambahan));
-        DiagnosisKlinis.setDocument(new batasInput((int)80).getKata(DiagnosisKlinis));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        statushasil="";
-                        runBackground(() -> tampil());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        statushasil="";
-                        runBackground(() -> tampil());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        statushasil="";
-                        runBackground(() -> tampil());
-                    }
-                }
-            });
-        }
 
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
@@ -1149,7 +1122,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     if(member.getTable().getSelectedRow()!= -1){
                         kdmem.setText(member.getTable().getValueAt(member.getTable().getSelectedRow(),0).toString());
                         nmmem.setText(member.getTable().getValueAt(member.getTable().getSelectedRow(),1).toString());
-                    } 
+                    }
                     kdmem.requestFocus();
                     member=null;
                 }
@@ -1167,18 +1140,18 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             member.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             member.setLocationRelativeTo(internalFrame1);
         }
-            
+
         if (member == null) return;
         if (!member.isVisible()) {
-            member.isCek();    
+            member.isCek();
             member.emptTeks();
         }
-        
+
         if (member.isVisible()) {
             member.toFront();
             return;
         }
-        member.setVisible(true); 
+        member.setVisible(true);
     }//GEN-LAST:event_btnPasienActionPerformed
 
     private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPetugasActionPerformed
@@ -1736,7 +1709,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             if(Kd2.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data terlebih dahulu...!!!!");
             }else{
-                if (akses.getpermintaan_radiologi() && !petugas.tampil3(akses.getkode()).isBlank()) {
+                if (akses.getpermintaan_radiologi() && !Sequel.CariPetugas(akses.getkode()).isBlank()) {
                     Sequel.mengupdateSmc("permintaan_radiologi", "diagnosa_klinis = ?", "no_rawat = ? and tgl_hasil = ? and jam_hasil = ?",
                         DiagnosisKlinis.getText().trim(), tbDokter.getValueAt(tbDokter.getSelectedRow(), 0).toString(),
                         tbDokter.getValueAt(tbDokter.getSelectedRow(), 3).toString(), tbDokter.getValueAt(tbDokter.getSelectedRow(), 4).toString()
@@ -2183,6 +2156,32 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         } catch (Exception e) {
             System.out.println(e);
         }
+
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        statushasil="";
+                        runBackground(() -> tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        statushasil="";
+                        runBackground(() -> tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        statushasil="";
+                        runBackground(() -> tampil());
+                    }
+                }
+            });
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void tbDokterMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDokterMouseReleased
@@ -2494,7 +2493,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         BtnPrint.setEnabled(akses.getperiksa_radiologi());
         ppRiwayat.setEnabled(akses.getresume_pasien());
         ppBerkasDigital.setEnabled(akses.getberkas_digital_perawatan());
-        DiagnosisKlinis.setEditable(akses.getadmin() || (akses.getpermintaan_radiologi() && !petugas.tampil3(akses.getkode()).isBlank()));
+        DiagnosisKlinis.setEditable(akses.getadmin() || (akses.getpermintaan_radiologi() && !Sequel.CariPetugas(akses.getkode()).isBlank()));
     }
 
     public void setPasien(String pasien){
@@ -2709,9 +2708,11 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         }
     }
 
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

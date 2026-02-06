@@ -328,28 +328,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         DiagnosaAwalSementara.setDocument(new batasInput((int)100).getKata(DiagnosaAwalSementara));
         DiagnosaAkhirSementara.setDocument(new batasInput((int)100).getKata(DiagnosaAkhirSementara));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-            });
-        }
 
         TJmlHari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
@@ -415,31 +393,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         cmbJam.setSelectedItem(now.substring(11,13));
         cmbMnt.setSelectedItem(now.substring(14,16));
         cmbDtk.setSelectedItem(now.substring(17,19));
-
-        try {
-            pssetjam=koneksi.prepareStatement("select * from set_jam_minimal");
-            try {
-                rssetjam=pssetjam.executeQuery();
-                while(rssetjam.next()){
-                    lama=rssetjam.getDouble("lamajam");
-                    persenbayi=rssetjam.getDouble("bayi");
-                    diagnosa_akhir=rssetjam.getString("diagnosaakhir");
-                    hariawal=rssetjam.getString("hariawal");
-                    aktifkan_hapus_data_salah=rssetjam.getString("aktifkan_hapus_data_salah");
-                }
-            } catch (Exception e) {
-                System.out.println("Set Kamar Inap : "+e);
-            } finally{
-                if(rssetjam!=null){
-                    rssetjam.close();
-                }
-                if(pssetjam!=null){
-                    pssetjam.close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Set Kamar Inap : "+e);
-        }
 
         try {
             if(diagnosa_akhir.equals("Yes")){
@@ -8143,6 +8096,53 @@ public class DlgKamarInap extends javax.swing.JDialog {
         if(WindowInputKamar.isVisible()==false){
             tampil();
         }
+        try {
+            pssetjam=koneksi.prepareStatement("select * from set_jam_minimal");
+            try {
+                rssetjam=pssetjam.executeQuery();
+                while(rssetjam.next()){
+                    lama=rssetjam.getDouble("lamajam");
+                    persenbayi=rssetjam.getDouble("bayi");
+                    diagnosa_akhir=rssetjam.getString("diagnosaakhir");
+                    hariawal=rssetjam.getString("hariawal");
+                    aktifkan_hapus_data_salah=rssetjam.getString("aktifkan_hapus_data_salah");
+                }
+            } catch (Exception e) {
+                System.out.println("Set Kamar Inap : "+e);
+            } finally{
+                if(rssetjam!=null){
+                    rssetjam.close();
+                }
+                if(pssetjam!=null){
+                    pssetjam.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Set Kamar Inap : "+e);
+        }
+
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        tampil();
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        tampil();
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        tampil();
+                    }
+                }
+            });
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void MnInputResepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnInputResepActionPerformed
@@ -11154,7 +11154,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                 }else if(R3.isSelected()==true){
                                     resume.setNoRm(rs2.getString("no_rawat2"),DTPCari4.getDate());
                                 }
-                                resume.tampil();
                                 resume.setVisible(true);
                                 this.setCursor(Cursor.getDefaultCursor());
                             }else{
@@ -11187,7 +11186,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
                     }else if(R3.isSelected()==true){
                         resume.setNoRm(norawat.getText(),DTPCari4.getDate());
                     }
-                    resume.tampil();
                     resume.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -12740,7 +12738,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                     resume.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                     resume.setLocationRelativeTo(internalFrame1);
                                     resume.setNoRm(rs2.getString("no_rawat2"),new Date());
-                                    resume.tampil2();
                                     resume.setVisible(true);
                                     this.setCursor(Cursor.getDefaultCursor());
                               }else{
@@ -12768,7 +12765,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
                     resume.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                     resume.setLocationRelativeTo(internalFrame1);
                     resume.setNoRm(TNoRwCari.getText(),new Date());
-                    resume.tampil2();
                     resume.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }

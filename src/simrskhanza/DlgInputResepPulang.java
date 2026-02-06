@@ -112,28 +112,6 @@ public final class DlgInputResepPulang extends javax.swing.JDialog {
         warna.kolom=0;
         tbKamar.setDefaultRenderer(Object.class,warna);
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() -> tampil());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() -> tampil());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() -> tampil());
-                    }
-                }
-            });
-        }
 
         try {
             aktifkanbatch = koneksiDB.AKTIFKANBATCHOBAT();
@@ -242,6 +220,9 @@ public final class DlgInputResepPulang extends javax.swing.JDialog {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -725,22 +706,22 @@ public final class DlgInputResepPulang extends javax.swing.JDialog {
             lokasidepo.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if(lokasidepo.getTable().getSelectedRow()!= -1){                   
+                    if(lokasidepo.getTable().getSelectedRow()!= -1){
                         kdgudang.setText(lokasidepo.getTable().getValueAt(lokasidepo.getTable().getSelectedRow(),0).toString());
                         nmgudang.setText(lokasidepo.getTable().getValueAt(lokasidepo.getTable().getSelectedRow(),1).toString());
                         runBackground(() -> tampil());
-                    } 
+                    }
                     kdgudang.requestFocus();
                     lokasidepo=null;
                 }
-            }); 
+            });
 
             lokasidepo.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             lokasidepo.setLocationRelativeTo(internalFrame1);
         }
         if (lokasidepo == null) return;
         if (!lokasidepo.isVisible()) {
-            lokasidepo.isCek();    
+            lokasidepo.isCek();
             lokasidepo.emptTeks();
         }
 
@@ -750,6 +731,31 @@ public final class DlgInputResepPulang extends javax.swing.JDialog {
         }
         lokasidepo.setVisible(true);
     }//GEN-LAST:event_BtnGudangActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() -> tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() -> tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() -> tampil());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -1280,7 +1286,7 @@ public final class DlgInputResepPulang extends javax.swing.JDialog {
             System.out.println("Notifikasi : "+e);
         }
     }
-    
+
     public void tampil3(String nopermintaan) {
         runBackground(() -> tampil2(nopermintaan));
     }
@@ -1382,10 +1388,12 @@ public final class DlgInputResepPulang extends javax.swing.JDialog {
             ceksukses = false;
         }
     }
-    
+
+    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
+    */
 }

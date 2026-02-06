@@ -2360,7 +2360,17 @@ public class BPJSKompilasiBerkasKlaim extends javax.swing.JDialog {
     private void btnRiwayatPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatPasienActionPerformed
         if (lblNoRawat.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Maaf, silahkan pilih data pasien terlebih dahulu..!!");
-            return;
+
+        } else {
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            if (resume == null) {
+                resume = new RMRiwayatPerawatan(null, false);
+            }
+            resume.setSize(internalFrame1.getWidth() - 20, internalFrame1.getHeight() - 20);
+            resume.setLocationRelativeTo(internalFrame1);
+            resume.setVisible(true);
+            resume.setNoRMKompilasi(lblNoRawat.getText(), lblNoRM.getText());
+            this.setCursor(Cursor.getDefaultCursor());
         }
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         if (resume == null) {
