@@ -22,7 +22,7 @@ import bridging.CoronaPasien;
 import bridging.InhealthDataSJP;
 import bridging.PCareDataPendaftaran;
 import bridging.SisruteRujukanKeluar;
-import fungsi.WarnaTable;
+import fungsi.WarnaTableRegistrasi;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
