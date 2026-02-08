@@ -80,7 +80,7 @@ public final class sekuel {
     public static void nyalakanBatasEdit() {
         try (ResultSet rs = koneksiDB.condb().prepareStatement("select setting.pemberlakuan_2x24_jam from setting").executeQuery()) {
             if (rs.next()) {
-                sekuel.pemberlakuanBatasEdit = rs.getString(1).equals("Yes");
+                sekuel.pemberlakuanBatasEdit = "Yes".equalsIgnoreCase(rs.getString(1));
             }
         } catch (Exception e) {
             System.out.println("Notif : " + e);
