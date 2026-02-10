@@ -119,7 +119,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private volatile boolean ceksukses = false;
     private Map<String, Object> map;
-    private boolean autovalidasi = false, previewLembarObat = false, previewAturanPakai = false;
+    private boolean autocetak = false, previewLembarObat = false, previewAturanPakai = false;
     private String modelLembarObat = "", printerLembarObat = "", modelAturanPakai = "";
 
     /** Creates new form DlgPenyakit
@@ -396,28 +396,6 @@ public final class DlgCariObat extends javax.swing.JDialog {
         }
 
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        BtnCariActionPerformed(null);
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        BtnCariActionPerformed(null);
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        BtnCariActionPerformed(null);
-                    }
-                }
-            });
-        }
 
         try {
             aktifkanbatch = koneksiDB.AKTIFKANBATCHOBAT();
@@ -451,31 +429,6 @@ public final class DlgCariObat extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("E : "+e);
             DEPOAKTIFOBAT = "";
-        }
-
-        try {
-            psrekening=koneksi.prepareStatement(
-                "select set_akun_ralan.Suspen_Piutang_Obat_Ralan,set_akun_ralan.Obat_Ralan,set_akun_ralan.HPP_Obat_Rawat_Jalan,set_akun_ralan.Persediaan_Obat_Rawat_Jalan from set_akun_ralan");
-            try {
-                rsrekening=psrekening.executeQuery();
-                while(rsrekening.next()){
-                    Suspen_Piutang_Obat_Ralan=rsrekening.getString("Suspen_Piutang_Obat_Ralan");
-                    Obat_Ralan=rsrekening.getString("Obat_Ralan");
-                    HPP_Obat_Rawat_Jalan=rsrekening.getString("HPP_Obat_Rawat_Jalan");
-                    Persediaan_Obat_Rawat_Jalan=rsrekening.getString("Persediaan_Obat_Rawat_Jalan");
-                }
-            } catch (Exception e) {
-                System.out.println("Notif Rekening : "+e);
-            } finally{
-                if(rsrekening!=null){
-                    rsrekening.close();
-                }
-                if(psrekening!=null){
-                    psrekening.close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
         }
 
         try {
@@ -631,6 +584,9 @@ public final class DlgCariObat extends javax.swing.JDialog {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -866,7 +822,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
         jLabel8.setBounds(4, 40, 65, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2024" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-02-2026" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -1013,11 +969,6 @@ public final class DlgCariObat extends javax.swing.JDialog {
         DTPObatKronisSelanjutnya.setName("DTPObatKronisSelanjutnya"); // NOI18N
         DTPObatKronisSelanjutnya.setOpaque(false);
         DTPObatKronisSelanjutnya.setPreferredSize(new java.awt.Dimension(100, 23));
-        DTPObatKronisSelanjutnya.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                DTPObatKronisSelanjutnyaKeyPressed(evt);
-            }
-        });
         FormInput.add(DTPObatKronisSelanjutnya);
         DTPObatKronisSelanjutnya.setBounds(201, 100, 90, 23);
 
@@ -1723,7 +1674,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
                             }
                         }
 
-                        if (autovalidasi) {
+                        if (autocetak) {
                             cetakAturanPakai();
                             cetakLembarObat();
                         }
@@ -2190,10 +2141,55 @@ public final class DlgCariObat extends javax.swing.JDialog {
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_ppStok1ActionPerformed
 
-    private void DTPObatKronisSelanjutnyaKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_DTPObatKronisSelanjutnyaKeyPressed
-    {//GEN-HEADEREND:event_DTPObatKronisSelanjutnyaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DTPObatKronisSelanjutnyaKeyPressed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            psrekening=koneksi.prepareStatement(
+                "select set_akun_ralan.Suspen_Piutang_Obat_Ralan,set_akun_ralan.Obat_Ralan,set_akun_ralan.HPP_Obat_Rawat_Jalan,set_akun_ralan.Persediaan_Obat_Rawat_Jalan from set_akun_ralan");
+            try {
+                rsrekening=psrekening.executeQuery();
+                while(rsrekening.next()){
+                    Suspen_Piutang_Obat_Ralan=rsrekening.getString("Suspen_Piutang_Obat_Ralan");
+                    Obat_Ralan=rsrekening.getString("Obat_Ralan");
+                    HPP_Obat_Rawat_Jalan=rsrekening.getString("HPP_Obat_Rawat_Jalan");
+                    Persediaan_Obat_Rawat_Jalan=rsrekening.getString("Persediaan_Obat_Rawat_Jalan");
+                }
+            } catch (Exception e) {
+                System.out.println("Notif Rekening : "+e);
+            } finally{
+                if(rsrekening!=null){
+                    rsrekening.close();
+                }
+                if(psrekening!=null){
+                    psrekening.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        BtnCariActionPerformed(null);
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        BtnCariActionPerformed(null);
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        BtnCariActionPerformed(null);
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -2717,7 +2713,6 @@ public final class DlgCariObat extends javax.swing.JDialog {
         this.load = true;
         this.noresep=no_resep;
         adaObatKronis = false;
-        cekPengaturanResepRalan();
         try {
             Valid.tabelKosong(tabModeobat);
             Valid.tabelKosong(tabModeObatRacikan);
@@ -3320,6 +3315,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
     }
 
     public void tampilobat3(String no_resep) {
+        cekPengaturanResepRalan();
         runBackground(() -> tampilobat2(no_resep));
     }
 
@@ -4456,13 +4452,13 @@ public final class DlgCariObat extends javax.swing.JDialog {
 
     private void cekPengaturanResepRalan() {
         boolean oldValue = ChkNoResep.isSelected();
-        if (!new File("./cache/pengaturanresep.iyem").isFile()) {
+        if (new File("./cache/pengaturanresep.iyem").isFile()) {
             try (FileReader fr = new FileReader("./cache/pengaturanresep.iyem")) {
                 JsonNode iyem = mapper.readTree(fr);
-                autovalidasi = iyem.path("autovalidasiralan").asBoolean(false);
+                autocetak = iyem.path("autovalidasiralan").asBoolean(false);
                 previewLembarObat = iyem.path("setelahvalidasi").path("lembarobat").path("preview").asBoolean(false);
                 previewAturanPakai = iyem.path("setelahvalidasi").path("aturanpakai").path("preview").asBoolean(false);
-                if (autovalidasi) {
+                if (autocetak) {
                     ChkNoResep.setSelected(!(previewLembarObat && previewAturanPakai));
                     if (previewLembarObat) {
                         modelLembarObat = iyem.path("setelahvalidasi").path("lembarobat").path("model").asText();
@@ -4474,7 +4470,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
                 }
             } catch (Exception e) {
                 System.out.println("Notif : " + e);
-                autovalidasi = false;
+                autocetak = false;
                 previewLembarObat = false;
                 previewAturanPakai = false;
                 modelLembarObat = "";
@@ -4482,7 +4478,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
                 ChkNoResep.setSelected(oldValue);
             }
         } else {
-            autovalidasi = false;
+            autocetak = false;
             previewLembarObat = false;
             previewAturanPakai = false;
             modelLembarObat = "";
@@ -4621,7 +4617,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
                     try (PreparedStatement ps = koneksi.prepareStatement(
                         "select b.nama_brng, a.aturan, d.jml, k.satuan from resep_obat rx join detail_pemberian_obat d on " +
                         "rx.no_rawat = d.no_rawat and rx.tgl_perawatan = d.tgl_perawatan and rx.jam = d.jam join databarang b on " +
-                        "d.kode_brng = b.kode_brng join kodesatuan s on b.kode_sat = k.kode_sat join aturan_pakai a on " +
+                        "d.kode_brng = b.kode_brng join kodesatuan k on b.kode_sat = k.kode_sat join aturan_pakai a on " +
                         "d.kode_brng = a.kode_brng and rx.no_rawat = a.no_rawat and rx.tgl_perawatan = a.tgl_perawatan and " +
                         "rx.jam = a.jam where rx.no_resep = ? and a.aturan != ''"
                     )) {
@@ -4695,7 +4691,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
                     try (PreparedStatement ps = koneksi.prepareStatement(
                         "select b.nama_brng, a.aturan, d.jml, k.satuan from resep_obat rx join detail_pemberian_obat d on " +
                         "rx.no_rawat = d.no_rawat and rx.tgl_perawatan = d.tgl_perawatan and rx.jam = d.jam join databarang b on " +
-                        "d.kode_brng = b.kode_brng join kodesatuan s on b.kode_sat = k.kode_sat join aturan_pakai a on " +
+                        "d.kode_brng = b.kode_brng join kodesatuan k on b.kode_sat = k.kode_sat join aturan_pakai a on " +
                         "d.kode_brng = a.kode_brng and rx.no_rawat = a.no_rawat and rx.tgl_perawatan = a.tgl_perawatan and " +
                         "rx.jam = a.jam where rx.no_resep = ? and a.aturan != ''"
                     )) {
