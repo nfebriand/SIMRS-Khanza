@@ -19576,6 +19576,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private widget.TextBox ttlbiaya;
     private widget.TextBox ttlbiayapindah;
     // End of variables declaration//GEN-END:variables
+    private widget.Label Nosep;   
     private javax.swing.JMenuItem MnSkorAldrettePascaAnestesi,
                                   MnSkorStewardPascaAnestesi,
                                   MnSkorBromagePascaAnestesi,
@@ -19890,6 +19891,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
             TOut.setText(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),13).toString());
             ttlbiaya.setText(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),15).toString());
             cmbStatus.setSelectedItem(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),16).toString());
+            Nosep.setText(Sequel.cariIsi("select bridging_sep.no_sep from bridging_sep where no_rawat='"+TNoRwCari.getText()+"'"));                        
         }
     }
 
@@ -20634,6 +20636,14 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnPenilaianPasienImunitasRendah.setPreferredSize(new java.awt.Dimension(250, 26));
         MnPenilaianPasienImunitasRendah.addActionListener(this::MnPenilaianPasienImunitasRendahActionPerformed);
 
+        Nosep = new widget.Label();
+        Nosep.setForeground(new java.awt.Color(51, 51, 255));
+        Nosep.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Nosep.setText("No Sep");
+        Nosep.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        Nosep.setName("Nosep"); // NOI18N
+        panelCari.add(Nosep);         
+        
         MnCatatanKeseimbanganCairan = new javax.swing.JMenuItem();
         MnCatatanKeseimbanganCairan.setBackground(new java.awt.Color(255, 255, 254));
         MnCatatanKeseimbanganCairan.setFont(new java.awt.Font("Tahoma", 0, 11));
