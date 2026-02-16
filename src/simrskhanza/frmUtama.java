@@ -1128,6 +1128,7 @@ import surat.SuratRak;
 import surat.SuratRuang;
 import surat.SuratSakit;
 import surat.SuratSakitPihak2;
+import surat.SuratSerahTerimaBarangAnggotaTubuh;
 import surat.SuratSifat;
 import surat.SuratStatus;
 import surat.SuratTidakHamil;
@@ -9623,7 +9624,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgSetKamarInap form=new DlgSetKamarInap(this,false);
-        form.tampil();
         form.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         form.setLocationRelativeTo(PanelUtama);
         form.setVisible(true);
@@ -9862,13 +9862,11 @@ public class frmUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResepPulangActionPerformed
 
     private void btnSetupTarifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetupTarifActionPerformed
-
         isTutup();
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgSetTarif aplikasi=new DlgSetTarif(this,false);
         aplikasi.emptTeks();
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -10316,7 +10314,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkSurveilansPD3I aplikasi=new DlgDkkSurveilansPD3I(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -10328,7 +10325,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkSurveilansRalan aplikasi=new DlgDkkSurveilansRalan(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -10352,7 +10348,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkSurveilansRanap aplikasi=new DlgDkkSurveilansRanap(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -10364,7 +10359,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkPenyakitTidakMenularRanap aplikasi=new DlgDkkPenyakitTidakMenularRanap(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -10376,7 +10370,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkPenyakitTidakMenularRalan aplikasi=new DlgDkkPenyakitTidakMenularRalan(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -11324,7 +11317,6 @@ public class frmUtama extends javax.swing.JFrame {
                     if(cariNIK.getTable().getSelectedRow()!= -1){
                         coder_nik=cariNIK.getTable().getValueAt(cariNIK.getTable().getSelectedRow(),2).toString();
                         isTutup();
-                        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         try {
                             inacbgklaim.loadURL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+prop.getProperty("PORTWEB")+"/"+prop.getProperty("HYBRIDWEB")+"/"+"inacbg/login.php?act=login&usere="+koneksiDB.USERHYBRIDWEB()+"&passwordte="+koneksiDB.PASHYBRIDWEB()+"&page="+pilihpage+"&codernik="+coder_nik);
                         } catch (Exception ex) {
@@ -11336,7 +11328,6 @@ public class frmUtama extends javax.swing.JFrame {
                         inacbgklaim.setLocationRelativeTo(PanelUtama);
                         inacbgklaim.setVisible(true);
                         DlgHome.dispose();
-                        setCursor(Cursor.getDefaultCursor());
                     }
                 }
             }
@@ -11492,7 +11483,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgSensusHarianPoli aplikasi=new DlgSensusHarianPoli(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -12059,7 +12049,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkPenyakitMenularRanap aplikasi=new DlgDkkPenyakitMenularRanap(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -12071,7 +12060,6 @@ public class frmUtama extends javax.swing.JFrame {
         DlgHome.dispose();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgDkkPenyakitMenularRalan aplikasi=new DlgDkkPenyakitMenularRalan(this,false);
-        aplikasi.tampil();
         aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         aplikasi.setLocationRelativeTo(PanelUtama);
         aplikasi.setVisible(true);
@@ -12704,7 +12692,6 @@ public class frmUtama extends javax.swing.JFrame {
         frmPengaduan pengaduan=new frmPengaduan();
         pengaduan.setSize(800, PanelUtama.getHeight()-40);
         pengaduan.setLocationRelativeTo(null);
-        pengaduan.isCek();
         pengaduan.setVisible(true);
         DlgHome.dispose();
     }//GEN-LAST:event_btnPengaduanActionPerformed
@@ -15003,7 +14990,6 @@ public class frmUtama extends javax.swing.JFrame {
         PerpustakaanInventaris form=new PerpustakaanInventaris(this,false);
         form.isCek();
         form.emptTeks();
-        form.tampil();
         form.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         form.setLocationRelativeTo(PanelUtama);
         form.setVisible(true);
@@ -15156,7 +15142,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         PerpustakaanCariInventaris form=new PerpustakaanCariInventaris(this,false);
-        form.tampil();
         form.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         form.setLocationRelativeTo(PanelUtama);
         form.setVisible(true);
@@ -23297,7 +23282,6 @@ public class frmUtama extends javax.swing.JFrame {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DlgEEksekutif admin=new DlgEEksekutif(this,false);
-        admin.tampil();
         admin.emptTeks();
         admin.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
         admin.setLocationRelativeTo(PanelUtama);
@@ -23470,6 +23454,18 @@ public class frmUtama extends javax.swing.JFrame {
         form.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
         form.setLocationRelativeTo(PanelUtama);
         form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+    
+    private void btnSuratSerahTerimaBarangAnggotaTubuhActionPerformed(java.awt.event.ActionEvent evt) {  
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        SuratSerahTerimaBarangAnggotaTubuh aplikasi=new SuratSerahTerimaBarangAnggotaTubuh(this,false);
+        aplikasi.isCek();
+        aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        aplikasi.setLocationRelativeTo(PanelUtama);
+        aplikasi.setVisible(true);
         this.setCursor(Cursor.getDefaultCursor());
     }
 
@@ -24190,7 +24186,7 @@ public class frmUtama extends javax.swing.JFrame {
             btnHasilPemeriksaanECHOPediatrik,btnMasterTemplateInformasiEdukasi,btnSkriningInstrumenESAT,btnLabKeslingPermintaanPengujianSampel,btnPenilaianAwalMedisRanapJantung,
             btnEEksekutif,btnLabKeslingPengujianSampelTidakDapatDilayani,btnLabKeslingPengujianSampelDapatDilayani,btnLabKeslingPenugasanPengujianSampel,btnLabKeslingHasilPengujianSampel,
             btnLabKeslingVerifikasiPengujianSampel,btnLabKeslingValidasiPengujianSampel,btnLabKeslingRekapPelayanan,btnLabKeslingPembyaranPengujianSampel,btnLabKeslingRekapPembayaran,
-            btnSkriningCURB65,btnBPJSPotensiPRB,btnBPJSRiwayatPelayananObatApotek,btnSkriningGiziKehamilan,btnBPJSRekapPesertaPRBObatApotek;
+            btnSkriningCURB65,btnBPJSPotensiPRB,btnBPJSRiwayatPelayananObatApotek,btnSkriningGiziKehamilan,btnBPJSRekapPesertaPRBObatApotek,btnSuratSerahTerimaBarangAnggotaTubuh;
 
     public void isWall(){
         try{
@@ -29746,6 +29742,11 @@ public class frmUtama extends javax.swing.JFrame {
 
             if(akses.getsurat_pernyataan_memilih_dpjp()==true){
                 Panelmenu.add(btnSuratPernyataanMemilihDPJP);
+                jmlmenu++;
+            }
+            
+            if(akses.getserah_terima_anggota_tubuh_barang()==true){
+                Panelmenu.add(btnSuratSerahTerimaBarangAnggotaTubuh);
                 jmlmenu++;
             }
         }else if(cmbMenu.getSelectedIndex()==16){
@@ -35569,6 +35570,11 @@ public class frmUtama extends javax.swing.JFrame {
 
         if(akses.getsurat_pernyataan_memilih_dpjp()==true){
             Panelmenu.add(btnSuratPernyataanMemilihDPJP);
+            jmlmenu++;
+        }
+        
+        if(akses.getserah_terima_anggota_tubuh_barang()==true){
+            Panelmenu.add(btnSuratSerahTerimaBarangAnggotaTubuh);
             jmlmenu++;
         }
 
@@ -43563,6 +43569,13 @@ public class frmUtama extends javax.swing.JFrame {
                 jmlmenu++;
             }
         }
+        
+        if(akses.getserah_terima_anggota_tubuh_barang()==true){
+            if(btnSuratSerahTerimaBarangAnggotaTubuh.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
+                Panelmenu.add(btnSuratSerahTerimaBarangAnggotaTubuh);                 
+                jmlmenu++;
+            }
+        }
 
         if(akses.getruang_perpustakaan()==true){
             if(btnRuangPerpustakaan.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
@@ -49838,6 +49851,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnSkriningGiziKehamilan.setName("btnSkriningGiziKehamilan");
         btnSkriningGiziKehamilan.setPreferredSize(new java.awt.Dimension(200, 90));
         btnSkriningGiziKehamilan.addActionListener(this::btnSkriningGiziKehamilanActionPerformed);
+        
+        btnSuratSerahTerimaBarangAnggotaTubuh = new widget.ButtonBig();
+        btnSuratSerahTerimaBarangAnggotaTubuh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/file-manager.png"))); 
+        btnSuratSerahTerimaBarangAnggotaTubuh.setText("Serah Terima Anggota Tubuh/Barang");
+        btnSuratSerahTerimaBarangAnggotaTubuh.setIconTextGap(0);
+        btnSuratSerahTerimaBarangAnggotaTubuh.setName("btnSuratSerahTerimaBarangAnggotaTubuh");
+        btnSuratSerahTerimaBarangAnggotaTubuh.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnSuratSerahTerimaBarangAnggotaTubuh.addActionListener(this::btnSuratSerahTerimaBarangAnggotaTubuhActionPerformed);
     }
 
     private widget.ButtonBig btnBPJSKompilasiBerkasKlaim, btnUserSmc, btnSetAksesEditSementara, btnBPJSAntreanPerKodebookingMobileJKN, btnSetTampilJenisObatResep, btnSetPintuPoliSmc,
