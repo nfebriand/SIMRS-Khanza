@@ -310,7 +310,6 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         ppBersihkan = new javax.swing.JMenuItem();
         ppSemua = new javax.swing.JMenuItem();
         Jk = new widget.TextBox();
-        Umur = new widget.TextBox();
         Alamat = new widget.TextBox();
         PopupMB = new javax.swing.JPopupMenu();
         ppBersihkan1 = new javax.swing.JMenuItem();
@@ -338,6 +337,8 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         InformasiTambahan = new widget.TextBox();
         DiagnosisKlinis = new widget.TextBox();
         jLabel7 = new widget.Label();
+        jLabel25 = new widget.Label();
+        Umur = new widget.TextBox();
         TabRawat = new javax.swing.JTabbedPane();
         PanelCariUtama = new javax.swing.JPanel();
         Scroll = new widget.ScrollPane();
@@ -448,10 +449,8 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         Jk.setFocusTraversalPolicyProvider(true);
         Jk.setName("Jk"); // NOI18N
 
-        Umur.setEditable(false);
-        Umur.setName("Umur"); // NOI18N
-
         Alamat.setEditable(false);
+        Alamat.setHighlighter(null);
         Alamat.setName("Alamat"); // NOI18N
 
         PopupMB.setName("PopupMB"); // NOI18N
@@ -542,16 +541,19 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         jLabel3.setBounds(0, 10, 92, 23);
 
         TNoRw.setEditable(false);
+        TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
         PanelInput.add(TNoRw);
         TNoRw.setBounds(95, 10, 128, 23);
 
         TNoRM.setEditable(false);
+        TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
         PanelInput.add(TNoRM);
         TNoRM.setBounds(225, 10, 105, 23);
 
         TPasien.setEditable(false);
+        TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         PanelInput.add(TPasien);
         TPasien.setBounds(332, 10, 440, 23);
@@ -635,6 +637,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         KodePerujuk.setBounds(95, 40, 80, 23);
 
         NmPerujuk.setEditable(false);
+        NmPerujuk.setHighlighter(null);
         NmPerujuk.setName("NmPerujuk"); // NOI18N
         PanelInput.add(NmPerujuk);
         NmPerujuk.setBounds(177, 40, 180, 23);
@@ -644,6 +647,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         PanelInput.add(jLabel5);
         jLabel5.setBounds(400, 70, 130, 23);
 
+        InformasiTambahan.setHighlighter(null);
         InformasiTambahan.setName("InformasiTambahan"); // NOI18N
         InformasiTambahan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -653,6 +657,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         PanelInput.add(InformasiTambahan);
         InformasiTambahan.setBounds(533, 70, 239, 23);
 
+        DiagnosisKlinis.setHighlighter(null);
         DiagnosisKlinis.setName("DiagnosisKlinis"); // NOI18N
         DiagnosisKlinis.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -666,6 +671,17 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         jLabel7.setName("jLabel7"); // NOI18N
         PanelInput.add(jLabel7);
         jLabel7.setBounds(0, 70, 92, 23);
+
+        jLabel25.setText("Umur:");
+        jLabel25.setName("jLabel25"); // NOI18N
+        PanelInput.add(jLabel25);
+        jLabel25.setBounds(780, 10, 40, 23);
+
+        Umur.setEditable(false);
+        Umur.setHighlighter(null);
+        Umur.setName("Umur"); // NOI18N
+        PanelInput.add(Umur);
+        Umur.setBounds(820, 10, 128, 23);
 
         FormInput.add(PanelInput, java.awt.BorderLayout.CENTER);
 
@@ -742,6 +758,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass11.add(jLabel11);
         jLabel11.setBounds(0, 10, 82, 23);
 
+        Pemeriksaan.setHighlighter(null);
         Pemeriksaan.setName("Pemeriksaan"); // NOI18N
         Pemeriksaan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -783,6 +800,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass11.add(jLabel4);
         jLabel4.setBounds(541, 10, 98, 23);
 
+        TNoPermintaanPK.setHighlighter(null);
         TNoPermintaanPK.setName("TNoPermintaanPK"); // NOI18N
         TNoPermintaanPK.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -845,6 +863,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel13);
         jLabel13.setBounds(309, 100, 120, 23);
 
+        TNoPermintaanPA.setHighlighter(null);
         TNoPermintaanPA.setName("TNoPermintaanPA"); // NOI18N
         TNoPermintaanPA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -859,6 +878,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel12);
         jLabel12.setBounds(450, 10, 110, 23);
 
+        DiperolehDengan.setHighlighter(null);
         DiperolehDengan.setName("DiperolehDengan"); // NOI18N
         DiperolehDengan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -873,6 +893,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel14);
         jLabel14.setBounds(0, 40, 165, 23);
 
+        LokasiPengambilan.setHighlighter(null);
         LokasiPengambilan.setName("LokasiPengambilan"); // NOI18N
         LokasiPengambilan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -887,6 +908,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel16);
         jLabel16.setBounds(400, 40, 160, 23);
 
+        Diawetkan.setHighlighter(null);
         Diawetkan.setName("Diawetkan"); // NOI18N
         Diawetkan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -919,6 +941,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel18);
         jLabel18.setBounds(0, 70, 165, 23);
 
+        DilakukanPA.setHighlighter(null);
         DilakukanPA.setName("DilakukanPA"); // NOI18N
         DilakukanPA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -933,6 +956,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel19);
         jLabel19.setBounds(589, 70, 90, 23);
 
+        DiagnosaPA.setHighlighter(null);
         DiagnosaPA.setName("DiagnosaPA"); // NOI18N
         DiagnosaPA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -960,6 +984,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass12.add(jLabel20);
         jLabel20.setBounds(0, 10, 98, 23);
 
+        NomorPA.setHighlighter(null);
         NomorPA.setName("NomorPA"); // NOI18N
         NomorPA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1049,6 +1074,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass13.add(jLabel23);
         jLabel23.setBounds(0, 10, 82, 23);
 
+        PemeriksaanMB.setHighlighter(null);
         PemeriksaanMB.setName("PemeriksaanMB"); // NOI18N
         PemeriksaanMB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1090,6 +1116,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
         panelGlass13.add(jLabel24);
         jLabel24.setBounds(541, 10, 98, 23);
 
+        TNoPermintaanMB.setHighlighter(null);
         TNoPermintaanMB.setName("TNoPermintaanMB"); // NOI18N
         TNoPermintaanMB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2004,6 +2031,7 @@ public final class DlgPermintaanLaboratorium extends javax.swing.JDialog {
     private widget.Label jLabel22;
     private widget.Label jLabel23;
     private widget.Label jLabel24;
+    private widget.Label jLabel25;
     private widget.Label jLabel3;
     private widget.Label jLabel4;
     private widget.Label jLabel5;
