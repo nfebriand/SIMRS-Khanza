@@ -6,7 +6,7 @@
 
     function getKey()
     {
-       $keyRS = "";
+       $keyRS = "78a106db833e60affcb600a63bfcf77dcff32975f9152aba63c4a8988c49606a";
 
        if (empty($keyRS)) {
             throw new \Exception("Key belum ada!");
@@ -17,13 +17,13 @@
 
     function getUrlWS()
     {
-        $UrlWS = "http://localhost/E-Klaim/ws.php";
+        $UrlWS = "http://192.168.1.52/E-Klaim/ws.php";
         return $UrlWS;
     }
 
     function getKelasRS()
     {
-        $kelasRS = "";
+        $kelasRS = "CS";
 
         if (empty($kelasRS)) {
             throw new Exception("Kelas RS belum ada!");

@@ -30,3 +30,7 @@
 !sik_modif.sql
 !sik.sql
 /cache/
+webapps/conf/conf.php
+webapps/inacbg/conf/wsinacbg.php
+webapps/inacbg/conf/wsinacbg2.php
+webapps/inacbg/conf/wsinacbg.php
