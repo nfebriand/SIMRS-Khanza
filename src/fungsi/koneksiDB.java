@@ -45,7 +45,7 @@ public class koneksiDB {
                         try {
                             connection=dataSource.getConnection();
                             System.out.println("\n"+
-                                    "  Koneksi berhasil.... Jangan tutup aplikasi ini, cukup minimize \n\n"+
+									"  Koneksi berhasil.... Jangan tutup aplikasi ini, cukup minimize \n\n"+
                                     "  #    ____  ___  __  __  ____   ____    _  __ _                              \n" +
                                     "  #   / ___||_ _||  \\/  ||  _ \\ / ___|  | |/ /| |__    __ _  _ __   ____ __ _ \n" +
                                     "  #   \\___ \\ | | | |\\/| || |_) |\\___ \\  | ' / | '_ \\  / _` || '_ \\ |_  // _` |\n" +
