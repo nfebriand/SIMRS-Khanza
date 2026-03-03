@@ -819,6 +819,9 @@ public class DlgKamarInap extends javax.swing.JDialog {
         TPasienCari = new widget.TextBox();
         jLabel37 = new widget.Label();
         cmbStatusBayar = new widget.ComboBox();
+        BtnUpdateHariRawat = new widget.Button();
+        BtnInputDpjpRanap = new widget.Button();
+        BtnTampilkanDpjp = new widget.Button();
 
         WindowInputKamar.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         WindowInputKamar.setName("WindowInputKamar"); // NOI18N
@@ -5186,7 +5189,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame11.add(jLabel44);
         jLabel44.setBounds(0, 92, 78, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-01-2026 13:26:34" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-02-2026 11:32:58" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -5228,7 +5231,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel48.setBounds(300, 122, 80, 23);
 
         TanggalKematian.setEditable(false);
-        TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-01-2026" }));
+        TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-02-2026" }));
         TanggalKematian.setDisplayFormat("dd-MM-yyyy");
         TanggalKematian.setEnabled(false);
         TanggalKematian.setName("TanggalKematian"); // NOI18N
@@ -5525,7 +5528,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         R2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelCari.add(R2);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-01-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -5548,7 +5551,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel22.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel22);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-01-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -5574,7 +5577,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         R3.setPreferredSize(new java.awt.Dimension(75, 23));
         panelCari.add(R3);
 
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-01-2026" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-02-2026" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -5592,7 +5595,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel25.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel25);
 
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-01-2026" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-02-2026" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -5676,6 +5679,64 @@ public class DlgKamarInap extends javax.swing.JDialog {
         cmbStatusBayar.setName("cmbStatusBayar"); // NOI18N
         cmbStatusBayar.setPreferredSize(new java.awt.Dimension(120, 23));
         panelGlass9.add(cmbStatusBayar);
+
+        BtnUpdateHariRawat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/report24.png"))); // NOI18N
+        BtnUpdateHariRawat.setMnemonic('K');
+        BtnUpdateHariRawat.setText("Update Hari Rawat");
+        BtnUpdateHariRawat.setToolTipText("Alt+K");
+        BtnUpdateHariRawat.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        BtnUpdateHariRawat.setGlassColor(new java.awt.Color(255, 153, 255));
+        BtnUpdateHariRawat.setName("BtnUpdateHariRawat"); // NOI18N
+        BtnUpdateHariRawat.setPreferredSize(new java.awt.Dimension(170, 30));
+        BtnUpdateHariRawat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnUpdateHariRawatActionPerformed(evt);
+            }
+        });
+        BtnUpdateHariRawat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnUpdateHariRawatKeyPressed(evt);
+            }
+        });
+        panelGlass9.add(BtnUpdateHariRawat);
+
+        BtnInputDpjpRanap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Doctor.png"))); // NOI18N
+        BtnInputDpjpRanap.setMnemonic('K');
+        BtnInputDpjpRanap.setText("Input DPJP Ranap");
+        BtnInputDpjpRanap.setToolTipText("Alt+K");
+        BtnInputDpjpRanap.setGlassColor(new java.awt.Color(153, 255, 153));
+        BtnInputDpjpRanap.setName("BtnInputDpjpRanap"); // NOI18N
+        BtnInputDpjpRanap.setPreferredSize(new java.awt.Dimension(180, 30));
+        BtnInputDpjpRanap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnInputDpjpRanapActionPerformed(evt);
+            }
+        });
+        BtnInputDpjpRanap.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnInputDpjpRanapKeyPressed(evt);
+            }
+        });
+        panelGlass9.add(BtnInputDpjpRanap);
+
+        BtnTampilkanDpjp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Surgeon SH.png"))); // NOI18N
+        BtnTampilkanDpjp.setMnemonic('K');
+        BtnTampilkanDpjp.setText("Tampilkan DPJP Ranap");
+        BtnTampilkanDpjp.setToolTipText("Alt+K");
+        BtnTampilkanDpjp.setGlassColor(new java.awt.Color(153, 255, 153));
+        BtnTampilkanDpjp.setName("BtnTampilkanDpjp"); // NOI18N
+        BtnTampilkanDpjp.setPreferredSize(new java.awt.Dimension(180, 30));
+        BtnTampilkanDpjp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnTampilkanDpjpActionPerformed(evt);
+            }
+        });
+        BtnTampilkanDpjp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnTampilkanDpjpKeyPressed(evt);
+            }
+        });
+        panelGlass9.add(BtnTampilkanDpjp);
 
         internalFrame1.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -16175,6 +16236,138 @@ public class DlgKamarInap extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tbKamInMousePressed
 
+    private void BtnUpdateHariRawatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUpdateHariRawatActionPerformed
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TCari.requestFocus();
+        }else if(R1.isSelected()==false){
+            JOptionPane.showMessageDialog(rootPane,"Tampilkan data yang belum pulang terlebih dahulu");
+        }else{
+            updateHari();
+        }
+    }//GEN-LAST:event_BtnUpdateHariRawatActionPerformed
+
+    private void BtnUpdateHariRawatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnUpdateHariRawatKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnUpdateHariRawatKeyPressed
+
+    private void BtnInputDpjpRanapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnInputDpjpRanapActionPerformed
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TCari.requestFocus();
+        }else{
+            if(tbKamIn.getSelectedRow()>-1){
+                if(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString().equals("")){
+                    try {
+                        psanak=koneksi.prepareStatement(
+                            "select pasien.no_rkm_medis,pasien.nm_pasien,ranap_gabung.no_rawat2,concat(reg_periksa.umurdaftar,' ',reg_periksa.sttsumur)as umur,pasien.no_peserta, "+
+                            "concat(pasien.alamatpj,', ',pasien.kelurahanpj,', ',pasien.kecamatanpj,', ',pasien.kabupatenpj) as alamat "+
+                            "from reg_periksa inner join pasien inner join ranap_gabung on "+
+                            "pasien.no_rkm_medis=reg_periksa.no_rkm_medis and ranap_gabung.no_rawat2=reg_periksa.no_rawat where ranap_gabung.no_rawat=?");
+
+                        try {
+                            psanak.setString(1,tbKamIn.getValueAt(tbKamIn.getSelectedRow()-1,0).toString());
+                            rs2=psanak.executeQuery();
+                            if(rs2.next()){
+                                DlgDpjp dpjp=new DlgDpjp(null,false);
+                                dpjp.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                dpjp.setLocationRelativeTo(internalFrame1);
+                                dpjp.isCek();
+                                try{
+                                    date = new SimpleDateFormat("yyyy-MM-dd").parse(TIn.getText());
+                                }catch(Exception e){
+                                    date=new Date();
+                                }
+                                if(R1.isSelected()==true){
+                                    dpjp.setNoRm(rs2.getString("no_rawat2"),date,date,TIn.getText());
+                                }else if(R2.isSelected()==true){
+                                    dpjp.setNoRm(rs2.getString("no_rawat2"),date,DTPCari2.getDate(),TIn.getText());
+                                }else if(R3.isSelected()==true){
+                                    dpjp.setNoRm(rs2.getString("no_rawat2"),date,DTPCari4.getDate(),TIn.getText());
+                                }
+                                dpjp.tampil();
+                                dpjp.setVisible(true);
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
+                                tbKamIn.requestFocus();
+                            }
+                        }catch(Exception ex){
+                            System.out.println("Notifikasi : "+ex);
+                        }finally{
+                            if(rs2 != null){
+                                rs2.close();
+                            }
+                            if(psanak != null){
+                                psanak.close();
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }else{
+                    DlgDpjp dpjp=new DlgDpjp(null,false);
+                    dpjp.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                    dpjp.setLocationRelativeTo(internalFrame1);
+                    dpjp.isCek();
+                    try{
+                        date = new SimpleDateFormat("yyyy-MM-dd").parse(TIn.getText());
+                    }catch(Exception e){
+                        date=new Date();
+                    }
+
+                    if(R1.isSelected()==true){
+                        dpjp.setNoRm(norawat.getText(),date,date,TIn.getText());
+                    }else if(R2.isSelected()==true){
+                        dpjp.setNoRm(norawat.getText(),date,DTPCari2.getDate(),TIn.getText());
+                    }else if(R3.isSelected()==true){
+                        dpjp.setNoRm(norawat.getText(),date,DTPCari4.getDate(),TIn.getText());
+                    }
+                    
+                    dpjp.tampil();
+                    dpjp.setVisible(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_BtnInputDpjpRanapActionPerformed
+
+    private void BtnInputDpjpRanapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnInputDpjpRanapKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnInputDpjpRanapKeyPressed
+
+    private void BtnTampilkanDpjpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTampilkanDpjpActionPerformed
+        row=tbKamIn.getRowCount();
+        for(i=0;i<row;i++){
+            try{
+                psdpjp=koneksi.prepareStatement("select dokter.nm_dokter from dpjp_ranap inner join dokter "+
+                    "on dpjp_ranap.kd_dokter=dokter.kd_dokter where dpjp_ranap.no_rawat=? ");
+                dokterranap="";
+                try {
+                    psdpjp.setString(1,tbKamIn.getValueAt(i,0).toString());
+                    rs=psdpjp.executeQuery();
+                    while(rs.next()){
+                        dokterranap=rs.getString("nm_dokter")+", "+dokterranap;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : "+e);
+                } finally{
+                    if(rs!=null){
+                        rs.close();
+                    }
+                    if(psdpjp!=null){
+                        psdpjp.close();
+                    }
+                }
+                tbKamIn.setValueAt(dokterranap,i,18);
+            } catch(Exception e){
+                System.out.println("Notifikasi : "+e);
+            }
+        }
+    }//GEN-LAST:event_BtnTampilkanDpjpActionPerformed
+
+    private void BtnTampilkanDpjpKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnTampilkanDpjpKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnTampilkanDpjpKeyPressed
+
     private void MnSkorAldrettePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
@@ -19292,6 +19485,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private widget.Button BtnCloseInpindah;
     private widget.Button BtnHapusGabung;
     private widget.Button BtnIn;
+    private widget.Button BtnInputDpjpRanap;
     private widget.Button BtnKeluar;
     private widget.Button BtnKeluar4;
     private widget.Button BtnOut;
@@ -19305,6 +19499,8 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private widget.Button BtnSimpan8;
     private widget.Button BtnSimpanGabung;
     private widget.Button BtnSimpanpindah;
+    private widget.Button BtnTampilkanDpjp;
+    private widget.Button BtnUpdateHariRawat;
     private widget.ComboBox CmbBln;
     private widget.ComboBox CmbTahun;
     private widget.ComboBox CmbTgl;

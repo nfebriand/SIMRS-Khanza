@@ -619,11 +619,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         btnSuplesi = new widget.Button();
         jLabel55 = new widget.Label();
         NoLP = new widget.TextBox();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        BtnSimpan2 = new widget.Button();
         internalFrame4 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbDataSEP = new widget.Table();
@@ -1099,7 +1094,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         internalFrame5.add(jLabel26);
         jLabel26.setBounds(6, 32, 70, 23);
 
-
         TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-01-2026 09:47:42" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
@@ -1144,7 +1138,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel48.setName("jLabel48"); // NOI18N
         internalFrame5.add(jLabel48);
         jLabel48.setBounds(291, 62, 120, 23);
-
 
         TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-01-2026" }));
         TanggalKematian.setDisplayFormat("dd-MM-yyyy");
@@ -1431,6 +1424,22 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             }
         });
         Popup1.add(ppPengajuan1);
+
+        ppPengajuan2.setBackground(new java.awt.Color(255, 255, 254));
+        ppPengajuan2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppPengajuan2.setForeground(new java.awt.Color(50, 50, 50));
+        ppPengajuan2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppPengajuan2.setText("Aproval SEP Finger");
+        ppPengajuan2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppPengajuan2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppPengajuan2.setName("ppPengajuan2"); // NOI18N
+        ppPengajuan2.setPreferredSize(new java.awt.Dimension(200, 25));
+        ppPengajuan2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppPengajuan2BtnPrintActionPerformed(evt);
+            }
+        });
+        Popup1.add(ppPengajuan2);
 
         ppPengajuan3.setBackground(new java.awt.Color(255, 255, 254));
         ppPengajuan3.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -2242,7 +2251,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         btnRiwayat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnRiwayat.setMnemonic('X');
-        btnRiwayat.setText("Kontrol Ulang");
         btnRiwayat.setToolTipText("Alt+X");
         btnRiwayat.setName("btnRiwayat"); // NOI18N
         btnRiwayat.addActionListener(new java.awt.event.ActionListener() {
@@ -2251,7 +2259,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             }
         });
         FormInput.add(btnRiwayat);
-        btnRiwayat.setBounds(669, 72, 120, 23);
+        btnRiwayat.setBounds(669, 72, 28, 23);
 
         btnSKDP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnSKDP.setMnemonic('X');
@@ -2411,7 +2419,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
         btnRiwayatRujukan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnRiwayatRujukan.setMnemonic('X');
-        btnRiwayatRujukan.setText("Rujukan Baru");
         btnRiwayatRujukan.setToolTipText("Alt+X");
         btnRiwayatRujukan.setName("btnRiwayatRujukan"); // NOI18N
         btnRiwayatRujukan.addActionListener(new java.awt.event.ActionListener() {
@@ -2420,7 +2427,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             }
         });
         FormInput.add(btnRiwayatRujukan);
-        btnRiwayatRujukan.setBounds(810, 70, 130, 23);
+        btnRiwayatRujukan.setBounds(699, 72, 28, 23);
 
         btnSuplesi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnSuplesi.setMnemonic('X');
@@ -2453,48 +2460,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         });
         FormInput.add(NoLP);
         NoLP.setBounds(632, 162, 95, 23);
-
-        jScrollPane3.setName("jScrollPane3"); // NOI18N
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setText("1. Pasien dengan Rujukan baru\n- Tujuan Kunjungan = Normal\ndan yang lain kosongkan.\n\n2. Pasien dengan Kontrol Ulang\n-Tujuan Kunjungan = Konsul Dokter\n-Flag Prosedur & Penunjang = Kosong\n-Asesmen Pelayanan = Tujuan Kontrol\n\n3. Pasien pecah SEP (Internal)\n-Tujuan Kunjungan = Normal\n-Flag Prosedur & Penunjang = Kosong\n-Asesmen Pelayanan = 1. Poli Spesialis \n                                      tidak tersedia pada \n                                      hari sebelumnya\n-No Rujukan ambil dari rujukan induk\n\n\n");
-        jTextArea2.setDisabledTextColor(new java.awt.Color(51, 255, 204));
-        jTextArea2.setName("jTextArea2"); // NOI18N
-        jScrollPane3.setViewportView(jTextArea2);
-
-        FormInput.add(jScrollPane3);
-        jScrollPane3.setBounds(750, 140, 310, 320);
-
-        jScrollPane2.setName("jScrollPane2"); // NOI18N
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("4. Pasien Rawat Inap\n-Jenis Pelayanan = Rawat Inap\n-Asal Rujukan RS (Apabila dari IGD)\n-Asal Rujukan FKTP (Apabila dari POLI)\n-Masukan Nomor SPRI\n-Tujuan Kunjungan = Normal\n-PPK Rujukan = Nama RS\n\n5. Pasien Post Ranap\n-Poli Tujuan = Sesuai Ranap\n-No Rujukan = SEP Ranap\n- Tanggal Rujukan = Tanggal SEP Ranap dibuat\n-Inputkan Sukon (SKDP)\n-Tujuan Kontrol = Normal\n\n6. Pasien IGD\n-Poli Tujuan = IGD\n- DOkter tujukan masukan DPJP\n-Tujuan Kunjungan = Normal");
-        jTextArea1.setName("jTextArea1"); // NOI18N
-        jScrollPane2.setViewportView(jTextArea1);
-
-        FormInput.add(jScrollPane2);
-        jScrollPane2.setBounds(1070, 140, 310, 320);
-
-        BtnSimpan2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/refresh.png"))); // NOI18N
-        BtnSimpan2.setMnemonic('S');
-        BtnSimpan2.setText("Ambil Di Data Pasien");
-        BtnSimpan2.setToolTipText("Alt+S");
-        BtnSimpan2.setName("BtnSimpan2"); // NOI18N
-        BtnSimpan2.setPreferredSize(new java.awt.Dimension(170, 30));
-        BtnSimpan2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnSimpan2ActionPerformed(evt);
-            }
-        });
-        BtnSimpan2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                BtnSimpan2KeyPressed(evt);
-            }
-        });
-        FormInput.add(BtnSimpan2);
-        BtnSimpan2.setBounds(730, 100, 170, 30);
 
         Scroll1.setViewportView(FormInput);
 
@@ -5961,18 +5926,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_ppTampilSEPRawatInapBtnPrintActionPerformed
 
-    private void BtnSimpan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpan2ActionPerformed
-        NoTelp.setText(Sequel.cariIsi("select pasien.no_tlp from pasien where pasien.no_rkm_medis=?", TNoRM.getText()));
-    }//GEN-LAST:event_BtnSimpan2ActionPerformed
-
-    private void BtnSimpan2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpan2KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnSimpan2KeyPressed
-
-    private void JenisPelayananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JenisPelayananActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JenisPelayananActionPerformed
-
     /**
     * @param args the command line arguments
     */
@@ -6005,7 +5958,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
     private widget.Button BtnKeluar;
     private widget.Button BtnPrint;
     private widget.Button BtnSimpan;
-    private widget.Button BtnSimpan2;
     private widget.Button BtnSimpan4;
     private widget.Button BtnSimpan5;
     private widget.Button BtnSimpan6;
@@ -6180,10 +6132,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
     private widget.Label jLabel7;
     private widget.Label jLabel8;
     private widget.Label jLabel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private widget.panelisi panelGlass10;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
