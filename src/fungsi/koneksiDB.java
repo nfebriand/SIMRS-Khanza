@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -735,7 +736,7 @@ public class koneksiDB {
     public static String JADIKANPIUTANGAPOTEKBPJS(){
         try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
             prop.loadFromXML(fis);
-            var=EnkripsiAES.decrypt(prop.getProperty("JADIKANPIUTANGAPOTEKBPJS"));
+            var=prop.getProperty("JADIKANPIUTANGAPOTEKBPJS");
         }catch(Exception e){
             var="no";
         }

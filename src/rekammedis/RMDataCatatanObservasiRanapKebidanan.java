@@ -6,11 +6,11 @@
 package rekammedis;
 
 import fungsi.WarnaTable;
+import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
-import fungsi.akses;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -139,7 +139,7 @@ public final class RMDataCatatanObservasiRanapKebidanan extends javax.swing.JDia
         VT.setDocument(new batasInput((byte)30).getKata(VT));
         Catatan.setDocument(new batasInput((int)1000).getKata(Catatan));        
         TCari.setDocument(new batasInput((int)100).getKata(TCari));
-        
+
         ChkInput.setSelected(false);
         isForm();
         jam();

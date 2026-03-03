@@ -23,7 +23,7 @@ public class WarnaTableKasirRalan extends DefaultTableCellRenderer {
             component.setBackground(new Color(255,244,244));
         }else{
             component.setBackground(new Color(255,255,255));
-        } 
+        }
         if (isSelected) {
             component.setFont(component.getFont().deriveFont(Font.BOLD));            
             component.setForeground(new Color(255, 0, 0));
