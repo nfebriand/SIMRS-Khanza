@@ -8,6 +8,16 @@
 /lib/
 /setting/*.ini
 /setting/*.xml
+/src/
+/KhanzaSecurity16bit/src/AESsecurity/*.java
+/cache/
+/webapps/conf/conf.php
+/webapps/inacbg/conf/wsinacbg.php
+/webapps/inacbg/conf/wsinacbg2.php
+/webapps/inacbg/conf/wsinacbg.php
+/webapps/inacbg/conf/wsinacbg.php
+/webapps/conf/conf.php
+/webapps/inacbg/conf/wsinacbg.php
 
 *.DS_Store
 *.*~*
@@ -32,11 +42,4 @@
 !sik_bridging_satusehat.sql
 !sik_modif.sql
 !sik.sql
-/cache/
-webapps/conf/conf.php
-webapps/inacbg/conf/wsinacbg.php
-webapps/inacbg/conf/wsinacbg2.php
-webapps/inacbg/conf/wsinacbg.php
-webapps/inacbg/conf/wsinacbg.php
-webapps/conf/conf.php
-webapps/inacbg/conf/wsinacbg.php
+
