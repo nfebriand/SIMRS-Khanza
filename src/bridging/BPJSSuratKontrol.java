@@ -2656,7 +2656,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             ceksukses = false;
         }
     }
-    
+
     @Override
     public void dispose() {
         executor.shutdownNow();

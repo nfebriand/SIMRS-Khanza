@@ -9,9 +9,9 @@
     if(strpos($_SERVER['REQUEST_URI'],"pages")){
         exit(header("Location:../index.php"));
     }
-    
+
     $iyem = trim(isset($_GET['iyem']))?trim($_GET['iyem']):NULL;
-    $iyem = json_decode(encrypt_decrypt($iyem,"d"),true); 
+    $iyem = json_decode(encrypt_decrypt($iyem,"d"),true);
     if (isset($iyem["noresep"])) {
         $noresep    = validTeks3($iyem["noresep"],20);
         $norawat    = validTeks3($iyem["norawat"],20);
@@ -106,10 +106,27 @@
                                     </tr>";
             $i++;
         }
+
+        if($i==0){
+            $queryresepnonracikan = bukaquery(
+                "select databarang.nama_brng,detailpiutang.aturan_pakai,detailpiutang.jml,kodesatuan.satuan
+                from detailpiutang inner join bridging_resep_apotek_bpjs on bridging_resep_apotek_bpjs.no_sep_apotek=detailpiutang.nota_piutang
+                where bridging_resep_apotek_bpjs.no_resep='$noresep'"
+            );
+            while($rsqueryresepnonracikan= mysqli_fetch_array($queryresepnonracikan)){
+                echo "                  <tr class='text-dark'>
+                                            <td align='center'>".$i."</td>
+                                            <td align='left'>".$rsqueryresepnonracikan["nama_brng"]."</td>
+                                            <td align='center'>".$rsqueryresepnonracikan["jml"]." ".$rsqueryresepnonracikan["satuan"]."</td>
+                                            <td align='center'>".$rsqueryresepnonracikan["aturan_pakai"]."</td>
+                                        </tr>";
+                $i++;
+            }
+        }
         echo "                  </table>
                                 <form method='POST' onsubmit='return validasiIsi();' enctype=multipart/form-data>
                                     <input type='hidden' name='noresep' value='$noresep'>
-                                    <h7><center>Pasien/Yang Mewakili<br/></h7>    
+                                    <h7><center>Pasien/Yang Mewakili<br/></h7>
                                     <div class='row'>
                                         <div class='col-md-12 text-center'>
                                             <center><div id='my_camera'></div><center>

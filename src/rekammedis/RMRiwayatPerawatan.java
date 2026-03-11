@@ -38403,11 +38403,9 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
         }
     }
 
-    /*
     @Override
     public void dispose() {
         executor.shutdownNow();
         super.dispose();
     }
-    */
 }
