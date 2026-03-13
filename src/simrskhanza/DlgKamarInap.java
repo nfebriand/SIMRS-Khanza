@@ -240,7 +240,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private int i,row=0;
     private boolean ceksukses=false;
     private double lama=0,persenbayi=0,hargakamar=0;
-    private String gabungkan="",norawatgabung="",kamaryangdigabung="",dokterranap="",bangsal="",diagnosa_akhir="",namakamar="",umur="0",sttsumur="Th",order="order by bangsal.nm_bangsal,kamar_inap.tgl_masuk,kamar_inap.jam_masuk";
+    private String gabungkan="",norawatgabung="",kamaryangdigabung="",dokterranap="",bangsal="",diagnosa_akhir="",namakamar="",umur="0",sttsumur="Th",order="order by bangsal.nm_bangsal,kamar_inap.tgl_masuk,kamar_inap.jam_masuk", validasicatatan="No";
 
     /** Creates new form DlgKamarInap
      * @param parent
@@ -405,6 +405,15 @@ public class DlgKamarInap extends javax.swing.JDialog {
             KUNCIDOKTERRANAP=koneksiDB.KUNCIDOKTERRANAP();
         } catch (Exception e) {
             KUNCIDOKTERRANAP="no";
+        }
+
+        try {
+            validasicatatan=Sequel.cariIsi("select set_validasi_catatan.tampilkan_catatan from set_validasi_catatan");
+            if(validasicatatan==null){
+                validasicatatan="No";
+            }
+        } catch (Exception e) {
+            validasicatatan="No";
         }
     }
 
@@ -778,6 +787,9 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel41 = new widget.Label();
         TNoSEPRanapPulang = new widget.TextBox();
         jLabel9 = new widget.Label();
+        DlgCatatan = new javax.swing.JDialog();
+        internalFrame10 = new widget.InternalFrame();
+        LabelCatatan = new widget.Label();
         internalFrame1 = new widget.InternalFrame();
         PanelCariUtama = new javax.swing.JPanel();
         panelGlass10 = new widget.panelisi();
@@ -887,7 +899,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel12.setBounds(0, 55, 72, 23);
 
         btnReg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnReg.setMnemonic('1');
         btnReg.setToolTipText("Alt+1");
         btnReg.setName("btnReg"); // NOI18N
         btnReg.addActionListener(new java.awt.event.ActionListener() {
@@ -910,7 +921,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         TNoRM.setBounds(227, 25, 130, 23);
 
         btnKamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnKamar.setMnemonic('2');
         btnKamar.setToolTipText("Alt+2");
         btnKamar.setName("btnKamar"); // NOI18N
         btnKamar.addActionListener(new java.awt.event.ActionListener() {
@@ -1015,7 +1025,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         TSttsKamar.setBounds(548, 55, 110, 23);
 
         BtnCloseIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseIn.setMnemonic('U');
         BtnCloseIn.setText("Tutup");
         BtnCloseIn.setToolTipText("Alt+U");
         BtnCloseIn.setName("BtnCloseIn"); // NOI18N
@@ -1038,7 +1047,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel19.setBounds(-10, 200, 850, 14);
 
         BtnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpan.setMnemonic('S');
         BtnSimpan.setText("Simpan");
         BtnSimpan.setToolTipText("Alt+S");
         BtnSimpan.setName("BtnSimpan"); // NOI18N
@@ -1056,7 +1064,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnSimpan.setBounds(14, 225, 100, 30);
 
         BtnBatal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Cancel-2-16x16.png"))); // NOI18N
-        BtnBatal.setMnemonic('B');
         BtnBatal.setText("Batal");
         BtnBatal.setToolTipText("Alt+B");
         BtnBatal.setName("BtnBatal"); // NOI18N
@@ -1185,7 +1192,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel26.setBounds(275, 175, 140, 23);
 
         btnDiagnosa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnDiagnosa.setMnemonic('3');
         btnDiagnosa.setToolTipText("Alt+3");
         btnDiagnosa.setName("btnDiagnosa"); // NOI18N
         btnDiagnosa.addActionListener(new java.awt.event.ActionListener() {
@@ -3274,7 +3280,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnBarcodeRM9.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         MnBarcodeRM9.setForeground(new java.awt.Color(50, 50, 50));
         MnBarcodeRM9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnBarcodeRM9.setMnemonic('L');
         MnBarcodeRM9.setText("Label Rekam Medis 10");
         MnBarcodeRM9.setToolTipText("L");
         MnBarcodeRM9.setName("MnBarcodeRM9"); // NOI18N
@@ -4600,7 +4605,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         TNoRMpindah.setBounds(227, 25, 130, 23);
 
         btnKamar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnKamar2.setMnemonic('2');
         btnKamar2.setToolTipText("Alt+2");
         btnKamar2.setName("btnKamar2"); // NOI18N
         btnKamar2.addActionListener(new java.awt.event.ActionListener() {
@@ -4670,7 +4674,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         TSttsKamarpindah.setBounds(548, 85, 110, 23);
 
         BtnCloseInpindah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseInpindah.setMnemonic('U');
         BtnCloseInpindah.setText("Tutup");
         BtnCloseInpindah.setToolTipText("Alt+U");
         BtnCloseInpindah.setName("BtnCloseInpindah"); // NOI18N
@@ -4693,7 +4696,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel30.setBounds(-10, 245, 850, 14);
 
         BtnSimpanpindah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpanpindah.setMnemonic('S');
         BtnSimpanpindah.setText("Simpan");
         BtnSimpanpindah.setToolTipText("Alt+S");
         BtnSimpanpindah.setName("BtnSimpanpindah"); // NOI18N
@@ -4803,7 +4805,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame5.setLayout(null);
 
         BtnCloseIn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseIn4.setMnemonic('U');
         BtnCloseIn4.setText("Tutup");
         BtnCloseIn4.setToolTipText("Alt+U");
         BtnCloseIn4.setName("BtnCloseIn4"); // NOI18N
@@ -4816,7 +4817,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnCloseIn4.setBounds(510, 30, 100, 30);
 
         BtnSimpan4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpan4.setMnemonic('S');
         BtnSimpan4.setText("Simpan");
         BtnSimpan4.setToolTipText("Alt+S");
         BtnSimpan4.setName("BtnSimpan4"); // NOI18N
@@ -4849,7 +4849,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         nmpenjab.setBounds(183, 32, 181, 23);
 
         btnBayar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnBayar.setMnemonic('7');
         btnBayar.setToolTipText("ALt+7");
         btnBayar.setName("btnBayar"); // NOI18N
         btnBayar.addActionListener(new java.awt.event.ActionListener() {
@@ -4872,7 +4871,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame6.setLayout(null);
 
         BtnCloseGabung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseGabung.setMnemonic('U');
         BtnCloseGabung.setText("Tutup");
         BtnCloseGabung.setToolTipText("Alt+U");
         BtnCloseGabung.setName("BtnCloseGabung"); // NOI18N
@@ -4885,7 +4883,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnCloseGabung.setBounds(510, 70, 100, 30);
 
         BtnSimpanGabung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpanGabung.setMnemonic('S');
         BtnSimpanGabung.setText("Simpan");
         BtnSimpanGabung.setToolTipText("Alt+S");
         BtnSimpanGabung.setName("BtnSimpanGabung"); // NOI18N
@@ -4918,7 +4915,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         NmBayi.setBounds(193, 30, 350, 23);
 
         btnPasienRanapGabung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnPasienRanapGabung.setMnemonic('7');
         btnPasienRanapGabung.setToolTipText("ALt+7");
         btnPasienRanapGabung.setName("btnPasienRanapGabung"); // NOI18N
         btnPasienRanapGabung.addActionListener(new java.awt.event.ActionListener() {
@@ -4930,7 +4926,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         btnPasienRanapGabung.setBounds(546, 30, 28, 23);
 
         BtnHapusGabung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/stop_f2.png"))); // NOI18N
-        BtnHapusGabung.setMnemonic('H');
         BtnHapusGabung.setText("Hapus");
         BtnHapusGabung.setToolTipText("Alt+H");
         BtnHapusGabung.setName("BtnHapusGabung"); // NOI18N
@@ -4949,7 +4944,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         NoRawatGabung.setBounds(230, 220, 190, 23);
 
         btnPasienRanapGabung1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnPasienRanapGabung1.setMnemonic('7');
         btnPasienRanapGabung1.setToolTipText("ALt+7");
         btnPasienRanapGabung1.setName("btnPasienRanapGabung1"); // NOI18N
         btnPasienRanapGabung1.addActionListener(new java.awt.event.ActionListener() {
@@ -4980,7 +4974,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel38.setBounds(7, 10, 140, 23);
 
         BtnPrint5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/b_print.png"))); // NOI18N
-        BtnPrint5.setMnemonic('T');
         BtnPrint5.setText("Cetak");
         BtnPrint5.setToolTipText("Alt+T");
         BtnPrint5.setName("BtnPrint5"); // NOI18N
@@ -4994,7 +4987,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnPrint5.setBounds(10, 80, 100, 30);
 
         BtnKeluar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
-        BtnKeluar4.setMnemonic('K');
         BtnKeluar4.setText("Keluar");
         BtnKeluar4.setToolTipText("Alt+K");
         BtnKeluar4.setName("BtnKeluar4"); // NOI18N
@@ -5013,7 +5005,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         NomorSurat.setBounds(150, 10, 370, 23);
 
         BtnSeek5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        BtnSeek5.setMnemonic('6');
         BtnSeek5.setToolTipText("ALt+6");
         BtnSeek5.setName("BtnSeek5"); // NOI18N
         BtnSeek5.setPreferredSize(new java.awt.Dimension(28, 23));
@@ -5051,7 +5042,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame8.setLayout(null);
 
         BtnCloseIn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseIn5.setMnemonic('U');
         BtnCloseIn5.setText("Tutup");
         BtnCloseIn5.setToolTipText("Alt+U");
         BtnCloseIn5.setName("BtnCloseIn5"); // NOI18N
@@ -5064,7 +5054,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnCloseIn5.setBounds(510, 30, 100, 30);
 
         BtnSimpan5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpan5.setMnemonic('S');
         BtnSimpan5.setText("Simpan");
         BtnSimpan5.setToolTipText("Alt+S");
         BtnSimpan5.setName("BtnSimpan5"); // NOI18N
@@ -5103,7 +5092,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame9.setLayout(null);
 
         BtnCloseIn6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseIn6.setMnemonic('U');
         BtnCloseIn6.setText("Tutup");
         BtnCloseIn6.setToolTipText("Alt+U");
         BtnCloseIn6.setName("BtnCloseIn6"); // NOI18N
@@ -5116,7 +5104,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnCloseIn6.setBounds(510, 30, 100, 30);
 
         BtnSimpan6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpan6.setMnemonic('S');
         BtnSimpan6.setText("Simpan");
         BtnSimpan6.setToolTipText("Alt+S");
         BtnSimpan6.setName("BtnSimpan6"); // NOI18N
@@ -5155,7 +5142,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame11.setLayout(null);
 
         BtnCloseIn8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
-        BtnCloseIn8.setMnemonic('U');
         BtnCloseIn8.setText("Tutup");
         BtnCloseIn8.setToolTipText("Alt+U");
         BtnCloseIn8.setName("BtnCloseIn8"); // NOI18N
@@ -5168,7 +5154,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         BtnCloseIn8.setBounds(490, 220, 100, 30);
 
         BtnSimpan8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
-        BtnSimpan8.setMnemonic('S');
         BtnSimpan8.setText("Simpan");
         BtnSimpan8.setToolTipText("Alt+S");
         BtnSimpan8.setName("BtnSimpan8"); // NOI18N
@@ -5288,6 +5273,36 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         WindowUpdatePulang.getContentPane().add(internalFrame11, java.awt.BorderLayout.CENTER);
 
+        DlgCatatan.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        DlgCatatan.setName("DlgCatatan"); // NOI18N
+        DlgCatatan.setUndecorated(true);
+        DlgCatatan.setResizable(false);
+
+        internalFrame10.setBorder(null);
+        internalFrame10.setName("internalFrame10"); // NOI18N
+        internalFrame10.setWarnaAtas(new java.awt.Color(100, 100, 10));
+        internalFrame10.setWarnaBawah(new java.awt.Color(100, 100, 10));
+        internalFrame10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                internalFrame10MouseClicked(evt);
+            }
+        });
+        internalFrame10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        LabelCatatan.setForeground(new java.awt.Color(255, 255, 255));
+        LabelCatatan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LabelCatatan.setText("Catatan");
+        LabelCatatan.setName("LabelCatatan"); // NOI18N
+        LabelCatatan.setPreferredSize(new java.awt.Dimension(580, 23));
+        LabelCatatan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LabelCatatanMouseClicked(evt);
+            }
+        });
+        internalFrame10.add(LabelCatatan);
+
+        DlgCatatan.getContentPane().add(internalFrame10, java.awt.BorderLayout.CENTER);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -5314,7 +5329,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 9));
 
         BtnIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Agenda-1-16x16.png"))); // NOI18N
-        BtnIn.setMnemonic('M');
         BtnIn.setText("Masuk");
         BtnIn.setToolTipText("Alt+M");
         BtnIn.setName("BtnIn"); // NOI18N
@@ -5332,7 +5346,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass10.add(BtnIn);
 
         BtnOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/add-file-16x16.png"))); // NOI18N
-        BtnOut.setMnemonic('U');
         BtnOut.setText("Pulang");
         BtnOut.setToolTipText("Alt+U");
         BtnOut.setName("BtnOut"); // NOI18N
@@ -5350,7 +5363,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass10.add(BtnOut);
 
         btnPindah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/inventaris.png"))); // NOI18N
-        btnPindah.setMnemonic('P');
         btnPindah.setText("Pindah");
         btnPindah.setToolTipText("Alt+P");
         btnPindah.setName("btnPindah"); // NOI18N
@@ -5379,7 +5391,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass10.add(LCount);
 
         BtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/b_print.png"))); // NOI18N
-        BtnPrint.setMnemonic('T');
         BtnPrint.setText("Cetak");
         BtnPrint.setToolTipText("Alt+T");
         BtnPrint.setName("BtnPrint"); // NOI18N
@@ -5397,7 +5408,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass10.add(BtnPrint);
 
         BtnKeluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
-        BtnKeluar.setMnemonic('K');
         BtnKeluar.setText("Keluar");
         BtnKeluar.setToolTipText("Alt+K");
         BtnKeluar.setName("BtnKeluar"); // NOI18N
@@ -5435,7 +5445,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass11.add(BangsalCari);
 
         btnBangsalCari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnBangsalCari.setMnemonic('3');
         btnBangsalCari.setToolTipText("Alt+3");
         btnBangsalCari.setName("btnBangsalCari"); // NOI18N
         btnBangsalCari.setPreferredSize(new java.awt.Dimension(28, 23));
@@ -5466,7 +5475,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass11.add(TCari);
 
         BtnCari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/accept.png"))); // NOI18N
-        BtnCari.setMnemonic('4');
         BtnCari.setToolTipText("Alt+4");
         BtnCari.setName("BtnCari"); // NOI18N
         BtnCari.setPreferredSize(new java.awt.Dimension(28, 23));
@@ -5483,7 +5491,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         panelGlass11.add(BtnCari);
 
         BtnAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Search-16x16.png"))); // NOI18N
-        BtnAll.setMnemonic('M');
         BtnAll.setToolTipText("Alt+M");
         BtnAll.setName("BtnAll"); // NOI18N
         BtnAll.setPreferredSize(new java.awt.Dimension(28, 23));
@@ -16139,6 +16146,22 @@ public class DlgKamarInap extends javax.swing.JDialog {
                             norawatgabung="";
                         }
                     }
+                } else {
+                    i=tbKamIn.getSelectedColumn();
+                    if(i==2){
+                        if(validasicatatan.equals("Yes")){
+                            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                            LabelCatatan.setText(Sequel.cariIsi("select catatan_pasien.catatan from catatan_pasien where catatan_pasien.no_rkm_medis=?",TNoRMCari.getText()));
+                            if(!LabelCatatan.getText().equals("")){
+                                DlgCatatan.setSize(595,34);
+                                DlgCatatan.setLocationRelativeTo(internalFrame1);
+                                DlgCatatan.setVisible(true);
+                            }else{
+                                DlgCatatan.dispose();
+                            }
+                            this.setCursor(Cursor.getDefaultCursor());
+                        }
+                    }
                 }
             }
             if(evt.getClickCount()==2){
@@ -16363,6 +16386,14 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private void BtnTampilkanDpjpKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnTampilkanDpjpKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnTampilkanDpjpKeyPressed
+
+    private void LabelCatatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LabelCatatanMouseClicked
+        DlgCatatan.dispose();
+    }//GEN-LAST:event_LabelCatatanMouseClicked
+
+    private void internalFrame10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_internalFrame10MouseClicked
+        DlgCatatan.dispose();
+    }//GEN-LAST:event_internalFrame10MouseClicked
 
     private void MnSkorAldrettePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabMode.getRowCount()==0){
@@ -19508,9 +19539,11 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private widget.Tanggal DTPTglpindah;
     private widget.TextBox DiagnosaAkhirSementara;
     private widget.TextBox DiagnosaAwalSementara;
+    private javax.swing.JDialog DlgCatatan;
     private javax.swing.JDialog DlgSakit2;
     private widget.TextBox JamMasuk;
     private widget.Label LCount;
+    private widget.Label LabelCatatan;
     private widget.Label LblStts;
     private javax.swing.JMenu MenuBPJS;
     private javax.swing.JMenu MenuInputData;
@@ -19772,6 +19805,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private widget.TextBox diagnosaakhir;
     private widget.TextBox diagnosaawal;
     private widget.InternalFrame internalFrame1;
+    private widget.InternalFrame internalFrame10;
     private widget.InternalFrame internalFrame11;
     private widget.InternalFrame internalFrame2;
     private widget.InternalFrame internalFrame3;
