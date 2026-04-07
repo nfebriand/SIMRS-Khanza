@@ -42,6 +42,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
+import kepegawaian.DlgCariPegawai;
 
 
 /**
@@ -79,6 +80,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     private PCRAICRAPersyaratanHarusDipenuhi persyaratandipenuhi;
     private PCRAICRACariJenisAktivitasProyek aktivitasproyek;
     private PCRAICRACariKelasRisikoPencegahan kelasrisikopencegahan;
+    private DlgCariPegawai pegawai;
 
     /** Creates new form DlgRujuk
      * @param parent
@@ -842,11 +844,21 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
 
         NamaProyek.setHighlighter(null);
         NamaProyek.setName("NamaProyek"); // NOI18N
+        NamaProyek.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NamaProyekKeyPressed(evt);
+            }
+        });
         FormInput.add(NamaProyek);
         NamaProyek.setBounds(404, 10, 450, 23);
 
         DeskripsiPekerjaan.setHighlighter(null);
         DeskripsiPekerjaan.setName("DeskripsiPekerjaan"); // NOI18N
+        DeskripsiPekerjaan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                DeskripsiPekerjaanKeyPressed(evt);
+            }
+        });
         FormInput.add(DeskripsiPekerjaan);
         DeskripsiPekerjaan.setBounds(280, 70, 574, 23);
 
@@ -900,11 +912,21 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
 
         YangBertanggungJawab.setHighlighter(null);
         YangBertanggungJawab.setName("YangBertanggungJawab"); // NOI18N
+        YangBertanggungJawab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                YangBertanggungJawabKeyPressed(evt);
+            }
+        });
         FormInput.add(YangBertanggungJawab);
         YangBertanggungJawab.setBounds(177, 100, 245, 23);
 
         KontraktorPelaksana.setHighlighter(null);
         KontraktorPelaksana.setName("KontraktorPelaksana"); // NOI18N
+        KontraktorPelaksana.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                KontraktorPelaksanaKeyPressed(evt);
+            }
+        });
         FormInput.add(KontraktorPelaksana);
         KontraktorPelaksana.setBounds(609, 100, 245, 23);
 
@@ -998,7 +1020,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         label11.setBounds(468, 40, 90, 23);
 
         TanggalMulai.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalMulai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-03-2026" }));
+        TanggalMulai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-04-2026" }));
         TanggalMulai.setDisplayFormat("dd-MM-yyyy");
         TanggalMulai.setName("TanggalMulai"); // NOI18N
         TanggalMulai.setOpaque(false);
@@ -1044,7 +1066,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         label12.setBounds(650, 40, 110, 23);
 
         PerkiraanSelesai.setForeground(new java.awt.Color(50, 70, 50));
-        PerkiraanSelesai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-03-2026" }));
+        PerkiraanSelesai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-04-2026" }));
         PerkiraanSelesai.setDisplayFormat("dd-MM-yyyy");
         PerkiraanSelesai.setName("PerkiraanSelesai"); // NOI18N
         PerkiraanSelesai.setOpaque(false);
@@ -2052,7 +2074,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         label31.setBounds(448, 1470, 70, 23);
 
         TanggalPengkajian.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalPengkajian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-03-2026 08:40:07" }));
+        TanggalPengkajian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-04-2026 11:34:08" }));
         TanggalPengkajian.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPengkajian.setName("TanggalPengkajian"); // NOI18N
         TanggalPengkajian.setOpaque(false);
@@ -2077,6 +2099,11 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
 
         NomorPengkajian.setHighlighter(null);
         NomorPengkajian.setName("NomorPengkajian"); // NOI18N
+        NomorPengkajian.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NomorPengkajianKeyPressed(evt);
+            }
+        });
         FormInput.add(NomorPengkajian);
         NomorPengkajian.setBounds(654, 1500, 170, 23);
 
@@ -2121,7 +2148,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-03-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-04-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2135,7 +2162,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-03-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-04-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2199,7 +2226,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
             isRawat();
         }else{
-            Valid.pindah(evt,TCari,BtnAktivitas);
+            Valid.pindah(evt,TCari,NamaProyek);
         }
 }//GEN-LAST:event_NoProyekKeyPressed
 
@@ -2480,7 +2507,11 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
 }//GEN-LAST:event_tbObatKeyPressed
 
     private void KodeAktivitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KodeAktivitasKeyPressed
-
+        if(evt.getKeyCode()==KeyEvent.VK_UP){
+            BtnAktivitasActionPerformed(null);
+        }else{
+            Valid.pindah(evt,KontraktorPelaksana,DeskripsiLokasiProyek);
+        }
     }//GEN-LAST:event_KodeAktivitasKeyPressed
 
     private void BtnAktivitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAktivitasActionPerformed
@@ -2494,7 +2525,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
                         KodeAktivitas.setText(aktivitasproyek.getTable().getValueAt(aktivitasproyek.getTable().getSelectedRow(),0).toString());
                         NamaAktivitas.setText(aktivitasproyek.getTable().getValueAt(aktivitasproyek.getTable().getSelectedRow(),1).toString());
                     }
-                    aktivitasproyek.requestFocus();
+                    DeskripsiLokasiProyek.requestFocus();
                     aktivitasproyek=null;
                 }
             });
@@ -2518,23 +2549,27 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_BtnAktivitasKeyPressed
 
     private void DibutuhkanICRAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DibutuhkanICRAKeyPressed
-        Valid.pindah(evt,TanggalMulai,KodeManajer);
+        Valid.pindah(evt,KodeRisiko,TCariTindakanPengendalian);
     }//GEN-LAST:event_DibutuhkanICRAKeyPressed
 
     private void DeskripsiLokasiProyekKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DeskripsiLokasiProyekKeyPressed
-        //Valid.pindah2(evt,Hubungan,RPS);
+        Valid.pindah2(evt,KodeAktivitas,TCariKelompokRisikoArea);
     }//GEN-LAST:event_DeskripsiLokasiProyekKeyPressed
 
     private void PenyebabRisikoLainnyaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PenyebabRisikoLainnyaKeyPressed
-        //Valid.pindah2(evt,KeluhanUtama,RPK);
+        Valid.pindah2(evt,TCariRisikoUtilitas,TCariPersyaratanDipenuhi);
     }//GEN-LAST:event_PenyebabRisikoLainnyaKeyPressed
 
     private void TanggalMulaiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TanggalMulaiKeyPressed
-        //Valid.pindah(evt,Konsul,Anamnesis);
+        Valid.pindah(evt,LokasiProyek,PerkiraanSelesai);
     }//GEN-LAST:event_TanggalMulaiKeyPressed
 
     private void KodeManajerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KodeManajerKeyPressed
-        Valid.pindah(evt,DibutuhkanICRA,DeskripsiLokasiProyek);
+        if(evt.getKeyCode()==KeyEvent.VK_UP){
+            BtnPJProyekActionPerformed(null);
+        }else{
+            Valid.pindah(evt,KodePJProyek,KodeDirektur);
+        }
     }//GEN-LAST:event_KodeManajerKeyPressed
 
     private void MnPenilaianMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnPenilaianMedisActionPerformed
@@ -2781,15 +2816,42 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_formWindowOpened
 
     private void LokasiProyekKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LokasiProyekKeyPressed
-        // TODO add your handling code here:
+        Valid.pindah(evt,NamaProyek,TanggalMulai);
     }//GEN-LAST:event_LokasiProyekKeyPressed
 
     private void PerkiraanSelesaiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PerkiraanSelesaiKeyPressed
-        // TODO add your handling code here:
+        Valid.pindah(evt,TanggalMulai,DeskripsiPekerjaan);
     }//GEN-LAST:event_PerkiraanSelesaiKeyPressed
 
     private void BtnTimK3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTimK3ActionPerformed
-        // TODO add your handling code here:
+        if (pegawai == null || !pegawai.isDisplayable()) {
+            pegawai=new DlgCariPegawai(null,false);
+            pegawai.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            pegawai.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(pegawai.getTable().getSelectedRow()!= -1){
+                        KodeTimK3.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),0).toString());
+                        NamaTimK3.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),1).toString());
+                    }
+                    KodeTimK3.requestFocus();
+                    pegawai=null;
+                }
+            });
+
+            pegawai.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            pegawai.setLocationRelativeTo(internalFrame1);
+        }
+
+        if (pegawai == null) return;
+        if (!pegawai.isVisible()) {
+            pegawai.emptTeks();
+        }
+        if (pegawai.isVisible()) {
+            pegawai.toFront();
+            return;
+        }
+        pegawai.setVisible(true);
     }//GEN-LAST:event_BtnTimK3ActionPerformed
 
     private void BtnTimK3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnTimK3KeyPressed
@@ -2797,16 +2859,20 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_BtnTimK3KeyPressed
 
     private void KodeTimK3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KodeTimK3KeyPressed
-        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_UP){
+            BtnTimK3ActionPerformed(null);
+        }else{
+            Valid.pindah(evt,CatatanProyek,KodePJProyek);
+        }
     }//GEN-LAST:event_KodeTimK3KeyPressed
 
     private void TCariKelompokRisikoAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKelompokRisikoAreaKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilKelompokRisiko2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            TCariRisikoKebakaran.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            DeskripsiLokasiProyek.requestFocus();
         }
     }//GEN-LAST:event_TCariKelompokRisikoAreaKeyPressed
 
@@ -2863,9 +2929,9 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilIdentifikasiRisikoInfeksi2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            TCariRisikoKeselamatan.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            TCariRisikoKebakaran.requestFocus();
         }
     }//GEN-LAST:event_TCariRisikoInfeksiKeyPressed
 
@@ -2912,9 +2978,9 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilIdentifikasiRisikoKebakaran2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            TCariRisikoInfeksi.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            TCariKelompokRisikoArea.requestFocus();
         }
     }//GEN-LAST:event_TCariRisikoKebakaranKeyPressed
 
@@ -3000,9 +3066,9 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilIdentifikasiRisikoKeselamatan2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            TCariRisikoUtilitas.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            TCariRisikoInfeksi.requestFocus();
         }
     }//GEN-LAST:event_TCariRisikoKeselamatanKeyPressed
 
@@ -3049,14 +3115,18 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilIdentifikasiRisikoUtilitas2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            PenyebabRisikoLainnya.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            TCariRisikoKeselamatan.requestFocus();
         }
     }//GEN-LAST:event_TCariRisikoUtilitasKeyPressed
 
     private void KodeRisikoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KodeRisikoKeyPressed
-        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_UP){
+            BtnRisikoActionPerformed(null);
+        }else{
+            Valid.pindah(evt,PenyebabRisikoLainnya,DibutuhkanICRA);
+        }
     }//GEN-LAST:event_KodeRisikoKeyPressed
 
     private void BtnRisikoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRisikoActionPerformed
@@ -3097,9 +3167,9 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilTindakanPengendalian2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            RekomendasiSelamaPengerjaan.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            DibutuhkanICRA.requestFocus();
         }
     }//GEN-LAST:event_TCariTindakanPengendalianKeyPressed
 
@@ -3143,11 +3213,11 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_BtnTambahTindakanPengendalianActionPerformed
 
     private void RekomendasiSetelahPengerjaanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RekomendasiSetelahPengerjaanKeyPressed
-        // TODO add your handling code here:
+        Valid.pindah2(evt,RekomendasiSelamaPengerjaan,MonotoringHalKhusus);
     }//GEN-LAST:event_RekomendasiSetelahPengerjaanKeyPressed
 
     private void RekomendasiSelamaPengerjaanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RekomendasiSelamaPengerjaanKeyPressed
-        // TODO add your handling code here:
+        Valid.pindah2(evt,TCariTindakanPengendalian,RekomendasiSetelahPengerjaan);
     }//GEN-LAST:event_RekomendasiSelamaPengerjaanKeyPressed
 
     private void MonotoringHalKhususKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MonotoringHalKhususKeyPressed
@@ -3197,9 +3267,9 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             runBackground(() ->tampilPersyaratanDipenuhi2());
         }else if((evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN)||(evt.getKeyCode()==KeyEvent.VK_TAB)){
-            //Rencana.requestFocus();
+            CatatanProyek.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
-            //KetDokter.requestFocus();
+            MonotoringHalKhusus.requestFocus();
         }
     }//GEN-LAST:event_TCariPersyaratanDipenuhiKeyPressed
 
@@ -3208,11 +3278,42 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_CatatanProyekKeyPressed
 
     private void KodePJProyekKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KodePJProyekKeyPressed
-        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_UP){
+            BtnPJProyekActionPerformed(null);
+        }else{
+            Valid.pindah(evt,KodeTimK3,KodeManajer);
+        }
     }//GEN-LAST:event_KodePJProyekKeyPressed
 
     private void BtnPJProyekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPJProyekActionPerformed
-        // TODO add your handling code here:
+        if (pegawai == null || !pegawai.isDisplayable()) {
+            pegawai=new DlgCariPegawai(null,false);
+            pegawai.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            pegawai.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(pegawai.getTable().getSelectedRow()!= -1){
+                        KodePJProyek.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),0).toString());
+                        NamaPJProyek.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),1).toString());
+                    }
+                    KodePJProyek.requestFocus();
+                    pegawai=null;
+                }
+            });
+
+            pegawai.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            pegawai.setLocationRelativeTo(internalFrame1);
+        }
+
+        if (pegawai == null) return;
+        if (!pegawai.isVisible()) {
+            pegawai.emptTeks();
+        }
+        if (pegawai.isVisible()) {
+            pegawai.toFront();
+            return;
+        }
+        pegawai.setVisible(true);
     }//GEN-LAST:event_BtnPJProyekActionPerformed
 
     private void BtnPJProyekKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPJProyekKeyPressed
@@ -3220,7 +3321,34 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_BtnPJProyekKeyPressed
 
     private void BtnManajerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnManajerActionPerformed
-        // TODO add your handling code here:
+        if (pegawai == null || !pegawai.isDisplayable()) {
+            pegawai=new DlgCariPegawai(null,false);
+            pegawai.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            pegawai.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(pegawai.getTable().getSelectedRow()!= -1){
+                        KodeManajer.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),0).toString());
+                        NamaManajer.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),1).toString());
+                    }
+                    KodeManajer.requestFocus();
+                    pegawai=null;
+                }
+            });
+
+            pegawai.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            pegawai.setLocationRelativeTo(internalFrame1);
+        }
+
+        if (pegawai == null) return;
+        if (!pegawai.isVisible()) {
+            pegawai.emptTeks();
+        }
+        if (pegawai.isVisible()) {
+            pegawai.toFront();
+            return;
+        }
+        pegawai.setVisible(true);
     }//GEN-LAST:event_BtnManajerActionPerformed
 
     private void BtnManajerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnManajerKeyPressed
@@ -3228,11 +3356,42 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_BtnManajerKeyPressed
 
     private void KodeDirekturKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KodeDirekturKeyPressed
-        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_UP){
+            BtnPJProyekActionPerformed(null);
+        }else{
+            Valid.pindah(evt,KodeManajer,TanggalPengkajian);
+        }
     }//GEN-LAST:event_KodeDirekturKeyPressed
 
     private void BtnDirekturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDirekturActionPerformed
-        // TODO add your handling code here:
+        if (pegawai == null || !pegawai.isDisplayable()) {
+            pegawai=new DlgCariPegawai(null,false);
+            pegawai.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            pegawai.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(pegawai.getTable().getSelectedRow()!= -1){
+                        KodeDirektur.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),0).toString());
+                        NamaDirektur.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(),1).toString());
+                    }
+                    KodeDirektur.requestFocus();
+                    pegawai=null;
+                }
+            });
+
+            pegawai.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            pegawai.setLocationRelativeTo(internalFrame1);
+        }
+
+        if (pegawai == null) return;
+        if (!pegawai.isVisible()) {
+            pegawai.emptTeks();
+        }
+        if (pegawai.isVisible()) {
+            pegawai.toFront();
+            return;
+        }
+        pegawai.setVisible(true);
     }//GEN-LAST:event_BtnDirekturActionPerformed
 
     private void BtnDirekturKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnDirekturKeyPressed
@@ -3240,8 +3399,28 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
     }//GEN-LAST:event_BtnDirekturKeyPressed
 
     private void TanggalPengkajianKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TanggalPengkajianKeyPressed
-        // TODO add your handling code here:
+        Valid.pindah2(evt,KodeDirektur,NomorPengkajian);
     }//GEN-LAST:event_TanggalPengkajianKeyPressed
+
+    private void NamaProyekKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NamaProyekKeyPressed
+        Valid.pindah(evt,NoProyek,LokasiProyek);
+    }//GEN-LAST:event_NamaProyekKeyPressed
+
+    private void DeskripsiPekerjaanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DeskripsiPekerjaanKeyPressed
+        Valid.pindah(evt,PerkiraanSelesai,YangBertanggungJawab);
+    }//GEN-LAST:event_DeskripsiPekerjaanKeyPressed
+
+    private void YangBertanggungJawabKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_YangBertanggungJawabKeyPressed
+        Valid.pindah(evt,DeskripsiPekerjaan,KontraktorPelaksana);
+    }//GEN-LAST:event_YangBertanggungJawabKeyPressed
+
+    private void KontraktorPelaksanaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KontraktorPelaksanaKeyPressed
+        Valid.pindah(evt,YangBertanggungJawab,KodeAktivitas);
+    }//GEN-LAST:event_KontraktorPelaksanaKeyPressed
+
+    private void NomorPengkajianKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NomorPengkajianKeyPressed
+        Valid.pindah(evt,TanggalPengkajian,BtnSimpan);
+    }//GEN-LAST:event_NomorPengkajianKeyPressed
 
     /**
     * @param args the command line arguments
@@ -3544,6 +3723,7 @@ public final class PCRAICRAPengkajianRisikoPraKonstruksi extends javax.swing.JDi
         NamaDirektur.setText("");
         TanggalPengkajian.setDate(new Date());
         NomorPengkajian.setText("");
+        NoProyek.requestFocus();
     }
 
     private void getData() {
