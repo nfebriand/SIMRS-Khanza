@@ -940,21 +940,20 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                        }
 
                        if(sukses==true){
-                           Sequel.queryu("delete from tampjurnal");
-                           if(Sequel.menyimpantf2("tampjurnal","?,?,?,?","Rekening",4,new String[]{akunpengadaan,"PENGADAAN OBAT","0",rs.getString("total2")})==false){
-                               sukses=false;
-                           }      
+                            Sequel.deleteTampJurnal();
+                            if(Sequel.insertTampJurnal(akunpengadaan, "PENGADAAN OBAT", 0, rs.getDouble("total2"))==false){
+                                sukses=false;
+                            }
                            if(rs.getDouble("ppn")>0){
                                 if(Sequel.menyimpantf2("tampjurnal","?,?,?,?","Rekening",4,new String[]{PPN_Masukan,"PPN Masukan Obat","0",rs.getString("ppn")})==false){
                                     sukses=false;
                            }
-                       }
-                           if(Sequel.menyimpantf2("tampjurnal","?,?,?,?","Rekening",4,new String[]{rs.getString("kd_rek"),"AKUN BAYAR",rs.getString("tagihan"),"0"})==false){
-                                sukses=false;
-                           }   
+                           if(Sequel.insertTampJurnal(rs.getString("kd_rek"), "AKUN BAYAR", rs.getDouble("tagihan"), 0)==false){
+                               sukses=false;
+                           }
                            if(sukses==true){
-                                sukses=jur.simpanJurnal(rs.getString("no_faktur"),"U","BATAL PEMBELIAN DI "+Sequel.cariIsi("select bangsal.nm_bangsal from bangsal where bangsal.kd_bangsal=?",rs.getString("kd_bangsal")).toUpperCase()+", OLEH "+akses.getkode());
-                           }    
+                               sukses=jur.simpanJurnal(rs.getString("no_faktur"),"U","BATAL PEMBELIAN DI "+Sequel.cariIsi("select bangsal.nm_bangsal from bangsal where bangsal.kd_bangsal=?",rs.getString("kd_bangsal")).toUpperCase()+", OLEH "+akses.getkode());
+                           }
                        }
 
                        if(sukses==true){

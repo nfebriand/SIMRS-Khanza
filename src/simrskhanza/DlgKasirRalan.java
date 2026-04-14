@@ -84,6 +84,7 @@ import laporan.DlgDataInsidenKeselamatan;
 import laporan.DlgDiagnosaPenyakit;
 import permintaan.DlgBookingOperasi;
 import permintaan.DlgPermintaanKonsultasiMedik;
+import permintaan.DlgPermintaanKonsultasiPerawat;
 import permintaan.DlgPermintaanLaboratorium;
 import permintaan.DlgPermintaanPelayananInformasiObat;
 import permintaan.DlgPermintaanRadiologi;
@@ -15842,6 +15843,29 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         }
     }
 
+    private void MnPermintaanKonsultasiPerawatActionPerformed(java.awt.event.ActionEvent evt) {                                                          
+        if(tabModekasir.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TCari.requestFocus();
+        }else if(TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            tbKasirRalan.requestFocus();
+        }else{
+            if(tbKasirRalan.getSelectedRow()!= -1){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgPermintaanKonsultasiPerawat form=new DlgPermintaanKonsultasiPerawat(null,false);
+                form.isCek();
+                form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                form.setLocationRelativeTo(internalFrame1);
+                form.setVisible(true);
+                form.emptTeks();
+                form.setNoRm(TNoRw.getText(),TNoRMCari.getText(),TPasienCari.getText());
+                form.tampil2();
+                this.setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }
+
     /**
     * @param args the command line arguments
     */
@@ -16294,7 +16318,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                                   MnSkriningRisikoKankerServiks,MnCatatanCairanHemodialisa,MnSkriningKesehatanGigiMulutLansia,MnSkriningIndraPendengaran,MnCatatanPengkajianPaskaOperasi,MnSkriningFrailtySyndrome,MnCatatanObservasiBayi,
                                   MnCheckListKesiapanAnestesi,MnHasilPemeriksaanSlitLamp,MnHasilPemeriksaanOCT,MnCetakSuratKeteranganLayakTerbang,MnPersetujuanPemeriksaanHIV,MnSkriningInstrumenACRS,MnPernyataanMemilihDPJP,
                                   MnSkriningInstrumenMentalEmosional,MnCheckListKriteriaMasukNICU,MnCheckListKriteriaMasukPICU,MnSkriningInstrumenAMT,MnSkriningPneumoniaSeverityIndex,MnPenilaianAwalMedisRalanJantung,MnPenilaianAwalMedisRalanUrologi,
-                                  MnHasilPemeriksaanTreadmill,MnHasilPemeriksaanECHOPediatrik,MnSkriningInstrumenESAT,MnSkriningCURB65,MnSkriningGiziKehamilan,MnSerahTerimaBarangAnggotaTubuh;
+                                  MnHasilPemeriksaanTreadmill,MnHasilPemeriksaanECHOPediatrik,MnSkriningInstrumenESAT,MnSkriningCURB65,MnSkriningGiziKehamilan,MnSerahTerimaBarangAnggotaTubuh,MnPermintaanKonsultasiPerawat;
     private javax.swing.JMenu MnHasilUSG,MnHasilEndoskopi,MnRMSkrining,MnEdukasi,MnRehabMedik,MnRMSkriningRisikoKanker,MnRMSkriningKesehatanGigiMulut,MnSuratPersetujuan,MnSkriningInstrumen,MnSkriningParu;
 
     /*
@@ -16758,6 +16782,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         MnPenilaianAwalMedisRalanJantung.setEnabled(akses.getpenilaian_awal_medis_ralan_jantung());
         MnPenilaianAwalMedisRalanUrologi.setEnabled(akses.getpenilaian_awal_medis_ralan_urologi());
         MnSkriningGiziKehamilan.setEnabled(akses.getskrining_gizi_kehamilan());
+        MnPermintaanKonsultasiPerawat.setEnabled(akses.getkonsultasi_perawat());
 
         if(akses.getkode().equals("Admin Utama")){
             MnHapusData.setEnabled(true);
@@ -17017,34 +17042,64 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                 if(sukses==true){
                     Sequel.deleteTampJurnal();
                     if(ttlpendapatan>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getSuspen_Piutang_Tindakan_Ralan(), "Suspen Piutang Tindakan Ralan", ttlpendapatan, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getTindakan_Ralan(), "Pendapatan Tindakan Rawat Jalan", 0, ttlpendapatan);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getSuspen_Piutang_Tindakan_Ralan(), "Suspen Piutang Tindakan Ralan", ttlpendapatan, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getTindakan_Ralan(), "Pendapatan Tindakan Rawat Jalan", 0, ttlpendapatan)==false){
+                            sukses=false;
+                        }
                     }
                     if(ttljmdokter>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Dokter_Tindakan_Ralan(), "Beban Jasa Medik Dokter Tindakan Ralan", ttljmdokter, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Dokter_Tindakan_Ralan(), "Utang Jasa Medik Dokter Tindakan Ralan", 0, ttljmdokter);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Dokter_Tindakan_Ralan(), "Beban Jasa Medik Dokter Tindakan Ralan", ttljmdokter, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Dokter_Tindakan_Ralan(), "Utang Jasa Medik Dokter Tindakan Ralan", 0, ttljmdokter)==false){
+                            sukses=false;
+                        }
                     }
                     if(ttljmperawat>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Beban Jasa Medik Paramedis Tindakan Ralan", ttljmperawat, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Utang Jasa Medik Paramedis Tindakan Ralan", 0, ttljmperawat);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Beban Jasa Medik Paramedis Tindakan Ralan", ttljmperawat, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Utang Jasa Medik Paramedis Tindakan Ralan", 0, ttljmperawat)==false){
+                            sukses=false;
+                        }
                     }
                     if(ttlkso>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_KSO_Tindakan_Ralan(), "Beban KSO Tindakan Ralan", ttlkso, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_KSO_Tindakan_Ralan(), "Utang KSO Tindakan Ralan", 0, ttlkso);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_KSO_Tindakan_Ralan(), "Beban KSO Tindakan Ralan", ttlkso, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_KSO_Tindakan_Ralan(), "Utang KSO Tindakan Ralan", 0, ttlkso)==false){
+                            sukses=false;
+                        }
                     }
                     if(ttljasasarana>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Sarana_Tindakan_Ralan(), "Beban Jasa Sarana Tindakan Ralan", ttljasasarana, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Sarana_Tindakan_Ralan(), "Utang Jasa Sarana Tindakan Ralan", 0, ttljasasarana);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Sarana_Tindakan_Ralan(), "Beban Jasa Sarana Tindakan Ralan", ttljasasarana, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Sarana_Tindakan_Ralan(), "Utang Jasa Sarana Tindakan Ralan", 0, ttljasasarana)==false){
+                            sukses=false;
+                        }
                     }
                     if(ttlbhp>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getHPP_BHP_Tindakan_Ralan(), "HPP BHP Tindakan Ralan", ttlbhp, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getPersediaan_BHP_Tindakan_Ralan(), "Persediaan BHP Tindakan Ralan", 0, ttlbhp);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getHPP_BHP_Tindakan_Ralan(), "HPP BHP Tindakan Ralan", ttlbhp, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getPersediaan_BHP_Tindakan_Ralan(), "Persediaan BHP Tindakan Ralan", 0, ttlbhp)==false){
+                            sukses=false;
+                        }
                     }
                     if(ttlmenejemen>0){
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Menejemen_Tindakan_Ralan(), "Beban Jasa Menejemen Tindakan Ralan", ttlmenejemen, 0);
-                        if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Menejemen_Tindakan_Ralan(), "Utang Jasa Menejemen Tindakan Ralan", 0, ttlmenejemen);
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Menejemen_Tindakan_Ralan(), "Beban Jasa Menejemen Tindakan Ralan", ttlmenejemen, 0)==false){
+                            sukses=false;
+                        }
+                        if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Menejemen_Tindakan_Ralan(), "Utang Jasa Menejemen Tindakan Ralan", 0, ttlmenejemen)==false){
+                            sukses=false;
+                        }
                     }
-                    if (sukses) sukses = jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                    if(sukses==true){
+                        sukses=jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                    }
                 }
 
                 if(sukses==true){
@@ -17243,34 +17298,64 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
             if(sukses==true){
                 Sequel.deleteTampJurnal();
                 if(ttlpendapatan>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getSuspen_Piutang_Tindakan_Ralan(), "Suspen Piutang Tindakan Ralan", ttlpendapatan, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getTindakan_Ralan(), "Pendapatan Tindakan Rawat Jalan", 0, ttlpendapatan);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getSuspen_Piutang_Tindakan_Ralan(), "Suspen Piutang Tindakan Ralan", ttlpendapatan, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getTindakan_Ralan(), "Pendapatan Tindakan Rawat Jalan", 0, ttlpendapatan)==false){
+                        sukses=false;
+                    }
                 }
                 if(ttljmdokter>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Dokter_Tindakan_Ralan(), "Beban Jasa Medik Dokter Tindakan Ralan", ttljmdokter, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Dokter_Tindakan_Ralan(), "Utang Jasa Medik Dokter Tindakan Ralan", 0, ttljmdokter);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Dokter_Tindakan_Ralan(), "Beban Jasa Medik Dokter Tindakan Ralan", ttljmdokter, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Dokter_Tindakan_Ralan(), "Utang Jasa Medik Dokter Tindakan Ralan", 0, ttljmdokter)==false){
+                        sukses=false;
+                    }
                 }
                 if(ttljmperawat>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Beban Jasa Medik Paramedis Tindakan Ralan", ttljmperawat, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Utang Jasa Medik Paramedis Tindakan Ralan", 0, ttljmperawat);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Beban Jasa Medik Paramedis Tindakan Ralan", ttljmperawat, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Medik_Paramedis_Tindakan_Ralan(), "Utang Jasa Medik Paramedis Tindakan Ralan", 0, ttljmperawat)==false){
+                        sukses=false;
+                    }
                 }
                 if(ttlkso>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_KSO_Tindakan_Ralan(), "Beban KSO Tindakan Ralan", ttlkso, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_KSO_Tindakan_Ralan(), "Utang KSO Tindakan Ralan", 0, ttlkso);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_KSO_Tindakan_Ralan(), "Beban KSO Tindakan Ralan", ttlkso, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_KSO_Tindakan_Ralan(), "Utang KSO Tindakan Ralan", 0, ttlkso)==false){
+                        sukses=false;
+                    }
                 }
                 if(ttljasasarana>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Sarana_Tindakan_Ralan(), "Beban Jasa Sarana Tindakan Ralan", ttljasasarana, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Sarana_Tindakan_Ralan(), "Utang Jasa Sarana Tindakan Ralan", 0, ttljasasarana);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Sarana_Tindakan_Ralan(), "Beban Jasa Sarana Tindakan Ralan", ttljasasarana, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Sarana_Tindakan_Ralan(), "Utang Jasa Sarana Tindakan Ralan", 0, ttljasasarana)==false){
+                        sukses=false;
+                    }
                 }
                 if(ttlbhp>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getHPP_BHP_Tindakan_Ralan(), "HPP BHP Tindakan Ralan", ttlbhp, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getPersediaan_BHP_Tindakan_Ralan(), "Persediaan BHP Tindakan Ralan", 0, ttlbhp);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getHPP_BHP_Tindakan_Ralan(), "HPP BHP Tindakan Ralan", ttlbhp, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getPersediaan_BHP_Tindakan_Ralan(), "Persediaan BHP Tindakan Ralan", 0, ttlbhp)==false){
+                        sukses=false;
+                    }
                 }
                 if(ttlmenejemen>0){
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Menejemen_Tindakan_Ralan(), "Beban Jasa Menejemen Tindakan Ralan", ttlmenejemen, 0);
-                    if (sukses) sukses = Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Menejemen_Tindakan_Ralan(), "Utang Jasa Menejemen Tindakan Ralan", 0, ttlmenejemen);
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getBeban_Jasa_Menejemen_Tindakan_Ralan(), "Beban Jasa Menejemen Tindakan Ralan", ttlmenejemen, 0)==false){
+                        sukses=false;
+                    }
+                    if(Sequel.insertOrUpdateTampJurnal(akuntindakanralan.getUtang_Jasa_Menejemen_Tindakan_Ralan(), "Utang Jasa Menejemen Tindakan Ralan", 0, ttlmenejemen)==false){
+                        sukses=false;
+                    }
                 }
-                if (sukses) sukses = jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                if(sukses==true){
+                    sukses=jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                }
             }
 
             if(sukses==true){
@@ -17659,6 +17744,18 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         MnPermintaanKonsultasiMedik.setName("MnPermintaanKonsultasiMedik");
         MnPermintaanKonsultasiMedik.setPreferredSize(new java.awt.Dimension(210, 26));
         MnPermintaanKonsultasiMedik.addActionListener(this::MnPermintaanKonsultasiMedikActionPerformed);
+
+        MnPermintaanKonsultasiPerawat = new javax.swing.JMenuItem();
+        MnPermintaanKonsultasiPerawat.setBackground(new java.awt.Color(255, 255, 254));
+        MnPermintaanKonsultasiPerawat.setFont(new java.awt.Font("Tahoma", 0, 11));
+        MnPermintaanKonsultasiPerawat.setForeground(new java.awt.Color(50, 50, 50));
+        MnPermintaanKonsultasiPerawat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png")));
+        MnPermintaanKonsultasiPerawat.setText("Konsultasi Perawat");
+        MnPermintaanKonsultasiPerawat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnPermintaanKonsultasiPerawat.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnPermintaanKonsultasiPerawat.setName("MnPermintaanKonsultasiPerawat");
+        MnPermintaanKonsultasiPerawat.setPreferredSize(new java.awt.Dimension(210, 26));
+        MnPermintaanKonsultasiPerawat.addActionListener(this::MnPermintaanKonsultasiPerawatActionPerformed);
 
         MnSkriningMerokokUsiaSekolahRemaja = new javax.swing.JMenuItem();
         MnSkriningMerokokUsiaSekolahRemaja.setBackground(new java.awt.Color(255, 255, 254));
@@ -18540,6 +18637,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         MnRehabMedik.add(MnUjiFungsiKFR);
 
         MnPermintaan.add(MnPermintaanKonsultasiMedik);
+        MnPermintaan.add(MnPermintaanKonsultasiPerawat);
         MnTindakanRalan.add(MnDataOperasi);
         jPopupMenu2.add(MnDataKonsultasiMedik);
 
