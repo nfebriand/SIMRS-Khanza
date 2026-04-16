@@ -394,16 +394,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         cmbMnt.setSelectedItem(now.substring(14,16));
         cmbDtk.setSelectedItem(now.substring(17,19));
 
-         try {
-            if(diagnosa_akhir.equals("Yes")){
-                diagnosaakhir.setEditable(true);
-            }else{
-                diagnosaakhir.setEditable(false);
-            }
-        } catch (Exception e) {
-            diagnosaakhir.setEditable(false);
-        }
-         
         try {
             KUNCIDOKTERRANAP=koneksiDB.KUNCIDOKTERRANAP();
         } catch (Exception e) {
