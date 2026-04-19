@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -551,7 +552,7 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-04-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -565,7 +566,7 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-04-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -809,7 +810,7 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
         jLabel15.setBounds(290, 90, 50, 23);
 
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel16.setText("Kg/Cm");
+        jLabel16.setText("Kg/m2");
         jLabel16.setName("jLabel16"); // NOI18N
         FormInput.add(jLabel16);
         jLabel16.setBounds(583, 90, 50, 23);
@@ -1391,9 +1392,6 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
             if(KacangYa.isSelected()==true){
                 alergi_kacang="Ya";
             }
-            if(TelurYa.isSelected()==true){
-                alergi_telur="Ya";
-            }
             if(GlutenYa.isSelected()==true){
                 alergi_gluten="Ya";
             }
@@ -1415,6 +1413,7 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
                 alergi_kacang, alergi_gluten, alergi_udang, alergi_ikan, alergi_hazelnut, PolaMakan.getText(), RiwayatPersonal.getText(),
                 DiagnosisGizi.getText(), IntervensiGizi.getText(), Monitoring.getText(), KdPetugas.getText(), alergi_ayam
             )) {
+                JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
                 tabMode.addRow(new Object[] {
                     TNoRw.getText(), TNoRM.getText(), TPasien.getText(), Jk.getText().substring(0, 1), TglLahir.getText(), Valid.getTglSmc(TglAsuhan),
                     BB.getText(), TB.getText(), IMT.getText(), LiLA.getText(), TL.getText(), ULNA.getText(), BBIdeal.getText(), BBPerU.getText(), TBPerU.getText(), BBPerTB.getText(),
@@ -1423,7 +1422,82 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
                     KdPetugas.getText(), NmPetugas.getText()
                 });
                 LCount.setText("" + tabMode.getRowCount());
-                emptTeks();
+                int pilihan = JOptionPane.showConfirmDialog(null, 
+                    "Data berhasil disimpan.\nApakah mau dijadikan ADIME gizi ?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if (pilihan == JOptionPane.YES_OPTION) {
+                        String asesmen = 
+                            "BB: " + BB.getText() + " Kg\n" +
+                            "TB: " + TB.getText() + " Cm\n" +
+                            "IMT: " + IMT.getText() + " Kg/m2\n" +
+                            "LiLA: " + LiLA.getText() + " Cm\n" +
+                            "TL: " + TL.getText() + " Cm\n" +
+                            "ULNA: " + ULNA.getText() + " Cm\n" +
+                            "BB Ideal: " + BBIdeal.getText() + " Kg\n" +
+                            "BB/U: " + BBPerU.getText() + " SD\n" +
+                            "TB/U: " + TBPerU.getText() + " SD\n" +
+                            "BB/TB: " + BBPerTB.getText() + " SD\n" +
+                            "LiLA/U: " + LiLAPerU.getText() + " SD\n";
+
+                        String diagnosis = DiagnosisGizi.getText();
+                        String intervensi = IntervensiGizi.getText();
+
+                        // parsing monev
+                        String isiMonitoringAsli = Monitoring.getText();
+                        String isiMonitoring = isiMonitoringAsli.toLowerCase();
+
+                        String monitoring = "";
+                        String evaluasi = "";
+
+                        // ambil monitoring
+                        if (isiMonitoring.contains("monitoring")) {
+                            String[] splitMonitoring = isiMonitoringAsli.split("(?i)monitoring\\s*:\\s*");
+                            if (splitMonitoring.length > 1) {
+                                if (splitMonitoring[1].toLowerCase().contains("evaluasi")) {
+                                    monitoring = splitMonitoring[1].split("(?i)evaluasi\\s*:\\s*")[0].trim();
+                                } else {
+                                    monitoring = splitMonitoring[1].trim();
+                                }
+                            }
+                        }
+
+                        // ambil evaluasi
+                        if (isiMonitoring.contains("evaluasi")) {
+                            String[] splitEvaluasi = isiMonitoringAsli.split("(?i)evaluasi\\s*:\\s*");
+                            if (splitEvaluasi.length > 1) {
+                                evaluasi = splitEvaluasi[1].trim();
+                            }
+                        }
+
+                        // jika tidak ada , kasih strip
+                        if (monitoring.equals("")) monitoring = "-";
+                        if (evaluasi.equals("")) evaluasi = "-";
+
+                        // instruksi samakan dengan intervensi
+                        String instruksi = IntervensiGizi.getText();
+                        String tanggal;
+                        if (TglAsuhan.getSelectedItem() != null) {
+                            tanggal = Valid.SetTgl(TglAsuhan.getSelectedItem().toString());
+                        } else {
+                            tanggal = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                        }                    
+                        Date now = new Date();
+                        SimpleDateFormat sdfJam = new SimpleDateFormat("HH:mm:ss");
+                        String jamSekarang = sdfJam.format(now);
+                        String tanggalJam = tanggal + " " + jamSekarang;
+                        boolean suksesAdime = Sequel.menyimpantf("catatan_adime_gizi","?,?,?,?,?,?,?,?,?","Data",9,new String[]{
+                            TNoRw.getText(),tanggalJam,asesmen,diagnosis,intervensi,monitoring,evaluasi,instruksi,KdPetugas.getText()
+                        }
+                    );
+
+                        if (suksesAdime) {
+                            JOptionPane.showMessageDialog(null, "ADIME berhasil disimpan!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "ADIME gagal disimpan!");
+                        }
+                    }
+                    emptTeks();
+                } else {
+                JOptionPane.showMessageDialog(null, "Data gagal disimpan! Cek Kotak Hitam!");
             }
         }
     }//GEN-LAST:event_BtnSimpanActionPerformed
@@ -2321,7 +2395,122 @@ public final class RMDataAsuhanGizi extends javax.swing.JDialog {
             tbObat.setValueAt(Monitoring.getText(), tbObat.getSelectedRow(), 31);
             tbObat.setValueAt(KdPetugas.getText(), tbObat.getSelectedRow(), 32);
             tbObat.setValueAt(NmPetugas.getText(), tbObat.getSelectedRow(), 33);
-            emptTeks();
+
+        // =========================
+        // 🔥 TAMBAHAN LOGIC ADIME
+        // =========================
+
+        boolean adaAdime = Sequel.cariInteger(
+            "select count(*) from catatan_adime_gizi where no_rawat=?", 
+            TNoRw.getText()
+        ) > 0;
+
+        int pilihan;
+
+        if (adaAdime) {
+            pilihan = JOptionPane.showConfirmDialog(null,
+                "Sudah ada ADIME tersimpan.\nApakah mau diupdate juga?",
+                "Konfirmasi",
+                JOptionPane.YES_NO_OPTION
+            );
+        } else {
+            pilihan = JOptionPane.showConfirmDialog(null,
+                "Data ADIME belum ada.\nApakah mau buat ADIME dari asuhan gizi ini?",
+                "Konfirmasi",
+                JOptionPane.YES_NO_OPTION
+            );
+        }
+
+        if (pilihan == JOptionPane.YES_OPTION) {
+
+            // =========================
+            // 🔹 SUSUN DATA ADIME
+            // =========================
+            String asesmen = 
+                "BB: " + BB.getText() + " Kg\n" +
+                "TB: " + TB.getText() + " Cm\n" +
+                "IMT: " + IMT.getText() + " Kg/m2\n" +
+                "LiLA: " + LiLA.getText() + " Cm\n" +
+                "TL: " + TL.getText() + " Cm\n" +
+                "ULNA: " + ULNA.getText() + " Cm\n" +
+                "BB Ideal: " + BBIdeal.getText() + " Kg\n" +
+                "BB/U: " + BBPerU.getText() + " SD\n" +
+                "TB/U: " + TBPerU.getText() + " SD\n" +
+                "BB/TB: " + BBPerTB.getText() + " SD\n" +
+                "LiLA/U: " + LiLAPerU.getText() + " SD\n";
+
+            String diagnosis = DiagnosisGizi.getText();
+            String intervensi = IntervensiGizi.getText();
+
+            // 🔹 parsing monitoring & evaluasi
+            String isiMonitoringAsli = Monitoring.getText();
+            String isiMonitoring = isiMonitoringAsli.toLowerCase();
+
+            String monitoring = "";
+            String evaluasi = "";
+
+            if (isiMonitoring.contains("monitoring")) {
+                String[] splitMonitoring = isiMonitoringAsli.split("(?i)monitoring\\s*:\\s*");
+                if (splitMonitoring.length > 1) {
+                    if (splitMonitoring[1].toLowerCase().contains("evaluasi")) {
+                        monitoring = splitMonitoring[1].split("(?i)evaluasi\\s*:\\s*")[0].trim();
+                    } else {
+                        monitoring = splitMonitoring[1].trim();
+                    }
+                }
+            }
+
+            if (isiMonitoring.contains("evaluasi")) {
+                String[] splitEvaluasi = isiMonitoringAsli.split("(?i)evaluasi\\s*:\\s*");
+                if (splitEvaluasi.length > 1) {
+                    evaluasi = splitEvaluasi[1].trim();
+                }
+            }
+
+            if (monitoring.equals("")) monitoring = "-";
+            if (evaluasi.equals("")) evaluasi = "-";
+
+            String instruksi = IntervensiGizi.getText();
+
+            // 🔹 tanggal + jam
+            String tanggal = Valid.SetTgl(TglAsuhan.getSelectedItem().toString());
+            String jam = new java.text.SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
+            String tanggalJam = tanggal + " " + jam;
+
+            boolean suksesAdime;
+
+            if (adaAdime) {
+                // 🔄 UPDATE
+                suksesAdime = Sequel.mengedittf(
+                "catatan_adime_gizi",
+                "no_rawat=?",
+                "asesmen=?,diagnosis=?,intervensi=?,monitoring=?,evaluasi=?,instruksi=?",
+                7,
+                new String[]{
+                    asesmen, diagnosis, intervensi, monitoring, evaluasi, instruksi, TNoRw.getText()
+                    }
+                );
+            } else {
+                // ➕ INSERT
+                suksesAdime = Sequel.menyimpantf(
+                    "catatan_adime_gizi",
+                    "?,?,?,?,?,?,?,?,?",
+                    "Data",
+                    9,
+                    new String[]{
+                        TNoRw.getText(), tanggalJam, asesmen, diagnosis,
+                        intervensi, monitoring, evaluasi, instruksi, KdPetugas.getText()
+                    }
+                );
+            }
+
+            if (suksesAdime) {
+                JOptionPane.showMessageDialog(null, "ADIME berhasil diproses!");
+            } else {
+                JOptionPane.showMessageDialog(null, "ADIME gagal diproses!");
+            }
+        }
+    emptTeks();        
         }
     }
 
