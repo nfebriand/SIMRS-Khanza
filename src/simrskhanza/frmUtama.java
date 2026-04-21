@@ -843,6 +843,7 @@ import permintaan.DlgCariPermintaanLabPA;
 import permintaan.DlgCariPermintaanLayananProgramKFR;
 import permintaan.DlgCariPermintaanRadiologi;
 import permintaan.DlgPermintaanKonsultasiMedik;
+import permintaan.DlgPermintaanKonsultasiPerawat;
 import permintaan.DlgPermintaanPelayananInformasiObat;
 import permintaan.DlgPermintaanRanap;
 import perpustakaan.PerpustakaanAnggota;
@@ -23688,6 +23689,18 @@ public class frmUtama extends javax.swing.JFrame {
         this.setCursor(Cursor.getDefaultCursor());
     }
 
+    private void btnKonsultasiPerawatActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        DlgPermintaanKonsultasiPerawat form=new DlgPermintaanKonsultasiPerawat(this,false);
+        form.isCek();
+        form.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
+        form.setLocationRelativeTo(PanelUtama);
+        form.setVisible(true);
+        DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
     /**
     * @param args the command line arguments
     */
@@ -24408,7 +24421,8 @@ public class frmUtama extends javax.swing.JFrame {
             btnSkriningCURB65,btnBPJSPotensiPRB,btnBPJSRiwayatPelayananObatApotek,btnSkriningGiziKehamilan,btnBPJSRekapPesertaPRBObatApotek,btnSuratSerahTerimaBarangAnggotaTubuh,btnPCRAICRAJenisAktivitasProyek,
             btnPCRAICRALokasiKelompokRisiko,btnPCRAICRAKelasRisikoPencegahan,btnPCRAICRATindakanPengendalian,btnPCRAICRAIdentifikasiRisikoInfeksi,btnPCRAICRAIdentifikasiRisikoKeselamatan,
             btnPCRAICRAIdentifikasiRisikoKebakaran,btnPCRAICRAIdentifikasiRisikoUtilitas,btnBPJSResepObatApotek,btnObatApolApotekBPJS,btnPermintaanResepIterasiApotekBPJS,btnPCRAICRAPengkajianRisikoPraKonstruksi,
-            btnPCRAICRAPersyaratanHarusDipenuhi,btnKirimQRTelaahFarmasiSatuSehat,btnKirimAllergiSatuSehat,btnKirimEpisodeOfCareSatuSehat;
+            btnPCRAICRAPersyaratanHarusDipenuhi,btnKirimQRTelaahFarmasiSatuSehat,btnKirimAllergiSatuSehat,btnKonsultasiPerawat,btnKirimEpisodeOfCareSatuSehat;
+
 
     public void isWall(){
         try{
@@ -28987,6 +29001,11 @@ public class frmUtama extends javax.swing.JFrame {
 
             if(akses.getkonsultasi_medik()==true){
                 Panelmenu.add(btnKonsultasiMedik);
+                jmlmenu++;
+            }
+
+            if(akses.getkonsultasi_perawat()==true){
+                Panelmenu.add(btnKonsultasiPerawat);
                 jmlmenu++;
             }
 
@@ -34904,6 +34923,11 @@ public class frmUtama extends javax.swing.JFrame {
 
         if(akses.getkonsultasi_medik()==true){
             Panelmenu.add(btnKonsultasiMedik);
+            jmlmenu++;
+        }
+
+        if(akses.getkonsultasi_perawat()==true){
+            Panelmenu.add(btnKonsultasiPerawat);
             jmlmenu++;
         }
 
@@ -42588,6 +42612,13 @@ public class frmUtama extends javax.swing.JFrame {
         if(akses.getkonsultasi_medik()==true){
             if(btnKonsultasiMedik.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
                 Panelmenu.add(btnKonsultasiMedik);
+                jmlmenu++;
+            }
+        }
+
+        if(akses.getkonsultasi_perawat()==true){
+            if(btnKonsultasiPerawat.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
+                Panelmenu.add(btnKonsultasiPerawat);
                 jmlmenu++;
             }
         }
@@ -50482,6 +50513,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnKirimEpisodeOfCareSatuSehat.setName("btnKirimEpisodeOfCareSatuSehat");
         btnKirimEpisodeOfCareSatuSehat.setPreferredSize(new java.awt.Dimension(200, 90));
         btnKirimEpisodeOfCareSatuSehat.addActionListener(this::btnKirimEpisodeOfCareSatuSehatActionPerformed);        
+
+        btnKonsultasiPerawat = new widget.ButtonBig();
+        btnKonsultasiPerawat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/discuss_12922995.png")));
+        btnKonsultasiPerawat.setText("Konsultasi Perawat");
+        btnKonsultasiPerawat.setIconTextGap(0);
+        btnKonsultasiPerawat.setName("btnKonsultasiPerawat");
+        btnKonsultasiPerawat.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnKonsultasiPerawat.addActionListener(this::btnKonsultasiPerawatActionPerformed);
     }
 
     private widget.ButtonBig btnBPJSKompilasiBerkasKlaim, btnUserSmc, btnSetAksesEditSementara, btnBPJSAntreanPerKodebookingMobileJKN, btnSetTampilJenisObatResep, btnSetPintuPoliSmc,

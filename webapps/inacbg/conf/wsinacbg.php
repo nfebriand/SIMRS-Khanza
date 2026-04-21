@@ -6,7 +6,8 @@
 
     function getKey()
     {
-       $keyRS = "78a106db833e60affcb600a63bfcf77dcff32975f9152aba63c4a8988c49606a";
+       $keyRS = "";
+
 
        if (empty($keyRS)) {
             throw new \Exception("Key belum ada!");
