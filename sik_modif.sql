@@ -1579,6 +1579,16 @@ CREATE TABLE IF NOT EXISTS `set_akses_edit_sementara`  (
   PRIMARY KEY (`id_user`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
+CREATE TABLE satu_sehat_episode_of_care ( no_rawat VARCHAR(17) NOT NULL COLLATE 'latin1_swedish_ci',
+ kd_penyakit VARCHAR(15) NOT NULL COLLATE 'latin1_swedish_ci', status ENUM('Ralan','Ranap') NOT NULL COLLATE 'latin1_swedish_ci',
+ id_episode_of_care VARCHAR(40) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci', PRIMARY KEY (`no_rawat`, kd_penyakit, `status`) USING BTREE,
+ INDEX kd_penyakit (`kd_penyakit`) USING BTREE, INDEX status (`status`) USING BTREE,
+ INDEX no_rawat (`no_rawat`) USING BTREE, CONSTRAINT satu_sehat_episode_of_care_ibfk_1 FOREIGN KEY (`no_rawat`) REFERENCES reg_periksa (`no_rawat`) ON UPDATE CASCADE ON DELETE CASCADE,
+ CONSTRAINT satu_sehat_episode_of_care_ibfk_2 FOREIGN KEY (`kd_penyakit`) REFERENCES penyakit (`kd_penyakit`) ON UPDATE CASCADE ON DELETE RESTRICT)
+COLLATE='latin1_swedish_ci'ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC;
+
+
 CREATE TABLE IF NOT EXISTS `set_filter_jenis_resep_obat_ralan`  (
   `kd_poli` char(5) NOT NULL,
   `kd_pj` char(3) NOT NULL,

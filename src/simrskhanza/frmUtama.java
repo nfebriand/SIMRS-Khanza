@@ -160,6 +160,7 @@ import bridging.SatuSehatKirimDiagnosticReportLabPK;
 import bridging.SatuSehatKirimDiagnosticReportRadiologi;
 import bridging.SatuSehatKirimDiet;
 import bridging.SatuSehatKirimEncounter;
+import bridging.SatuSehatKirimEpisodeOfCare;
 import bridging.SatuSehatKirimMedication;
 import bridging.SatuSehatKirimMedicationDispense;
 import bridging.SatuSehatKirimMedicationRequest;
@@ -20121,6 +20122,18 @@ public class frmUtama extends javax.swing.JFrame {
         aplikasi.isCek();
         this.setCursor(Cursor.getDefaultCursor());
     }
+    
+    private void btnKirimEpisodeOfCareSatuSehatActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        SatuSehatKirimEpisodeOfCare aplikasi=new SatuSehatKirimEpisodeOfCare(this,false);
+        aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        aplikasi.setLocationRelativeTo(PanelUtama);
+        aplikasi.setVisible(true);
+        aplikasi.isCek();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
 
     private void btnCatatanCekGDSActionPerformed(java.awt.event.ActionEvent evt) {
         isTutup();
@@ -24395,7 +24408,7 @@ public class frmUtama extends javax.swing.JFrame {
             btnSkriningCURB65,btnBPJSPotensiPRB,btnBPJSRiwayatPelayananObatApotek,btnSkriningGiziKehamilan,btnBPJSRekapPesertaPRBObatApotek,btnSuratSerahTerimaBarangAnggotaTubuh,btnPCRAICRAJenisAktivitasProyek,
             btnPCRAICRALokasiKelompokRisiko,btnPCRAICRAKelasRisikoPencegahan,btnPCRAICRATindakanPengendalian,btnPCRAICRAIdentifikasiRisikoInfeksi,btnPCRAICRAIdentifikasiRisikoKeselamatan,
             btnPCRAICRAIdentifikasiRisikoKebakaran,btnPCRAICRAIdentifikasiRisikoUtilitas,btnBPJSResepObatApotek,btnObatApolApotekBPJS,btnPermintaanResepIterasiApotekBPJS,btnPCRAICRAPengkajianRisikoPraKonstruksi,
-            btnPCRAICRAPersyaratanHarusDipenuhi,btnKirimQRTelaahFarmasiSatuSehat,btnKirimAllergiSatuSehat;
+            btnPCRAICRAPersyaratanHarusDipenuhi,btnKirimQRTelaahFarmasiSatuSehat,btnKirimAllergiSatuSehat,btnKirimEpisodeOfCareSatuSehat;
 
     public void isWall(){
         try{
@@ -27797,6 +27810,11 @@ public class frmUtama extends javax.swing.JFrame {
 
             if(akses.getsatu_sehat_kirim_encounter()==true){
                 Panelmenu.add(btnKirimEncounterSatuSehat);
+                jmlmenu++;
+            }
+            
+            if(akses.getsatu_sehat_kirim_encounter()==true){
+                Panelmenu.add(btnKirimEpisodeOfCareSatuSehat);
                 jmlmenu++;
             }
 
@@ -33722,6 +33740,11 @@ public class frmUtama extends javax.swing.JFrame {
             Panelmenu.add(btnKirimEncounterSatuSehat);
             jmlmenu++;
         }
+        
+        if(akses.getsatu_sehat_kirim_encounter()==true){
+            Panelmenu.add(btnKirimEpisodeOfCareSatuSehat);
+            jmlmenu++;
+        }        
 
         if(akses.getsatu_sehat_kirim_condition()==true){
             Panelmenu.add(btnKirimConditionSatuSehat);
@@ -40932,6 +40955,13 @@ public class frmUtama extends javax.swing.JFrame {
             }
         }
 
+        if(akses.getsatu_sehat_kirim_encounter()==true){
+            if(btnKirimEpisodeOfCareSatuSehat.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
+                Panelmenu.add(btnKirimEpisodeOfCareSatuSehat);
+                jmlmenu++;
+            }
+        }
+        
         if(akses.getsatu_sehat_kirim_condition()==true){
             if(btnKirimConditionSatuSehat.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
                 Panelmenu.add(btnKirimConditionSatuSehat);
@@ -50444,6 +50474,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnKirimAllergiSatuSehat.setName("btnKirimAllergiSatuSehat");
         btnKirimAllergiSatuSehat.setPreferredSize(new java.awt.Dimension(200, 90));
         btnKirimAllergiSatuSehat.addActionListener(this::btnKirimAllergiSatuSehatActionPerformed);
+        
+        btnKirimEpisodeOfCareSatuSehat = new widget.ButtonBig();
+        btnKirimEpisodeOfCareSatuSehat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/satusehat.png")));
+        btnKirimEpisodeOfCareSatuSehat.setText("Kirim Episode Of Care Satu Sehat");
+        btnKirimEpisodeOfCareSatuSehat.setIconTextGap(0);
+        btnKirimEpisodeOfCareSatuSehat.setName("btnKirimEpisodeOfCareSatuSehat");
+        btnKirimEpisodeOfCareSatuSehat.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnKirimEpisodeOfCareSatuSehat.addActionListener(this::btnKirimEpisodeOfCareSatuSehatActionPerformed);        
     }
 
     private widget.ButtonBig btnBPJSKompilasiBerkasKlaim, btnUserSmc, btnSetAksesEditSementara, btnBPJSAntreanPerKodebookingMobileJKN, btnSetTampilJenisObatResep, btnSetPintuPoliSmc,
@@ -50545,6 +50583,8 @@ public class frmUtama extends javax.swing.JFrame {
         btnBPJSRiwayatSuratKontrolSmc.setName("btnBPJSRiwayatSuratKontrolSmc");
         btnBPJSRiwayatSuratKontrolSmc.setPreferredSize(new java.awt.Dimension(200, 90));
         btnBPJSRiwayatSuratKontrolSmc.addActionListener(this::btnBPJSRiwayatSuratKontrolSmc);
+        
+        
     }
 
     private void isComboSMC() {
