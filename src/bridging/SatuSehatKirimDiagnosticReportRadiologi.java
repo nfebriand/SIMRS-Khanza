@@ -7,14 +7,17 @@ package bridging;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.WarnaTable;
-import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
+import java.awt.Dimension;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import fungsi.sekuel;
 import fungsi.validasi;
+import fungsi.akses;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,11 +28,8 @@ import java.sql.ResultSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
@@ -37,8 +37,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
 /**
  *
@@ -50,7 +48,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
     private PreparedStatement ps;
-    private ResultSet rs;
+    private ResultSet rs;   
     private int i=0;
     private String link="",json="",iddokter="",idpasien="";
     private ApiSatuSehat api=new ApiSatuSehat();
@@ -59,11 +57,11 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
     private ObjectMapper mapper = new ObjectMapper();
     private JsonNode root;
     private JsonNode response;
-    private SatuSehatCekNIK cekViaSatuSehat=new SatuSehatCekNIK();
-    private StringBuilder htmlContent;
+    private SatuSehatCekNIK cekViaSatuSehat=new SatuSehatCekNIK();  
+    private StringBuilder htmlContent;    
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private volatile boolean ceksukses = false;
-
+    private volatile boolean ceksukses = false;   
+    
     /** Creates new form DlgKamar
      * @param parent
      * @param modal */
@@ -78,7 +76,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                 "P","No.Rawat","No.RM","Nama Pasien","No.KTP Pasien","Kode Dokter","Nama Dokter Perujuk",
                 "No.KTP Dokter","ID Encounter","No.Permintaan","Tgl & Jam Hasil","Diagnosa Klinis",
                 "Nama Pemeriksaan","Radiologi Code","Radiologi System","Radiologi Display","ID Service Request",
-                "Kode Pemeriksaan","ID Specimen","ID Observation","ID Diagnostic Report","Hasil Radiologi"
+                "Kode Pemeriksaan","ID Specimen","ID Observation","ID Diagnostic Report","Hasil Radiologi","ID Imaging Studi"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){
                 boolean a = false;
@@ -93,7 +91,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                  java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.String.class,
                  java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.String.class,
                  java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.String.class,
-                 java.lang.String.class,java.lang.String.class
+                 java.lang.String.class,java.lang.String.class,java.lang.String.class
              };
              @Override
              public Class getColumnClass(int columnIndex) {
@@ -106,7 +104,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 22; i++) {
+        for (i = 0; i < 23; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(20);
@@ -153,18 +151,20 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                 column.setPreferredWidth(210);
             }else if(i==21){
                 column.setPreferredWidth(310);
+            }else if(i==22){
+                column.setPreferredWidth(310);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
-
+        
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-
+        
         try {
             link=koneksiDB.URLFHIRSATUSEHAT();
         } catch (Exception e) {
             System.out.println("Notif : "+e);
-        }
-
+        }  
+        
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
         LoadHTML.setEditorKit(kit);
@@ -183,8 +183,8 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         Document doc = kit.createDefaultDocument();
         LoadHTML.setDocument(doc);
     }
-
-
+    
+    
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -197,7 +197,6 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         ppPilihSemua = new javax.swing.JMenuItem();
-        ppPilihBelumDikirim = new javax.swing.JMenuItem();
         ppBersihkan = new javax.swing.JMenuItem();
         LoadHTML = new widget.editorpane();
         internalFrame1 = new widget.InternalFrame();
@@ -239,22 +238,6 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         });
         jPopupMenu1.add(ppPilihSemua);
 
-        ppPilihBelumDikirim.setBackground(new java.awt.Color(255, 255, 254));
-        ppPilihBelumDikirim.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        ppPilihBelumDikirim.setForeground(new java.awt.Color(50, 50, 50));
-        ppPilihBelumDikirim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        ppPilihBelumDikirim.setText("Pilih Belum Dikirim");
-        ppPilihBelumDikirim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        ppPilihBelumDikirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        ppPilihBelumDikirim.setName("ppPilihBelumDikirim"); // NOI18N
-        ppPilihBelumDikirim.setPreferredSize(new java.awt.Dimension(150, 26));
-        ppPilihBelumDikirim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ppPilihBelumDikirimActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(ppPilihBelumDikirim);
-
         ppBersihkan.setBackground(new java.awt.Color(255, 255, 254));
         ppBersihkan.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         ppBersihkan.setForeground(new java.awt.Color(50, 50, 50));
@@ -294,7 +277,6 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
-        tbObat.setAutoCreateRowSorter(true);
         tbObat.setComponentPopupMenu(jPopupMenu1);
         tbObat.setName("tbObat"); // NOI18N
         Scroll.setViewportView(tbObat);
@@ -407,7 +389,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         jLabel15.setPreferredSize(new java.awt.Dimension(85, 23));
         panelGlass9.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-02-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -420,7 +402,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass9.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-02-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -481,7 +463,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try{
             htmlContent = new StringBuilder();
-            htmlContent.append(
+            htmlContent.append(                             
                 "<tr class='isi'>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center'><b>No.Rawat</b></td>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center'><b>No.RM</b></td>"+
@@ -539,7 +521,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
             );
             htmlContent=null;
 
-            File g = new File("file2.css");
+            File g = new File("file2.css");            
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
             bg.write(
                 ".isi td{border-right: 1px solid #e2e7dd;font: 8.5px tahoma;height:12px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
@@ -554,8 +536,8 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
             );
             bg.close();
 
-            File f = new File("DataSatuSehatDiagnosticReportRadiologi.html");
-            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            File f = new File("DataSatuSehatDiagnosticReportRadiologi.html");            
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));            
             bw.write(LoadHTML.getText().replaceAll("<head>","<head>"+
                         "<link href=\"file2.css\" rel=\"stylesheet\" type=\"text/css\" />"+
                         "<table width='2100px' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"+
@@ -564,17 +546,17 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                                     "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                     akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                     akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                    "<font size='2' face='Tahoma'>DATA PENGIRIMAN SATU SEHAT DIAGNOSTIC REPORT RADIOLOGI<br><br></font>"+
+                                    "<font size='2' face='Tahoma'>DATA PENGIRIMAN SATU SEHAT DIAGNOSTIC REPORT RADIOLOGI<br><br></font>"+        
                                 "</td>"+
                            "</tr>"+
                         "</table>")
             );
-            bw.close();
+            bw.close();                         
             Desktop.getDesktop().browse(f.toURI());
         }catch(Exception e){
             System.out.println("Notifikasi : "+e);
         }
-        this.setCursor(Cursor.getDefaultCursor());
+        this.setCursor(Cursor.getDefaultCursor());       
     }//GEN-LAST:event_BtnPrintActionPerformed
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
@@ -609,76 +591,73 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                 try {
                     iddokter=cekViaSatuSehat.tampilIDParktisi(tbObat.getValueAt(i,7).toString());
                     idpasien=cekViaSatuSehat.tampilIDPasien(tbObat.getValueAt(i,4).toString());
-                    if (iddokter.isBlank()) {
-                        System.out.println("Notif : Tidak dapat menemukan ID Praktisi!");
-                        continue;
-                    }
-                    if (idpasien.isBlank()) {
-                        System.out.println("Notif : Tidak dapat menemukan ID Pasien!");
-                        continue;
-                    }
                     try{
                         headers = new HttpHeaders();
                         headers.setContentType(MediaType.APPLICATION_JSON);
                         headers.add("Authorization", "Bearer "+api.TokenSatuSehat());
                         json = "{" +
-                                    "\"resourceType\": \"DiagnosticReport\"," +
-                                    "\"identifier\": [" +
+                            "\"resourceType\": \"DiagnosticReport\"," +
+                            "\"identifier\": [" +
+                                "{" +
+                                    "\"system\": \"http://sys-ids.kemkes.go.id/diagnostic/"+koneksiDB.IDSATUSEHAT()+"/rad\"," +
+                                    "\"use\": \"official\"," +
+                                    "\"value\": \""+tbObat.getValueAt(i,9).toString()+"."+tbObat.getValueAt(i,17).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"status\": \"final\"," +
+                            "\"category\": [" +
+                                "{" +
+                                    "\"coding\": [" +
                                         "{" +
-                                            "\"system\": \"http://sys-ids.kemkes.go.id/diagnostic/"+koneksiDB.IDSATUSEHAT()+"/rad\"," +
-                                            "\"use\": \"official\"," +
-                                            "\"value\": \""+tbObat.getValueAt(i,9).toString()+"."+tbObat.getValueAt(i,17).toString()+"\"" +
+                                            "\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0074\"," +
+                                            "\"code\": \"RAD\"," +
+                                            "\"display\": \"Radiology\"" +
                                         "}" +
-                                    "]," +
-                                    "\"status\": \"final\"," +
-                                    "\"category\": [" +
-                                        "{" +
-                                            "\"coding\": [" +
-                                                "{" +
-                                                    "\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0074\"," +
-                                                    "\"code\": \"RAD\"," +
-                                                    "\"display\": \"Radiology\"" +
-                                                "}" +
-                                            "]" +
-                                        "}" +
-                                    "]," +
-                                    "\"code\": {" +
-                                        "\"coding\": [" +
-                                            "{" +
-                                                "\"code\": \""+tbObat.getValueAt(i,13).toString()+"\"," +
-                                                "\"display\": \""+tbObat.getValueAt(i,15).toString()+"\"," +
-                                                "\"system\": \""+tbObat.getValueAt(i,14).toString()+"\"" +
-                                            "}" +
-                                        "]" +
-                                    "}," +
-                                    "\"subject\": {" +
-                                        "\"reference\": \"Patient/"+idpasien+"\"" +
-                                    "}," +
-                                    "\"encounter\": {" +
-                                        "\"reference\": \"Encounter/"+tbObat.getValueAt(i,8).toString()+"\"" +
-                                    "}," +
-                                    "\"effectiveDateTime\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
-                                    "\"issued\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
-                                    "\"performer\": [" +
-                                        "{" +
-                                            "\"reference\": \"Practitioner/"+iddokter+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"specimen\": [{" +
-                                        "\"reference\": \"Specimen/"+tbObat.getValueAt(i,18).toString()+"\"" +
-                                    "}]," +
-                                    "\"result\": [" +
-                                        "{" +
-                                            "\"reference\": \"Observation/"+tbObat.getValueAt(i,19).toString()+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"basedOn\": [" +
-                                        "{" +
-                                            "\"reference\": \"ServiceRequest/"+tbObat.getValueAt(i,16).toString()+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"conclusion\": \""+tbObat.getValueAt(i,21).toString().replaceAll("(\r\n|\r|\n|\n\r)","<br>").replaceAll("\t", " ")+"\"" +
-                                "}";
+                                    "]" +
+                                "}" +
+                            "]," +
+                            "\"code\": {" +
+                                "\"coding\": [" +
+                                    "{" +
+                                        "\"system\": \""+tbObat.getValueAt(i,14).toString()+"\"," +
+                                        "\"code\": \""+tbObat.getValueAt(i,13).toString()+"\"," +
+                                        "\"display\": \""+tbObat.getValueAt(i,15).toString()+"\"" +
+                                    "}" +
+                                "]" +
+                            "}," +
+                            "\"subject\": {" +
+                                "\"reference\": \"Patient/"+idpasien+"\"" +
+                            "}," +
+                            "\"encounter\": {" +
+                                "\"reference\": \"Encounter/"+tbObat.getValueAt(i,8).toString()+"\"" +
+                            "}," +
+                            "\"effectiveDateTime\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
+                            "\"issued\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
+                            "\"performer\": [" +
+                                "{" +
+                                    "\"reference\": \"Practitioner/"+iddokter+"\"" +
+                                "}," +
+                                "{" +
+                                    "\"reference\": \"Organization/"+koneksiDB.IDSATUSEHAT()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"imagingStudy\": [" +
+                                "{" +
+                                    "\"reference\": \"ImagingStudy/"+tbObat.getValueAt(i,22).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"result\": [" +
+                                "{" +
+                                    "\"reference\": \"Observation/"+tbObat.getValueAt(i,19).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"basedOn\": [" +
+                                "{" +
+                                    "\"reference\": \"ServiceRequest/"+tbObat.getValueAt(i,16).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"conclusion\": \""+tbObat.getValueAt(i,21).toString().replaceAll("(\r\n|\r|\n|\n\r)","<br>").replaceAll("\t", " ")+"\"" +
+                        "}";
                         System.out.println("URL : "+link+"/DiagnosticReport");
                         System.out.println("Request JSON : "+json);
                         requestEntity = new HttpEntity(json,headers);
@@ -694,8 +673,6 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                                 tbObat.setValueAt(false,i,0);
                             }
                         }
-                    } catch (HttpClientErrorException | HttpServerErrorException e) {
-                        System.out.println("ERROR JSON : " + e.getResponseBodyAsString());
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
                     }
@@ -724,85 +701,80 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                 try {
                     iddokter=cekViaSatuSehat.tampilIDParktisi(tbObat.getValueAt(i,7).toString());
                     idpasien=cekViaSatuSehat.tampilIDPasien(tbObat.getValueAt(i,4).toString());
-                    if (iddokter.isBlank()) {
-                        System.out.println("Notif : Tidak dapat menemukan ID Praktisi!");
-                        continue;
-                    }
-                    if (idpasien.isBlank()) {
-                        System.out.println("Notif : Tidak dapat menemukan ID Pasien!");
-                        continue;
-                    }
                     try{
                         headers = new HttpHeaders();
                         headers.setContentType(MediaType.APPLICATION_JSON);
                         headers.add("Authorization", "Bearer "+api.TokenSatuSehat());
                         json = "{" +
-                                    "\"resourceType\": \"DiagnosticReport\"," +
-                                    "\"id\": \""+tbObat.getValueAt(i,20).toString()+"\"," +
-                                    "\"identifier\": [" +
+                            "\"resourceType\": \"DiagnosticReport\"," +
+                            "\"id\": \""+tbObat.getValueAt(i,20).toString()+"\"," +
+                            "\"identifier\": [" +
+                                "{" +
+                                    "\"system\": \"http://sys-ids.kemkes.go.id/diagnostic/"+koneksiDB.IDSATUSEHAT()+"/rad\"," +
+                                    "\"use\": \"official\"," +
+                                    "\"value\": \""+tbObat.getValueAt(i,9).toString()+"."+tbObat.getValueAt(i,17).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"status\": \"final\"," +
+                            "\"category\": [" +
+                                "{" +
+                                    "\"coding\": [" +
                                         "{" +
-                                            "\"system\": \"http://sys-ids.kemkes.go.id/diagnostic/"+koneksiDB.IDSATUSEHAT()+"/rad\"," +
-                                            "\"use\": \"official\"," +
-                                            "\"value\": \""+tbObat.getValueAt(i,9).toString()+"."+tbObat.getValueAt(i,17).toString()+"\"" +
+                                            "\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0074\"," +
+                                            "\"code\": \"RAD\"," +
+                                            "\"display\": \"Radiology\"" +
                                         "}" +
-                                    "]," +
-                                    "\"status\": \"final\"," +
-                                    "\"category\": [" +
-                                        "{" +
-                                            "\"coding\": [" +
-                                                "{" +
-                                                    "\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0074\"," +
-                                                    "\"code\": \"RAD\"," +
-                                                    "\"display\": \"Radiology\"" +
-                                                "}" +
-                                            "]" +
-                                        "}" +
-                                    "]," +
-                                    "\"code\": {" +
-                                        "\"coding\": [" +
-                                            "{" +
-                                                "\"code\": \""+tbObat.getValueAt(i,13).toString()+"\"," +
-                                                "\"display\": \""+tbObat.getValueAt(i,15).toString()+"\"," +
-                                                "\"system\": \""+tbObat.getValueAt(i,14).toString()+"\"" +
-                                            "}" +
-                                        "]" +
-                                    "}," +
-                                    "\"subject\": {" +
-                                        "\"reference\": \"Patient/"+idpasien+"\"" +
-                                    "}," +
-                                    "\"encounter\": {" +
-                                        "\"reference\": \"Encounter/"+tbObat.getValueAt(i,8).toString()+"\"" +
-                                    "}," +
-                                    "\"effectiveDateTime\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
-                                    "\"issued\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
-                                    "\"performer\": [" +
-                                        "{" +
-                                            "\"reference\": \"Practitioner/"+iddokter+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"specimen\": [{" +
-                                        "\"reference\": \"Specimen/"+tbObat.getValueAt(i,18).toString()+"\"" +
-                                    "}]," +
-                                    "\"result\": [" +
-                                        "{" +
-                                            "\"reference\": \"Observation/"+tbObat.getValueAt(i,19).toString()+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"basedOn\": [" +
-                                        "{" +
-                                            "\"reference\": \"ServiceRequest/"+tbObat.getValueAt(i,16).toString()+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"conclusion\": \""+tbObat.getValueAt(i,21).toString().replaceAll("(\r\n|\r|\n|\n\r)","<br>").replaceAll("\t", " ")+"\"" +
-                                "}";
+                                    "]" +
+                                "}" +
+                            "]," +
+                            "\"code\": {" +
+                                "\"coding\": [" +
+                                    "{" +
+                                        "\"system\": \""+tbObat.getValueAt(i,14).toString()+"\"," +
+                                        "\"code\": \""+tbObat.getValueAt(i,13).toString()+"\"," +
+                                        "\"display\": \""+tbObat.getValueAt(i,15).toString()+"\"" +
+                                    "}" +
+                                "]" +
+                            "}," +
+                            "\"subject\": {" +
+                                "\"reference\": \"Patient/"+idpasien+"\"" +
+                            "}," +
+                            "\"encounter\": {" +
+                                "\"reference\": \"Encounter/"+tbObat.getValueAt(i,8).toString()+"\"" +
+                            "}," +
+                            "\"effectiveDateTime\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
+                            "\"issued\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
+                            "\"performer\": [" +
+                                "{" +
+                                    "\"reference\": \"Practitioner/"+iddokter+"\"" +
+                                "}," +
+                                "{" +
+                                    "\"reference\": \"Organization/"+koneksiDB.IDSATUSEHAT()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"imagingStudy\": [" +
+                                "{" +
+                                    "\"reference\": \"ImagingStudy/"+tbObat.getValueAt(i,22).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"result\": [" +
+                                "{" +
+                                    "\"reference\": \"Observation/"+tbObat.getValueAt(i,19).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"basedOn\": [" +
+                                "{" +
+                                    "\"reference\": \"ServiceRequest/"+tbObat.getValueAt(i,16).toString()+"\"" +
+                                "}" +
+                            "]," +
+                            "\"conclusion\": \""+tbObat.getValueAt(i,21).toString().replaceAll("(\r\n|\r|\n|\n\r)","<br>").replaceAll("\t", " ")+"\"" +
+                        "}";
                         System.out.println("URL : "+link+"/DiagnosticReport/"+tbObat.getValueAt(i,20).toString());
                         System.out.println("Request JSON : "+json);
                         requestEntity = new HttpEntity(json,headers);
                         json=api.getRest().exchange(link+"/DiagnosticReport/"+tbObat.getValueAt(i,20).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                         System.out.println("Result JSON : "+json);
                         tbObat.setValueAt(false,i,0);
-                    } catch (HttpClientErrorException | HttpServerErrorException e) {
-                        System.out.println("ERROR JSON : " + e.getResponseBodyAsString());
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
                     }
@@ -834,7 +806,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                 public void insertUpdate(DocumentEvent e) {
                     if(TCari.getText().length()>2){
                         runBackground(() ->tampil());
-                    }
+                        }
                 }
                 @Override
                 public void removeUpdate(DocumentEvent e) {
@@ -851,14 +823,6 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
             });
         }
     }//GEN-LAST:event_formWindowOpened
-
-    private void ppPilihBelumDikirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppPilihBelumDikirimActionPerformed
-        for(i=0;i<tbObat.getRowCount();i++){
-            if (tbObat.getValueAt(i, 20).toString().isBlank()) {
-                tbObat.setValueAt(true,i,0);
-            }
-        }
-    }//GEN-LAST:event_ppPilihBelumDikirimActionPerformed
 
     /**
     * @param args the command line arguments
@@ -899,7 +863,6 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private javax.swing.JMenuItem ppBersihkan;
-    private javax.swing.JMenuItem ppPilihBelumDikirim;
     private javax.swing.JMenuItem ppPilihSemua;
     private widget.Table tbObat;
     // End of variables declaration//GEN-END:variables
@@ -907,10 +870,11 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         Valid.tabelKosong(tabMode);
         try{
             ps=koneksi.prepareStatement(
-                   "select reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,periksa_radiologi.kd_dokter,pegawai.nama,pegawai.no_ktp as ktpdokter,"+
+                   "select distinct reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,periksa_radiologi.kd_dokter,pegawai.nama,pegawai.no_ktp as ktpdokter,"+
                    "satu_sehat_encounter.id_encounter,permintaan_radiologi.noorder,permintaan_radiologi.tgl_hasil,permintaan_radiologi.jam_hasil,permintaan_radiologi.diagnosa_klinis,"+
                    "jns_perawatan_radiologi.nm_perawatan,satu_sehat_mapping_radiologi.code,satu_sehat_mapping_radiologi.system,satu_sehat_mapping_radiologi.display,"+
                    "satu_sehat_servicerequest_radiologi.id_servicerequest,permintaan_pemeriksaan_radiologi.kd_jenis_prw,satu_sehat_specimen_radiologi.id_specimen,"+
+                   "satu_sehat_imagingstudy_radiologi.id_imaging,"+      
                    "satu_sehat_observation_radiologi.id_observation,ifnull(satu_sehat_diagnosticreport_radiologi.id_diagnosticreport,'') as id_diagnosticreport,hasil_radiologi.hasil "+
                    "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join permintaan_radiologi on permintaan_radiologi.no_rawat=reg_periksa.no_rawat "+
@@ -919,6 +883,8 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                    "inner join satu_sehat_mapping_radiologi on satu_sehat_mapping_radiologi.kd_jenis_prw=jns_perawatan_radiologi.kd_jenis_prw "+
                    "inner join satu_sehat_servicerequest_radiologi on satu_sehat_servicerequest_radiologi.noorder=permintaan_pemeriksaan_radiologi.noorder "+
                    "and satu_sehat_servicerequest_radiologi.kd_jenis_prw=permintaan_pemeriksaan_radiologi.kd_jenis_prw "+
+                   "inner join satu_sehat_imagingstudy_radiologi on satu_sehat_imagingstudy_radiologi.noorder=permintaan_pemeriksaan_radiologi.noorder "+
+                   "and satu_sehat_imagingstudy_radiologi.kd_jenis_prw=permintaan_pemeriksaan_radiologi.kd_jenis_prw "+
                    "inner join satu_sehat_specimen_radiologi on satu_sehat_servicerequest_radiologi.noorder=satu_sehat_specimen_radiologi.noorder "+
                    "and satu_sehat_servicerequest_radiologi.kd_jenis_prw=satu_sehat_specimen_radiologi.kd_jenis_prw "+
                    "inner join periksa_radiologi on periksa_radiologi.no_rawat=permintaan_radiologi.no_rawat and periksa_radiologi.tgl_periksa=permintaan_radiologi.tgl_hasil "+
@@ -953,7 +919,8 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                         false,rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("no_ktp"),rs.getString("kd_dokter"),
                         rs.getString("nama"),rs.getString("ktpdokter"),rs.getString("id_encounter"),rs.getString("noorder"),rs.getString("tgl_hasil")+" "+rs.getString("jam_hasil"),
                         rs.getString("diagnosa_klinis"),rs.getString("nm_perawatan"),rs.getString("code"),rs.getString("system"),rs.getString("display"),rs.getString("id_servicerequest"),
-                        rs.getString("kd_jenis_prw"),rs.getString("id_specimen"),rs.getString("id_observation"),rs.getString("id_diagnosticreport"),rs.getString("hasil")
+                        rs.getString("kd_jenis_prw"),rs.getString("id_specimen"),rs.getString("id_observation"),rs.getString("id_diagnosticreport"),rs.getString("hasil"),
+                        rs.getString("id_imaging")
                     });
                 }
             } catch (Exception e) {
@@ -966,12 +933,13 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                     ps.close();
                 }
             }
-
+            
             ps=koneksi.prepareStatement(
-                   "select reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,periksa_radiologi.kd_dokter,pegawai.nama,pegawai.no_ktp as ktpdokter,"+
+                   "select distinct reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,periksa_radiologi.kd_dokter,pegawai.nama,pegawai.no_ktp as ktpdokter,"+
                    "satu_sehat_encounter.id_encounter,permintaan_radiologi.noorder,permintaan_radiologi.tgl_hasil,permintaan_radiologi.jam_hasil,permintaan_radiologi.diagnosa_klinis,"+
                    "jns_perawatan_radiologi.nm_perawatan,satu_sehat_mapping_radiologi.code,satu_sehat_mapping_radiologi.system,satu_sehat_mapping_radiologi.display,"+
                    "satu_sehat_servicerequest_radiologi.id_servicerequest,permintaan_pemeriksaan_radiologi.kd_jenis_prw,satu_sehat_specimen_radiologi.id_specimen,"+
+                   "satu_sehat_imagingstudy_radiologi.id_imaging,"+   
                    "satu_sehat_observation_radiologi.id_observation,ifnull(satu_sehat_diagnosticreport_radiologi.id_diagnosticreport,'') as id_diagnosticreport,hasil_radiologi.hasil "+
                    "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join permintaan_radiologi on permintaan_radiologi.no_rawat=reg_periksa.no_rawat "+
@@ -980,6 +948,8 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                    "inner join satu_sehat_mapping_radiologi on satu_sehat_mapping_radiologi.kd_jenis_prw=jns_perawatan_radiologi.kd_jenis_prw "+
                    "inner join satu_sehat_servicerequest_radiologi on satu_sehat_servicerequest_radiologi.noorder=permintaan_pemeriksaan_radiologi.noorder "+
                    "and satu_sehat_servicerequest_radiologi.kd_jenis_prw=permintaan_pemeriksaan_radiologi.kd_jenis_prw "+
+                   "inner join satu_sehat_imagingstudy_radiologi on satu_sehat_imagingstudy_radiologi.noorder=permintaan_pemeriksaan_radiologi.noorder "+
+                   "and satu_sehat_imagingstudy_radiologi.kd_jenis_prw=permintaan_pemeriksaan_radiologi.kd_jenis_prw "+
                    "inner join satu_sehat_specimen_radiologi on satu_sehat_servicerequest_radiologi.noorder=satu_sehat_specimen_radiologi.noorder "+
                    "and satu_sehat_servicerequest_radiologi.kd_jenis_prw=satu_sehat_specimen_radiologi.kd_jenis_prw "+
                    "inner join periksa_radiologi on periksa_radiologi.no_rawat=permintaan_radiologi.no_rawat and periksa_radiologi.tgl_periksa=permintaan_radiologi.tgl_hasil "+
@@ -1014,7 +984,8 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
                         false,rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("no_ktp"),rs.getString("kd_dokter"),
                         rs.getString("nama"),rs.getString("ktpdokter"),rs.getString("id_encounter"),rs.getString("noorder"),rs.getString("tgl_hasil")+" "+rs.getString("jam_hasil"),
                         rs.getString("diagnosa_klinis"),rs.getString("nm_perawatan"),rs.getString("code"),rs.getString("system"),rs.getString("display"),rs.getString("id_servicerequest"),
-                        rs.getString("kd_jenis_prw"),rs.getString("id_specimen"),rs.getString("id_observation"),rs.getString("id_diagnosticreport"),rs.getString("hasil")
+                        rs.getString("kd_jenis_prw"),rs.getString("id_specimen"),rs.getString("id_observation"),rs.getString("id_diagnosticreport"),rs.getString("hasil"),
+                        rs.getString("id_imaging")
                     });
                 }
             } catch (Exception e) {
@@ -1038,11 +1009,11 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
         BtnUpdate.setEnabled(akses.getsatu_sehat_kirim_diagnosticreport_radiologi());
         BtnPrint.setEnabled(akses.getsatu_sehat_kirim_diagnosticreport_radiologi());
     }
-
+    
     public JTable getTable(){
         return tbObat;
     }
-
+    
     private void runBackground(Runnable task) {
         if (ceksukses) return;
         if (executor.isShutdown() || executor.isTerminated()) return;
@@ -1068,7 +1039,7 @@ public final class SatuSehatKirimDiagnosticReportRadiologi extends javax.swing.J
             ceksukses = false;
         }
     }
-
+    
     @Override
     public void dispose() {
         executor.shutdownNow();

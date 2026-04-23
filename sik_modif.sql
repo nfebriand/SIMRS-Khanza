@@ -1586,6 +1586,17 @@ CREATE TABLE satu_sehat_episode_of_care ( no_rawat VARCHAR(17) NOT NULL COLLATE 
 COLLATE='latin1_swedish_ci'ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC;
 
+CREATE TABLE `satu_sehat_imagingstudy_radiologi`  (
+  `noorder` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kd_jenis_prw` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_servicerequest` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id_imaging` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`noorder`, `kd_jenis_prw`) USING BTREE,
+  INDEX `kd_jenis_prw`(`kd_jenis_prw` ASC) USING BTREE,
+  CONSTRAINT `satu_sehat_imagingstudy_radiologi_ibfk_1` FOREIGN KEY (`noorder`) REFERENCES `permintaan_radiologi` (`noorder`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `satu_sehat_imagingstudy_radiologi_ibfk_2` FOREIGN KEY (`kd_jenis_prw`) REFERENCES `jns_perawatan_radiologi` (`kd_jenis_prw`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
 
 CREATE TABLE IF NOT EXISTS `set_filter_jenis_resep_obat_ralan`  (
   `kd_poli` char(5) NOT NULL,
