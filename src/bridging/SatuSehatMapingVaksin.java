@@ -5,12 +5,13 @@
 
 package bridging;
 import fungsi.WarnaTable;
-import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
+import fungsi.akses;
 import inventory.DlgBarang;
+import inventory.DlgCariKfa;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -22,12 +23,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -42,10 +39,10 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
     private PreparedStatement ps;
-    private ResultSet rs;
+    private ResultSet rs;    
     private int i=0;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private volatile boolean ceksukses = false;
+    private DlgBarang barang=new DlgBarang(null,false);
+    private DlgCariKfa kfa=new DlgCariKfa(null,false);
 
     /** Creates new form DlgJnsPerawatanRalan
      * @param parent
@@ -96,17 +93,126 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         }
         tbJnsPerawatan.setDefaultRenderer(Object.class, new WarnaTable());
 
-        KodeBarang.setDocument(new batasInput((byte)15).getKata(KodeBarang));
-        VaksinCode.setDocument(new batasInput((byte)15).getKata(VaksinCode));
-        VaksinSystem.setDocument(new batasInput((byte)100).getKata(VaksinSystem));
-        VaksinDisplay.setDocument(new batasInput((byte)80).getKata(VaksinDisplay));
-        RouteCode.setDocument(new batasInput((byte)30).getKata(RouteCode));
-        RouteSystem.setDocument(new batasInput((byte)100).getKata(RouteSystem));
-        RouteDisplay.setDocument(new batasInput((byte)80).getKata(RouteDisplay));
-        DoseCode.setDocument(new batasInput((byte)15).getKata(DoseCode));
-        DoseUnit.setDocument(new batasInput((byte)15).getKata(DoseUnit));
-        DoseSystem.setDocument(new batasInput((byte)80).getKata(DoseSystem));
-        TCari.setDocument(new batasInput((byte)100).getKata(TCari));
+        KodeBarang.setDocument(new batasInput((byte)15).getKata(KodeBarang)); 
+        VaksinCode.setDocument(new batasInput((byte)15).getKata(VaksinCode)); 
+        VaksinSystem.setDocument(new batasInput((byte)100).getKata(VaksinSystem)); 
+        VaksinDisplay.setDocument(new batasInput((byte)80).getKata(VaksinDisplay)); 
+        RouteCode.setDocument(new batasInput((byte)30).getKata(RouteCode)); 
+        RouteSystem.setDocument(new batasInput((byte)100).getKata(RouteSystem)); 
+        RouteDisplay.setDocument(new batasInput((byte)80).getKata(RouteDisplay)); 
+        DoseCode.setDocument(new batasInput((byte)15).getKata(DoseCode)); 
+        DoseUnit.setDocument(new batasInput((byte)15).getKata(DoseUnit)); 
+        DoseSystem.setDocument(new batasInput((byte)80).getKata(DoseSystem)); 
+        TCari.setDocument(new batasInput((byte)100).getKata(TCari));                  
+        
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        tampil();
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        tampil();
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        tampil();
+                    }
+                }
+            });
+        }  
+        
+        barang.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(barang.getTable().getSelectedRow()!= -1){                    
+                    KodeBarang.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),1).toString());
+                    NamaBarang.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),2).toString());
+                }
+                btnBarang.requestFocus();
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        }); 
+        
+        barang.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    barang.dispose();
+                }  
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        
+        // Tombol Cari KFA
+        widget.Button btnKfa = new widget.Button();
+        btnKfa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png")));
+        btnKfa.setMnemonic('3');
+        btnKfa.setToolTipText("Alt+3 Cari KFA");
+        btnKfa.setName("btnKfa");
+        btnKfa.addActionListener(e -> {
+            kfa.isCek();
+            kfa.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            kfa.setLocationRelativeTo(internalFrame1);
+            kfa.setVisible(true);
+        });
+        FormInput.add(btnKfa);
+        btnKfa.setBounds(157, 10, 28, 23);
+
+        kfa.addWindowListener(new WindowListener() {
+            @Override public void windowOpened(WindowEvent e) {}
+            @Override public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(kfa.getTable().getSelectedRow()!= -1){
+                    VaksinCode.setText(kfa.getTable().getValueAt(kfa.getTable().getSelectedRow(),0).toString());
+                    VaksinDisplay.setText(kfa.getTable().getValueAt(kfa.getTable().getSelectedRow(),1).toString());
+                    VaksinSystem.setText("http://sys-ids.kemkes.go.id/kfa");
+                    RouteCode.setText(kfa.getTable().getValueAt(kfa.getTable().getSelectedRow(),6).toString());
+                    RouteDisplay.setText(kfa.getTable().getValueAt(kfa.getTable().getSelectedRow(),7).toString());
+                    RouteSystem.setText("http://www.whocc.no/atc");
+                    DoseCode.setText(kfa.getTable().getValueAt(kfa.getTable().getSelectedRow(),4).toString());
+                    DoseSystem.setText("http://unitsofmeasure.org/");
+                    DoseUnit.setText(kfa.getTable().getValueAt(kfa.getTable().getSelectedRow(),4).toString());
+                }
+                VaksinSystem.requestFocus();
+            }
+            @Override public void windowIconified(WindowEvent e) {}
+            @Override public void windowDeiconified(WindowEvent e) {}
+            @Override public void windowActivated(WindowEvent e) {}
+            @Override public void windowDeactivated(WindowEvent e) {}
+        });
+
+        kfa.getTable().addKeyListener(new KeyListener() {
+            @Override public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    kfa.dispose();
+                }
+            }
+            @Override public void keyReleased(KeyEvent e) {}
+        });
 
         ChkInput.setSelected(false);
         isForm();
@@ -165,16 +271,12 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         VaksinSystem = new widget.TextBox();
 
         NamaBarang.setEditable(false);
+        NamaBarang.setHighlighter(null);
         NamaBarang.setName("NamaBarang"); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Data Mapping Vaksin Satu Sehat ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
@@ -422,6 +524,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         jLabel4.setBounds(155, 10, 90, 23);
 
         KodeBarang.setEditable(false);
+        KodeBarang.setHighlighter(null);
         KodeBarang.setName("KodeBarang"); // NOI18N
         FormInput.add(KodeBarang);
         KodeBarang.setBounds(410, 10, 80, 23);
@@ -448,6 +551,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(jLabel5);
         jLabel5.setBounds(0, 40, 81, 23);
 
+        RouteCode.setHighlighter(null);
         RouteCode.setName("RouteCode"); // NOI18N
         RouteCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -462,6 +566,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(jLabel8);
         jLabel8.setBounds(0, 70, 81, 23);
 
+        DoseCode.setHighlighter(null);
         DoseCode.setName("DoseCode"); // NOI18N
         DoseCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -471,6 +576,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(DoseCode);
         DoseCode.setBounds(85, 70, 70, 23);
 
+        VaksinCode.setHighlighter(null);
         VaksinCode.setName("VaksinCode"); // NOI18N
         VaksinCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -490,6 +596,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(jLabel10);
         jLabel10.setBounds(526, 10, 60, 23);
 
+        VaksinDisplay.setHighlighter(null);
         VaksinDisplay.setName("VaksinDisplay"); // NOI18N
         VaksinDisplay.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -504,6 +611,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(jLabel11);
         jLabel11.setBounds(155, 40, 90, 23);
 
+        RouteSystem.setHighlighter(null);
         RouteSystem.setName("RouteSystem"); // NOI18N
         RouteSystem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -513,6 +621,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(RouteSystem);
         RouteSystem.setBounds(249, 40, 241, 23);
 
+        RouteDisplay.setHighlighter(null);
         RouteDisplay.setName("RouteDisplay"); // NOI18N
         RouteDisplay.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -537,6 +646,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(jLabel14);
         jLabel14.setBounds(155, 70, 90, 23);
 
+        DoseSystem.setHighlighter(null);
         DoseSystem.setName("DoseSystem"); // NOI18N
         DoseSystem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -546,6 +656,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(DoseSystem);
         DoseSystem.setBounds(249, 70, 241, 23);
 
+        DoseUnit.setHighlighter(null);
         DoseUnit.setName("DoseUnit"); // NOI18N
         DoseUnit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -555,6 +666,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         FormInput.add(DoseUnit);
         DoseUnit.setBounds(590, 70, 70, 23);
 
+        VaksinSystem.setHighlighter(null);
         VaksinSystem.setName("VaksinSystem"); // NOI18N
         VaksinSystem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -574,51 +686,15 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangActionPerformed
-        DlgBarang barang=new DlgBarang(null,false);
-        barang.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(barang.getTable().getSelectedRow()!= -1){
-                    KodeBarang.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),1).toString());
-                    NamaBarang.setText(barang.getTable().getValueAt(barang.getTable().getSelectedRow(),2).toString());
-                }
-                btnBarang.requestFocus();
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
-
-        barang.getTable().addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {}
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode()==KeyEvent.VK_SPACE){
-                    barang.dispose();
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {}
-        });
         barang.isCek();
         barang.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
         barang.setLocationRelativeTo(internalFrame1);
         barang.setVisible(true);
-    }//GEN-LAST:event_btnBarangActionPerformed
+}//GEN-LAST:event_btnBarangActionPerformed
 
     private void btnBarangKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBarangKeyPressed
         Valid.pindah(evt, VaksinSystem, VaksinDisplay);
-    }//GEN-LAST:event_btnBarangKeyPressed
+}//GEN-LAST:event_btnBarangKeyPressed
 
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
         if(VaksinCode.getText().trim().equals("")){
@@ -646,32 +722,32 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
                 KodeBarang.getText(),VaksinCode.getText(),VaksinSystem.getText(),VaksinDisplay.getText(),RouteCode.getText(),
                 RouteSystem.getText(),RouteDisplay.getText(),DoseCode.getText(),DoseSystem.getText(),DoseUnit.getText()
             })==true){
-                tabMode.addRow(new Object[]{
+                tabMode.addRow(new String[]{
                     VaksinCode.getText(),VaksinSystem.getText(),KodeBarang.getText(),NamaBarang.getText(),VaksinDisplay.getText(),
                     RouteCode.getText(),RouteSystem.getText(),RouteDisplay.getText(),DoseCode.getText(),DoseSystem.getText(),
                     DoseUnit.getText()
                 });
                 emptTeks();
                 LCount.setText(""+tabMode.getRowCount());
-            }
+            }                
         }
-    }//GEN-LAST:event_BtnSimpanActionPerformed
+}//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             BtnSimpanActionPerformed(null);
         }else{Valid.pindah(evt,DoseUnit, BtnBatal);}
-    }//GEN-LAST:event_BtnSimpanKeyPressed
+}//GEN-LAST:event_BtnSimpanKeyPressed
 
     private void BtnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBatalActionPerformed
         emptTeks();
-    }//GEN-LAST:event_BtnBatalActionPerformed
+}//GEN-LAST:event_BtnBatalActionPerformed
 
     private void BtnBatalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnBatalKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             emptTeks();
         }else{Valid.pindah(evt, BtnSimpan, BtnHapus);}
-    }//GEN-LAST:event_BtnBatalKeyPressed
+}//GEN-LAST:event_BtnBatalKeyPressed
 
     private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusActionPerformed
         if(Valid.hapusTabletf(tabMode,KodeBarang,"satu_sehat_mapping_vaksin","kode_brng")==true){
@@ -679,7 +755,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
             emptTeks();
             LCount.setText(""+tabMode.getRowCount());
         }
-    }//GEN-LAST:event_BtnHapusActionPerformed
+}//GEN-LAST:event_BtnHapusActionPerformed
 
     private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnHapusKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -687,7 +763,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnBatal, BtnEdit);
         }
-    }//GEN-LAST:event_BtnHapusKeyPressed
+}//GEN-LAST:event_BtnHapusKeyPressed
 
     private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
         if(VaksinCode.getText().trim().equals("")){
@@ -730,9 +806,9 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
                     tabMode.setValueAt(DoseUnit.getText(),tbJnsPerawatan.getSelectedRow(),9);
                     emptTeks();
                 }
-            }
+            }                
         }
-    }//GEN-LAST:event_BtnEditActionPerformed
+}//GEN-LAST:event_BtnEditActionPerformed
 
     private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnEditKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -740,37 +816,37 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnHapus, BtnPrint);
         }
-    }//GEN-LAST:event_BtnEditKeyPressed
+}//GEN-LAST:event_BtnEditKeyPressed
 
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
         dispose();
-    }//GEN-LAST:event_BtnKeluarActionPerformed
+}//GEN-LAST:event_BtnKeluarActionPerformed
 
     private void BtnKeluarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnKeluarKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             dispose();
         }else{Valid.pindah(evt,BtnEdit,TCari);}
-    }//GEN-LAST:event_BtnKeluarKeyPressed
+}//GEN-LAST:event_BtnKeluarKeyPressed
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data sudah habis. Tidak ada data yang bisa anda print...!!!!");
             BtnBatal.requestFocus();
-        }else if(tabMode.getRowCount()!=0){
-                Map<String, Object> param = new HashMap<>();
+        }else if(tabMode.getRowCount()!=0){            
+                Map<String, Object> param = new HashMap<>();    
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());
                 param.put("kotars",akses.getkabupatenrs());
                 param.put("propinsirs",akses.getpropinsirs());
                 param.put("kontakrs",akses.getkontakrs());
-                param.put("emailrs",akses.getemailrs());
-                param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
+                param.put("emailrs",akses.getemailrs());   
+                param.put("logo",Sequel.cariGambar("select setting.logo from setting")); 
                 param.put("parameter","%"+TCari.getText().trim()+"%");
-                Valid.MyReport("rptMapingVaksinSatuSehat.jasper","report","::[ Mapping Vaksin Satu Sehat Kemenkes ]::",param);
+                Valid.MyReport("rptMapingVaksinSatuSehat.jasper","report","::[ Mapping Vaksin Satu Sehat Kemenkes ]::",param);            
         }
         this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_BtnPrintActionPerformed
+}//GEN-LAST:event_BtnPrintActionPerformed
 
     private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPrintKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -778,7 +854,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, BtnEdit, BtnKeluar);
         }
-    }//GEN-LAST:event_BtnPrintKeyPressed
+}//GEN-LAST:event_BtnPrintKeyPressed
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -788,11 +864,11 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
             BtnKeluar.requestFocus();
         }
-    }//GEN-LAST:event_TCariKeyPressed
+}//GEN-LAST:event_TCariKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        runBackground(() ->tampil());
-    }//GEN-LAST:event_BtnCariActionPerformed
+        tampil();
+}//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -800,21 +876,21 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
         }else{
             Valid.pindah(evt, TCari, BtnAll);
         }
-    }//GEN-LAST:event_BtnCariKeyPressed
+}//GEN-LAST:event_BtnCariKeyPressed
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         TCari.setText("");
-        runBackground(() ->tampil());
-    }//GEN-LAST:event_BtnAllActionPerformed
+        tampil();
+}//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             TCari.setText("");
-            runBackground(() ->tampil());
+            tampil();
         }else{
             Valid.pindah(evt, BtnPrint, BtnKeluar);
         }
-    }//GEN-LAST:event_BtnAllKeyPressed
+}//GEN-LAST:event_BtnAllKeyPressed
 
     private void tbJnsPerawatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbJnsPerawatanMouseClicked
         if(tabMode.getRowCount()!=0){
@@ -823,7 +899,7 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
             } catch (java.lang.NullPointerException e) {
             }
         }
-    }//GEN-LAST:event_tbJnsPerawatanMouseClicked
+}//GEN-LAST:event_tbJnsPerawatanMouseClicked
 
     private void tbJnsPerawatanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbJnsPerawatanKeyReleased
         if(tabMode.getRowCount()!=0){
@@ -875,31 +951,6 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
     private void DoseUnitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DoseUnitKeyPressed
         Valid.pindah(evt, DoseSystem, BtnSimpan);
     }//GEN-LAST:event_DoseUnitKeyPressed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        runBackground(() ->tampil());
-                    }
-                }
-            });
-        }
-    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -1038,18 +1089,18 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
            DoseUnit.setText(tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(),10).toString());
         }
     }
-
+    
     public void isCek(){
         BtnSimpan.setEnabled(akses.getsatu_sehat_mapping_vaksin());
         BtnHapus.setEnabled(akses.getsatu_sehat_mapping_vaksin());
         BtnEdit.setEnabled(akses.getsatu_sehat_mapping_vaksin());
         BtnPrint.setEnabled(akses.getsatu_sehat_mapping_vaksin());
     }
-
+    
     public JTable getTable(){
         return tbJnsPerawatan;
-    }
-
+    }  
+    
     private void isForm() {
         if (ChkInput.isSelected() == true) {
             ChkInput.setVisible(false);
@@ -1062,37 +1113,5 @@ public final class SatuSehatMapingVaksin extends javax.swing.JDialog {
             FormInput.setVisible(false);
             ChkInput.setVisible(true);
         }
-    }
-
-    private void runBackground(Runnable task) {
-        if (ceksukses) return;
-        if (executor.isShutdown() || executor.isTerminated()) return;
-        if (!isDisplayable()) return;
-
-        ceksukses = true;
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-        try {
-            executor.submit(() -> {
-                try {
-                    task.run();
-                } finally {
-                    ceksukses = false;
-                    SwingUtilities.invokeLater(() -> {
-                        if (isDisplayable()) {
-                            setCursor(Cursor.getDefaultCursor());
-                        }
-                    });
-                }
-            });
-        } catch (RejectedExecutionException ex) {
-            ceksukses = false;
-        }
-    }
-
-    @Override
-    public void dispose() {
-        executor.shutdownNow();
-        super.dispose();
     }
 }

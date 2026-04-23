@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `antripintu_smc`  (
   `status` enum('0','1','2') NOT NULL
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
+
 ALTER TABLE `asuhan_gizi` ADD COLUMN IF NOT EXISTS `alergi_ayam` enum('Ya','Tidak') NULL DEFAULT NULL AFTER `nip`;
 
 ALTER TABLE `bayar_piutang` MODIFY COLUMN IF EXISTS `no_rawat` varchar(40) NOT NULL AFTER `catatan`;
@@ -2154,5 +2155,21 @@ ALTER TABLE `hasil_pemeriksaan_gdt`
   ADD CONSTRAINT `hasil_pemeriksaan_gdt_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `hasil_pemeriksaan_gdt_ibfk_2` FOREIGN KEY (`kd_dokter`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `hasil_pemeriksaan_gdt_ibfk_3` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TABLE IF EXISTS `satu_sehat_mapping_vaksin`;
+CREATE TABLE `satu_sehat_mapping_vaksin` (
+  `kode_brng` varchar(15) NOT NULL,
+  `vaksin_code` varchar(15) DEFAULT NULL,
+  `vaksin_system` varchar(100) NOT NULL,
+  `vaksin_display` varchar(80) DEFAULT NULL,
+  `route_code` varchar(30) DEFAULT NULL,
+  `route_system` varchar(100) DEFAULT NULL,
+  `route_display` varchar(80) DEFAULT NULL,
+  `dose_quantity_code` varchar(15) DEFAULT NULL,
+  `dose_quantity_system` varchar(80) DEFAULT NULL,
+  `dose_quantity_unit` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`kode_brng`),
+  CONSTRAINT `satu_sehat_mapping_vaksin_ibfk_1` FOREIGN KEY (`kode_brng`) REFERENCES `databarang` (`kode_brng`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 SET FOREIGN_KEY_CHECKS=1;
