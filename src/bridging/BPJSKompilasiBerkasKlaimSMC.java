@@ -5028,7 +5028,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportResumeRalan("006", btnResumeRalan.isEnabled(), selectedRow);               
                     exportBilling("007", true, selectedRow);
                     exportHasilLab("008", btnHasilLab.isEnabled(), selectedRow);
-                    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
+                //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
                     exportBerkasDigitalPerawatan("010", true, selectedRow);
                     // exportSKDP("009");
                 }
@@ -5052,7 +5052,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportResumeRanap("006", btnResumeRanap.isEnabled(), selectedRow);
                     exportBilling("007", true, selectedRow);
                     exportHasilLab("008", btnHasilLab.isEnabled(), selectedRow);
-                    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
+                //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
                     exportBerkasDigitalPerawatan("010", true, selectedRow);
                     // exportSKDP("009");
                     // exportSPRI("010");

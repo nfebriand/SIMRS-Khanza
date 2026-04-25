@@ -10261,7 +10261,7 @@ public class DlgPasien extends javax.swing.JDialog {
                             ps.setString(++p, "%" + TCari.getText().trim() + "%");
                         }
 
-                        System.out.println(ps.toString());
+                        // System.out.println(ps.toString());
                         try (ResultSet rs = ps.executeQuery()) {
                             while (rs.next()) {
                                 publish(new Object[] {
