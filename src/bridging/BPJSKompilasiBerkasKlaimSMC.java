@@ -5012,25 +5012,27 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                 if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ralan")) {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
                     exportSEP("002", true, selectedRow);
-                    exportRiwayatPasien("003", true, selectedRow);
-                    exportBilling("004", true, selectedRow);                    
-                    exportBerkasDigitalPerawatan("005", true, selectedRow);
-                    exportSKDP("006", true, selectedRow);                                        
+                    exportTriaseIGD("003", btnTriaseIGD.isEnabled(), selectedRow);
+                    exportRiwayatPasien("004", true, selectedRow);
+                    exportBilling("005", true, selectedRow);                    
+                    exportBerkasDigitalPerawatan("006", true, selectedRow);
+                    exportSKDP("007", true, selectedRow);                                        
                 } else {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
                     exportSEP("002", true, selectedRow);
                     exportSKDP("003", true, selectedRow);
                     exportSPRI("004", true, selectedRow);                    
-                //    exportTriaseIGD("003", btnTriaseIGD.isEnabled(), selectedRow);
+                    exportTriaseIGD("005", btnTriaseIGD.isEnabled(), selectedRow);
                 //    exportAwalMedisIGD("004", btnAwalMedisIGD.isEnabled(), selectedRow);
                 //    exportSOAP("005", true, selectedRow);
-                    exportRiwayatPasien("005", true, selectedRow);
-                    exportResumeRalan("006", btnResumeRalan.isEnabled(), selectedRow);               
-                    exportBilling("007", true, selectedRow);
-                    exportHasilLab("008", btnHasilLab.isEnabled(), selectedRow);
+                    exportRiwayatPasien("006", true, selectedRow);
+                    exportResumeRalan("007", btnResumeRalan.isEnabled(), selectedRow);               
+                    exportBilling("008", true, selectedRow);
+                    exportHasilLab("009", btnHasilLab.isEnabled(), selectedRow);
                 //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
                     exportBerkasDigitalPerawatan("010", true, selectedRow);
                     // exportSKDP("009");
+                    // exportSPRI("010");
                 }
             } else if (tbKompilasi.getValueAt(selectedRow, 5).toString().equals("Ranap")) {
                 if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ranap")) {
@@ -5038,20 +5040,20 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportSEP("002", true, selectedRow);
                     exportSPRI("003", true, selectedRow);
                     exportSKDP("004", true, selectedRow);                    
-                    exportRiwayatPasien("003", true, selectedRow);
-                    exportBerkasDigitalPerawatan("004", true, selectedRow);
+                    exportRiwayatPasien("005", true, selectedRow);
+                    exportBerkasDigitalPerawatan("006", true, selectedRow);
                 } else {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
                     exportSEP("002", true, selectedRow);
                     exportSPRI("003", true, selectedRow);
                     exportSKDP("004", true, selectedRow);                        
-                //    exportTriaseIGD("003", btnTriaseIGD.isEnabled(), selectedRow);
+                    exportTriaseIGD("005", btnTriaseIGD.isEnabled(), selectedRow);
                 //    exportAwalMedisIGD("004", btnAwalMedisIGD.isEnabled(), selectedRow);
                 //    exportSOAP("005", true, selectedRow);
-                    exportRiwayatPasienRanap("005", true, selectedRow);                
-                    exportResumeRanap("006", btnResumeRanap.isEnabled(), selectedRow);
-                    exportBilling("007", true, selectedRow);
-                    exportHasilLab("008", btnHasilLab.isEnabled(), selectedRow);
+                    exportRiwayatPasienRanap("006", true, selectedRow);                
+                    exportResumeRanap("007", btnResumeRanap.isEnabled(), selectedRow);
+                    exportBilling("008", true, selectedRow);
+                    exportHasilLab("009", btnHasilLab.isEnabled(), selectedRow);
                 //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
                     exportBerkasDigitalPerawatan("010", true, selectedRow);
                     // exportSKDP("009");
