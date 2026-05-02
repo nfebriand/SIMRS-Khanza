@@ -164,10 +164,15 @@ public final class validasi {
     }
 
     public void setTglSmc(Tanggal tanggal, String waktu) {
-        if (waktu == null || waktu.isBlank()) {
-            tanggal.setSelectedItem("01-01-0001");
-        } else {
-            tanggal.setSelectedItem(waktu.substring(8, 10) + "-" + waktu.substring(5, 7) + "-" + waktu.substring(0, 4));
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            if (waktu == null || waktu.isBlank()) {
+                tanggal.setDate(sdf.parse("0001-01-01"));
+            } else {
+                tanggal.setDate(sdf.parse(waktu));
+            }
+        } catch (Exception e) {
+            System.out.println("Notif : " + e);
         }
     }
 
@@ -1979,38 +1984,45 @@ public final class validasi {
         }
     }
 
-    public String terbilang(double angka)
-    {
-        if (angka < 12) {
-            return nomina[(int) angka];
+    public String terbilang(double angka){
+        if(angka<12)
+        {
+          return nomina[(int)angka];
         }
 
-        if (angka >= 12 && angka <= 19) {
-            return nomina[(int) angka % 10] + " belas ";
+        if(angka>=12 && angka <=19)
+        {
+            return nomina[(int)angka%10] +" belas ";
         }
 
-        if (angka >= 20 && angka <= 99) {
-            return nomina[(int) angka / 10] + " puluh " + nomina[(int) angka % 10];
+        if(angka>=20 && angka <=99)
+        {
+            return nomina[(int)angka/10] +" puluh "+nomina[(int)angka%10];
         }
 
-        if (angka >= 100 && angka <= 199) {
-            return "seratus " + terbilang(angka % 100);
+        if(angka>=100 && angka <=199)
+        {
+            return "seratus "+ terbilang(angka%100);
         }
 
-        if (angka >= 200 && angka <= 999) {
-            return nomina[(int) angka / 100] + " ratus " + terbilang(angka % 100);
+        if(angka>=200 && angka <=999)
+        {
+            return nomina[(int)angka/100]+" ratus "+terbilang(angka%100);
         }
 
-        if (angka >= 1_000 && angka <= 1_999) {
-            return "seribu " + terbilang(angka % 1_000);
+        if(angka>=1000 && angka <=1999)
+        {
+            return "seribu "+ terbilang(angka%1000);
         }
 
-        if (angka >= 2_000 && angka <= 999_999) {
-            return terbilang((int) angka / 1_000) + " ribu " + terbilang(angka % 1_000);
+        if(angka >= 2000 && angka <=999999)
+        {
+            return terbilang((int)angka/1000)+" ribu "+ terbilang(angka%1000);
         }
 
-        if (angka >= 1_000_000 && angka <= 999_999_999) {
-            return terbilang((int) angka / 1000000) + " juta " + terbilang(angka % 1000000);
+        if(angka >= 1000000 && angka <=999999999)
+        {
+            return terbilang((int)angka/1000000)+" juta "+ terbilang(angka%1000000);
         }
 
         return "";
