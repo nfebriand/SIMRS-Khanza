@@ -1099,15 +1099,31 @@ public class PanelInacbgSmc extends widget.panelisi {
                                     continue;
                                 }
 
-                                if (tabModeDiagnosaPasien.getValueAt(i, 6).toString().equals("1")) {
-                                    tabModeDiagnosaPasien.setValueAt(false, i, 0);
-                                    JOptionPane.showMessageDialog(null, "Diagnosa \"" + tabModeDiagnosaPasien.getValueAt(i, 1).toString() + " " + tabModeDiagnosaPasien.getValueAt(i, 2).toString() + "\" sudah valid..!!");
-                                    continue;
-                                }
+//                                if (tabModeDiagnosaPasien.getValueAt(i, 6).toString().equals("1")) {
+//                                    tabModeDiagnosaPasien.setValueAt(false, i, 0);
+//                                    JOptionPane.showMessageDialog(null, "Diagnosa \"" + tabModeDiagnosaPasien.getValueAt(i, 1).toString() + " " + tabModeDiagnosaPasien.getValueAt(i, 2).toString() + "\" sudah valid..!!");
+//                                    continue;
+//                                }
+                                  if (tabModeDiagnosaPasien.getValueAt(i, 6).toString().equals("1")) {
+                                        int konfirmasi = JOptionPane.showConfirmDialog(null,
+                                            "Diagnosa \"" + tabModeDiagnosaPasien.getValueAt(i, 1) + "\" sudah terkunci/valid.\n" +
+                                            "Apakah tetap ingin dihapus?",
+                                            "Konfirmasi Hapus Data Terkunci",
+                                            JOptionPane.YES_NO_OPTION,
+                                            JOptionPane.WARNING_MESSAGE
+                                        );
+                                        if (konfirmasi != JOptionPane.YES_OPTION) {
+                                            continue;
+                                        }
+                                    }
+                                  
+//                                if (Sequel.menghapustfSmc("inacbg_diagnosa_pasien_smc", "no_sep = ? and kode_icd10 = ? and locked = 0", nosep, (String) tabModeDiagnosaPasien.getValueAt(i, 1))) {
+//                                    tabModeDiagnosaPasien.removeRow(i);
+//                                }
 
-                                if (Sequel.menghapustfSmc("inacbg_diagnosa_pasien_smc", "no_sep = ? and kode_icd10 = ? and locked = 0", nosep, (String) tabModeDiagnosaPasien.getValueAt(i, 1))) {
-                                    tabModeDiagnosaPasien.removeRow(i);
-                                }
+                                  if (Sequel.menghapustfSmc("inacbg_diagnosa_pasien_smc", "no_sep = ? and kode_icd10 = ?", nosep, (String) tabModeDiagnosaPasien.getValueAt(i, 1))) {
+                                      tabModeDiagnosaPasien.removeRow(i);
+                                  }
                             }
 
                             if (sukses) {
@@ -1147,15 +1163,30 @@ public class PanelInacbgSmc extends widget.panelisi {
                                     continue;
                                 }
 
-                                if (tabModeProsedurPasien.getValueAt(i, 6).toString().equals("1")) {
-                                    tabModeProsedurPasien.setValueAt(false, i, 0);
-                                    JOptionPane.showMessageDialog(null, "Prosedur \"" + tabModeProsedurPasien.getValueAt(i, 1).toString() + " " + tabModeProsedurPasien.getValueAt(i, 2).toString() + "\" sudah valid..!!");
-                                    continue;
-                                }
+//                                if (tabModeProsedurPasien.getValueAt(i, 6).toString().equals("1")) {
+//                                    tabModeProsedurPasien.setValueAt(false, i, 0);
+//                                    JOptionPane.showMessageDialog(null, "Prosedur \"" + tabModeProsedurPasien.getValueAt(i, 1).toString() + " " + tabModeProsedurPasien.getValueAt(i, 2).toString() + "\" sudah valid..!!");
+//                                    continue;
+//                                }
+                                    if (tabModeProsedurPasien.getValueAt(i, 6).toString().equals("1")) {
+                                        int konfirmasi = JOptionPane.showConfirmDialog(null,
+                                            "Prosedur \"" + tabModeProsedurPasien.getValueAt(i, 1) + "\" sudah terkunci/valid.\n" +
+                                            "Apakah tetap ingin dihapus?",
+                                            "Konfirmasi Hapus Data Terkunci",
+                                            JOptionPane.YES_NO_OPTION,
+                                            JOptionPane.WARNING_MESSAGE
+                                        );
+                                        if (konfirmasi != JOptionPane.YES_OPTION) {
+                                            continue;
+                                        }
+                                    }
 
-                                if (Sequel.menghapustfSmc("inacbg_prosedur_pasien_smc", "no_sep = ? and kode_icd9 = ? and locked = 0", nosep, (String) tabModeProsedurPasien.getValueAt(i, 1))) {
+//                                if (Sequel.menghapustfSmc("inacbg_prosedur_pasien_smc", "no_sep = ? and kode_icd9 = ? and locked = 0", nosep, (String) tabModeProsedurPasien.getValueAt(i, 1))) {
+//                                    tabModeProsedurPasien.removeRow(i);
+//                                }
+                                if (Sequel.menghapustfSmc("inacbg_prosedur_pasien_smc", "no_sep = ? and kode_icd9 = ?", nosep, (String) tabModeProsedurPasien.getValueAt(i, 1))) {
                                     tabModeProsedurPasien.removeRow(i);
-                                }
+                                }                                
                             }
 
                             if (sukses) {
