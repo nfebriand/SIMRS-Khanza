@@ -122,7 +122,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         tabMode = new DefaultTableModel(null, new Object[] {
             "P", "No. Rawat", "No. SEP", "No. RM", "Nama Pasien", "Status Rawat",
             "Tgl. SEP", "Tgl. Pulang SEP", "Status Pulang", "Unit/Poli", "DPJP",
-            "Status Klaim", "statusklaim"
+            "Status Klaim", "statusklaim", "ada_catatan"  // ← tambah kolom flag
         }) {
             @Override
             public Class getColumnClass(int columnIndex) {
@@ -132,6 +132,10 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
 
                 if (columnIndex == 12) {
                     return Integer.class;
+                }
+
+                if (columnIndex == 13) {
+                    return Boolean.class;  // ← flag catatan
                 }
 
                 return String.class;
@@ -148,7 +152,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         tbKompilasi.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tbKompilasi.getColumnModel().getColumn(0).setPreferredWidth(23);
         tbKompilasi.getColumnModel().getColumn(1).setPreferredWidth(10);
-        tbKompilasi.getColumnModel().getColumn(2).setPreferredWidth(130);
+        tbKompilasi.getColumnModel().getColumn(2).setPreferredWidth(150);
         tbKompilasi.getColumnModel().getColumn(3).setPreferredWidth(50);
         tbKompilasi.getColumnModel().getColumn(4).setPreferredWidth(200);
         tbKompilasi.getColumnModel().getColumn(5).setPreferredWidth(50);
@@ -160,10 +164,14 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         tbKompilasi.getColumnModel().getColumn(11).setPreferredWidth(100);
         tbKompilasi.getColumnModel().getColumn(12).setMinWidth(0);
         tbKompilasi.getColumnModel().getColumn(12).setMaxWidth(0);
+        tbKompilasi.getColumnModel().getColumn(13).setMinWidth(0);
+        tbKompilasi.getColumnModel().getColumn(13).setMaxWidth(0);
         tbKompilasi.setDefaultRenderer(Object.class, new WarnaTable() {
-            @Override
+        @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Warna berdasarkan status klaim (logika lama, tidak berubah)
                 switch ((Integer) table.getValueAt(row, 12)) {
                     case 1:
                         component.setBackground(new Color(50, 50, 50));
@@ -179,6 +187,26 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                         component.setBackground(new Color(30, 230, 255));
                         component.setForeground(new Color(45, 40, 55));
                         break;
+                }
+
+                // Override khusus kolom "No. SEP" (kolom index 2) jika ada catatan
+                // Tambahkan ikon 📝 di depan teks No. SEP sebagai penanda visual
+                if (column == 2 && Boolean.TRUE.equals(table.getValueAt(row, 13))) {
+                    if (component instanceof javax.swing.JLabel) {
+                        javax.swing.JLabel lbl = (javax.swing.JLabel) component;
+                        // Pakai icon gambar, bukan emoji
+                        java.net.URL urlIcon = getClass().getResource("/picture/inventaris.png");
+                        if (urlIcon != null) {
+                            lbl.setIcon(new javax.swing.ImageIcon(urlIcon));
+                        }
+                        // Tooltip supaya user tahu artinya
+                        lbl.setText(value == null ? "" : value.toString());
+                        lbl.setToolTipText("SEP ini memiliki catatan progress berkas");
+                    }
+                } else if (component instanceof javax.swing.JLabel) {
+                // Pastikan icon dibersihkan untuk baris yang tidak punya catatan
+                ((javax.swing.JLabel) component).setIcon(null);
+                ((javax.swing.JLabel) component).setToolTipText(null);
                 }
                 return component;
             }
@@ -375,6 +403,60 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(ppUpdateTanggalPulangSEP);
+
+		jPopupMenu1.add(new javax.swing.JPopupMenu.Separator());
+
+		javax.swing.JMenuItem ppCatatanBerkas = new javax.swing.JMenuItem();
+		javax.swing.ImageIcon iconCatatan = new javax.swing.ImageIcon(getClass().getResource("/picture/inventaris.png"));
+		ppCatatanBerkas.setBackground(new java.awt.Color(255, 255, 254));
+		ppCatatanBerkas.setFont(new java.awt.Font("Tahoma", 0, 11));
+		ppCatatanBerkas.setForeground(new java.awt.Color(50, 50, 50));
+		ppCatatanBerkas.setIcon(iconCatatan);
+		ppCatatanBerkas.setText("Catatan Progress Berkas");
+		ppCatatanBerkas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+		ppCatatanBerkas.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+		ppCatatanBerkas.setPreferredSize(new java.awt.Dimension(200, 26));
+		ppCatatanBerkas.addActionListener(evt -> tampilDialogCatatan());
+		jPopupMenu1.add(ppCatatanBerkas);
+
+		javax.swing.JMenuItem ppHapusCatatan = new javax.swing.JMenuItem();
+		javax.swing.ImageIcon iconHapusCatatan = new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"));		
+		ppHapusCatatan.setBackground(new java.awt.Color(255, 255, 254));
+		ppHapusCatatan.setFont(new java.awt.Font("Tahoma", 0, 11));
+		ppHapusCatatan.setForeground(new java.awt.Color(180, 0, 0)); // merah
+		ppHapusCatatan.setIcon(iconHapusCatatan);
+		ppHapusCatatan.setText("Hapus Catatan Berkas");
+		ppHapusCatatan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+		ppHapusCatatan.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+		ppHapusCatatan.setPreferredSize(new java.awt.Dimension(200, 26));
+		ppHapusCatatan.addActionListener(evt -> {
+			if (selectedRow < 0) {
+				JOptionPane.showMessageDialog(null, "Pilih pasien terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			String noSep = tbKompilasi.getValueAt(selectedRow, 2).toString();
+
+			// Cek dulu apakah ada catatan
+			String catatanAda = getCatatanBerkas(noSep);
+			if (catatanAda.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Tidak ada catatan untuk SEP ini.", "Info", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+
+			int konfirmasi = JOptionPane.showConfirmDialog(null,
+				"Hapus catatan untuk SEP " + noSep + "?\nCatatan: " + catatanAda,
+				"Konfirmasi",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE);
+
+			if (konfirmasi == JOptionPane.YES_OPTION) {
+				hapusCatatanBerkas(noSep);
+				refreshFlagCatatan(noSep);
+				tbKompilasi.repaint();
+				JOptionPane.showMessageDialog(null, "Catatan telah dihapus!", "Info", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		jPopupMenu1.add(ppHapusCatatan);
 
         WindowUpdatePulang.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         WindowUpdatePulang.setName("WindowUpdatePulang"); // NOI18N
@@ -3251,12 +3333,13 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                         "inf.no_sep is null and inc.no_sep is null then 3 when idg.no_sep is not null and idf.no_sep is not null and (ing.no_sep is null or (ing.no_sep is not null " +
                         "and (left(ing.code_cbg, 1) = 'X'))) and inf.no_sep is null and inc.no_sep is null then 4 when idg.no_sep is not null and idg.mdc_number != '36' and " +
                         "idf.no_sep is null and inf.no_sep is null and inc.no_sep is null then 5 when (idg.no_sep is null or (idg.no_sep is not null and idg.mdc_number = '36')) " +
-                        "and idf.no_sep is null and inf.no_sep is null and inc.no_sep is null then 6 end as statusklaim from bridging_sep s use index (bridging_sep_ibfk_5) join " +
+                        "and idf.no_sep is null and inf.no_sep is null and inc.no_sep is null then 6 end as statusklaim, if(cbk.no_sep is not null, 1, 0) as ada_catatan from bridging_sep s use index (bridging_sep_ibfk_5) join " +
                         "reg_periksa r on s.no_rawat = r.no_rawat join pasien px on r.no_rkm_medis = px.no_rkm_medis join poliklinik p on r.kd_poli = p.kd_poli left join " +
                         "kamar_inap ki on r.no_rawat = ki.no_rawat and ki.stts_pulang != 'Pindah Kamar' left join kamar k on ki.kd_kamar = k.kd_kamar left join bangsal b " +
                         "on k.kd_bangsal = b.kd_bangsal left join maping_dokter_dpjpvclaim md on s.kddpjp = md.kd_dokter_bpjs left join dokter d on md.kd_dokter = d.kd_dokter " +
                         "left join idrg_grouping_smc idg on s.no_sep = idg.no_sep left join idrg_klaim_final_smc idf on s.no_sep = idf.no_sep left join inacbg_grouping_stage12 " +
                         "ing on s.no_sep = ing.no_sep left join inacbg_klaim_final_smc inf on s.no_sep = inf.no_sep left join inacbg_cetak_klaim inc on s.no_sep = inc.no_sep " +
+                        "left join catatan_berkas_klaim cbk on s.no_sep = cbk.no_sep " +
                         "where s.no_sep like ? and s.tglsep between ? and ? and length(s.no_sep) = 19 " + statusrawat + "and (if(s.jnspelayanan = '1', 'Ranap', 'Ralan')) = r.status_lanjut " +
                         "and r.status_bayar = 'Sudah Bayar' " + (kodePJ.getText().isBlank() ? "" : "and r.kd_pj = ? ") + statusklaim + (cari.isBlank() ? "" : "and (s.no_sep like ? or " +
                         "s.no_rawat like ? or r.no_rkm_medis like ? or px.nm_pasien like ? or p.nm_poli like ? or concat(ki.kd_kamar, ' ', b.nm_bangsal) like ? or d.nm_dokter like ?) ") +
@@ -3304,10 +3387,11 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                                         break;
                                 }
                                 publish(new Object[] {
-                                    false, rs.getString("no_rawat"), rs.getString("no_sep"), rs.getString("no_rkm_medis"), rs.getString("nm_pasien"),
-                                    rs.getString("status_lanjut"), rs.getString("tglsep"), rs.getString("tglpulang"), rs.getString("stts_pulang"),
-                                    rs.getString("ruangan"), rs.getString("nm_dokter"), keterangan, rs.getInt("statusklaim")
-                                });
+                                false, rs.getString("no_rawat"), rs.getString("no_sep"), rs.getString("no_rkm_medis"), rs.getString("nm_pasien"),
+                                rs.getString("status_lanjut"), rs.getString("tglsep"), rs.getString("tglpulang"), rs.getString("stts_pulang"),
+                                rs.getString("ruangan"), rs.getString("nm_dokter"), keterangan, rs.getInt("statusklaim"),
+                                rs.getInt("ada_catatan") == 1  // ← flag boolean kolom 13
+                             });
                             }
                         }
                     }
@@ -3364,6 +3448,268 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         selectedRow = -1;
     }
 
+    private String getCatatanBerkas(String noSep) {
+        try (PreparedStatement ps = koneksi.prepareStatement(
+            "SELECT catatan FROM catatan_berkas_klaim WHERE no_sep = ?"
+        )) {
+            ps.setString(1, noSep);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getString("catatan");
+            }
+        } catch (Exception e) {
+            System.out.println("Notif getCatatanBerkas: " + e);
+        }
+        return "";
+    }
+
+    private void insertLog(String noSep, String aksi, String catatanLama, String catatanBaru) {
+        try (PreparedStatement ps = koneksi.prepareStatement(
+            "INSERT INTO catatan_berkas_klaim_log (no_sep, aksi, catatan_lama, catatan_baru, oleh, tgl_aksi) " +
+            "VALUES (?, ?, ?, ?, ?, NOW())"
+        )) {
+            ps.setString(1, noSep);
+            ps.setString(2, aksi);
+            ps.setString(3, catatanLama.isEmpty() ? null : catatanLama);
+            ps.setString(4, catatanBaru.isEmpty() ? null : catatanBaru);
+            ps.setString(5, akses.getkode());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Notif insertLog: " + e);
+        }
+    }
+
+    private void upsertCatatanBerkas(String noSep, String catatanBaru) {
+        try {
+            // Ambil catatan lama dulu untuk disimpan ke log
+            String catatanLama = getCatatanBerkas(noSep);
+            boolean isCreate   = catatanLama.isEmpty();
+
+            try (PreparedStatement ps = koneksi.prepareStatement(
+                "INSERT INTO catatan_berkas_klaim (no_sep, catatan, dibuat_oleh, tgl_dibuat, diubah_oleh, tgl_diubah) " +
+                "VALUES (?, ?, ?, NOW(), ?, NOW()) " +
+                "ON DUPLICATE KEY UPDATE catatan = VALUES(catatan), diubah_oleh = VALUES(diubah_oleh), tgl_diubah = NOW()"
+            )) {
+                ps.setString(1, noSep);
+                ps.setString(2, catatanBaru);
+                ps.setString(3, akses.getkode());
+                ps.setString(4, akses.getkode());
+                ps.executeUpdate();
+            }
+
+            // Tulis ke log
+            insertLog(noSep, isCreate ? "BUAT" : "UBAH", catatanLama, catatanBaru);
+
+        } catch (Exception e) {
+            System.out.println("Notif upsertCatatanBerkas: " + e);
+            JOptionPane.showMessageDialog(null, "Gagal menyimpan catatan!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void hapusCatatanBerkas(String noSep) {
+        try {
+            String catatanLama = getCatatanBerkas(noSep);
+
+            try (PreparedStatement ps = koneksi.prepareStatement(
+                "DELETE FROM catatan_berkas_klaim WHERE no_sep = ?"
+            )) {
+                ps.setString(1, noSep);
+                ps.executeUpdate();
+            }
+
+            // Tulis ke log
+            insertLog(noSep, "HAPUS", catatanLama, "");
+
+        } catch (Exception e) {
+            System.out.println("Notif hapusCatatanBerkas: " + e);
+            JOptionPane.showMessageDialog(null, "Gagal menghapus catatan!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void refreshFlagCatatan(String noSep) {
+        for (int i = 0; i < tabMode.getRowCount(); i++) {
+            if (tabMode.getValueAt(i, 2).toString().equals(noSep)) {
+                boolean adaCatatan = Sequel.cariExistsSmc(
+                    "SELECT * FROM catatan_berkas_klaim WHERE no_sep = ?", noSep);
+                tabMode.setValueAt(adaCatatan, i, 13);
+                break;
+            }
+        }
+    }    
+    private void tampilDialogCatatan() {
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Pilih pasien terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String noSep      = tbKompilasi.getValueAt(selectedRow, 2).toString();
+        String namaPasien = tbKompilasi.getValueAt(selectedRow, 4).toString();
+
+        String catatanLama = "";
+        String infoDiubah  = "";
+        try (PreparedStatement ps = koneksi.prepareStatement(
+            "SELECT catatan, dibuat_oleh, tgl_dibuat, diubah_oleh, tgl_diubah " +
+            "FROM catatan_berkas_klaim WHERE no_sep = ?"
+        )) {
+            ps.setString(1, noSep);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    catatanLama = rs.getString("catatan");
+                    infoDiubah  = "<html><small><i>" +
+                        "Dibuat oleh: <b>" + rs.getString("dibuat_oleh") + "</b> pada " + rs.getString("tgl_dibuat") +
+                        " &nbsp;|&nbsp; Terakhir diubah oleh: <b>" + rs.getString("diubah_oleh") + "</b> pada " + rs.getString("tgl_diubah") +
+                        "</i></small></html>";
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif tampilDialogCatatan: " + e);
+        }
+
+        // ---- Bangun dialog utama ----
+        JDialog dlg = new JDialog(this, "Catatan Progress Berkas — " + noSep, true);
+        dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        dlg.setLayout(new BorderLayout(5, 5));
+        dlg.setSize(800, 460);
+        dlg.setLocationRelativeTo(this);
+
+        // Header
+        JLabel lblInfo = new JLabel("<html><b>No. SEP:</b> " + noSep +
+            " &nbsp;&nbsp; <b>Pasien:</b> " + namaPasien + "</html>");
+        lblInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 12, 2, 10));
+        JLabel lblMeta = new JLabel(infoDiubah.isEmpty()
+            ? "<html><small><i>Belum ada catatan sebelumnya.</i></small></html>"
+            : infoDiubah);
+        lblMeta.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 12, 6, 10));
+        javax.swing.JPanel panelNorth = new javax.swing.JPanel(new BorderLayout());
+        panelNorth.add(lblInfo, BorderLayout.NORTH);
+        panelNorth.add(lblMeta, BorderLayout.SOUTH);
+        dlg.add(panelNorth, BorderLayout.NORTH);
+
+        // Tab: Catatan | History
+        javax.swing.JTabbedPane tabCatatan = new javax.swing.JTabbedPane();
+
+        // --- Tab 1: Catatan ---
+        javax.swing.JTextArea txtCatatan = new javax.swing.JTextArea(catatanLama);
+        txtCatatan.setLineWrap(true);
+        txtCatatan.setWrapStyleWord(true);
+        txtCatatan.setFont(new java.awt.Font("Tahoma", 0, 12));
+        txtCatatan.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
+        javax.swing.JScrollPane scrollCatatan = new javax.swing.JScrollPane(txtCatatan);
+        tabCatatan.addTab("📝 Catatan", scrollCatatan);
+
+        // --- Tab 2: History Log ---
+        DefaultTableModel historyModel = new DefaultTableModel(
+            new Object[]{"Waktu", "Oleh", "Aksi", "Catatan Baru", "Catatan Lama"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int col) { return false; }
+        };
+
+        JTable tblHistory = new JTable(historyModel);
+        tblHistory.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tblHistory.getColumnModel().getColumn(0).setPreferredWidth(130);
+        tblHistory.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tblHistory.getColumnModel().getColumn(2).setPreferredWidth(55);
+        tblHistory.getColumnModel().getColumn(3).setPreferredWidth(230);
+        tblHistory.getColumnModel().getColumn(4).setPreferredWidth(230);
+        tblHistory.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    String aksi = table.getValueAt(row, 2).toString();
+                    switch (aksi) {
+                        case "BUAT":
+                            c.setBackground(new Color(220, 255, 220));
+                            c.setForeground(new Color(30, 100, 30));
+                            break;
+                        case "UBAH":
+                            c.setBackground(new Color(255, 250, 210));
+                            c.setForeground(new Color(100, 80, 0));
+                            break;
+                        case "HAPUS":
+                            c.setBackground(new Color(255, 220, 220));
+                            c.setForeground(new Color(150, 0, 0));
+                            break;
+                        default:
+                            c.setBackground(Color.WHITE);
+                            c.setForeground(Color.BLACK);
+                    }
+                }
+                return c;
+            }
+        });
+
+        // Load history dari DB
+        try (PreparedStatement ps = koneksi.prepareStatement(
+            "SELECT tgl_aksi, oleh, aksi, catatan_baru, catatan_lama " +
+            "FROM catatan_berkas_klaim_log WHERE no_sep = ? ORDER BY tgl_aksi DESC"
+        )) {
+            ps.setString(1, noSep);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    historyModel.addRow(new Object[]{
+                        rs.getString("tgl_aksi"),
+                        rs.getString("oleh"),
+                        rs.getString("aksi"),
+                        rs.getString("catatan_baru") == null ? "-" : rs.getString("catatan_baru"),
+                        rs.getString("catatan_lama") == null ? "-" : rs.getString("catatan_lama")
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif loadHistory: " + e);
+        }
+
+        javax.swing.JScrollPane scrollHistory = new javax.swing.JScrollPane(tblHistory);
+        tabCatatan.addTab("🕓 History (" + historyModel.getRowCount() + ")", scrollHistory);
+
+        dlg.add(tabCatatan, BorderLayout.CENTER);
+
+        // Tombol
+        javax.swing.JPanel panelBtn = new javax.swing.JPanel(
+        new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 8));
+        JButton btnSimpanCatatan = new JButton("Simpan");
+        JButton btnHapusCatatan  = new JButton("Hapus Catatan");
+        JButton btnTutupCatatan  = new JButton("Tutup");
+
+        btnSimpanCatatan.addActionListener(e -> {
+            String isi = txtCatatan.getText().trim();
+            if (isi.isEmpty()) {
+                JOptionPane.showMessageDialog(dlg,
+                    "Catatan tidak boleh kosong.\nGunakan 'Hapus Catatan' untuk menghapus.",
+                    "Peringatan", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            upsertCatatanBerkas(noSep, isi);
+            refreshFlagCatatan(noSep);  // ← update icon di tabel langsung  
+            tbKompilasi.repaint();  // ← tambahkan ini
+            JOptionPane.showMessageDialog(dlg, "Catatan berhasil disimpan!", "Info",
+                JOptionPane.INFORMATION_MESSAGE);
+            dlg.dispose();
+        });
+
+        btnHapusCatatan.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(dlg,
+                "Hapus catatan untuk SEP " + noSep + "?", "Konfirmasi",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                hapusCatatanBerkas(noSep);
+                refreshFlagCatatan(noSep);  // ← update icon di tabel langsung
+                tbKompilasi.repaint();  // ← tambahkan ini                
+                dlg.dispose();
+            }
+        });
+
+        btnTutupCatatan.addActionListener(e -> dlg.dispose());
+
+        panelBtn.add(btnHapusCatatan);
+        panelBtn.add(btnSimpanCatatan);
+        panelBtn.add(btnTutupCatatan);
+        dlg.add(panelBtn, BorderLayout.SOUTH);
+
+        dlg.setVisible(true);
+    }    
+    
     private void flipStatus(JButton button, boolean status) {
         if (status) {
             button.setText("Ada");

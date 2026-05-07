@@ -2174,4 +2174,25 @@ CREATE TABLE `satu_sehat_mapping_vaksin` (
   CONSTRAINT `satu_sehat_mapping_vaksin_ibfk_1` FOREIGN KEY (`kode_brng`) REFERENCES `databarang` (`kode_brng`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+CREATE TABLE catatan_berkas_klaim (
+    no_sep       VARCHAR(19)  NOT NULL PRIMARY KEY,
+    catatan      TEXT         NOT NULL,
+    dibuat_oleh  VARCHAR(50)  NOT NULL,
+    tgl_dibuat   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    diubah_oleh  VARCHAR(50)  NOT NULL,
+    tgl_diubah   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE catatan_berkas_klaim_log (
+    id          BIGINT        NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    no_sep      VARCHAR(19)   NOT NULL,
+    aksi        ENUM('BUAT','UBAH','HAPUS') NOT NULL,
+    catatan_lama TEXT,
+    catatan_baru TEXT,
+    oleh        VARCHAR(50)   NOT NULL,
+    tgl_aksi    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_no_sep (no_sep),
+    INDEX idx_tgl   (tgl_aksi)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 SET FOREIGN_KEY_CHECKS=1;
