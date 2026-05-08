@@ -78,6 +78,7 @@ import bridging.BPJSDataFingerPrintPasien;
 import bridging.BPJSDataSEP;
 import bridging.BPJSHistoriPelayanan;
 import bridging.BPJSKompilasiBerkasKlaimSMC;
+import bridging.P2KMKompilasiBerkasKlaim;
 import bridging.BPJSMapingDokterDPJP;
 import bridging.BPJSMapingPoli;
 import bridging.BPJSMonitoringKlaim;
@@ -11345,6 +11346,12 @@ public class frmUtama extends javax.swing.JFrame {
                         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         if (akses.getform().equals("BPJSKompilasiBerkasKlaim")) {
                             BPJSKompilasiBerkasKlaimSMC aplikasi=new BPJSKompilasiBerkasKlaimSMC(null, false);
+                            aplikasi.isCek(coder_nik);
+                            aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+                            aplikasi.setLocationRelativeTo(PanelUtama);
+                            aplikasi.setVisible(true);
+                        } else if (akses.getform().equals("P2KMKompilasiBerkasKlaim")) {
+                            P2KMKompilasiBerkasKlaim aplikasi=new P2KMKompilasiBerkasKlaim(null, false);
                             aplikasi.isCek(coder_nik);
                             aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
                             aplikasi.setLocationRelativeTo(PanelUtama);
@@ -24496,7 +24503,7 @@ public class frmUtama extends javax.swing.JFrame {
             btnPCRAICRALokasiKelompokRisiko,btnPCRAICRAKelasRisikoPencegahan,btnPCRAICRATindakanPengendalian,btnPCRAICRAIdentifikasiRisikoInfeksi,btnPCRAICRAIdentifikasiRisikoKeselamatan,
             btnPCRAICRAIdentifikasiRisikoKebakaran,btnPCRAICRAIdentifikasiRisikoUtilitas,btnBPJSResepObatApotek,btnObatApolApotekBPJS,btnPermintaanResepIterasiApotekBPJS,btnPCRAICRAPengkajianRisikoPraKonstruksi,
             btnPCRAICRAPersyaratanHarusDipenuhi,btnKirimQRTelaahFarmasiSatuSehat,btnKirimAllergiSatuSehat,btnKonsultasiPerawat,btnMappingProsedurSmartKlaimBPJS,btnMappingPenyakitSmartKlaimBPJS,btnKirimFHIRSmartKlaimBPJS,
-            btnSuratPermintaanBinrohtal,btnSuratPermintaanPerlindunganDariKekerasan,btnSuratPermohonanPrivasi,btnKirimEpisodeOfCareSatuSehat,;
+            btnSuratPermintaanBinrohtal,btnSuratPermintaanPerlindunganDariKekerasan,btnSuratPermohonanPrivasi,btnKirimEpisodeOfCareSatuSehat;
 
     public void isWall(){
         try{
@@ -50749,7 +50756,7 @@ public class frmUtama extends javax.swing.JFrame {
     }
 
     private widget.ButtonBig btnBPJSKompilasiBerkasKlaim, btnUserSmc, btnSetAksesEditSementara, btnBPJSAntreanPerKodebookingMobileJKN, btnSetTampilJenisObatResep, btnSetPintuPoliSmc,
-                             btnBPJSDaftarPelayananObat2Apotek, btnBPJSKirimObatApotek, btnBPJSKirimEditObatApotek, btnBPJSRiwayatPelayananResepApotek, btnPintuPoliSmc, btnBPJSRiwayatSuratKontrolSmc;
+                             btnBPJSDaftarPelayananObat2Apotek, btnBPJSKirimObatApotek, btnBPJSKirimEditObatApotek, btnBPJSRiwayatPelayananResepApotek, btnPintuPoliSmc, btnBPJSRiwayatSuratKontrolSmc, btnP2KMKompilasiBerkasKlaim;
 
     private void initSMC() {
         btnBPJSKompilasiBerkasKlaim = new widget.ButtonBig();
@@ -50759,6 +50766,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnBPJSKompilasiBerkasKlaim.setName("btnBPJSKompilasiBerkasKlaim");
         btnBPJSKompilasiBerkasKlaim.setPreferredSize(new java.awt.Dimension(200, 90));
         btnBPJSKompilasiBerkasKlaim.addActionListener(this::btnBPJSKompilasiBerkasKlaimActionPerformed);
+        
+        btnP2KMKompilasiBerkasKlaim = new widget.ButtonBig();
+        btnP2KMKompilasiBerkasKlaim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/if_x-office-document-template_25011.png")));
+        btnP2KMKompilasiBerkasKlaim.setText("Kompilasi Berkas Klaim P2KM");
+        btnP2KMKompilasiBerkasKlaim.setIconTextGap(0);
+        btnP2KMKompilasiBerkasKlaim.setName("btnP2KMKompilasiBerkasKlaim");
+        btnP2KMKompilasiBerkasKlaim.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnP2KMKompilasiBerkasKlaim.addActionListener(this::btnP2KMKompilasiBerkasKlaimActionPerformed);        
 
         btnUserSmc = new widget.ButtonBig();
         btnUserSmc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/1360484978_application-pgp-signature.png")));
@@ -50867,6 +50882,11 @@ public class frmUtama extends javax.swing.JFrame {
                 Panelmenu.add(btnBPJSKompilasiBerkasKlaim);
                 jmlmenu++;
             }
+            
+            if (akses.getp2km_kompilasi_berkas_klaim()) {
+                Panelmenu.add(btnP2KMKompilasiBerkasKlaim);
+                jmlmenu++;
+            }            
 
             if (akses.getbpjs_antrean_pertanggal()) {
                 Panelmenu.add(btnBPJSAntreanPerKodebookingMobileJKN);
@@ -50913,6 +50933,11 @@ public class frmUtama extends javax.swing.JFrame {
     private void isCariKosongSMC() {
         if (akses.getbpjs_kompilasi_berkas_klaim()) {
             Panelmenu.add(btnBPJSKompilasiBerkasKlaim);
+            jmlmenu++;
+        }
+        
+        if (akses.getp2km_kompilasi_berkas_klaim()) {
+            Panelmenu.add(btnP2KMKompilasiBerkasKlaim);
             jmlmenu++;
         }
 
@@ -50976,6 +51001,13 @@ public class frmUtama extends javax.swing.JFrame {
         if (akses.getbpjs_kompilasi_berkas_klaim()) {
             if (btnBPJSKompilasiBerkasKlaim.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
                 Panelmenu.add(btnBPJSKompilasiBerkasKlaim);
+                jmlmenu++;
+            }
+        }
+        
+        if (akses.getp2km_kompilasi_berkas_klaim()) {
+            if (btnP2KMKompilasiBerkasKlaim.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())) {
+                Panelmenu.add(btnP2KMKompilasiBerkasKlaim);
                 jmlmenu++;
             }
         }
@@ -51087,6 +51119,35 @@ public class frmUtama extends javax.swing.JFrame {
         }
     }
 
+    private void btnP2KMKompilasiBerkasKlaimActionPerformed(java.awt.event.ActionEvent evt) {
+        if (akses.getkode().equals("Admin Utama")) {
+            isTutup();
+            akses.setform("P2KMKompilasiBerkasKlaim");
+            DlgHome.dispose();
+            cariNIK.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+            cariNIK.setLocationRelativeTo(PanelUtama);
+            cariNIK.setVisible(true);
+        } else {
+            coder_nik = Sequel.cariIsi("select inacbg_coder_nik.no_ik from inacbg_coder_nik where inacbg_coder_nik.nik=?", akses.getkode());
+            if (!coder_nik.equals("")) {
+                isTutup();
+                akses.setform("P2KMKompilasiBerkasKlaim");
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                P2KMKompilasiBerkasKlaim aplikasi = new P2KMKompilasiBerkasKlaim(this, false);
+                aplikasi.isCek();
+                aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+                aplikasi.setLocationRelativeTo(PanelUtama);
+                aplikasi.setVisible(true);
+                DlgHome.dispose();
+                this.setCursor(Cursor.getDefaultCursor());
+            } else {
+                isTutup();
+                DlgHome.dispose();
+                JOptionPane.showMessageDialog(null, "Coder NIK tidak ditemukan, silahkan hubungi Admin Utama..!!");
+            }
+        }
+    }
+    
     private void btnUserSmcActionPerformed(java.awt.event.ActionEvent evt) {
         isTutup();
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

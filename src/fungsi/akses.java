@@ -266,8 +266,8 @@ public final class akses {
             pcra_icra_lokasi_kelompok_risiko_area=false,pcra_icra_kelas_risiko_pencegahan=false,pcra_icra_tindakan_pengendalian=false,pcra_icra_identifkasi_risiko_infeksi=false,
             pcra_icra_identifkasi_risiko_keselamatan=false,pcra_icra_identifkasi_risiko_kebakaran=false,pcra_icra_identifkasi_risiko_utilitas=false,bpjs_daftar_resep_apotek=false,
             daftar_permintaan_resep_iterasi_bpjs=false,pcra_icra_pengkajian_risiko_prakonstruksi=false,pcra_icra_persyaratan_harus_dipenuhi=false,satu_sehat_kirim_questionresponse_telaah_farmasi=false,
-            satu_sehat_kirim_allergy_intolerance=false,konsultasi_perawat=false,jawaban_konsultasi_perawat=false,satu_sehat_kirim_episodeofcare=false,bridging_smart_klaim_bpjs=false,mapping_prosedur_smart_klaim_bpjs=false,
-            mapping_penyakit_smart_klaim_bpjs=false,permintaan_binrohtal=false;surat_permintaan_perlindungan_dari_kekerasan=false,surat_permohonan_privasi=false;
+            satu_sehat_kirim_allergy_intolerance=false,konsultasi_perawat=false,jawaban_konsultasi_perawat=false,bridging_smart_klaim_bpjs=false,mapping_prosedur_smart_klaim_bpjs=false,
+            mapping_penyakit_smart_klaim_bpjs=false,permintaan_binrohtal=false,surat_permintaan_perlindungan_dari_kekerasan=false,surat_permohonan_privasi=false,satu_sehat_kirim_episodeofcare=false;
 
     private static boolean edit_hapus_spo_medis = false,
         edit_hapus_spo_nonmedis = false,
@@ -280,7 +280,9 @@ public final class akses {
         set_pintu_poli = false,
         pintu_poli = false,
         apt_restore=false,
-        bpjs_riwayat_surat_smc = false;
+        bpjs_riwayat_surat_smc = false,
+        p2km_kompilasi_berkas_klaim = false;
+
 
     private static final Set<String> columns = new LinkedHashSet();
 
@@ -1338,6 +1340,7 @@ public final class akses {
                         akses.hasil_endoskopi_hidung=akses.getBoolean(rs2, "hasil_endoskopi_hidung");
                         akses.satu_sehat_kirim_specimen_radiologi=akses.getBoolean(rs2, "satu_sehat_kirim_specimen_radiologi");
                         akses.bpjs_kompilasi_berkas_klaim=akses.getBoolean(rs2, "bpjs_kompilasi_berkas_klaim");
+                        akses.p2km_kompilasi_berkas_klaim=akses.getBoolean(rs2, "p2km_kompilasi_berkas_klaim");
                         akses.master_masalah_keperawatan_neonatus=akses.getBoolean(rs2, "master_masalah_keperawatan_neonatus");
                         akses.master_rencana_keperawatan_neonatus=akses.getBoolean(rs2, "master_rencana_keperawatan_neonatus");
                         akses.penilaian_awal_keperawatan_ranap_neonatus=akses.getBoolean(rs2, "penilaian_awal_keperawatan_ranap_neonatus");
@@ -2592,6 +2595,7 @@ public final class akses {
         akses.hasil_endoskopi_hidung=isadmin;
         akses.satu_sehat_kirim_specimen_radiologi=isadmin;
         akses.bpjs_kompilasi_berkas_klaim=isadmin;
+        akses.p2km_kompilasi_berkas_klaim=isadmin;        
         akses.master_masalah_keperawatan_neonatus=isadmin;
         akses.master_rencana_keperawatan_neonatus=isadmin;
         akses.penilaian_awal_keperawatan_ranap_neonatus=isadmin;
@@ -3850,6 +3854,7 @@ public final class akses {
     public static boolean gethasil_endoskopi_hidung(){return akses.hasil_endoskopi_hidung;}
     public static boolean getsatu_sehat_kirim_specimen_radiologi(){return akses.satu_sehat_kirim_specimen_radiologi;}
     public static boolean getbpjs_kompilasi_berkas_klaim(){return akses.bpjs_kompilasi_berkas_klaim;}
+    public static boolean getp2km_kompilasi_berkas_klaim(){return akses.p2km_kompilasi_berkas_klaim;}
     public static boolean getmaster_masalah_keperawatan_neonatus(){return akses.master_masalah_keperawatan_neonatus;}
     public static boolean getmaster_rencana_keperawatan_neonatus(){return akses.master_rencana_keperawatan_neonatus;}
     public static boolean getpenilaian_awal_keperawatan_ranap_neonatus(){return akses.penilaian_awal_keperawatan_ranap_neonatus;}
