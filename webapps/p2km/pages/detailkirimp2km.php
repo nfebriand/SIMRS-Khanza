@@ -22,24 +22,24 @@
             Klaim berhasil disimpan!
         </div>
         <div class="entry" style="font-family: Tahoma font-size: 10pt; margin-top: 0.5rem; margin-left: 0.5rem">
-            <a href="?act=DetailKirimP2km&<?= $queryurl."&action=reedit&grouper=final" ?>">[Edit Klaim]</a>
+            <a href="?act=DetailKirimp2km&<?= $queryurl."&action=reedit&grouper=final" ?>">[Edit Klaim]</a>
             <br />
             <br />
-            <a href="?act=DetailKirimP2km&<?= $queryurl."&action=kirim_individual" ?>">[Kirim Klaim Individual ke DC]</a>&nbsp;
+            <a href="?act=DetailKirimp2km&<?= $queryurl."&action=kirim_individual" ?>">[Kirim Klaim Individual ke DC]</a>&nbsp;
             <span><?= getOne("select if(inacbg_cetak_klaim.kirim_ke_dc is null or inacbg_cetak_klaim.kirim_ke_dc = '0000-00-00 00:00:00.000', '', concat('Dikirim pada ', date_format(inacbg_cetak_klaim.kirim_ke_dc, '%d-%m-%Y %H:%i:%s'))) from inacbg_cetak_klaim where inacbg_cetak_klaim.no_sep = '$nosep'") ?></span>
             <br />
             <br />
-            <a href="?act=DetailKirimP2km&<?= $queryurl ?>&action=cetak">[Tarik ulang hasil cetak klaim]</a>
+            <a href="?act=DetailKirimp2km&<?= $queryurl ?>&action=cetak">[Tarik ulang hasil cetak klaim]</a>
         </div>
     <?php elseif ($action === 'cetak'): ?>
         <?php $queryurl = http_build_query(compact('codernik', 'nosep', 'corona')); ?>
         <?php if (CetakKlaimSmc($nosep)['success']): ?>
-            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&<?= $queryurl ?>&action=selesai">
+            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&<?= $queryurl ?>&action=selesai">
         <?php endif; ?>
     <?php elseif ($action === 'kirim_individual'): ?>
         <?php $queryurl = http_build_query(compact('codernik', 'nosep', 'corona')); ?>
         <?php if (KirimKlaimIndividualSmc($nosep)['success'] === true): ?>
-            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&<?= $queryurl ?>&action=selesai">
+            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&<?= $queryurl ?>&action=selesai">
         <?php endif; ?>
     <?php else: ?>
         <form name="frm_aturadmin" onsubmit="return validasiIsi();" method="post" action="" enctype="multipart/form-data">
@@ -52,9 +52,9 @@
                                     bukaquery2("delete from idrg_grouping_p2km where no_sep = '$nosep'");
                                     bukaquery2("delete from idrg_klaim_final_p2km where no_sep = '$nosep'");
                                 ?>
-                                <meta http-equiv="refresh" content="<?= "1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg" ?>">
+                                <meta http-equiv="refresh" content="<?= "1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg" ?>">
                             <?php elseif ($action === 'kelahiran'): ?>
-                                <meta http-equiv="refresh" content="<?= "1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg" ?>">
+                                <meta http-equiv="refresh" content="<?= "1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg" ?>">
                             <?php else: ?>
                                 <tr class="head">
                                     <td colspan="3">
@@ -174,7 +174,7 @@
                                         ['success' => $success, 'data' => $response, 'error' => $_error] = ReeditIdrgSmc($nosep);
                                         if ($success === true) {
                                             echo <<<HTML
-                                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg">
+                                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg">
                                                 HTML;
                                         }
                                     }
@@ -214,7 +214,7 @@
                                     }
                                     $norawat        = $baris['no_rawat'];
                                     $no_rkm_medis   = $baris['no_rkm_medis'];
-                                    $nokartu        = $baris['no_kartu'];
+                                    $nokartu        = $baris['no_sep'];
                                     $nik            = $baris['no_ktp'];
                                     $no_sitb        = $baris['no_sitb'];
                                     $nm_pasien      = $baris['nm_pasien'];
@@ -913,7 +913,7 @@
                                     </td>
                                 </tr>
                                 <tr class="head">
-                                    <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=kelahiran&grouper=idrg" ?>">[Input Data Kelahiran]</a></td>
+                                    <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=kelahiran&grouper=idrg" ?>">[Input Data Kelahiran]</a></td>
                                 </tr>
                                 <?php foreach ($kelahiran_rows as $bariskelahiran): ?>
                                     <tr class="head"><td colspan="3" width="98%"><div style="height: 1px; background-color: #cccccc"></div></td></tr>
@@ -1628,7 +1628,7 @@
                                     <td colspan="3" style="color: blue">**) Nilai klaim masih menggunakan total tarif INACBG</td>
                                 </tr>
                                 <tr class="head">
-                                    <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=edit&grouper=idrg" ?>">[Batal]</a></td>
+                                    <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=edit&grouper=idrg" ?>">[Batal]</a></td>
                                 </tr>
                             <?php endif; ?>
                             <?php $judul = 'FINAL IDRG & IMPORT KE INACBG'; ?>
@@ -1638,14 +1638,14 @@
                                     ['success' => $success, 'data' => $response, 'error' => $_error] = ReeditInacbgSmc($nosep);
                                     if ($success === true) {
                                         echo <<<HTML
-                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_stage1">
+                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_stage1">
                                             HTML;
                                     }
                                 } else if ($action === 'import') {
                                     ['success' => $success, 'data' => $response, 'error' => $_error] = ImportIdrgToInacbgSmc($nosep);
                                     if ($success === true) {
                                         echo <<<HTML
-                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_stage1">
+                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_stage1">
                                             HTML;
                                     }
                                 }
@@ -1759,10 +1759,10 @@
                                 </tr>
                             <?php endif; ?>
                             <tr class="head">
-                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
+                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
                             </tr>
                             <tr class="head">
-                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=import&grouper=inacbg_stage1" ?>">[Import Ulang IDRG ke INACBG]</a></td>
+                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=import&grouper=inacbg_stage1" ?>">[Import Ulang IDRG ke INACBG]</a></td>
                             </tr>
                             <tr class="head"><td colspan="3" width="98%"><hr style="color: #909090; border-color: inherit"></td></tr>
                             <tr class="head">
@@ -1947,7 +1947,7 @@
                                 </tr>
                             <?php endif; ?>
                             <tr class="head">
-                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
+                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
                             </tr>
                             <tr class="head"><td colspan="3" width="98%"><hr style="color: #909090; border-color: inherit"></td></tr>
                             <tr class="head">
@@ -2197,7 +2197,7 @@
                                 </tr>
                             <?php endif; ?>
                             <tr class="head">
-                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
+                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
                             </tr>
                             <tr class="head"><td colspan="3" width="98%"><hr style="color: #909090; border-color: inherit"></td></tr>
                             <tr class="head">
@@ -2332,12 +2332,12 @@
                                     ['success' => $success, 'data' => $response, 'error' => $_error] = ReeditKlaimSmc($nosep, $norawat_edit);
                                     if ($success === true) {
                                         echo <<<HTML
-                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=final">
+                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=final">
                                             HTML;
                                     } else {
                                         if ($response === 'grouper') {
                                             echo <<<HTML
-                                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg">
+                                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg">
                                                 HTML;
                                         }
                                     }
@@ -2452,7 +2452,7 @@
                                 </tr>
                             <?php endif; ?>
                             <tr class="head">
-                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
+                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=idrg" ?>">[Edit IDRG]</a></td>
                             </tr>
                             <tr class="head"><td colspan="3" width="98%"><hr style="color: #909090; border-color: inherit"></td></tr>
                             <tr class="head">
@@ -2576,7 +2576,7 @@
                                 </tr>
                             <?php endif; ?>
                             <tr class="head">
-                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=inacbg_stage1" ?>">[Edit INACBG]</a></td>
+                                <td colspan="3" width="99%"><a href="<?= "?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&action=reedit&grouper=inacbg_stage1" ?>">[Edit INACBG]</a></td>
                             </tr>
                             <?php $judul = 'FINAL & CETAK KLAIM'; ?>
                         <?php endif; ?>
@@ -2756,12 +2756,12 @@
 
                                     if ($success === true) {
                                         echo <<<HTML
-                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg_final">
+                                            <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=idrg_final">
                                             HTML;
                                     } else {
                                         echo $error;
                                         echo <<<HTML
-                                            <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=idrg">
+                                            <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=idrg">
                                             HTML;
                                     }
                                 } else {
@@ -2778,18 +2778,18 @@
                             ['success' => $success, 'data' => $response, 'error' => $error] = ImportIdrgToInacbgSmc($nosep, $codernik);
                             if ($success === true) {
                                 echo <<<HTML
-                                    <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_stage1">
+                                    <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_stage1">
                                     HTML;
                             } else {
                                 echo $error;
                                 echo <<<HTML
-                                    <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=idrg_final">
+                                    <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=idrg_final">
                                     HTML;
                             }
                         } else {
                             echo $error;
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=idrg_final">
+                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=idrg_final">
                                 HTML;
                         }
                     } else if ($grouper === 'inacbg_stage1') {
@@ -2816,18 +2816,18 @@
                         if ($success === true) {
                             if ($response === 'inacbg_stage2') {
                                 echo <<<HTML
-                                    <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_stage2">
+                                    <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_stage2">
                                     HTML;
                             } else {
                                 echo <<<HTML
-                                    <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_final">
+                                    <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_final">
                                     HTML;
                             }
                         } else {
                             $_error .= '<span style="font-weight: bold; font-size: 16; color: rgb(255, 0, 0)">'.$error.'</span><br /><br />';
                             echo $_error;
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_stage1">
+                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_stage1">
                                 HTML;
                         }
                     } else if ($grouper === 'inacbg_stage2') {
@@ -2847,12 +2847,12 @@
 
                         if ($success === true) {
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_final">
+                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=inacbg_final">
                                 HTML;
                         } else {
                             echo $error;
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_stage2">
+                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_stage2">
                                 HTML;
                         }
                     } else if ($grouper === 'inacbg_final') {
@@ -2860,12 +2860,12 @@
 
                         if ($success === true) {
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=final">
+                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=grouper&grouper=final">
                                 HTML;
                         } else {
                             echo $error;
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_final">
+                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=inacbg_final">
                                 HTML;
                         }
                     } else if ($grouper === 'final') {
@@ -2873,12 +2873,12 @@
 
                         if ($success === true) {
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=selesai">
+                                <meta http-equiv="refresh" content="1;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=true&action=selesai">
                                 HTML;
                         } else {
                             echo $error;
                             echo <<<HTML
-                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimP2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=final">
+                                <meta http-equiv="refresh" content="5;URL=?act=DetailKirimp2km&codernik={$codernik}&nosep={$nosep}&carabayar={$carabayar}&corona={$corona}&sukses=false&action=grouper&grouper=final">
                                 HTML;
                         }
                     }

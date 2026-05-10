@@ -16,10 +16,10 @@
                 $url = "index.php?act=KlaimBaruManual&action=no&codernik=".$codernik;
             }else if(($_GET['page']=="KlaimBaruManual2")){
                 $url = "index.php?act=KlaimBaruManual2&action=no&codernik=".$codernik;
-            } else if ($_GET['page'] === 'DetailKirimP2km') {
-                $url = "index.php?act=DetailKirimP2km&" . http_build_query(array_intersect_key($_GET, array_flip(['nosep', 'codernik', 'corona', 'sukses', 'action', 'grouper'])));
-            } else if ($_GET['page'] === 'DetailKirimP2km2') {
-                $url = "index.php?act=DetailKirimP2km2&" . http_build_query(array_intersect_key($_GET, array_flip(['nosep', 'codernik', 'corona', 'sukses', 'action', 'grouper'])));
+            } else if ($_GET['page'] === 'DetailKirimp2km') {
+                $url = "index.php?act=DetailKirimp2km&" . http_build_query(array_intersect_key($_GET, array_flip(['nosep', 'codernik', 'corona', 'sukses', 'action', 'grouper'])));
+            } else if ($_GET['page'] === 'DetailKirimp2km2') {
+                $url = "index.php?act=DetailKirimp2km2&" . http_build_query(array_intersect_key($_GET, array_flip(['nosep', 'codernik', 'corona', 'sukses', 'action', 'grouper'])));
             }
         }else{
             session_start();
