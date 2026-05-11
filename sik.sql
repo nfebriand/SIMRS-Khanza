@@ -736,6 +736,29 @@ INSERT INTO `antripermintaanbinrohtal` VALUES ('PB202604280002','2026/02/25/0000
 UNLOCK TABLES;
 
 --
+-- Table structure for table `antripermintaanprivasi`
+--
+
+DROP TABLE IF EXISTS `antripermintaanprivasi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `antripermintaanprivasi` (
+  `no_surat` varchar(20) DEFAULT NULL,
+  `no_rawat` varchar(17) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `antripermintaanprivasi`
+--
+
+LOCK TABLES `antripermintaanprivasi` WRITE;
+/*!40000 ALTER TABLE `antripermintaanprivasi` DISABLE KEYS */;
+INSERT INTO `antripermintaanprivasi` VALUES ('SPV20260506001','2026/02/25/000005');
+/*!40000 ALTER TABLE `antripermintaanprivasi` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `antripernyataanmemilihdpjp`
 --
 
@@ -36880,6 +36903,31 @@ INSERT INTO `surat_permohonan_privasi` VALUES ('SPV20260506001','2026/02/25/0000
 UNLOCK TABLES;
 
 --
+-- Table structure for table `surat_permohonan_privasi_pembuat_permohonan`
+--
+
+DROP TABLE IF EXISTS `surat_permohonan_privasi_pembuat_permohonan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `surat_permohonan_privasi_pembuat_permohonan` (
+  `no_surat` varchar(20) NOT NULL,
+  `photo` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`no_surat`),
+  CONSTRAINT `surat_permohonan_privasi_pembuat_permohonan_ibfk_1` FOREIGN KEY (`no_surat`) REFERENCES `surat_permohonan_privasi` (`no_surat`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `surat_permohonan_privasi_pembuat_permohonan`
+--
+
+LOCK TABLES `surat_permohonan_privasi_pembuat_permohonan` WRITE;
+/*!40000 ALTER TABLE `surat_permohonan_privasi_pembuat_permohonan` DISABLE KEYS */;
+INSERT INTO `surat_permohonan_privasi_pembuat_permohonan` VALUES ('SPV20260506001','pages/upload/SPV20260506001.jpeg');
+/*!40000 ALTER TABLE `surat_permohonan_privasi_pembuat_permohonan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `surat_pernyataan_memilih_dpjp`
 --
 
@@ -43410,4 +43458,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-06 13:38:48
+-- Dump completed on 2026-05-07 21:05:11
