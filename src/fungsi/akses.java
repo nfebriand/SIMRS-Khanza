@@ -272,6 +272,7 @@ public final class akses {
     private static boolean edit_hapus_spo_medis = false,
         edit_hapus_spo_nonmedis = false,
         bpjs_kompilasi_berkas_klaim = false,
+        p2km_kompilasi_berkas_klaim = false,
         pindah_kamar_pilihan_2 = false,
         bpjs_kirim_obat_smc = false,
         bpjs_edit_kirim_obat_smc = false,
@@ -280,8 +281,7 @@ public final class akses {
         set_pintu_poli = false,
         pintu_poli = false,
         apt_restore=false,
-        bpjs_riwayat_surat_smc = false,
-        p2km_kompilasi_berkas_klaim = false;
+        bpjs_riwayat_surat_smc = false;
 
 
     private static final Set<String> columns = new LinkedHashSet();
@@ -313,7 +313,7 @@ public final class akses {
                         rs2.next();
                         if (columns.isEmpty()) {
                             ResultSetMetaData md = rs2.getMetaData();
-                            for (int i = 1; i < md.getColumnCount(); i++) {
+                            for (int i = 1; i <= md.getColumnCount(); i++) {
                                 if (md.getColumnLabel(i).equalsIgnoreCase("id_user") || md.getColumnLabel(i).equalsIgnoreCase("password")) {
                                     continue;
                                 }
@@ -4042,7 +4042,7 @@ public final class akses {
     public static boolean getsatu_sehat_kirim_allergy_intolerance(){return akses.satu_sehat_kirim_allergy_intolerance;}
     public static boolean getkonsultasi_perawat(){return akses.konsultasi_perawat;}
     public static boolean getjawaban_konsultasi_perawat(){return akses.jawaban_konsultasi_perawat;}
-    public static boolean getsatu_sehat_kirim_episodeofcare(){return akses.satu_sehat_kirim_episodeofcare;}    
+    public static boolean getsatu_sehat_kirim_episodeofcare(){return akses.satu_sehat_kirim_episodeofcare;}  
     public static boolean getbridging_smart_klaim_bpjs(){return akses.bridging_smart_klaim_bpjs;}
     public static boolean getmapping_prosedur_smart_klaim_bpjs(){return akses.mapping_prosedur_smart_klaim_bpjs;}
     public static boolean getmapping_penyakit_smart_klaim_bpjs(){return akses.mapping_penyakit_smart_klaim_bpjs;}

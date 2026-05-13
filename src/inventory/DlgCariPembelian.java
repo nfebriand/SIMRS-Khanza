@@ -949,6 +949,9 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                 sukses=false;
                             }
                            if(rs.getDouble("ppn")>0){
+                                if(Sequel.insertTampJurnal(PPN_Masukan, "BATAL PPN Masukan Obat", 0, rs.getDouble("ppn")) == false){
+                                sukses = false;
+                                }
                            }
                            if(Sequel.insertTampJurnal(rs.getString("kd_rek"), "AKUN BAYAR", rs.getDouble("tagihan"), 0)==false){
                                sukses=false;

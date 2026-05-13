@@ -11350,12 +11350,6 @@ public class frmUtama extends javax.swing.JFrame {
                             aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
                             aplikasi.setLocationRelativeTo(PanelUtama);
                             aplikasi.setVisible(true);
-                        } else if (akses.getform().equals("P2KMKompilasiBerkasKlaim")) {
-                            P2KMKompilasiBerkasKlaim aplikasi=new P2KMKompilasiBerkasKlaim(null, false);
-                            aplikasi.isCek(coder_nik);
-                            aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
-                            aplikasi.setLocationRelativeTo(PanelUtama);
-                            aplikasi.setVisible(true);
                         } else {
                             try {
                                 inacbgklaim.loadURL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+prop.getProperty("PORTWEB")+"/"+prop.getProperty("HYBRIDWEB")+"/"+"inacbg/login.php?act=login&usere="+koneksiDB.USERHYBRIDWEB()+"&passwordte="+koneksiDB.PASHYBRIDWEB()+"&page="+pilihpage+"&codernik="+coder_nik);

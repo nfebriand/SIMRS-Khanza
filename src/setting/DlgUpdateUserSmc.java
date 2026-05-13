@@ -1024,6 +1024,7 @@ public class DlgUpdateUserSmc extends javax.swing.JDialog {
         namaakses.put("bpjs_klaim_jasa_raharja", "[L] Klaim Jaminan Jasa Raharja VClaim");
         namaakses.put("kodetransaksi_tujuan_transfer_bankmandiri", "[L] Kode Transaksi Tujuan Transfer Bank Mandiri");
         namaakses.put("bpjs_kompilasi_berkas_klaim", "[L] Kompilasi Berkas Klaim BPJS");
+        namaakses.put("p2km_kompilasi_berkas_klaim", "[L] Kompilasi Berkas Klaim P2KM");
         namaakses.put("bpjs_mapping_dokterdpjp", "[L] Mapping Dokter DPJP VClaim");
         namaakses.put("inhealth_mapping_dokter", "[L] Mapping Dokter Inhealth");
         namaakses.put("pcare_mapping_dokter", "[L] Mapping Dokter PCare");
