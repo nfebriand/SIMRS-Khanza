@@ -4248,7 +4248,13 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         try {        
             Map<String, Object> param = new HashMap<>();
             String kodeDokter = Sequel.cariIsiSmc("select kd_dokter from resume_pasien where no_rawat = ?", tbKompilasi.getValueAt(row, 1).toString());
-            String namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
+            if (kodeDokter == null || kodeDokter.isBlank()) {
+                kodeDokter = Sequel.cariIsiSmc("select kd_dokter from resume_pasien_ranap where no_rawat = ?", tbKompilasi.getValueAt(row, 1).toString());
+            }
+            String namaDokter = "";
+            if (kodeDokter != null && !kodeDokter.isBlank()) {
+                namaDokter = Sequel.cariIsiSmc("select nm_dokter from dokter where kd_dokter = ?", kodeDokter);
+            }
             param.put("namars", akses.getnamars());
             param.put("alamatrs", akses.getalamatrs());
             param.put("kotars", akses.getkabupatenrs());
@@ -4271,6 +4277,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
             param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+namaDokter+"\nID "+(finger.equals("")? kodeDokter:finger)+"\n"+tanggal); 
             simpanPDF(tbKompilasi.getValueAt(row, 2).toString(), "rptLaporanResumeRalanKompilasi.jasper", urutan + "_ResumePasienRalan", param);
         }catch (Exception e) {
+            e.printStackTrace();            
             throw new KompilasiException("Resume Ralan Pasien", urutan, tbKompilasi.getValueAt(row, 2).toString(), e);
         }
     }
@@ -5418,6 +5425,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
 
             mergePDF();
             hapusTemporaryPDF();
+            bukaPDF(selectedRow); // buka pdf setelah dibuat
             JOptionPane.showMessageDialog(null, "Kompilasi berkas PDF berhasil!");
         } catch (KompilasiException e) {
             System.out.println("Notif : " + e.getCause().getMessage());
@@ -5428,6 +5436,50 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         }
     }
 
+    private void bukaPDF(final int row) {
+        String filePDF = "./berkaspdf/" + tanggalExport + "/" + tbKompilasi.getValueAt(row, 2).toString() + ".pdf";
+        File file = new File(filePDF);
+
+        if (!file.exists()) {
+            JOptionPane.showMessageDialog(null, "File PDF tidak ditemukan:\n" + file.getAbsolutePath(), "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            switch (aplikasiPDF) {
+                case "":
+                case "disable":
+                    // Tidak buka otomatis
+                    break;
+                case "chrome":
+                    new ProcessBuilder("chrome", file.getAbsolutePath()).start();
+                    break;
+                case "firefox":
+                    new ProcessBuilder("firefox", file.getAbsolutePath()).start();
+                    break;
+                case "msedge":
+                    new ProcessBuilder("msedge", file.getAbsolutePath()).start();
+                    break;
+                default:
+                    // Path aplikasi custom dari pengaturan
+                    if (!aplikasiPDF.isBlank()) {
+                        new ProcessBuilder(aplikasiPDF, file.getAbsolutePath()).start();
+                    } else {
+                        // Fallback ke aplikasi default OS
+                        Desktop.getDesktop().open(file);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println("Notif bukaPDF: " + e);
+            // Fallback ke aplikasi default OS jika gagal
+            try {
+                Desktop.getDesktop().open(file);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat membuka file PDF:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }    
     private void bulkKompilasiBerkas(final int selectedRowCount) {
         JCheckBox lanjutKompilasiApabilaGagal = new JCheckBox("Lewati berkas gagal diproses", false);
 
@@ -5473,6 +5525,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                             "select exists(select * from data_triase_igd t where t.no_rawat = s.no_rawat) as ada_triase_igd, " +
                             "exists(select * from pemeriksaan_ralan pr where pr.no_rawat = s.no_rawat) as ada_soap, " +
                             "exists(select * from resume_pasien_ranap r where r.no_rawat = s.no_rawat) as ada_resume_ranap, " +
+                            "exists(select * from resume_pasien r where r.no_rawat = s.no_rawat) as ada_resume_ralan, " +                                    
                             "exists(select * from penilaian_medis_igd p where p.no_rawat = s.no_rawat) as ada_awal_medis_igd, " +
                             "exists(select * from periksa_lab pl where pl.no_rawat = s.no_rawat) as ada_periksa_lab, " +
                             "exists(select * from periksa_radiologi pr where pr.no_rawat = s.no_rawat) as ada_periksa_rad, " +
