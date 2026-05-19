@@ -121,7 +121,7 @@ public class koneksiDB {
                     "  #    ___) || | | |  | ||  _ <  ___) | | . \\ | | | || (_| || | | | / /| (_| |\n" +
                     "  #   |____/|___||_|  |_||_| \\_\\|____/  |_|\\_\\|_| |_| \\__,_||_| |_|/___|\\__,_|\n" +
                     "  #                                                                           \n\n"+
-                    "  Versi : Onboarding Eklaim 20052026 (a41bff3743d9df91db712fe24dea8e9fcd3873d4) \n\n"+
+                    "  Versi : Onboarding Eklaim 20052026 (544a271a79b7ba59397751d551643f53b192f0de) \n"+
                     "                                                                           "
                 );
                 return;
