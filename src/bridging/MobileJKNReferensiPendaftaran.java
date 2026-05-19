@@ -678,7 +678,7 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
                     "SELECT referensi_mobilejkn_bpjs.no_rawat,referensi_mobilejkn_bpjs.norm,pasien.nm_pasien,referensi_mobilejkn_bpjs.nohp,referensi_mobilejkn_bpjs.nomorkartu,"+
                     "referensi_mobilejkn_bpjs.nik,referensi_mobilejkn_bpjs.tanggalperiksa,referensi_mobilejkn_bpjs.kodepoli,referensi_mobilejkn_bpjs.kodedokter,referensi_mobilejkn_bpjs.jampraktek,"+
                     "referensi_mobilejkn_bpjs.jeniskunjungan,referensi_mobilejkn_bpjs.nomorreferensi,referensi_mobilejkn_bpjs.status,referensi_mobilejkn_bpjs.validasi,"+
-                    "ifnull(maping_dokter_dpjpvclaim.nm_dokter_bpjs, '') as nm_dokter_bpjs, ifnull(maping_poli_bpjs..nm_poli_bpjs, '') as nm_poli_bpjs, " +
+                    "ifnull(maping_dokter_dpjpvclaim.nm_dokter_bpjs, '') as nm_dokter_bpjs, ifnull(maping_poli_bpjs.nm_poli_bpjs, '') as nm_poli_bpjs, " +
                     "referensi_mobilejkn_bpjs.nobooking FROM referensi_mobilejkn_bpjs INNER JOIN pasien on referensi_mobilejkn_bpjs.norm=pasien.no_rkm_medis "+
                     "left join maping_dokter_dpjpvclaim on referensi_mobilejkn_bpjs.kodedokter = maping_dokter_dpjpvclaim.kd_dokter_bpjs " +
                     "left join maping_poli_bpjs on referensi_mobilejkn_bpjs.kodepoli = maping_poli_bpjs.kd_poli_bpjs " +

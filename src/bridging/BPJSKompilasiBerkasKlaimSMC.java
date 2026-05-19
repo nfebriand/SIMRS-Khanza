@@ -5369,11 +5369,13 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                 if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ralan")) {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
                     exportSEP("002", true, selectedRow);
-                    exportTriaseIGD("003", btnTriaseIGD.isEnabled(), selectedRow);
-                    exportRiwayatPasien("004", true, selectedRow);
-                    exportBilling("005", true, selectedRow);                    
-                    exportBerkasDigitalPerawatan("006", true, selectedRow);
-                    exportSKDP("007", true, selectedRow);                                        
+                    exportSKDP("003", true, selectedRow);                                                            
+                    exportTriaseIGD("004", btnTriaseIGD.isEnabled(), selectedRow);
+                    exportResumeRalan("005", btnResumeRalan.isEnabled(), selectedRow);                                   
+                //    exportRiwayatPasien("004", true, selectedRow);
+                    exportBilling("006", true, selectedRow);  
+                    exportHasilLab("007", true, selectedRow);                                        
+                    exportBerkasDigitalPerawatan("008", true, selectedRow);
                 } else {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
                     exportSEP("002", true, selectedRow);
@@ -5382,14 +5384,12 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportTriaseIGD("005", btnTriaseIGD.isEnabled(), selectedRow);
                 //    exportAwalMedisIGD("004", btnAwalMedisIGD.isEnabled(), selectedRow);
                 //    exportSOAP("005", true, selectedRow);
-                    exportRiwayatPasien("006", true, selectedRow);
-                    exportResumeRalan("007", btnResumeRalan.isEnabled(), selectedRow);               
-                    exportBilling("008", true, selectedRow);
-                    exportHasilLab("009", btnHasilLab.isEnabled(), selectedRow);
+                //    exportRiwayatPasien("006", true, selectedRow);
+                    exportResumeRalan("006", btnResumeRalan.isEnabled(), selectedRow);               
+                    exportBilling("007", true, selectedRow);
+                    exportHasilLab("008", btnHasilLab.isEnabled(), selectedRow);
                 //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
-                    exportBerkasDigitalPerawatan("010", true, selectedRow);
-                    // exportSKDP("009");
-                    // exportSPRI("010");
+                    exportBerkasDigitalPerawatan("009", true, selectedRow);
                 }
             } else if (tbKompilasi.getValueAt(selectedRow, 5).toString().equals("Ranap")) {
                 if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ranap")) {
@@ -5397,7 +5397,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportSEP("002", true, selectedRow);
                     exportSPRI("003", true, selectedRow);
                     exportSKDP("004", true, selectedRow);                    
-                    exportRiwayatPasien("005", true, selectedRow);
+                //    exportRiwayatPasien("005", true, selectedRow);
                     exportBerkasDigitalPerawatan("006", true, selectedRow);
                 } else {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
@@ -5407,14 +5407,12 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportTriaseIGD("005", btnTriaseIGD.isEnabled(), selectedRow);
                 //    exportAwalMedisIGD("004", btnAwalMedisIGD.isEnabled(), selectedRow);
                 //    exportSOAP("005", true, selectedRow);
-                    exportRiwayatPasienRanap("006", true, selectedRow);                
+                //    exportRiwayatPasienRanap("006", true, selectedRow);                
                     exportResumeRanap("007", btnResumeRanap.isEnabled(), selectedRow);
                     exportBilling("008", true, selectedRow);
                     exportHasilLab("009", btnHasilLab.isEnabled(), selectedRow);
                 //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
                     exportBerkasDigitalPerawatan("010", true, selectedRow);
-                    // exportSKDP("009");
-                    // exportSPRI("010");
                 }
             }
 
@@ -5499,18 +5497,20 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                                             if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ralan")) {
                                                 exportHasilKlaim("001", rs.getBoolean("ada_hasil_klaim"), i);
                                                 exportSEP("002", true, i);
-                                                exportRiwayatPasien("003", true, i);
+                                            //    exportRiwayatPasien("003", true, i);
+                                                exportResumeRalan("003", rs.getBoolean("ada_resume_ralan"), i);                                            
                                                 exportBerkasDigitalPerawatan("004", rs.getBoolean("ada_berkas_digital"), i);
                                             } else {
                                                 exportHasilKlaim("001", rs.getBoolean("ada_hasil_klaim"), i);
                                                 exportSEP("002", true, i);
                                                 exportTriaseIGD("003", rs.getBoolean("ada_triase_igd"), i);
-                                                exportAwalMedisIGD("004", rs.getBoolean("ada_awal_medis_igd"), i);
-                                                exportSOAP("005", rs.getBoolean("ada_soap"), i);
-                                                exportBilling("007", true, i);
-                                                exportHasilLab("008", rs.getBoolean("ada_periksa_lab"), i);
-                                                exportHasilRadiologi("009", rs.getBoolean("ada_periksa_rad"), i);
-                                                exportBerkasDigitalPerawatan("010", rs.getBoolean("ada_berkas_digital"), i);
+                                                exportResumeRalan("004", rs.getBoolean("ada_resume_ralan"), i);
+                                            //    exportAwalMedisIGD("004", rs.getBoolean("ada_awal_medis_igd"), i);
+                                            //     exportSOAP("005", rs.getBoolean("ada_soap"), i);
+                                                exportBilling("005", true, i);
+                                                exportHasilLab("006", rs.getBoolean("ada_periksa_lab"), i);
+                                                exportHasilRadiologi("007", rs.getBoolean("ada_periksa_rad"), i);
+                                                exportBerkasDigitalPerawatan("008", rs.getBoolean("ada_berkas_digital"), i);
                                                 // exportSKDP("009");
                                                 // exportSPRI("010");
                                             }
@@ -5518,21 +5518,21 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                                             if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ranap")) {
                                                 exportHasilKlaim("001", rs.getBoolean("ada_hasil_klaim"), i);
                                                 exportSEP("002", true, i);
-                                                exportRiwayatPasien("003", true, i);
+                                            //    exportRiwayatPasien("003", true, i);
                                                 exportBerkasDigitalPerawatan("004", rs.getBoolean("ada_berkas_digital"), i);
                                             } else {
                                                 exportHasilKlaim("001", rs.getBoolean("ada_hasil_klaim"), i);
                                                 exportSEP("002", true, i);
-                                                exportTriaseIGD("003", rs.getBoolean("ada_triase_igd"), i);
-                                                exportAwalMedisIGD("004", rs.getBoolean("ada_awal_medis_igd"), i);
-                                                exportSOAP("005", rs.getBoolean("ada_soap"), i);
+                                                exportSPRI("003", true, i);
+                                                exportSKDP("004", true, i);
+                                                exportTriaseIGD("005", rs.getBoolean("ada_triase_igd"), i);
+                                            //    exportAwalMedisIGD("004", rs.getBoolean("ada_awal_medis_igd"), i);
+                                            //    exportSOAP("005", rs.getBoolean("ada_soap"), i);
                                                 exportResumeRanap("006", rs.getBoolean("ada_resume_ranap"), i);
                                                 exportBilling("007", true, i);
                                                 exportHasilLab("008", rs.getBoolean("ada_periksa_lab"), i);
-                                                exportHasilRadiologi("009", rs.getBoolean("ada_periksa_rad"), i);
-                                                exportBerkasDigitalPerawatan("010", rs.getBoolean("ada_berkas_digital"), i);
-                                                // exportSKDP("009");
-                                                // exportSPRI("010");
+                                            //    exportHasilRadiologi("009", rs.getBoolean("ada_periksa_rad"), i);
+                                                exportBerkasDigitalPerawatan("009", rs.getBoolean("ada_berkas_digital"), i);
                                             }
                                         }
 

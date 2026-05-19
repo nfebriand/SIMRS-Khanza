@@ -17169,7 +17169,12 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                         }
                     }
                     if(sukses==true){
-                        sukses=jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                        boolean adaTransaksi = (ttlpendapatan > 0 || ttljmdokter > 0 || ttljmperawat > 0 || ttlkso > 0 || ttlbhp > 0 || ttlmenejemen > 0);
+                        if(adaTransaksi){
+                            sukses=jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                        }else{
+                            System.out.println("Notif : Tidak ada set tindakan otomatis, jurnal dilewati.");
+                        }
                     }
                 }
 
@@ -17425,7 +17430,12 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                     }
                 }
                 if(sukses==true){
-                    sukses=jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                    boolean adaTransaksi = (ttlpendapatan > 0 || ttljmdokter > 0 || ttljmperawat > 0 || ttlkso > 0 || ttlbhp > 0 || ttlmenejemen > 0);
+                    if(adaTransaksi){
+                        sukses=jur.simpanJurnal(TNoRw.getText(),"U","TINDAKAN RAWAT JALAN PASIEN "+TNoRw.getText()+" DIPOSTING OLEH "+akses.getkode());
+                    }else{
+                        System.out.println("Notif : Tidak ada set tindakan otomatis, jurnal dilewati.");
+                    }
                 }
             }
 
