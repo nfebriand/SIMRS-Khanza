@@ -5260,6 +5260,128 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         }
     }
 
+    private void exportLaporanOperasi(final String urutan, final boolean ada, final int row) throws KompilasiException {
+    if (!ada) {
+        return;
+    }
+
+    try {
+        String norawat    = tbKompilasi.getValueAt(row, 1).toString();
+        String tgl_operasi = Sequel.cariIsiSmc(
+            "select operasi.tgl_operasi from operasi " +
+            "inner join reg_periksa on operasi.no_rawat = reg_periksa.no_rawat " +
+            "where reg_periksa.no_rawat = ?", norawat);
+
+        // Skip jika tidak ada data operasi
+        if (norawat.isBlank() || tgl_operasi.isBlank()) {
+            return;
+        }
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("namars",     akses.getnamars());
+        param.put("alamatrs",   akses.getalamatrs());
+        param.put("kotars",     akses.getkabupatenrs());
+        param.put("propinsirs", akses.getpropinsirs());
+        param.put("kontakrs",   akses.getkontakrs());
+        param.put("emailrs",    akses.getemailrs());
+        param.put("logo",       Sequel.cariGambar("select setting.logo from setting"));
+        param.put("norawat",    norawat);
+        param.put("tanggaloperasi", tgl_operasi);
+
+        // Data operator / dokter
+        String kodeoperator = Sequel.cariIsiSmc("select operator1 from operasi where no_rawat = ? and tgl_operasi = ?", norawat, tgl_operasi);
+        String namaoperator = Sequel.cariIsiSmc("select nama from pegawai where nik = ?", kodeoperator);
+        finger = Sequel.cariIsiSmc(
+            "select sha1(sidikjari.sidikjari) from sidikjari " +
+            "inner join pegawai on pegawai.id = sidikjari.id " +
+            "where pegawai.nik = ?", kodeoperator);
+
+        param.put("finger",
+            "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() +
+            "\nDitandatangani secara elektronik oleh " + namaoperator +
+            "\nID " + (finger.isBlank() ? kodeoperator : finger) +
+            "\n" + Valid.SetTgl3(tgl_operasi));
+
+        // Ambil daftar tindakan/paket operasi
+        finger = "";
+        try (PreparedStatement ps = koneksi.prepareStatement(
+            "select paket_operasi.nm_perawatan from operasi " +
+            "inner join paket_operasi on paket_operasi.kode_paket = operasi.kode_paket " +
+            "where operasi.no_rawat = ? and operasi.tgl_operasi = ?"
+        )) {
+            ps.setString(1, norawat);
+            ps.setString(2, tgl_operasi);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    finger += rs.getString("nm_perawatan") + ", ";
+                }
+            }
+        }
+        if (finger.length() > 2) {
+            finger = finger.substring(0, finger.length() - 2);
+        }
+        param.put("tindakan", finger);
+
+        // Data pemeriksaan — Ralan atau Ranap
+        String status = Sequel.cariIsiSmc("select status_lanjut from reg_periksa where no_rawat = ?", norawat);
+        String queryPemeriksaan;
+
+        if (status.equals("Ralan")) {
+            queryPemeriksaan =
+                "select no_rawat, tgl_perawatan, jam_rawat, suhu_tubuh, tensi, nadi, respirasi, " +
+                "tinggi, berat, gcs, keluhan, pemeriksaan, alergi, rtl, penilaian " +
+                "from pemeriksaan_ralan where no_rawat = ? " +
+                "and concat(tgl_perawatan, ' ', jam_rawat) <= ? " +
+                "order by tgl_perawatan desc, jam_rawat desc limit 1";
+        } else {
+            queryPemeriksaan =
+                "select no_rawat, tgl_perawatan, jam_rawat, suhu_tubuh, tensi, nadi, respirasi, " +
+                "tinggi, berat, gcs, keluhan, pemeriksaan, alergi, rtl, penilaian " +
+                "from pemeriksaan_ranap where no_rawat = ? " +
+                "and concat(tgl_perawatan, ' ', jam_rawat) <= ? " +
+                "order by tgl_perawatan desc, jam_rawat desc limit 1";
+        }
+
+        try (PreparedStatement ps = koneksi.prepareStatement(queryPemeriksaan)) {
+            ps.setString(1, norawat);
+            ps.setString(2, tgl_operasi);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    param.put("tgl_perawatan",  rs.getDate("tgl_perawatan"));
+                    param.put("jam_rawat",       rs.getString("jam_rawat"));
+                    param.put("alergi",          rs.getString("alergi"));
+                    param.put("keluhan",         rs.getString("keluhan"));
+                    param.put("pemeriksaan",     rs.getString("pemeriksaan"));
+                    param.put("penilaian",       rs.getString("penilaian"));
+                    param.put("rtl",             rs.getString("rtl"));
+                    param.put("suhu_tubuh",      rs.getString("suhu_tubuh"));
+                    param.put("tensi",           rs.getString("tensi"));
+                    param.put("tinggi",          rs.getString("tinggi"));
+                    param.put("berat",           rs.getString("berat"));
+                    param.put("nadi",            rs.getString("nadi"));
+                    param.put("respirasi",       rs.getString("respirasi"));
+                    param.put("gcs",             rs.getString("gcs"));
+
+                    param.put("ruang", status.equals("Ralan")
+                        ? Sequel.cariIsiSmc(
+                            "select poliklinik.nm_poli from poliklinik " +
+                            "inner join reg_periksa on reg_periksa.kd_poli = poliklinik.kd_poli " +
+                            "where reg_periksa.no_rawat = ?", norawat)
+                        : Sequel.cariIsiSmc(
+                            "select nm_bangsal from bangsal " +
+                            "inner join kamar inner join kamar_inap " +
+                            "on bangsal.kd_bangsal = kamar.kd_bangsal " +
+                            "and kamar_inap.kd_kamar = kamar.kd_kamar " +
+                            "where no_rawat = ? order by tgl_masuk desc limit 1", norawat)
+                    );
+                }
+            }
+        }
+        simpanPDF(tbKompilasi.getValueAt(row, 2).toString(), "rptLaporanOperasi.jasper", urutan + "_LaporanOperasi", param);
+        } catch (Exception e) {
+        throw new KompilasiException("Laporan Operasi", urutan, tbKompilasi.getValueAt(row, 2).toString(), e);
+        }
+    }
     private void exportBerkasDigitalPerawatan(final String urutan, final boolean ada, final int row) throws Exception {
         if (!ada) {
             return;
@@ -5381,8 +5503,9 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportResumeRalan("005", btnResumeRalan.isEnabled(), selectedRow);                                   
                 //    exportRiwayatPasien("004", true, selectedRow);
                     exportBilling("006", true, selectedRow);  
-                    exportHasilLab("007", true, selectedRow);                                        
-                    exportBerkasDigitalPerawatan("008", true, selectedRow);
+                    exportHasilLab("007", true, selectedRow);    
+                    exportLaporanOperasi("008", true, selectedRow);                                                            
+                    exportBerkasDigitalPerawatan("009", true, selectedRow);
                 } else {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
                     exportSEP("002", true, selectedRow);
@@ -5395,8 +5518,9 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportResumeRalan("006", btnResumeRalan.isEnabled(), selectedRow);               
                     exportBilling("007", true, selectedRow);
                     exportHasilLab("008", btnHasilLab.isEnabled(), selectedRow);
+                    exportLaporanOperasi("009", true, selectedRow);                                                                                
                 //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
-                    exportBerkasDigitalPerawatan("009", true, selectedRow);
+                    exportBerkasDigitalPerawatan("010", true, selectedRow);
                 }
             } else if (tbKompilasi.getValueAt(selectedRow, 5).toString().equals("Ranap")) {
                 if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ranap")) {
@@ -5405,6 +5529,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                     exportSPRI("003", true, selectedRow);
                     exportSKDP("004", true, selectedRow);                    
                 //    exportRiwayatPasien("005", true, selectedRow);
+                    exportLaporanOperasi("005", true, selectedRow);                                                            
                     exportBerkasDigitalPerawatan("006", true, selectedRow);
                 } else {
                     exportHasilKlaim("001", btnHasilKlaim.isEnabled(), selectedRow);
@@ -5415,11 +5540,12 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                 //    exportAwalMedisIGD("004", btnAwalMedisIGD.isEnabled(), selectedRow);
                 //    exportSOAP("005", true, selectedRow);
                 //    exportRiwayatPasienRanap("006", true, selectedRow);                
-                    exportResumeRanap("007", btnResumeRanap.isEnabled(), selectedRow);
+                    exportResumeRanap("006", btnResumeRanap.isEnabled(), selectedRow);
+                    exportLaporanOperasi("007", true, selectedRow);                                                                                
                     exportBilling("008", true, selectedRow);
                     exportHasilLab("009", btnHasilLab.isEnabled(), selectedRow);
                 //    exportHasilRadiologi("009", btnHasilRad.isEnabled(), selectedRow);
-                    exportBerkasDigitalPerawatan("010", true, selectedRow);
+                    exportBerkasDigitalPerawatan("011", true, selectedRow);
                 }
             }
 
@@ -5527,6 +5653,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                             "exists(select * from resume_pasien_ranap r where r.no_rawat = s.no_rawat) as ada_resume_ranap, " +
                             "exists(select * from resume_pasien r where r.no_rawat = s.no_rawat) as ada_resume_ralan, " +                                    
                             "exists(select * from penilaian_medis_igd p where p.no_rawat = s.no_rawat) as ada_awal_medis_igd, " +
+                            "exists(select * from laporan_operasi l where l.no_rawat = s.no_rawat) as ada_operasi, " +                                   
                             "exists(select * from periksa_lab pl where pl.no_rawat = s.no_rawat) as ada_periksa_lab, " +
                             "exists(select * from periksa_radiologi pr where pr.no_rawat = s.no_rawat) as ada_periksa_rad, " +
                             "exists(select * from bridging_surat_kontrol_bpjs skdp where skdp.no_surat = ?) as ada_skdp, " +
@@ -5558,12 +5685,13 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                                                 exportSEP("002", true, i);
                                                 exportTriaseIGD("003", rs.getBoolean("ada_triase_igd"), i);
                                                 exportResumeRalan("004", rs.getBoolean("ada_resume_ralan"), i);
+                                                exportLaporanOperasi("005", rs.getBoolean("ada_operasi"), i);                                                            
                                             //    exportAwalMedisIGD("004", rs.getBoolean("ada_awal_medis_igd"), i);
                                             //     exportSOAP("005", rs.getBoolean("ada_soap"), i);
-                                                exportBilling("005", true, i);
-                                                exportHasilLab("006", rs.getBoolean("ada_periksa_lab"), i);
-                                                exportHasilRadiologi("007", rs.getBoolean("ada_periksa_rad"), i);
-                                                exportBerkasDigitalPerawatan("008", rs.getBoolean("ada_berkas_digital"), i);
+                                                exportBilling("006", true, i);
+                                                exportHasilLab("007", rs.getBoolean("ada_periksa_lab"), i);
+                                                exportHasilRadiologi("008", rs.getBoolean("ada_periksa_rad"), i);
+                                                exportBerkasDigitalPerawatan("009", rs.getBoolean("ada_berkas_digital"), i);
                                                 // exportSKDP("009");
                                                 // exportSPRI("010");
                                             }
@@ -5582,10 +5710,11 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                                             //    exportAwalMedisIGD("004", rs.getBoolean("ada_awal_medis_igd"), i);
                                             //    exportSOAP("005", rs.getBoolean("ada_soap"), i);
                                                 exportResumeRanap("006", rs.getBoolean("ada_resume_ranap"), i);
-                                                exportBilling("007", true, i);
-                                                exportHasilLab("008", rs.getBoolean("ada_periksa_lab"), i);
+                                                exportLaporanOperasi("007", rs.getBoolean("ada_operasi"), i);                                                                                                            
+                                                exportBilling("008", true, i);
+                                                exportHasilLab("009", rs.getBoolean("ada_periksa_lab"), i);
                                             //    exportHasilRadiologi("009", rs.getBoolean("ada_periksa_rad"), i);
-                                                exportBerkasDigitalPerawatan("009", rs.getBoolean("ada_berkas_digital"), i);
+                                                exportBerkasDigitalPerawatan("010", rs.getBoolean("ada_berkas_digital"), i);
                                             }
                                         }
 
