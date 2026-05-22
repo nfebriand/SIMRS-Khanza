@@ -1205,7 +1205,7 @@
 					<font fontName="Tahoma" size="8" isBold="false" isItalic="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dokteranak}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pjanak}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="91" y="454" width="5" height="10" uuid="abbd84bb-a3bf-4627-ac52-0c10c918ff4c">
@@ -1568,31 +1568,6 @@
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
-			<staticText>
-				<reportElement x="308" y="121" width="5" height="10" uuid="95f1788d-1872-4d21-8df1-a2894874f729"/>
-				<textElement>
-					<font fontName="Tahoma" size="8" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="253" y="121" width="55" height="10" uuid="ee15ff40-c4c7-4d4d-9821-4edb31248500"/>
-				<textElement>
-					<font fontName="Tahoma" size="8" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Nomor Implan]]></text>
-			</staticText>
-			<componentElement>
-				<reportElement x="314" y="121" width="219" height="34" isRemoveLineWhenBlank="true" uuid="0eb2ba18-b9cc-451a-966f-ec88070ccae0">
-					<printWhenExpression><![CDATA[(!$F{nomor_implan}.toLowerCase().equals("") ? 
-  Boolean.TRUE:Boolean.FALSE)]]></printWhenExpression>
-				</reportElement>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128" drawText="true" checksumRequired="false" barWidth="1" barHeight="0">
-					<jr:codeExpression><![CDATA[$F{nomor_implan}]]></jr:codeExpression>
-				</jr:barbecue>
-			</componentElement>
 		</band>
 	</detail>
 	<columnFooter>

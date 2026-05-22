@@ -5277,6 +5277,17 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
             return;
         }
 
+        // Cek apakah data laporan_operasi sudah diisi
+        String cekLaporan = Sequel.cariIsiSmc(
+            "select laporan_operasi from laporan_operasi " +
+            "where no_rawat = ? and tanggal = ?", norawat, tgl_operasi);
+
+        if (cekLaporan == null || cekLaporan.isBlank()) {
+            // Data laporan operasi belum diisi, skip tanpa error
+            System.out.println("Notif exportLaporanOperasi: laporan_operasi kosong untuk " + norawat);
+            return;
+        }
+
         Map<String, Object> param = new HashMap<>();
         param.put("namars",     akses.getnamars());
         param.put("alamatrs",   akses.getalamatrs());
