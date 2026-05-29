@@ -6030,6 +6030,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                                                     do{
                                                         switch (rs3.getString("keterangan").toLowerCase()) {
                                                             case "l":
+                                                            case "cl":
                                                             case "kl":
                                                                 htmlContent.append(
                                                                     "<tr>").append(
@@ -6043,6 +6044,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                                                                     "</tr>");
                                                                 break;
                                                             case "h":
+                                                            case "ch":
                                                             case "kh":
                                                             case "tn":
                                                                 htmlContent.append(
@@ -7922,6 +7924,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                                                 while (rs3.next()) {
                                                     switch (rs3.getString("keterangan").toLowerCase()) {
                                                         case "l":
+                                                        case "cl":
                                                         case "kl":
                                                             htmlContent.append(
                                                                 "<tr>"
@@ -7935,6 +7938,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
                                                                 + "</tr>");
                                                             break;
                                                         case "h":
+                                                        case "ch":
                                                         case "kh":
                                                         case "tn":
                                                             htmlContent.append(

@@ -33,7 +33,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
@@ -63,7 +65,7 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private volatile boolean ceksukses = false;
     private ApiBIOSYS biosys = new ApiBIOSYS();
-    private final String LABORATORIUMKIRIMHASIL = koneksiDB.LABORATORIUMKIRIMHASIL();
+    private String vendorlis = "";
     private String noorder = "";
     private boolean belumFinal = false;
     private final JTextField jt = new JTextField();
@@ -160,6 +162,7 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
         internalFrame1 = new widget.InternalFrame();
         panelGlass8 = new widget.panelisi();
         BtnSimpan = new widget.Button();
+        BtnRefresh = new widget.Button();
         jLabel10 = new widget.Label();
         BtnKeluar = new widget.Button();
         panelGlass11 = new widget.panelisi();
@@ -264,8 +267,26 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
         });
         panelGlass8.add(BtnSimpan);
 
+        BtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/refresh.png"))); // NOI18N
+        BtnRefresh.setMnemonic('S');
+        BtnRefresh.setText("Refresh");
+        BtnRefresh.setToolTipText("Alt+S");
+        BtnRefresh.setName("BtnRefresh"); // NOI18N
+        BtnRefresh.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRefreshActionPerformed(evt);
+            }
+        });
+        BtnRefresh.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnRefreshKeyPressed(evt);
+            }
+        });
+        panelGlass8.add(BtnRefresh);
+
         jLabel10.setName("jLabel10"); // NOI18N
-        jLabel10.setPreferredSize(new java.awt.Dimension(400, 30));
+        jLabel10.setPreferredSize(new java.awt.Dimension(295, 30));
         panelGlass8.add(jLabel10);
 
         BtnKeluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
@@ -317,7 +338,7 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
         TPasien.setBounds(310, 10, 300, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-04-2026" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-05-2026" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -402,14 +423,17 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
                     Valid.SetTgl(Tanggal.getSelectedItem()+""),CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),TNoRw.getText(),tanggal,jam
                 });
 
-                if (LABORATORIUMKIRIMHASIL.equals("biosys")) {
-                    try {
-                        biosys.konfirmasiHasil(noorder, TNoRM.getText());
-                    } catch (Exception e) {
-                        System.out.println("Notif : " + e);
-                        JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat mengirim proses simpan ke LIS..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-                    }
+                switch (vendorlis) {
+                    case "biosys":
+                        try {
+                            biosys.konfirmasiHasil(noorder, TNoRM.getText());
+                        } catch (Exception e) {
+                            System.out.println("Notif : " + e);
+                            JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat mengirim proses simpan ke LIS..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                        }
+                        break;
                 }
+
                 JOptionPane.showMessageDialog(null,"Proses update hasil pemeriksaan sudah selesai !!!");
                 dispose();
                 ChkJln.setSelected(true);
@@ -431,14 +455,17 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
                 Valid.SetTgl(Tanggal.getSelectedItem()+""),CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),TNoRw.getText(),tanggal,jam
             });
 
-            if (LABORATORIUMKIRIMHASIL.equals("biosys")) {
-                try {
-                    biosys.konfirmasiHasil(noorder, TNoRM.getText());
-                } catch (Exception e) {
-                    System.out.println("Notif : " + e);
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat mengirim proses simpan ke LIS..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-                }
+            switch (vendorlis) {
+                case "biosys":
+                    try {
+                        biosys.konfirmasiHasil(noorder, TNoRM.getText());
+                    } catch (Exception e) {
+                        System.out.println("Notif : " + e);
+                        JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat mengirim proses simpan ke LIS..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                    }
+                    break;
             }
+
             JOptionPane.showMessageDialog(null,"Proses update hasil pemeriksaan sudah selesai !!!");
             dispose();
             ChkJln.setSelected(true);
@@ -470,9 +497,11 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         runBackground(() -> {
             tampilSmc();
-            if (LABORATORIUMKIRIMHASIL.equals("biosys")) {
-                ChkJln.setSelected(false);
-                ambilHasilBIOSYS();
+            switch (vendorlis) {
+                case "biosys":
+                    ChkJln.setSelected(false);
+                    ambilHasilBIOSYS();
+                    break;
             }
         });
     }//GEN-LAST:event_formWindowOpened
@@ -496,6 +525,23 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
         THasilLabPopup.requestFocus();
     }//GEN-LAST:event_WindowExpandIsiHasilComponentShown
 
+    private void BtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRefreshActionPerformed
+        Valid.tabelKosong(tabMode);
+        runBackground(() -> {
+            tampilSmc();
+            switch (vendorlis) {
+                case "biosys":
+                    ChkJln.setSelected(false);
+                    ambilHasilBIOSYS();
+                    break;
+            }
+        });
+    }//GEN-LAST:event_BtnRefreshActionPerformed
+
+    private void BtnRefreshKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnRefreshKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnRefreshKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -515,6 +561,7 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.Button BtnKeluar;
     private widget.Button BtnKeluar1;
+    private widget.Button BtnRefresh;
     private widget.Button BtnSimpan;
     private widget.CekBox ChkJln;
     private widget.ComboBox CmbDetik;
@@ -549,6 +596,11 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
         Valid.setTglSmc(Tanggal, tanggal);
         Valid.setJamSmc(CmbJam, CmbMenit, CmbDetik, jam);
         this.noorder = Sequel.cariIsiSmc("select permintaan_lab.noorder from permintaan_lab where permintaan_lab.no_rawat = ? and permintaan_lab.tgl_hasil = ? and permintaan_lab.jam_hasil = ?", TNoRw.getText(), tanggal, jam);
+    }
+
+    public void setNoRMBridgingSmc(String norawat, String tanggal, String jam, String lis) {
+        this.vendorlis = lis;
+        setNoRm(norawat, tanggal, jam);
     }
 
     public void isCek(){
@@ -660,15 +712,21 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
 
                     belumFinal = false;
 
+                    Map<String, Integer> map = new HashMap<>();
+                    for (int row = 0; row < tabMode.getRowCount(); row++) {
+                        map.put(tabMode.getValueAt(row, 5).toString(), row);
+                    }
+
                     for (JsonNode result : sortedResults) {
                         String testHis = result.path("TestHis").asText("");
 
                         if (testHis.isEmpty()) continue;
 
                         String idtemplate = Arrays.stream(StringUtils.split(testHis, ','))
-                            .filter(p -> p.matches("\\d+"))
+                            .filter(map::containsKey)
                             .findFirst()
                             .orElse("");
+
                         if (idtemplate.isEmpty()) continue;
 
                         boolean isFinal = "Final".equalsIgnoreCase(result.path("ResultStatus").asText(""));
@@ -679,17 +737,17 @@ public final class DlgUbahNilaiLab extends javax.swing.JDialog {
 
                         String resultValue = isFinal ? result.path("ResultValue").asText("") : "";
 
-                        // Object[] row={"Pemeriksaan","Hasil","Satuan","Nilai Rujukan","Keterangan","ID Detail","Kode Periksa"};
+                        Integer row = map.get(idtemplate);
 
-                        for (int row = 0; row < tabMode.getRowCount(); row++) {
-                            Object referensi = tabMode.getValueAt(row, 5);
+                        String nilaiRujukan = result.path("ReferenceRange").asText("");
+                        if (nilaiRujukan.isBlank()) {
+                            nilaiRujukan = result.path("NormalRange").asText("");
+                        }
 
-                            if (idtemplate.equals(referensi.toString())) {
-                                tabMode.setValueAt(resultValue, row, 1);
-                                tabMode.setValueAt(result.path("NormalRange").asText(""), row, 3);
-                                tabMode.setValueAt(result.path("Flag").asText(""), row, 4);
-                                break;
-                            }
+                        if (row != null) {
+                            tabMode.setValueAt(resultValue, row, 1);
+                            tabMode.setValueAt(nilaiRujukan, row, 3);
+                            tabMode.setValueAt(result.path("Flag").asText(""), row, 4);
                         }
                     }
 

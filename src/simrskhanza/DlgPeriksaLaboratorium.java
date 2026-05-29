@@ -102,7 +102,8 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
     private double ttljmdokter=0,ttljmpetugas=0,ttlkso=0,ttlpendapatan=0,ttlbhp=0,ttljasasarana=0,ttljmperujuk=0,ttlmenejemen=0;
     private String norawatibu="",finger="";
     private ApiBIOSYS biosys = new ApiBIOSYS();
-    private String LABORATORIUMKIRIMHASIL = koneksiDB.LABORATORIUMKIRIMHASIL();
+    private final String LABORATORIUMSUBHEADERPREFIX = koneksiDB.LABORATORIUMSUBHEADERPREFIX();
+    private String vendorlis = "";
     private boolean belumFinal = false;
     private final JTextField jt = new JTextField();
 
@@ -692,7 +693,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
         NmPtg.setBounds(546, 42, 249, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-05-2026" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "25-05-2026" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -963,7 +964,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
             Valid.textKosong(Pemeriksaan,"Data Pemeriksaan");
         }else{
             if (belumFinal) {
-                if (JOptionPane.showConfirmDialog(null, "Masih ada pemeriksaan yang belum difinalisasikan dari LIS, tetap lanjut??", "Konfirmasi", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(null, "Masih ada pemeriksaan yang belum divalidasi dari LIS " + Valid.capitalizeSmc(vendorlis) + ", tetap lanjut..??", "Konfirmasi", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     jmlparsial=0;
                     if(aktifkanparsial.equals("yes")){
                         jmlparsial=Sequel.cariInteger("select count(set_input_parsial.kd_pj) from set_input_parsial where set_input_parsial.kd_pj=?",Penjab.getText());
@@ -1561,8 +1562,10 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
     private void BtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRefreshActionPerformed
         runBackground(() ->{
             tampilkanOrder(noorder);
-            if (LABORATORIUMKIRIMHASIL.equals("biosys")) {
-                ambilHasilBIOSYS(noorder);
+            switch (vendorlis) {
+                case "biosys":
+                    ambilHasilBIOSYS(noorder);
+                    break;
             }
         });
     }//GEN-LAST:event_BtnRefreshActionPerformed
@@ -1660,7 +1663,6 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private widget.Label jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private widget.PanelBiasa panelBiasa1;
     private widget.panelisi panelGlass11;
     private widget.panelisi panelGlass8;
@@ -1747,7 +1749,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
                             rstampil=pstampil.executeQuery();
                             while(rstampil.next()){
                                 tabMode.addRow(new Object[]{
-                                    false,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_ld"),"",
+                                    true,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_ld"),"",
                                     rstampil.getString("id_template"),rstampil.getDouble("biaya_item"),rstampil.getDouble("bagian_rs"),rstampil.getDouble("bhp"),
                                     rstampil.getDouble("bagian_perujuk"),rstampil.getDouble("bagian_dokter"),rstampil.getDouble("bagian_laborat"),
                                     rstampil.getDouble("kso"),rstampil.getDouble("menejemen"),tbTarif.getValueAt(i2,1).toString()
@@ -1776,7 +1778,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
                             rstampil=pstampil2.executeQuery();
                             while(rstampil.next()){
                                 tabMode.addRow(new Object[]{
-                                    false,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_la"),"",
+                                    true,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_la"),"",
                                     rstampil.getString("id_template"),rstampil.getDouble("biaya_item"),rstampil.getDouble("bagian_rs"),rstampil.getDouble("bhp"),
                                     rstampil.getDouble("bagian_perujuk"),rstampil.getDouble("bagian_dokter"),rstampil.getDouble("bagian_laborat"),
                                     rstampil.getDouble("kso"),rstampil.getDouble("menejemen"),tbTarif.getValueAt(i2,1).toString()
@@ -1805,7 +1807,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
                             rstampil=pstampil3.executeQuery();
                             while(rstampil.next()){
                                 tabMode.addRow(new Object[]{
-                                    false,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_pd"),"",
+                                    true,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_pd"),"",
                                     rstampil.getString("id_template"),rstampil.getDouble("biaya_item"),rstampil.getDouble("bagian_rs"),rstampil.getDouble("bhp"),
                                     rstampil.getDouble("bagian_perujuk"),rstampil.getDouble("bagian_dokter"),rstampil.getDouble("bagian_laborat"),
                                     rstampil.getDouble("kso"),rstampil.getDouble("menejemen"),tbTarif.getValueAt(i2,1).toString()
@@ -1834,7 +1836,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
                             rstampil=pstampil4.executeQuery();
                             while(rstampil.next()){
                                 tabMode.addRow(new Object[]{
-                                    false,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_pa"),"",
+                                    true,"   "+rstampil.getString("Pemeriksaan"),"",rstampil.getString("satuan"),rstampil.getString("nilai_rujukan_pa"),"",
                                     rstampil.getString("id_template"),rstampil.getDouble("biaya_item"),rstampil.getDouble("bagian_rs"),rstampil.getDouble("bhp"),
                                     rstampil.getDouble("bagian_perujuk"),rstampil.getDouble("bagian_dokter"),rstampil.getDouble("bagian_laborat"),
                                     rstampil.getDouble("kso"),rstampil.getDouble("menejemen"),tbTarif.getValueAt(i2,1).toString()
@@ -3011,12 +3013,19 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
             System.out.println(e);
         }
         isPsien();
-        runBackground(() ->{
-            tampilkanOrder(order);
-            if (LABORATORIUMKIRIMHASIL.equals("biosys")) {
-                ambilHasilBIOSYS(noorder);
-            }
-        });
+    }
+
+    public void setOrderBridgingSmc(String order, String norawat, String posisi, String lis) {
+        setOrder(order, norawat, posisi);
+        this.vendorlis = lis;
+        switch (lis) {
+            case "biosys":
+                runBackground(() -> {
+                    tampilkanOrder(order);
+                    ambilHasilBIOSYS(order);
+                });
+                break;
+        }
     }
 
     public void tampilkanOrder(String order){
@@ -3537,14 +3546,15 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
 
             Sequel.AutoComitTrue();
 
-            if (sukses && LABORATORIUMKIRIMHASIL.equals("biosys")) {
-                biosys.konfirmasiHasil(noorder, TNoRM.getText());
-            }
-
             if (sukses) {
+                switch (vendorlis) {
+                    case "biosys":
+                        biosys.konfirmasiHasil(noorder, TNoRM.getText());
+                        break;
+                }
                 JOptionPane.showMessageDialog(null,"Proses simpan selesai...!");
             } else {
-                JOptionPane.showMessageDialog(null,"Terjadi kesalahan saat pemrosesan data, transaksi dibatalkan.\nPeriksa kembali data sebelum melanjutkan menyimpan..!!");
+                JOptionPane.showMessageDialog(null,"Terjadi kesalahan saat pemrosesan data, transaksi dibatalkan.\nPeriksa kembali data sebelum melanjutkan menyimpan..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             System.out.println("Notif : " + e);
@@ -3572,6 +3582,12 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
 
                 belumFinal = false;
 
+                Map<String, Integer> map = new HashMap<>();
+                for (int row = 0; row < tabMode.getRowCount(); row++) {
+                    tabMode.setValueAt(tabMode.getValueAt(row, 1).toString().startsWith("   " + LABORATORIUMSUBHEADERPREFIX), row, 0);
+                    map.put(tabMode.getValueAt(row, 6).toString(), row);
+                }
+
                 for (JsonNode result : sortedResults) {
                     String testHis = result.path("TestHis").asText("");
 
@@ -3590,23 +3606,26 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
 
                     if (!isFinal) {
                         belumFinal = true;
+                        resultValue = "";
                     }
 
-                    for (int row = 0; row < tabMode.getRowCount(); row++) {
-                        Object cell = tabMode.getValueAt(row, 6);
+                    Integer row = map.get(idtemplate);
 
-                        if (idtemplate.equals(cell.toString())) {
-                            tabMode.setValueAt(resultValue, row, 2);
-                            tabMode.setValueAt(result.path("NormalRange").asText(""), row, 4);
-                            tabMode.setValueAt(result.path("Flag").asText(""), row, 5);
-                            break;
-                        }
+                    String nilaiRujukan = result.path("ReferenceRange").asText("");
+                    if (nilaiRujukan.isBlank()) {
+                        nilaiRujukan = result.path("NormalRange").asText("");
+                    }
+
+                    if (row != null) {
+                        tabMode.setValueAt(true, row, 0);
+                        tabMode.setValueAt(resultValue, row, 2);
+                        tabMode.setValueAt(nilaiRujukan, row, 4);
+                        tabMode.setValueAt(result.path("Flag").asText(""), row, 5);
                     }
                 }
 
                 if (belumFinal) {
-                    BtnSimpan.setEnabled(false);
-                    JOptionPane.showMessageDialog(this, "Beberapa hasil pemeriksaan belum selesai divalidasi,\nProses simpan tidak diizinkan..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Beberapa hasil pemeriksaan belum selesai divalidasi,\nHasil pemeriksaan belum selesai tidak akan ditampilkan..!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Hasil pemeriksaan tidak ditemukan untuk order " + noorder + ".");
