@@ -19824,7 +19824,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         }
     }
 
-    private void MnSuratPermintaanSecondOpinionActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+    private void MnSuratPermintaanSecondOpinionActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
             TCari.requestFocus();
