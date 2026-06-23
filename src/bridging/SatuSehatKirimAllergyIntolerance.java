@@ -7,17 +7,13 @@ package bridging;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.WarnaTable;
+import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
-import java.awt.Dimension;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import fungsi.sekuel;
 import fungsi.validasi;
-import fungsi.akses;
 import java.awt.Cursor;
-import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,8 +25,12 @@ import java.sql.ResultSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
@@ -49,7 +49,7 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
     private PreparedStatement ps;
-    private ResultSet rs;   
+    private ResultSet rs;
     private int i=0;
     private String link="",json="",idpasien="",idpraktisi="";
     private ApiSatuSehat api=new ApiSatuSehat();
@@ -58,11 +58,11 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
     private ObjectMapper mapper = new ObjectMapper();
     private JsonNode root;
     private JsonNode response;
-    private SatuSehatCekNIK cekViaSatuSehat=new SatuSehatCekNIK();  
-    private StringBuilder htmlContent;   
+    private SatuSehatCekNIK cekViaSatuSehat=new SatuSehatCekNIK();
+    private StringBuilder htmlContent;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private volatile boolean ceksukses = false; 
-    
+    private volatile boolean ceksukses = false;
+
     /** Creates new form DlgKamar
      * @param parent
      * @param modal */
@@ -86,9 +86,9 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
                 return a;
              }
              Class[] types = new Class[] {
-                 java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, 
-                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, 
-                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, 
+                 java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
                  java.lang.String.class
              };
              @Override
@@ -133,15 +133,15 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
-        
+
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        
+
         try {
             link=koneksiDB.URLFHIRSATUSEHAT();
         } catch (Exception e) {
             System.out.println("Notif : "+e);
-        }   
-        
+        }
+
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
         LoadHTML.setEditorKit(kit);
@@ -160,8 +160,8 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
         Document doc = kit.createDefaultDocument();
         LoadHTML.setDocument(doc);
     }
-    
-    
+
+
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -311,20 +311,6 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
         });
         panelGlass8.add(BtnKirim);
 
-        BtnMasterReferensi = new widget.Button();
-        BtnMasterReferensi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/edit_f2.png")));
-        BtnMasterReferensi.setMnemonic('M');
-        BtnMasterReferensi.setText("Master Referensi");
-        BtnMasterReferensi.setToolTipText("Alt+M");
-        BtnMasterReferensi.setName("BtnMasterReferensi");
-        BtnMasterReferensi.setPreferredSize(new java.awt.Dimension(140, 30));
-        BtnMasterReferensi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnMasterReferensiActionPerformed(evt);
-            }
-        });
-        panelGlass8.add(BtnMasterReferensi);
-
         BtnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/edit_f2.png"))); // NOI18N
         BtnUpdate.setMnemonic('U');
         BtnUpdate.setText("Update");
@@ -451,10 +437,48 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
     }//GEN-LAST:event_BtnKeluarKeyPressed
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
+        if(ceksukses){
+            JOptionPane.showMessageDialog(null,"Proses loading data belum selesai, silahkan tunggu hingga proses loading selesai...!!!!");
+            return;
+        }
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, data sudah habis. Tidak ada data yang bisa anda print...!!!!");
+            //TCari.requestFocus();
+        }else if(tabMode.getRowCount()!=0){
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            try {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("file2.css")))) {
+                    bw.write(".isi td{border-right: 1px solid #e2e7dd;font: 8.5px tahoma;height:12px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}.head td{border-right: 1px solid #777777;font: 8.5px tahoma;height:10px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}.isi a{text-decoration:none;color:#8b9b95;padding:0 0 0 0px;font-family: Tahoma;font-size: 8.5px;}.isi2 td{font: 8.5px tahoma;height:12px;background: #ffffff;color:#323232;}.isi3 td{border-right: 1px solid #e2e7dd;font: 8.5px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}.isi4 td{font: 11px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}");
+                    bw.flush();
+                }
+                String pilihan = (String) JOptionPane.showInputDialog(null, "Silahkan pilih laporan..!", "Pilihan Cetak", JOptionPane.QUESTION_MESSAGE, null, new Object[] {
+                    "Laporan 1 (HTML)", "Laporan 2 (WPS)", "Laporan 3 (CSV)", "Laporan 4 (XLSX)"
+                }, "Laporan 1 (HTML)");
+                switch (pilihan) {
+                    case "Laporan 1 (HTML)":
+                        Valid.exportHtmlSmc("DataSatuSehatAllergyIntolerance.html", "Data Allergy Intolerance Satu Sehat", tbObat);
+                        break;
+                    case "Laporan 2 (WPS)":
+                        Valid.exportWPSSmc("DataSatuSehatAllergyIntolerance.wps", "Data Allergy Intolerance Satu Sehat", tbObat);
+                        break;
+                    case "Laporan 3 (CSV)":
+                        Valid.exportCSVSmc("DataSatuSehatAllergyIntolerance.csv", tbObat);
+                        break;
+                    case "Laporan 4 (XLSX)":
+                        Valid.exportXlsxSmc("DataSatuSehatAllergyIntolerance.xlsx", tbObat);
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Notifikasi : "+e);
+            }
+            this.setCursor(Cursor.getDefaultCursor());
+        }
+
+        /*
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try{
             htmlContent = new StringBuilder();
-            htmlContent.append(                             
+            htmlContent.append(
                 "<tr class='isi'>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center'><b>Tanggal Registrasi</b></td>"+
                     "<td valign='middle' bgcolor='#FFFAFA' align='center'><b>No.Rawat</b></td>"+
@@ -494,7 +518,7 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
             );
             htmlContent=null;
 
-            File g = new File("file2.css");            
+            File g = new File("file2.css");
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
             bg.write(
                 ".isi td{border-right: 1px solid #e2e7dd;font: 8.5px tahoma;height:12px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
@@ -509,8 +533,8 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
             );
             bg.close();
 
-            File f = new File("DataSatuSehatAllergyIntolerance.html");            
-            BufferedWriter bw = new BufferedWriter(new FileWriter(f));            
+            File f = new File("DataSatuSehatAllergyIntolerance.html");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             bw.write(LoadHTML.getText().replaceAll("<head>","<head>"+
                         "<link href=\"file2.css\" rel=\"stylesheet\" type=\"text/css\" />"+
                         "<table width='1700px' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"+
@@ -519,17 +543,18 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
                                     "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                     akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                     akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                    "<font size='2' face='Tahoma'>DATA PENGIRIMAN SATU SEHAT ALLERGY INTOLERANCE<br><br></font>"+        
+                                    "<font size='2' face='Tahoma'>DATA PENGIRIMAN SATU SEHAT ALLERGY INTOLERANCE<br><br></font>"+
                                 "</td>"+
                            "</tr>"+
                         "</table>")
             );
-            bw.close();                         
+            bw.close();
             Desktop.getDesktop().browse(f.toURI());
         }catch(Exception e){
             System.out.println("Notifikasi : "+e);
         }
-        this.setCursor(Cursor.getDefaultCursor());       
+        this.setCursor(Cursor.getDefaultCursor());
+        */
     }//GEN-LAST:event_BtnPrintActionPerformed
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
@@ -557,191 +582,116 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
     }//GEN-LAST:event_BtnCariKeyPressed
 
     private void BtnKirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKirimActionPerformed
-        // Cek file cache dulu
-        File cacheFile = new File("./cache/alergisatusehat.iyem");
-        if (!cacheFile.exists()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "File cache alergi tidak ditemukan:\n" + cacheFile.getAbsolutePath() +
-                "\nSilakan download referensi alergi terlebih dahulu.",
-                "File Cache Tidak Ada", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Cek apakah ada baris yang diceklis
-        boolean adaYangDipilih = false;
-        for (i = 0; i < tbObat.getRowCount(); i++) {
-            if (tbObat.getValueAt(i, 0).toString().equals("true")) { adaYangDipilih = true; break; }
-        }
-        if (!adaYangDipilih) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Belum ada data yang dipilih.\nSilakan centang baris yang ingin dikirim.",
-                "Tidak Ada Pilihan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
-        int berhasil = 0, gagal = 0, dilewati = 0;
-        StringBuilder pesanLewati = new StringBuilder();
-
         for(i=0;i<tbObat.getRowCount();i++){
-            if(!tbObat.getValueAt(i,0).toString().equals("true")) continue;
-
-            String noRawat  = tbObat.getValueAt(i,2).toString();
-            String nmPasien = tbObat.getValueAt(i,4).toString();
-            String noKtpPasien  = tbObat.getValueAt(i,5).toString();
-            String idEncounter  = tbObat.getValueAt(i,6).toString();
-            String noKtpPraktisi= tbObat.getValueAt(i,9).toString();
-            String idAllergy    = tbObat.getValueAt(i,11).toString();
-
-            // Validasi per-baris
-            if (!idAllergy.equals("")) {
-                pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): sudah terkirim\n");
-                dilewati++; continue;
-            }
-            if (noKtpPasien.equals("")) {
-                pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): No. KTP pasien kosong\n");
-                dilewati++; continue;
-            }
-            if (idEncounter.equals("")) {
-                pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): ID Encounter kosong, kirim Encounter dulu\n");
-                dilewati++; continue;
-            }
-            if (noKtpPraktisi.equals("")) {
-                pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): No. KTP Praktisi kosong\n");
-                dilewati++; continue;
-            }
-
-            FileReader myObj=null;
-            try {
-                String dicari=tbObat.getValueAt(i,7).toString().replaceAll("(\r\n|\r|\n|\n\r)","").replaceAll("\t", ""),
-                       category="",coding_system="",coding_code="",coding_display="",text="";
-                myObj = new FileReader(cacheFile);
-                root = mapper.readTree(myObj);
-                response = root.path("alergi");
-                if(response.isArray()){
-                    for(JsonNode list:response){
-                        if(dicari.toLowerCase().contains(list.path("keyword").asText().toLowerCase())){
-                            category=list.path("category").asText();
-                            coding_system=list.path("coding_system").asText();
-                            coding_code=list.path("coding_code").asText();
-                            coding_display=list.path("coding_display").asText();
-                            text=list.path("text").asText();
-                            break;
+            if(tbObat.getValueAt(i,0).toString().equals("true")&&(!tbObat.getValueAt(i,5).toString().equals(""))&&(!tbObat.getValueAt(i,6).toString().equals(""))&&(!tbObat.getValueAt(i,9).toString().equals(""))&&tbObat.getValueAt(i,11).toString().equals("")){
+                FileReader myObj=null;
+                try {
+                    String dicari=tbObat.getValueAt(i,7).toString().replaceAll("(\r\n|\r|\n|\n\r)","").replaceAll("\t", ""),
+                           category="",coding_system="",coding_code="",coding_display="",text="";
+                    myObj = new FileReader("./cache/alergisatusehat.iyem");
+                    root = mapper.readTree(myObj);
+                    response = root.path("alergi");
+                    if(response.isArray()){
+                        for(JsonNode list:response){
+                            if(dicari.contains(list.path("keyword").asText())){
+                                category=list.path("category").asText();
+                                coding_system=list.path("coding_system").asText();
+                                coding_code=list.path("coding_code").asText();
+                                coding_display=list.path("coding_display").asText();
+                                text=list.path("text").asText();
+                                break;
+                            }
                         }
                     }
-                }
-                if(category.equals("")){
-                    pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): alergi \"").append(dicari).append("\" tidak ditemukan di referensi\n");
-                    dilewati++;
-                } else {
-                    idpraktisi=cekViaSatuSehat.tampilIDParktisi(noKtpPraktisi);
-                    idpasien=cekViaSatuSehat.tampilIDPasien(noKtpPasien);
-                    try{
-                        headers = new HttpHeaders();
-                        headers.setContentType(MediaType.APPLICATION_JSON);
-                        headers.add("Authorization", "Bearer "+api.TokenSatuSehat());
-                        json = "{" +
-                                    "\"resourceType\": \"AllergyIntolerance\"," +
-                                    "\"identifier\": [" +
-                                        "{" +
-                                            "\"system\": \"http://sys-ids.kemkes.go.id/allergy/"+koneksiDB.IDSATUSEHAT()+"\"," +
-                                            "\"value\" : \""+tbObat.getValueAt(i,2).toString()+"\"" +
-                                        "}" +
-                                    "]," +
-                                    "\"clinicalStatus\": {" +
-                                        "\"coding\": [" +
+                    if(!category.equals("")){
+                        idpraktisi=cekViaSatuSehat.tampilIDParktisi(tbObat.getValueAt(i,9).toString());
+                        idpasien=cekViaSatuSehat.tampilIDPasien(tbObat.getValueAt(i,5).toString());
+                        try{
+                            headers = new HttpHeaders();
+                            headers.setContentType(MediaType.APPLICATION_JSON);
+                            headers.add("Authorization", "Bearer "+api.TokenSatuSehat());
+                            json = "{" +
+                                        "\"resourceType\": \"AllergyIntolerance\"," +
+                                        "\"identifier\": [" +
                                             "{" +
-                                                "\"system\": \"http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical\"," +
-                                                "\"code\": \"active\"," +
-                                                "\"display\": \"Active\"" +
-                                            "}" +
-                                        "]" +
-                                    "}," +
-                                    "\"verificationStatus\": {" +
-                                        "\"coding\": [" +
-                                            "{" +
-                                                "\"system\": \"http://terminology.hl7.org/CodeSystem/allergyintolerance-verification\"," +
-                                                "\"code\": \"confirmed\"," +
-                                                "\"display\": \"Confirmed\"" +
-                                            "}" +
-                                        "]" +
-                                    "}," +
-                                    "\"category\": [" +
-                                        "\""+category+"\"" +
-                                    "]," +
-                                    "\"code\": {" +
-                                        "\"coding\": [" +
-                                            "{" +
-                                                "\"system\": \""+coding_system+"\"," +
-                                                "\"code\": \""+coding_code+"\"," +
-                                                "\"display\": \""+coding_display+"\"" +
+                                                "\"system\": \"http://sys-ids.kemkes.go.id/allergy/"+koneksiDB.IDSATUSEHAT()+"\"," +
+                                                "\"value\" : \""+tbObat.getValueAt(i,2).toString()+"\"" +
                                             "}" +
                                         "]," +
-                                        "\"text\": \""+text+"\"" +
-                                    "},"+
-                                    "\"patient\": {" +
-                                        "\"reference\" : \"Patient/"+idpasien+"\"," +
-                                        "\"display\" : \""+tbObat.getValueAt(i,4).toString()+"\"" +
-                                    "}," +
-                                    "\"encounter\" : {" +
-                                        "\"reference\" : \"Encounter/"+idEncounter+"\","+
-                                        "\"display\" : \"Kunjungan "+tbObat.getValueAt(i,4).toString()+" pada tanggal "+tbObat.getValueAt(i,1).toString()+" dengan nomor kunjungan "+tbObat.getValueAt(i,2).toString()+"\""+
-                                    "}," +
-                                    "\"recordedDate\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
-                                    "\"recorder\": {" +
-                                        "\"reference\" : \"Practitioner/"+idpraktisi+"\"," +
-                                        "\"display\" : \""+tbObat.getValueAt(i,8).toString()+"\"" +
-                                    "}" +
-                                "}";
-                        System.out.println("URL : "+link+"/AllergyIntolerance");
-                        System.out.println("Request JSON : "+json);
-                        requestEntity = new HttpEntity(json,headers);
-                        json=api.getRest().exchange(link+"/AllergyIntolerance", HttpMethod.POST, requestEntity, String.class).getBody();
-                        System.out.println("Result JSON : "+json);
-                        root = mapper.readTree(json);
-                        response = root.path("id");
-                        if(!response.asText().equals("")){
-                            if(Sequel.menyimpantf2("satu_sehat_allergy_intolerance","?,?,?,?,?","Rencana Perawatan",5,new String[]{
-                                tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,10).toString().substring(0,10),tbObat.getValueAt(i,10).toString().substring(11,19),tbObat.getValueAt(i,12).toString(),response.asText()
-                            })==true){
-                                tbObat.setValueAt(response.asText(),i,11);
-                                tbObat.setValueAt(false,i,0);
-                                berhasil++;
+                                        "\"clinicalStatus\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical\"," +
+                                                    "\"code\": \"active\"," +
+                                                    "\"display\": \"Active\"" +
+                                                "}" +
+                                            "]" +
+                                        "}," +
+                                        "\"verificationStatus\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://terminology.hl7.org/CodeSystem/allergyintolerance-verification\"," +
+                                                    "\"code\": \"confirmed\"," +
+                                                    "\"display\": \"Confirmed\"" +
+                                                "}" +
+                                            "]" +
+                                        "}," +
+                                        "\"category\": [" +
+                                            "\""+category+"\"" +
+                                        "]," +
+                                        "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \""+coding_system+"\"," +
+                                                    "\"code\": \""+coding_code+"\"," +
+                                                    "\"display\": \""+coding_display+"\"" +
+                                                "}" +
+                                            "]," +
+                                            "\"text\": \""+text+"\"" +
+                                        "},"+
+                                        "\"patient\": {" +
+                                            "\"reference\" : \"Patient/"+idpasien+"\"," +
+                                            "\"display\" : \""+tbObat.getValueAt(i,4).toString()+"\"" +
+                                        "}," +
+                                        "\"encounter\" : {" +
+                                            "\"reference\" : \"Encounter/"+tbObat.getValueAt(i,6).toString()+"\","+
+                                            "\"display\" : \"Kunjungan "+tbObat.getValueAt(i,4).toString()+" pada tanggal "+tbObat.getValueAt(i,1).toString()+" dengan nomor kunjungan "+tbObat.getValueAt(i,2).toString()+"\""+
+                                        "}," +
+                                        "\"recordedDate\": \""+tbObat.getValueAt(i,10).toString().replaceAll(" ","T")+"+07:00\"," +
+                                        "\"recorder\": {" +
+                                            "\"reference\" : \"Practitioner/"+idpraktisi+"\"," +
+                                            "\"display\" : \""+tbObat.getValueAt(i,8).toString()+"\"" +
+                                        "}" +
+                                    "}";
+                            System.out.println("URL : "+link+"/AllergyIntolerance");
+                            System.out.println("Request JSON : "+json);
+                            requestEntity = new HttpEntity(json,headers);
+                            json=api.getRest().exchange(link+"/AllergyIntolerance", HttpMethod.POST, requestEntity, String.class).getBody();
+                            System.out.println("Result JSON : "+json);
+                            root = mapper.readTree(json);
+                            response = root.path("id");
+                            if(!response.asText().equals("")){
+                                if(Sequel.menyimpantf2("satu_sehat_allergy_intolerance","?,?,?,?,?","Rencana Perawatan",5,new String[]{
+                                    tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,10).toString().substring(0,10),tbObat.getValueAt(i,10).toString().substring(11,19),tbObat.getValueAt(i,12).toString(),response.asText()
+                                })==true){
+                                    tbObat.setValueAt(response.asText(),i,11);
+                                    tbObat.setValueAt(false,i,0);
+                                }
                             }
-                        } else {
-                            String errMsg = root.path("issue").path(0).path("diagnostics").asText();
-                            if (errMsg.isEmpty()) errMsg = json;
-                            pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): API error - ").append(errMsg).append("\n");
-                            gagal++;
+                        }catch(Exception e){
+                            System.out.println("Notifikasi Bridging : "+e);
                         }
-                    }catch(Exception e){
-                        pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): ").append(e.getMessage()).append("\n");
-                        gagal++;
-                        System.out.println("Notifikasi Bridging : "+e);
                     }
+                    myObj.close();
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : "+e);
+                }finally {
+                    if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+                    response = null;
+                    root = null;
                 }
-                myObj.close();
-            } catch (Exception e) {
-                pesanLewati.append("- ").append(nmPasien).append(" (").append(noRawat).append("): ").append(e.getMessage()).append("\n");
-                gagal++;
-                System.out.println("Notifikasi : "+e);
-            }finally {
-                if (myObj != null) try { myObj.close(); } catch (Exception e) {}
-                response = null;
-                root = null;
             }
         }
-
-        // Tampilkan ringkasan hasil
-        StringBuilder ringkasan = new StringBuilder();
-        ringkasan.append("Berhasil dikirim : ").append(berhasil).append("\n");
-        if (gagal > 0) ringkasan.append("Gagal             : ").append(gagal).append("\n");
-        if (dilewati > 0) ringkasan.append("Dilewati          : ").append(dilewati).append("\n");
-        if (pesanLewati.length() > 0) {
-            ringkasan.append("\nDetail:\n").append(pesanLewati);
-        }
-        javax.swing.JOptionPane.showMessageDialog(this, ringkasan.toString(),
-            berhasil > 0 ? "Kirim Selesai" : "Tidak Ada Data Terkirim",
-            berhasil > 0 ? javax.swing.JOptionPane.INFORMATION_MESSAGE : javax.swing.JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_BtnKirimActionPerformed
 
     private void ppPilihSemuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppPilihSemuaActionPerformed
@@ -768,7 +718,7 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
                     response = root.path("alergi");
                     if(response.isArray()){
                         for(JsonNode list:response){
-                            if(dicari.toLowerCase().contains(list.path("keyword").asText().toLowerCase())){
+                            if(dicari.contains(list.path("keyword").asText())){
                                 category=list.path("category").asText();
                                 coding_system=list.path("coding_system").asText();
                                 coding_code=list.path("coding_code").asText();
@@ -897,7 +847,7 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
                     }
                 }
             });
-        } 
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -918,7 +868,6 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.Button BtnAll;
-    private widget.Button BtnMasterReferensi;
     private widget.Button BtnCari;
     private widget.Button BtnKeluar;
     private widget.Button BtnKirim;
@@ -943,164 +892,6 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
     private javax.swing.JMenuItem ppPilihSemua;
     private widget.Table tbObat;
     // End of variables declaration//GEN-END:variables
-    
-    private void BtnMasterReferensiActionPerformed(java.awt.event.ActionEvent evt) {
-        tampilMasterReferensi();
-    }
-
-    private void tampilMasterReferensi() {
-        File cacheFile = new File("./cache/alergisatusehat.iyem");
-
-        // Load data dari cache
-        DefaultTableModel masterModel = new DefaultTableModel(
-            new String[]{"Keyword", "Category", "Coding System", "Coding Code", "Coding Display", "Text"}, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return true; }
-        };
-
-        if (cacheFile.exists()) {
-            try (FileReader fr = new FileReader(cacheFile)) {
-                JsonNode rootNode = mapper.readTree(fr);
-                JsonNode alergi = rootNode.path("alergi");
-                if (alergi.isArray()) {
-                    for (JsonNode item : alergi) {
-                        masterModel.addRow(new Object[]{
-                            item.path("keyword").asText(),
-                            item.path("category").asText(),
-                            item.path("coding_system").asText(),
-                            item.path("coding_code").asText(),
-                            item.path("coding_display").asText(),
-                            item.path("text").asText()
-                        });
-                    }
-                }
-            } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Gagal membaca file cache:\n" + e.getMessage(),
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        }
-
-        // Buat dialog
-        javax.swing.JDialog dlg = new javax.swing.JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Master Referensi Alergi", true);
-        dlg.setSize(1000, 550);
-        dlg.setLocationRelativeTo(this);
-        dlg.setLayout(new java.awt.BorderLayout(4, 4));
-
-        javax.swing.JTable tblMaster = new javax.swing.JTable(masterModel);
-        tblMaster.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tblMaster.getColumnModel().getColumn(0).setPreferredWidth(130);
-        tblMaster.getColumnModel().getColumn(1).setPreferredWidth(90);
-        tblMaster.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tblMaster.getColumnModel().getColumn(3).setPreferredWidth(100);
-        tblMaster.getColumnModel().getColumn(4).setPreferredWidth(150);
-        tblMaster.getColumnModel().getColumn(5).setPreferredWidth(300);
-        tblMaster.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblMaster.setDefaultRenderer(Object.class, new WarnaTable());
-        tblMaster.setRowHeight(22);
-        dlg.add(new javax.swing.JScrollPane(tblMaster), java.awt.BorderLayout.CENTER);
-
-        // Combobox category
-        String[] categories = {"food", "medication", "environment", "biologic", "other"};
-        tblMaster.getColumnModel().getColumn(1).setCellEditor(
-            new javax.swing.DefaultCellEditor(new javax.swing.JComboBox<>(categories)));
-
-        // Panel tombol bawah
-        javax.swing.JPanel btnPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 5));
-
-        javax.swing.JButton btnTambah = new javax.swing.JButton("+ Tambah");
-        btnTambah.addActionListener(e -> {
-            masterModel.addRow(new Object[]{"", "medication", "http://snomed.info/sct", "", "", ""});
-            int lastRow = masterModel.getRowCount() - 1;
-            tblMaster.scrollRectToVisible(tblMaster.getCellRect(lastRow, 0, true));
-            tblMaster.setRowSelectionInterval(lastRow, lastRow);
-            tblMaster.editCellAt(lastRow, 0);
-        });
-
-        javax.swing.JButton btnHapus = new javax.swing.JButton("- Hapus");
-        btnHapus.addActionListener(e -> {
-            int row = tblMaster.getSelectedRow();
-            if (row >= 0) {
-                int confirm = javax.swing.JOptionPane.showConfirmDialog(dlg,
-                    "Hapus keyword \"" + masterModel.getValueAt(row, 0) + "\"?",
-                    "Konfirmasi", javax.swing.JOptionPane.YES_NO_OPTION);
-                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-                    masterModel.removeRow(row);
-                }
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(dlg, "Pilih baris yang ingin dihapus.");
-            }
-        });
-
-        javax.swing.JButton btnSimpan = new javax.swing.JButton("Simpan");
-        btnSimpan.addActionListener(e -> {
-            // Stop editing jika ada cell yang masih aktif
-            if (tblMaster.isEditing()) tblMaster.getCellEditor().stopCellEditing();
-
-            // Validasi semua baris terisi
-            for (int r = 0; r < masterModel.getRowCount(); r++) {
-                String kw = masterModel.getValueAt(r, 0) != null ? masterModel.getValueAt(r, 0).toString().trim() : "";
-                String cat = masterModel.getValueAt(r, 1) != null ? masterModel.getValueAt(r, 1).toString().trim() : "";
-                String code = masterModel.getValueAt(r, 3) != null ? masterModel.getValueAt(r, 3).toString().trim() : "";
-                if (kw.isEmpty() || cat.isEmpty() || code.isEmpty()) {
-                    javax.swing.JOptionPane.showMessageDialog(dlg,
-                        "Baris " + (r + 1) + ": Keyword, Category, dan Coding Code wajib diisi.",
-                        "Validasi", javax.swing.JOptionPane.WARNING_MESSAGE);
-                    tblMaster.setRowSelectionInterval(r, r);
-                    return;
-                }
-            }
-
-            // Build JSON
-            try {
-                StringBuilder sb = new StringBuilder("{\n  \"alergi\": [\n");
-                for (int r = 0; r < masterModel.getRowCount(); r++) {
-                    sb.append("    { ");
-                    sb.append("\"keyword\": \"").append(esc(masterModel.getValueAt(r, 0))).append("\", ");
-                    sb.append("\"category\": \"").append(esc(masterModel.getValueAt(r, 1))).append("\", ");
-                    sb.append("\"coding_system\": \"").append(esc(masterModel.getValueAt(r, 2))).append("\", ");
-                    sb.append("\"coding_code\": \"").append(esc(masterModel.getValueAt(r, 3))).append("\", ");
-                    sb.append("\"coding_display\": \"").append(esc(masterModel.getValueAt(r, 4))).append("\", ");
-                    sb.append("\"text\": \"").append(esc(masterModel.getValueAt(r, 5))).append("\" }");
-                    if (r < masterModel.getRowCount() - 1) sb.append(",");
-                    sb.append("\n");
-                }
-                sb.append("  ]\n}");
-
-                cacheFile.getParentFile().mkdirs();
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(cacheFile))) {
-                    bw.write(sb.toString());
-                }
-                javax.swing.JOptionPane.showMessageDialog(dlg,
-                    "Berhasil menyimpan " + masterModel.getRowCount() + " entri ke cache.",
-                    "Simpan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(dlg, "Gagal menyimpan:\n" + ex.getMessage(),
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        javax.swing.JButton btnTutup = new javax.swing.JButton("Tutup");
-        btnTutup.addActionListener(e -> dlg.dispose());
-
-        javax.swing.JLabel lblTotal = new javax.swing.JLabel();
-        masterModel.addTableModelListener(ev -> lblTotal.setText("Total: " + masterModel.getRowCount() + " entri"));
-        lblTotal.setText("Total: " + masterModel.getRowCount() + " entri");
-
-        btnPanel.add(btnTambah);
-        btnPanel.add(btnHapus);
-        btnPanel.add(btnSimpan);
-        btnPanel.add(btnTutup);
-        btnPanel.add(javax.swing.Box.createHorizontalStrut(20));
-        btnPanel.add(lblTotal);
-        dlg.add(btnPanel, java.awt.BorderLayout.PAGE_END);
-
-        dlg.setVisible(true);
-    }
-
-    private String esc(Object val) {
-        if (val == null) return "";
-        return val.toString().replace("\\", "\\\\").replace("\"", "\\\"");
-    }
 
     private void tampil() {
         Valid.tabelKosong(tabMode);
@@ -1148,7 +939,7 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
                     ps.close();
                 }
             }
-            
+
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,"+
                    "pasien.nm_pasien,pasien.no_ktp,satu_sehat_encounter.id_encounter,pemeriksaan_ranap.alergi,"+
@@ -1203,11 +994,11 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
         BtnUpdate.setEnabled(akses.getsatu_sehat_kirim_careplan());
         BtnPrint.setEnabled(akses.getsatu_sehat_kirim_careplan());
     }
-    
+
     public JTable getTable(){
         return tbObat;
     }
-    
+
     private void runBackground(Runnable task) {
         if (ceksukses) return;
         if (executor.isShutdown() || executor.isTerminated()) return;
@@ -1233,7 +1024,7 @@ public final class SatuSehatKirimAllergyIntolerance extends javax.swing.JDialog 
             ceksukses = false;
         }
     }
-    
+
     @Override
     public void dispose() {
         executor.shutdownNow();
