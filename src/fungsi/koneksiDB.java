@@ -1380,11 +1380,10 @@ public class koneksiDB {
     public static String DEPOAKTIFOBAT(){
         try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
             prop.loadFromXML(fis);
-            var=prop.getProperty("DEPOAKTIFOBAT", "").trim().replaceAll("'","");
-        }catch(Exception e){
-            var="";
+            return prop.getProperty("DEPOAKTIFOBAT", "").trim().replaceAll("'", "");
+        } catch (Exception e) {
+            return "";
         }
-        return var;
     }
 
     public static String STOKKOSONGRESEP(){

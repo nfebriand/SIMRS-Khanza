@@ -14,7 +14,6 @@ import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -1501,9 +1500,11 @@ public final class SmartKlaimBPJSKirimFHIR extends javax.swing.JDialog {
                             try {
                                 ps.setString(1,tbObat.getValueAt(tbObat.getSelectedRow(),1).toString());
                                 rs=ps.executeQuery();
-                                while(rs.next()){
+                                if(rs.next()){
                                     iyembuilder.append("{").
-                                                    append("\"resource\": {").
+                                                    append("\"resource\": [");
+                                    do{
+                                        iyembuilder.append("{").
                                                         append("\"resourceType\": \"Procedure\",").
                                                         append("\"id\": \"").append(akses.getkodeppkbpjs()).append("-").append(akses.getkodeppkkemenkes()).append("-").append(tbObat.getValueAt(tbObat.getSelectedRow(), 11).toString().substring(0, 1)).append("-").append(jadikanUUID(tbObat.getValueAt(tbObat.getSelectedRow(), 1).toString()+rs.getString("kode"))).append("\",").
                                                         append("\"text\": {").
@@ -1557,7 +1558,10 @@ public final class SmartKlaimBPJSKirimFHIR extends javax.swing.JDialog {
                                                                 append("\"text\": \"").append("Prognosa : ").append((jalannyapenyakit.equals("")?"Sesuai prognosa di resume":jalannyapenyakit)).append(". Prosedur/Tindakan : ").append(rs.getString("deskripsi_panjang")).append("\"").
                                                             append("}").
                                                         append("]").
-                                                   append("}").
+                                                   append("},");
+                                    }while(rs.next());
+                                    iyembuilder.deleteCharAt(iyembuilder.length()-1);
+                                    iyembuilder.append("]").
                                                 append("},");
                                 }
                             } catch (Exception e) {

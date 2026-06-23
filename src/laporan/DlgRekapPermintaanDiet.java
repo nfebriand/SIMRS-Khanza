@@ -239,9 +239,9 @@ public class DlgRekapPermintaanDiet extends javax.swing.JDialog {
                 "</td>"+
                 "</tr>"+
                 "</table>")
-        );
-        bw.close();
-        Desktop.getDesktop().browse(f.toURI());
+            );
+            bw.close();
+            Desktop.getDesktop().browse(f.toURI());
         } catch (Exception e) {
             System.out.println("Notifikasi : "+e);
         }
