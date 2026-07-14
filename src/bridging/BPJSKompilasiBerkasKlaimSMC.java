@@ -1565,7 +1565,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                 }
             }
 
-            if (j >= 1) {
+            if (j > 0) {
                 bulkKompilasiBerkas(j);
             } else {
                 if (selectedRow < 0) {
@@ -5586,7 +5586,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         File[] files = folder.listFiles();
         if (files != null) {
             for (File file : files) {
-                if (file.isFile() && file.getName().startsWith(tbKompilasi.getValueAt(row, 2).toString() + "_")) {
+                if (file.getName().startsWith(tbKompilasi.getValueAt(row, 2).toString() + "_")) {
                     if (!file.delete()) {
                         System.out.println("Notif : Gagal menghapus file sementara " + file.getName());
                     }
@@ -5597,7 +5597,7 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
         }
     }
 
-    private void hapusTemporaryPDF() throws Exception {
+    private void hapusTemporaryPDF() {
         if (selectedRow < 0) return;
 
         hapusTemporaryPDF(selectedRow);
@@ -5611,6 +5611,9 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
             } else {
                 tanggalExport = LocalDate.now().toString();
             }
+
+            // hapus temporary berkas yang sudah terbuat sebelum proses lagi
+            hapusTemporaryPDF();
 
             if (tbKompilasi.getValueAt(selectedRow, 5).toString().equals("Ralan")) {
                 if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ralan")) {
@@ -5791,6 +5794,9 @@ public class BPJSKompilasiBerkasKlaimSMC extends javax.swing.JDialog {
                                     }
 
                                     try {
+                                        // hapus temporary berkas yang sudah terbuat sebelum proses lagi
+                                        hapusTemporaryPDF(i);
+
                                         if (tbKompilasi.getValueAt(i, 5).toString().equals("Ralan")) {
                                             if (KOMPILASIBERKASGUNAKANRIWAYATPASIEN.contains("ralan")) {
                                                 exportHasilKlaim("001", rs.getBoolean("ada_hasil_klaim"), i);
