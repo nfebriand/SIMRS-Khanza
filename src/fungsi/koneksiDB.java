@@ -1986,11 +1986,10 @@ public class koneksiDB {
     public static String KUNCIDOKTERRANAP(){
         try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
             prop.loadFromXML(fis);
-            var=EnkripsiAES.decrypt(prop.getProperty("KUNCIDOKTERRANAP"));
-        }catch(Exception e){
-            var="";
+            return EnkripsiAES.decrypt(prop.getProperty("KUNCIDOKTERRANAP", EnkripsiAES.encrypt("")));
+        } catch (Exception e) {
+            return "";
         }
-        return var;
     }
 
     public static String ADDANTRIANAPIMOBILEJKNFKTP(){
