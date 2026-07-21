@@ -1668,10 +1668,14 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     }//GEN-LAST:event_ppStok1ActionPerformed
 
     private void DTPBeriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_DTPBeriItemStateChanged
-        if(this.isActive()==true){
-            try {
-                emptTeksobat();
-            }catch (Exception e) {}
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if(DTPBeri.getSelectedItem()!=null){
+                if(this.isActive()==true){
+                    try {
+                        emptTeksobat();
+                    }catch (Exception e) {}
+                }
+            }
         }
     }//GEN-LAST:event_DTPBeriItemStateChanged
 
@@ -2652,16 +2656,16 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                             if (rsobat.getDouble("jml") > rsobat.getDouble("stok")) {
                                 JOptionPane.showMessageDialog(rootPane, "Maaf stok " + rsobat.getString("nama_brng") + " tidak mencukupi..!!");
                                 tabModeResep.addRow(new Object[]{
-                                    false, "", rsobat.getString("kode_brng"), rsobat.getString("nama_brng"),
+                                    false, "", rsobat.getString("aturan_pakai"), rsobat.getString("kode_brng"), rsobat.getString("nama_brng"),
                                     rsobat.getString("kode_sat"), rsobat.getString("letak_barang"), Valid.roundUp(rsobat.getDouble("harga"), 100),
-                                    rsobat.getString("nama"), rsobat.getString("aturan_pakai"), rsobat.getString("nama_industri"),
+                                    rsobat.getString("nama"), rsobat.getString("nama_industri"),
                                     rsobat.getDouble("h_beli"), rsobat.getDouble("stok"), rsobat.getString("kategori")
                                 });
                             } else {
                                 tabModeResep.addRow(new Object[]{
-                                    false, rsobat.getDouble("jml"), rsobat.getString("kode_brng"), rsobat.getString("nama_brng"),
+                                    false, rsobat.getDouble("jml"), rsobat.getString("aturan_pakai"), rsobat.getString("kode_brng"), rsobat.getString("nama_brng"),
                                     rsobat.getString("kode_sat"), rsobat.getString("letak_barang"), Valid.roundUp(rsobat.getDouble("harga"), 100),
-                                    rsobat.getString("nama"), rsobat.getString("aturan_pakai"), rsobat.getString("nama_industri"),
+                                    rsobat.getString("nama"), rsobat.getString("nama_industri"),
                                     rsobat.getDouble("h_beli"), rsobat.getDouble("stok"), rsobat.getString("kategori")
                                 });
                             }
@@ -2669,9 +2673,9 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                     } else {
                         while (rsobat.next()) {
                             tabModeResep.addRow(new Object[]{
-                                false, rsobat.getDouble("jml"), rsobat.getString("kode_brng"), rsobat.getString("nama_brng"),
+                                false, rsobat.getDouble("jml"), rsobat.getString("aturan_pakai"), rsobat.getString("kode_brng"), rsobat.getString("nama_brng"),
                                 rsobat.getString("kode_sat"), rsobat.getString("letak_barang"), Valid.roundUp(rsobat.getDouble("harga"), 100),
-                                rsobat.getString("nama"), rsobat.getString("aturan_pakai"), rsobat.getString("nama_industri"),
+                                rsobat.getString("nama"), rsobat.getString("nama_industri"),
                                 rsobat.getDouble("h_beli"), rsobat.getDouble("stok"), rsobat.getString("kategori")
                             });
                         }
@@ -2871,6 +2875,9 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                             }
 
                             if (STOKKOSONGRESEP.equals("no")) {
+                                // "No","Kode Barang","Nama Barang","Satuan","Harga(Rp)","H.Beli",
+                                // "Jenis Obat","Stok","Kps","P1","/","P2","Kandungan","Jml","I.F.",
+                                // "Komposisi","Kategori Obat"
                                 while (rs2.next()) {
                                     if (rs2.getDouble("jml") > rs2.getDouble("stok")) {
                                         JOptionPane.showMessageDialog(rootPane, "Maaf stok " + rs2.getString("nama_brng") + " tidak mencukupi..!!");
