@@ -916,6 +916,7 @@ import rekammedis.RMCatatanPersalinan;
 import rekammedis.RMChecklistKesiapanAnestesi;
 import rekammedis.RMChecklistKriteriaKeluarHCU;
 import rekammedis.RMChecklistKriteriaKeluarICU;
+import rekammedis.RMChecklistKriteriaKeluarIsolasi;
 import rekammedis.RMChecklistKriteriaKeluarNICU;
 import rekammedis.RMChecklistKriteriaKeluarPICU;
 import rekammedis.RMChecklistKriteriaMasukHCU;
@@ -24006,6 +24007,18 @@ public class frmUtama extends javax.swing.JFrame {
         aplikasi.isCek();
         this.setCursor(Cursor.getDefaultCursor());
     }
+    
+    private void btnChecklistKriteriaKeluarIsolasiActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        RMChecklistKriteriaKeluarIsolasi aplikasi=new RMChecklistKriteriaKeluarIsolasi(this,false);
+        aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        aplikasi.setLocationRelativeTo(PanelUtama);
+        aplikasi.setVisible(true);
+        aplikasi.isCek();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
 
     /**
     * @param args the command line arguments
@@ -24731,7 +24744,8 @@ public class frmUtama extends javax.swing.JFrame {
             btnPCRAICRAPersyaratanHarusDipenuhi,btnKirimQRTelaahFarmasiSatuSehat,btnKirimAllergiSatuSehat,btnKonsultasiPerawat,btnMappingProsedurSmartKlaimBPJS,btnMappingPenyakitSmartKlaimBPJS,btnKirimFHIRSmartKlaimBPJS,
             btnSuratPermintaanBinrohtal,btnSuratPermintaanPerlindunganDariKekerasan,btnSuratPermohonanPrivasi,btnSuratPermintaanSecondOpinion,btnSuratKeteranganBerobat,btnSuratPenolakanResusitasi,btnKirimEpisodeOfCareSatuSehat,btnCatatanObservasiRuangOperasi,
             btnHasilUSGAbdomen,btnIntervensiNyeriFarmakologi,btnIntervensiNyeriNonFarmakologi,btnSuratPengajuanCutiPerawatan,btnChecklistKriteriaMasukIsolasi,btnMapingTarifTindakanRalanKPTLSatuSehat,
-            btnMapingTarifTindakanRanapKPTLSatuSehat,btnMapingTarifTindakanRadiologiKPTLSatuSehat,btnMapingTarifTindakanLabKPTLSatuSehat,btnMapingTarifTindakanOperasiKPTLSatuSehat,btnMapingTarifKamarKPTLSatuSehat;
+            btnMapingTarifTindakanRanapKPTLSatuSehat,btnMapingTarifTindakanRadiologiKPTLSatuSehat,btnMapingTarifTindakanLabKPTLSatuSehat,btnMapingTarifTindakanOperasiKPTLSatuSehat,btnMapingTarifKamarKPTLSatuSehat,
+            btnChecklistKriteriaKeluarIsolasi;
 
     public void isWall(){
         try{
@@ -29276,6 +29290,11 @@ public class frmUtama extends javax.swing.JFrame {
 
             if(akses.getchecklist_kriteria_masuk_isolasi()==true){
                 Panelmenu.add(btnChecklistKriteriaMasukIsolasi);
+                jmlmenu++;
+            }
+            
+            if(akses.getchecklist_kriteria_keluar_isolasi()==true){
+                Panelmenu.add(btnChecklistKriteriaKeluarIsolasi);
                 jmlmenu++;
             }
 
@@ -35303,6 +35322,11 @@ public class frmUtama extends javax.swing.JFrame {
 
         if(akses.getchecklist_kriteria_masuk_isolasi()==true){
             Panelmenu.add(btnChecklistKriteriaMasukIsolasi);
+            jmlmenu++;
+        }
+        
+        if(akses.getchecklist_kriteria_keluar_isolasi()==true){
+            Panelmenu.add(btnChecklistKriteriaKeluarIsolasi);
             jmlmenu++;
         }
 
@@ -43085,6 +43109,13 @@ public class frmUtama extends javax.swing.JFrame {
                 Panelmenu.add(btnChecklistKriteriaMasukIsolasi);
                 jmlmenu++;
             }
+        }
+        
+        if(akses.getchecklist_kriteria_keluar_isolasi()==true){
+            if(btnChecklistKriteriaKeluarIsolasi.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
+                Panelmenu.add(btnChecklistKriteriaKeluarIsolasi);
+                jmlmenu++;
+            } 
         }
 
         if(akses.getperencanaan_pemulangan()==true){
@@ -51308,6 +51339,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnChecklistKriteriaMasukIsolasi.setName("btnChecklistKriteriaMasukIsolasi");
         btnChecklistKriteriaMasukIsolasi.setPreferredSize(new java.awt.Dimension(200, 90));
         btnChecklistKriteriaMasukIsolasi.addActionListener(this::btnChecklistKriteriaMasukIsolasiActionPerformed);
+        
+        btnChecklistKriteriaKeluarIsolasi = new widget.ButtonBig();
+        btnChecklistKriteriaKeluarIsolasi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/isolation.png"))); 
+        btnChecklistKriteriaKeluarIsolasi.setText("Check List Kriteria Keluar Isolasi");
+        btnChecklistKriteriaKeluarIsolasi.setIconTextGap(0);
+        btnChecklistKriteriaKeluarIsolasi.setName("btnChecklistKriteriaKeluarIsolasi"); 
+        btnChecklistKriteriaKeluarIsolasi.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnChecklistKriteriaKeluarIsolasi.addActionListener(this::btnChecklistKriteriaKeluarIsolasiActionPerformed);
 
         btnMapingTarifTindakanRalanKPTLSatuSehat = new widget.ButtonBig();
         btnMapingTarifTindakanRalanKPTLSatuSehat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/satusehat.png")));
