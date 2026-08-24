@@ -51411,7 +51411,7 @@ public class frmUtama extends javax.swing.JFrame {
         btnBPJSKompilasiBerkasKlaim.addActionListener(this::btnBPJSKompilasiBerkasKlaimActionPerformed);
         
         btnP2KMKompilasiBerkasKlaim = new widget.ButtonBig();
-        btnP2KMKompilasiBerkasKlaim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/p2km.png")));
+        btnP2KMKompilasiBerkasKlaim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/if_22_Atom_2064497.png")));
         btnP2KMKompilasiBerkasKlaim.setText("Kompilasi Berkas Klaim P2KM");
         btnP2KMKompilasiBerkasKlaim.setIconTextGap(0);
         btnP2KMKompilasiBerkasKlaim.setName("btnP2KMKompilasiBerkasKlaim");
