@@ -491,6 +491,15 @@ public class koneksiDB {
         }
     }
 
+    public static String DICOMROUTERAETITLESMC() {
+        try (FileInputStream fs = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fs);
+            return prop.getProperty("DICOMROUTERAETITLESMC", "");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     public static String HOST(){
         try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
             prop.loadFromXML(fis);
@@ -2131,7 +2140,7 @@ public class koneksiDB {
         }
         return var;
     }
-    
+
     public static String URLAPPLINKSATUSEHAT() {
         try {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
@@ -2144,7 +2153,7 @@ public class koneksiDB {
         }
         return var;
     }
-    
+
     public static String IDORGBPJSSATUSEHAT() {
         try {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));

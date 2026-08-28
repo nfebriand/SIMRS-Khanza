@@ -39204,7 +39204,7 @@ public void kompilasiDariRiwayatRanap(String noRawat, String noRM, String tglExp
             System.out.println("Notif Check List Masuk ICU : "+e);
         }
     }
-    
+
     private void menampilkanChecklistKriteriaKeluarIsolasi(String norawat) {
         try {
             if(chkChecklistKriteriaKeluarIsolasi.isSelected()==true){
