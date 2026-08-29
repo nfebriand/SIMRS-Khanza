@@ -2823,5 +2823,79 @@ CREATE TABLE `laborat_kesling_pelanggan`  (
   PRIMARY KEY (`kode_pelanggan`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
+CREATE TABLE IF NOT EXISTS kep_otek (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    kode VARCHAR(20) NOT NULL UNIQUE,
+    nama VARCHAR(100) NOT NULL,
+    urutan INT NOT NULL DEFAULT 0,
+    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB;
+
+INSERT INTO kep_otek (kode,nama,urutan) VALUES
+('OBS','OBSERVASI',1),
+('TER','TERAPEUTIK',2),
+('EDU','EDUKASI',3),
+('KOL','KOLABORASI',4)
+ON DUPLICATE KEY UPDATE nama=VALUES(nama), urutan=VALUES(urutan);
+
+CREATE TABLE IF NOT EXISTS kep_sdki (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    kode VARCHAR(20) NOT NULL UNIQUE,
+    nama_diagnosis VARCHAR(255) NOT NULL,
+    kategori VARCHAR(150) NULL,
+    subkategori VARCHAR(150) NULL,
+    jenis VARCHAR(50) NULL,
+    definisi TEXT NULL,
+    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y',
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_sdki_nama (nama_diagnosis),
+    INDEX idx_sdki_aktif (aktif)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS kep_siki (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    kode VARCHAR(20) NOT NULL UNIQUE,
+    nama_intervensi VARCHAR(255) NOT NULL,
+    definisi TEXT NULL,
+    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y',
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_siki_nama (nama_intervensi),
+    INDEX idx_siki_aktif (aktif)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS kep_siki_detail (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    siki_id INT NOT NULL,
+    tindakan TEXT NOT NULL,
+    urutan INT NOT NULL DEFAULT 0,
+    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y',
+    CONSTRAINT fk_kep_siki_detail_siki
+        FOREIGN KEY (siki_id) REFERENCES kep_siki(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX idx_siki_detail_siki (siki_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS kep_sdki_otek_siki (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sdki_id INT NOT NULL,
+    otek_id INT NOT NULL,
+    siki_id INT NOT NULL,
+    urutan INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_kep_rel_sdki
+        FOREIGN KEY (sdki_id) REFERENCES kep_sdki(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_kep_rel_otek
+        FOREIGN KEY (otek_id) REFERENCES kep_otek(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_kep_rel_siki
+        FOREIGN KEY (siki_id) REFERENCES kep_siki(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE KEY uk_kep_sdki_otek_siki (sdki_id, otek_id, siki_id),
+    INDEX idx_kep_rel_sdki (sdki_id),
+    INDEX idx_kep_rel_otek (otek_id),
+    INDEX idx_kep_rel_siki (siki_id)
+) ENGINE=InnoDB;
 
 SET FOREIGN_KEY_CHECKS=1;
