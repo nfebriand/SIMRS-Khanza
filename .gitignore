@@ -9,7 +9,6 @@
 /lib/
 /setting/*.ini
 /setting/*.xml
-/src/
 /KhanzaSecurity16bit/src/AESsecurity/*.java
 /cache/
 /webapps/conf/conf.php
