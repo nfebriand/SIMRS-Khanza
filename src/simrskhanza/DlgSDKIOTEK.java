@@ -2,297 +2,723 @@ package simrskhanza;
 
 import fungsi.koneksiDB;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import widget.Button;
+import widget.CekBox;
+import widget.Label;
+import widget.PanelBiasa;
+import widget.ScrollPane;
+import widget.Table;
+import widget.TextBox;
 
 /**
- * Pemilih SDKI -> OTEK -> SIKI.
- * Hasil dikembalikan ke DlgRawatInap:
- * getAsesmen(), getPlan(), getInstruksi().
+ * Dialog pemilihan SDKI -> SIKI -> OTEK.
+ *
+ * Model C:
+ *   Kiri  : pencarian + daftar diagnosis SDKI.
+ *   Kanan : filter OTEK + daftar tindakan SIKI.
+ *
+ * Database:
+ *   kep_sdki
+ *      -> kep_sdki_siki
+ *      -> kep_siki
+ *      -> kep_siki_detail
+ *      -> kep_otek
+ *
+ * Catatan:
+ *   - selectedDetail menyimpan status centang berdasarkan kep_siki_detail.id.
+ *   - Mematikan/menghidupkan filter OTEK tidak menghapus centang.
+ *   - Ganti SDKI mengosongkan pilihan karena diagnosis berubah.
  */
-public class DlgSDKIOTEK extends JDialog {
-    private final Connection koneksi = koneksiDB.condb();
-    private final JTextField txtCari = new JTextField();
-    private final JTable tblSDKI = new JTable();
-    private final JTable tblSIKI = new JTable();
-    private final JPanel pnlOtek = new JPanel(new GridLayout(1, 4, 4, 4));
-    private final List<JCheckBox> cekOtek = new ArrayList<>();
-    private DefaultTableModel modelSDKI, modelSIKI;
+public final class DlgSDKIOTEK extends JDialog {
 
-    private int sdkiId = -1;
-    private String sdkiKode = "", sdkiNama = "";
-    private boolean simpan = false;
-    private String asesmen = "", plan = "", instruksi = "";
+    private final Connection koneksi = koneksiDB.condb();
+
+    private DefaultTableModel modelSDKI;
+    private DefaultTableModel modelSIKI;
+
+    private final Map<Long, Boolean> selectedDetail = new LinkedHashMap<>();
+    private final Map<Integer, String> namaOtek = new LinkedHashMap<>();
+    private final Map<Integer, String> singkatOtek = new LinkedHashMap<>();
+
+    private final CekBox chkOBS = new CekBox();
+    private final CekBox chkTER = new CekBox();
+    private final CekBox chkEDU = new CekBox();
+    private final CekBox chkKOL = new CekBox();
+
+    private final TextBox TCari = new TextBox();
+    private final Button BtnCari = new Button();
+    private final Button BtnPilihSDKI = new Button();
+    private final Button BtnTerapkan = new Button();
+    private final Button BtnBatal = new Button();
+
+    private final Table tbSDKI = new Table();
+    private final Table tbSIKI = new Table();
+    private final ScrollPane scrollSDKI = new ScrollPane();
+    private final ScrollPane scrollSIKI = new ScrollPane();
+
+    private boolean loadingTable = false;
+    private boolean sukses = false;
+
+    private int sdkiId = 0;
+    private String asesmen = "";
+    private String plan = "";
+    private String instruksi = "";
 
     public DlgSDKIOTEK(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initDialog();
+        initComponents();
+        loadOtek();
+        loadSDKI();
     }
 
-    private void initDialog() {
-        setTitle("SDKI / OTEK / SIKI");
-        setSize(1050, 680);
+    private void initComponents() {
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setTitle("Pemilihan SDKI / SIKI / OTEK");
+        setMinimumSize(new Dimension(1050, 650));
+        setSize(1120, 700);
         setLocationRelativeTo(getOwner());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        modelSDKI = new DefaultTableModel(new Object[]{"ID", "Kode", "Diagnosis SDKI"}, 0) {
-            public boolean isCellEditable(int r, int c) { return false; }
-        };
-        tblSDKI.setModel(modelSDKI);
-        tblSDKI.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tblSDKI.getColumnModel().getColumn(0).setMinWidth(0);
-        tblSDKI.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblSDKI.getColumnModel().getColumn(0).setPreferredWidth(0);
-
-        modelSIKI = new DefaultTableModel(
-                new Object[]{"Pilih", "DetailID", "OtekID", "OTEK", "Tindakan SIKI"}, 0) {
-            public Class<?> getColumnClass(int c) {
-                if (c == 0) return Boolean.class;
-                if (c == 1 || c == 2) return Long.class;
-                return String.class;
-            }
-
-            public boolean isCellEditable(int r, int c) {
-                return c == 0;
-            }
-        };
-        tblSIKI.setModel(modelSIKI);
-        for (int col = 1; col <= 2; col++) {
-            tblSIKI.getColumnModel().getColumn(col).setMinWidth(0);
-            tblSIKI.getColumnModel().getColumn(col).setMaxWidth(0);
-            tblSIKI.getColumnModel().getColumn(col).setPreferredWidth(0);
-        }
-
-        JButton btnCari = new JButton("Cari");
-        JButton btnPilih = new JButton("Pilih SDKI");
-        JButton btnTerapkan = new JButton("Terapkan");
-        JButton btnBatal = new JButton("Batal");
-
-        JPanel cari = new JPanel(new BorderLayout(5, 5));
-        cari.setBorder(BorderFactory.createTitledBorder("Cari Diagnosis SDKI"));
-        cari.add(txtCari, BorderLayout.CENTER);
-        cari.add(btnCari, BorderLayout.EAST);
-
-        JPanel kiri = new JPanel(new BorderLayout(5, 5));
-        kiri.setBorder(BorderFactory.createTitledBorder("Diagnosis SDKI"));
-        kiri.add(new JScrollPane(tblSDKI), BorderLayout.CENTER);
-        kiri.add(btnPilih, BorderLayout.SOUTH);
-
-        JPanel kananAtas = new JPanel(new BorderLayout(5, 5));
-        kananAtas.setBorder(BorderFactory.createTitledBorder("OTEK"));
-        kananAtas.add(pnlOtek, BorderLayout.CENTER);
-
-        JPanel kanan = new JPanel(new BorderLayout(5, 5));
-        kanan.add(kananAtas, BorderLayout.NORTH);
-        kanan.add(new JScrollPane(tblSIKI), BorderLayout.CENTER);
-
-        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, kiri, kanan);
-        split.setResizeWeight(.38);
-
-        JPanel bawah = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bawah.add(btnTerapkan);
-        bawah.add(btnBatal);
 
         JPanel root = new JPanel(new BorderLayout(5, 5));
-        root.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        root.add(cari, BorderLayout.NORTH);
-        root.add(split, BorderLayout.CENTER);
-        root.add(bawah, BorderLayout.SOUTH);
+        root.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setContentPane(root);
 
-        btnCari.addActionListener(e -> cariSDKI());
-        txtCari.addActionListener(e -> cariSDKI());
-        btnPilih.addActionListener(e -> pilihSDKI());
-        tblSDKI.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (e.getClickCount() == 2) pilihSDKI();
+        PanelBiasa panelKiri = new PanelBiasa();
+        panelKiri.setLayout(new BorderLayout(5, 5));
+        panelKiri.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new java.awt.Color(210, 215, 205)),
+                " Diagnosis SDKI "));
+
+        PanelBiasa panelKanan = new PanelBiasa();
+        panelKanan.setLayout(new BorderLayout(5, 5));
+        panelKanan.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new java.awt.Color(210, 215, 205)),
+                " SDKI / SIKI / OTEK "));
+
+        // ---------------- KIRI: PENCARIAN SDKI ----------------
+        PanelBiasa panelCari = new PanelBiasa(new FlowLayout(FlowLayout.LEFT, 4, 3));
+        Label lblCari = new Label();
+        lblCari.setText("Cari :");
+        lblCari.setPreferredSize(new Dimension(45, 25));
+
+        TCari.setPreferredSize(new Dimension(250, 25));
+        BtnCari.setText("Cari");
+        BtnCari.setPreferredSize(new Dimension(65, 25));
+        BtnCari.setMargin(new Insets(2, 5, 2, 5));
+
+        panelCari.add(lblCari);
+        panelCari.add(TCari);
+        panelCari.add(BtnCari);
+
+        modelSDKI = new DefaultTableModel(
+                new Object[][]{},
+                new Object[]{"Kode", "Diagnosis", "ID"}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tbSDKI.setModel(modelSDKI);
+        tbSDKI.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tbSDKI.setAutoResizeMode(Table.AUTO_RESIZE_LAST_COLUMN);
+        tbSDKI.setPreferredScrollableViewportSize(new Dimension(400, 450));
+        aturKolomSDKI();
+
+        scrollSDKI.setViewportView(tbSDKI);
+        panelKiri.add(panelCari, BorderLayout.NORTH);
+        panelKiri.add(scrollSDKI, BorderLayout.CENTER);
+
+        PanelBiasa panelPilihSDKI = new PanelBiasa(new FlowLayout(FlowLayout.RIGHT, 4, 3));
+        BtnPilihSDKI.setText("Pilih SDKI");
+        BtnPilihSDKI.setPreferredSize(new Dimension(100, 28));
+        panelPilihSDKI.add(BtnPilihSDKI);
+        panelKiri.add(panelPilihSDKI, BorderLayout.SOUTH);
+
+        // ---------------- KANAN: FILTER OTEK ----------------
+        PanelBiasa panelFilter = new PanelBiasa(new FlowLayout(FlowLayout.LEFT, 10, 3));
+
+        chkOBS.setText("OBSERVASI");
+        chkTER.setText("TERAPEUTIK");
+        chkEDU.setText("EDUKASI");
+        chkKOL.setText("KOLABORASI");
+
+        chkOBS.setSelected(true);
+        chkTER.setSelected(true);
+        chkEDU.setSelected(true);
+        chkKOL.setSelected(true);
+
+        panelFilter.add(chkOBS);
+        panelFilter.add(chkTER);
+        panelFilter.add(chkEDU);
+        panelFilter.add(chkKOL);
+
+        modelSIKI = new DefaultTableModel(
+                new Object[][]{},
+                new Object[]{"Pilih", "O/T/E/K", "SIKI", "Tindakan", "DetailID", "OtekID"}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 0;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int column) {
+                return column == 0 ? Boolean.class : Object.class;
+            }
+        };
+
+        tbSIKI.setModel(modelSIKI);
+        tbSIKI.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tbSIKI.setAutoResizeMode(Table.AUTO_RESIZE_LAST_COLUMN);
+        tbSIKI.setPreferredScrollableViewportSize(new Dimension(600, 450));
+        aturKolomSIKI();
+
+        scrollSIKI.setViewportView(tbSIKI);
+        panelKanan.add(panelFilter, BorderLayout.NORTH);
+        panelKanan.add(scrollSIKI, BorderLayout.CENTER);
+
+        // ---------------- TOMBOL BAWAH ----------------
+        PanelBiasa panelBawah = new PanelBiasa(new FlowLayout(FlowLayout.RIGHT, 5, 3));
+        BtnTerapkan.setText("Terapkan");
+        BtnTerapkan.setPreferredSize(new Dimension(95, 28));
+        BtnBatal.setText("Batal");
+        BtnBatal.setPreferredSize(new Dimension(80, 28));
+
+        panelBawah.add(BtnTerapkan);
+        panelBawah.add(BtnBatal);
+
+        JPanel tengah = new JPanel(new GridLayout(1, 2, 5, 0));
+        tengah.add(panelKiri);
+        tengah.add(panelKanan);
+
+        root.add(tengah, BorderLayout.CENTER);
+        root.add(panelBawah, BorderLayout.SOUTH);
+
+        // ---------------- EVENT ----------------
+        BtnCari.addActionListener(this::BtnCariActionPerformed);
+        BtnPilihSDKI.addActionListener(this::BtnPilihSDKIActionPerformed);
+        BtnTerapkan.addActionListener(this::BtnTerapkanActionPerformed);
+        BtnBatal.addActionListener(this::BtnBatalActionPerformed);
+
+        chkOBS.addActionListener(e -> loadSIKI());
+        chkTER.addActionListener(e -> loadSIKI());
+        chkEDU.addActionListener(e -> loadSIKI());
+        chkKOL.addActionListener(e -> loadSIKI());
+
+        TCari.getDocument().addDocumentListener(new DocumentListener() {
+            @Override public void insertUpdate(DocumentEvent e) { loadSDKI(); }
+            @Override public void removeUpdate(DocumentEvent e) { loadSDKI(); }
+            @Override public void changedUpdate(DocumentEvent e) { loadSDKI(); }
+        });
+
+        TCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent evt) {
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                    loadSDKI();
+                }
             }
         });
-        btnTerapkan.addActionListener(e -> terapkan());
-        btnBatal.addActionListener(e -> dispose());
 
-        loadOtek();
-        cariSDKI();
+        tbSDKI.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            if (!e.getValueIsAdjusting()) {
+                int row = tbSDKI.getSelectedRow();
+                if (row >= 0) {
+                    Integer id = getInteger(modelSDKI.getValueAt(row, 2));
+                    if (id != null) {
+                        // Hanya preview ID; daftar SIKI berubah setelah tombol "Pilih SDKI".
+                    }
+                }
+            }
+        });
+
+        modelSIKI.addTableModelListener((TableModelEvent e) -> {
+            if (loadingTable) {
+                return;
+            }
+            if (e.getType() == TableModelEvent.UPDATE
+                    && e.getColumn() == 0
+                    && e.getFirstRow() >= 0) {
+                int row = e.getFirstRow();
+                if (row < modelSIKI.getRowCount()) {
+                    Long detailId = getLong(modelSIKI.getValueAt(row, 4));
+                    if (detailId != null) {
+                        boolean checked = Boolean.TRUE.equals(modelSIKI.getValueAt(row, 0));
+                        selectedDetail.put(detailId, checked);
+                    }
+                }
+            }
+        });
+
+        getRootPane().setDefaultButton(BtnTerapkan);
+    }
+
+    private void aturKolomSDKI() {
+        if (tbSDKI.getColumnModel().getColumnCount() < 3) {
+            return;
+        }
+        TableColumn c0 = tbSDKI.getColumnModel().getColumn(0);
+        TableColumn c1 = tbSDKI.getColumnModel().getColumn(1);
+        TableColumn c2 = tbSDKI.getColumnModel().getColumn(2);
+
+        c0.setPreferredWidth(75);
+        c0.setMinWidth(65);
+        c0.setMaxWidth(90);
+
+        c1.setPreferredWidth(300);
+        c1.setMinWidth(150);
+
+        c2.setMinWidth(0);
+        c2.setMaxWidth(0);
+        c2.setPreferredWidth(0);
+    }
+
+    private void aturKolomSIKI() {
+        if (tbSIKI.getColumnModel().getColumnCount() < 6) {
+            return;
+        }
+
+        TableColumn pilih = tbSIKI.getColumnModel().getColumn(0);
+        TableColumn otek = tbSIKI.getColumnModel().getColumn(1);
+        TableColumn siki = tbSIKI.getColumnModel().getColumn(2);
+        TableColumn tindakan = tbSIKI.getColumnModel().getColumn(3);
+        TableColumn detail = tbSIKI.getColumnModel().getColumn(4);
+        TableColumn otekId = tbSIKI.getColumnModel().getColumn(5);
+
+        pilih.setPreferredWidth(35);
+        pilih.setMinWidth(30);
+        pilih.setMaxWidth(40);
+
+        otek.setPreferredWidth(45);
+        otek.setMinWidth(35);
+        otek.setMaxWidth(50);
+
+        siki.setPreferredWidth(78);
+        siki.setMinWidth(65);
+        siki.setMaxWidth(90);
+
+        tindakan.setPreferredWidth(500);
+        tindakan.setMinWidth(200);
+
+        for (TableColumn c : new TableColumn[]{detail, otekId}) {
+            c.setMinWidth(0);
+            c.setMaxWidth(0);
+            c.setPreferredWidth(0);
+        }
     }
 
     private void loadOtek() {
-        pnlOtek.removeAll();
-        cekOtek.clear();
-        String sql = "SELECT id,kode,nama FROM kep_otek WHERE aktif='Y' ORDER BY urutan,id";
-        try (PreparedStatement ps = koneksi.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        namaOtek.clear();
+        singkatOtek.clear();
+
+        String sql = "SELECT id, kode, nama FROM kep_otek "
+                + "WHERE aktif='Y' ORDER BY urutan, id";
+
+        try (PreparedStatement ps = koneksi.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                JCheckBox cb = new JCheckBox(rs.getString("nama"));
-                cb.putClientProperty("id", rs.getInt("id"));
-                cb.putClientProperty("nama", rs.getString("nama"));
-                cb.setSelected(true);
-                cb.addActionListener(e -> loadSIKI());
-                cekOtek.add(cb);
-                pnlOtek.add(cb);
+                int id = rs.getInt("id");
+                String kode = rs.getString("kode");
+                String nama = rs.getString("nama");
+
+                namaOtek.put(id, nama);
+                singkatOtek.put(id, singkatOtek(kode));
             }
+
+            // Jika master sudah ada, pakai urutan/ID dinamis.
+            // Checkbox tetap dipetakan ke ID standar OBS/TER/EDU/KOL.
         } catch (Exception e) {
-            error("Gagal membaca OTEK", e);
+            JOptionPane.showMessageDialog(this,
+                    "Gagal membaca master OTEK:\n" + e.getMessage(),
+                    "Database", JOptionPane.ERROR_MESSAGE);
         }
-        pnlOtek.revalidate();
-        pnlOtek.repaint();
     }
 
-    private void cariSDKI() {
-        modelSDKI.setRowCount(0);
-        String q = "%" + txtCari.getText().trim() + "%";
-        String sql = "SELECT id,kode,nama_diagnosis FROM kep_sdki "
-                   + "WHERE aktif='Y' AND (kode LIKE ? OR nama_diagnosis LIKE ?) "
-                   + "ORDER BY kode,nama_diagnosis LIMIT 300";
-        try (PreparedStatement ps = koneksi.prepareStatement(sql)) {
-            ps.setString(1, q); ps.setString(2, q);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) modelSDKI.addRow(new Object[]{rs.getInt(1),rs.getString(2),rs.getString(3)});
+    private String singkatOtek(String kode) {
+        if (kode == null) return "";
+        String k = kode.trim().toUpperCase();
+        switch (k) {
+            case "OBS": return "O";
+            case "TER": return "T";
+            case "EDU": return "E";
+            case "KOL": return "K";
+            default:
+                return k.isEmpty() ? "" : k.substring(0, 1);
+        }
+    }
+
+    private boolean otekDipilih(int otekId) {
+        String s = singkatOtek.get(otekId);
+        if ("O".equals(s)) return chkOBS.isSelected();
+        if ("T".equals(s)) return chkTER.isSelected();
+        if ("E".equals(s)) return chkEDU.isSelected();
+        if ("K".equals(s)) return chkKOL.isSelected();
+        return false;
+    }
+
+    private String placeholdersOtek() {
+        StringBuilder sb = new StringBuilder();
+        for (Integer id : namaOtek.keySet()) {
+            if (otekDipilih(id)) {
+                if (sb.length() > 0) sb.append(",");
+                sb.append("?");
             }
-        } catch (Exception e) { error("Gagal mencari SDKI", e); }
+        }
+        return sb.toString();
     }
 
-    private void pilihSDKI() {
-        int r = tblSDKI.getSelectedRow();
-        if (r < 0) { JOptionPane.showMessageDialog(this, "Pilih diagnosis SDKI terlebih dahulu."); return; }
-        sdkiId = Integer.parseInt(modelSDKI.getValueAt(r,0).toString());
-        sdkiKode = modelSDKI.getValueAt(r,1).toString();
-        sdkiNama = modelSDKI.getValueAt(r,2).toString();
-        for (JCheckBox cb : cekOtek) cb.setSelected(true);
-        modelSIKI.setRowCount(0);
-        setTitle("SDKI: " + sdkiKode + " - " + sdkiNama);
+    private int[] selectedOtekIds() {
+        int count = 0;
+        for (Integer id : namaOtek.keySet()) {
+            if (otekDipilih(id)) count++;
+        }
+
+        int[] result = new int[count];
+        int i = 0;
+        for (Integer id : namaOtek.keySet()) {
+            if (otekDipilih(id)) {
+                result[i++] = id;
+            }
+        }
+        return result;
     }
 
-    private List<Integer> selectedOtek() {
-        List<Integer> out = new ArrayList<>();
-        for (JCheckBox cb : cekOtek) if (cb.isSelected()) out.add((Integer)cb.getClientProperty("id"));
-        return out;
-    }
+    private void loadSDKI() {
+        String cari = TCari.getText().trim();
 
-    private void loadSIKI() {
-        modelSIKI.setRowCount(0);
-        if (sdkiId < 0) return;
-        List<Integer> ids = selectedOtek();
-        if (ids.isEmpty()) return;
-        StringBuilder in = new StringBuilder();
-        for (int i=0;i<ids.size();i++) { if(i>0) in.append(","); in.append("?"); }
-        String sql = "SELECT DISTINCT d.id AS detail_id, o.id AS otek_id, "
-                   + "o.nama AS otek, d.tindakan "
-                   + "FROM kep_sdki_otek_siki r "
-                   + "JOIN kep_otek o ON o.id=r.otek_id "
-                   + "JOIN kep_siki_detail d ON d.siki_id=r.siki_id "
-                   + "WHERE r.sdki_id=? AND r.otek_id IN ("+in+") AND d.aktif='Y' "
-                   + "ORDER BY o.urutan,d.urutan,d.id";
+        String sql = "SELECT id, kode, nama_diagnosis FROM kep_sdki "
+                + "WHERE aktif='Y' "
+                + "AND (kode LIKE ? OR nama_diagnosis LIKE ?) "
+                + "ORDER BY kode, id LIMIT 500";
+
         try (PreparedStatement ps = koneksi.prepareStatement(sql)) {
-            int n=1; ps.setInt(n++,sdkiId); for(Integer id:ids) ps.setInt(n++,id);
-            try(ResultSet rs=ps.executeQuery()) {
-                while(rs.next()) {
-                    modelSIKI.addRow(new Object[]{
-                        false,
-                        rs.getLong("detail_id"),
-                        rs.getLong("otek_id"),
-                        rs.getString("otek"),
-                        rs.getString("tindakan")
+            String p = "%" + cari + "%";
+            ps.setString(1, p);
+            ps.setString(2, p);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                modelSDKI.setRowCount(0);
+
+                while (rs.next()) {
+                    modelSDKI.addRow(new Object[]{
+                        rs.getString("kode"),
+                        rs.getString("nama_diagnosis"),
+                        rs.getInt("id")
                     });
                 }
             }
-        } catch(Exception e) { error("Gagal membaca SIKI",e); }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Gagal membaca master SDKI:\n" + e.getMessage(),
+                    "Database", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void pilihSDKI() {
+        int row = tbSDKI.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih diagnosis SDKI terlebih dahulu.");
+            return;
+        }
+
+        Integer id = getInteger(modelSDKI.getValueAt(row, 2));
+        if (id == null) {
+            return;
+        }
+
+        sdkiId = id;
+        asesmen = modelSDKI.getValueAt(row, 0) + " " + modelSDKI.getValueAt(row, 1);
+
+        // Diagnosis berubah -> checklist lama tidak boleh ikut terbawa.
+        selectedDetail.clear();
+
+        loadSIKI();
+    }
+
+    private void loadSIKI() {
+        if (sdkiId <= 0) {
+            modelSIKI.setRowCount(0);
+            return;
+        }
+
+        int[] otekIds = selectedOtekIds();
+        if (otekIds.length == 0) {
+            modelSIKI.setRowCount(0);
+            return;
+        }
+
+        StringBuilder in = new StringBuilder();
+        for (int i = 0; i < otekIds.length; i++) {
+            if (i > 0) in.append(",");
+            in.append("?");
+        }
+
+        String sql = "SELECT DISTINCT "
+                + "d.id AS detail_id, "
+                + "d.otek_id, "
+                + "o.kode AS otek_kode, "
+                + "sk.kode AS siki_kode, "
+                + "d.tindakan, "
+                + "d.urutan "
+                + "FROM kep_sdki_siki r "
+                + "JOIN kep_siki sk ON sk.id=r.siki_id AND sk.aktif='Y' "
+                + "JOIN kep_siki_detail d ON d.siki_id=r.siki_id "
+                + "JOIN kep_otek o ON o.id=d.otek_id AND o.aktif='Y' "
+                + "WHERE r.sdki_id=? "
+                + "AND d.otek_id IN (" + in + ") "
+                + "AND d.aktif='Y' "
+                + "ORDER BY o.urutan, d.urutan, d.id";
+
+        loadingTable = true;
+        try (PreparedStatement ps = koneksi.prepareStatement(sql)) {
+            int n = 1;
+            ps.setInt(n++, sdkiId);
+            for (int id : otekIds) {
+                ps.setInt(n++, id);
+            }
+
+            modelSIKI.setRowCount(0);
+
+            while (ps.getResultSet() == null) {
+                break;
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    long detailId = rs.getLong("detail_id");
+                    int otekId = rs.getInt("otek_id");
+                    boolean checked = Boolean.TRUE.equals(selectedDetail.get(detailId));
+
+                    modelSIKI.addRow(new Object[]{
+                        checked,
+                        singkatOtek(rs.getString("otek_kode")),
+                        rs.getString("siki_kode"),
+                        rs.getString("tindakan"),
+                        detailId,
+                        otekId
+                    });
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Gagal membaca tindakan SIKI:\n" + e.getMessage(),
+                    "Database", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            loadingTable = false;
+        }
     }
 
     private void terapkan() {
-        if(sdkiId<0) { JOptionPane.showMessageDialog(this,"Pilih diagnosis SDKI."); return; }
-        if(selectedOtek().isEmpty()) { JOptionPane.showMessageDialog(this,"Pilih minimal satu OTEK."); return; }
-
-        // detailID -> OTEK; LinkedHashMap menjaga urutan OTEK pada Plan.
-        Map<Integer,List<String>> tindakan = new LinkedHashMap<>();
-        Map<Integer,String> namaOtek = new LinkedHashMap<>();
-        for(JCheckBox cb:cekOtek) if(cb.isSelected()) {
-            int id=(Integer)cb.getClientProperty("id");
-            namaOtek.put(id,(String)cb.getClientProperty("nama"));
-            tindakan.put(id,new ArrayList<>());
+        if (sdkiId <= 0) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih diagnosis SDKI terlebih dahulu.");
+            return;
         }
 
-        for(int r=0;r<modelSIKI.getRowCount();r++) {
-            if(!Boolean.TRUE.equals(modelSIKI.getValueAt(r,0))) continue;
+        Map<Integer, java.util.List<String>> planGroup = new LinkedHashMap<>();
+        java.util.List<String> instruksiList = new java.util.ArrayList<>();
 
-            int oid = Integer.parseInt(
-                modelSIKI.getValueAt(r,2).toString()
-            );
+        int[] activeOtekIds = selectedOtekIds();
+        if (activeOtekIds.length == 0) {
+            JOptionPane.showMessageDialog(this, "Pilih minimal satu OTEK.");
+            return;
+        }
 
-            String tindakanSIKI =
-                modelSIKI.getValueAt(r,4).toString();
+        for (int row = 0; row < modelSIKI.getRowCount(); row++) {
+            Long detailId = getLong(modelSIKI.getValueAt(row, 4));
+            Integer otekId = getInteger(modelSIKI.getValueAt(row, 5));
 
-            if(tindakan.containsKey(oid)) {
-                tindakan.get(oid).add(tindakanSIKI);
+            if (detailId == null || otekId == null) {
+                continue;
+            }
+
+            if (!Boolean.TRUE.equals(selectedDetail.get(detailId))) {
+                continue;
+            }
+
+            String tindakan = String.valueOf(modelSIKI.getValueAt(row, 3)).trim();
+            if (tindakan.isEmpty()) {
+                continue;
+            }
+
+            planGroup.computeIfAbsent(otekId, k -> new java.util.ArrayList<>()).add(tindakan);
+            instruksiList.add(toInstruksi(tindakan));
+        }
+
+        StringBuilder sbPlan = new StringBuilder();
+        for (Integer otekId : namaOtek.keySet()) {
+            if (!otekDipilih(otekId)) {
+                continue;
+            }
+
+            java.util.List<String> list = planGroup.get(otekId);
+            if (list == null || list.isEmpty()) {
+                continue;
+            }
+
+            if (sbPlan.length() > 0) {
+                sbPlan.append("\n\n");
+            }
+
+            sbPlan.append(namaOtek.get(otekId)).append("\n");
+            for (String tindakan : list) {
+                sbPlan.append("- ").append(tindakan).append("\n");
             }
         }
 
-        StringBuilder p=new StringBuilder(), i=new StringBuilder();
-        boolean ada=false;
-        for(Map.Entry<Integer,String> e:namaOtek.entrySet()) {
-            List<String> list=tindakan.get(e.getKey());
-            if(list==null || list.isEmpty()) continue;
-            ada=true;
-            p.append(e.getValue()).append("\n");
-            for(String s:list) {
-                p.append("  - ").append(s).append("\n");
-                i.append(toInstruksi(s)).append("\n");
-            }
-            p.append("\n");
+        if (sbPlan.length() == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Belum ada tindakan SIKI yang dicentang.",
+                    "Pilih tindakan", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        if(!ada) { JOptionPane.showMessageDialog(this,"Centang minimal satu tindakan SIKI."); return; }
 
-        asesmen=sdkiKode+" - "+sdkiNama;
-        plan=trim(p.toString());
-        instruksi=trim(i.toString());
-        simpan=true;
+        StringBuilder sbInstruksi = new StringBuilder();
+        for (String item : instruksiList) {
+            if (item.isEmpty()) continue;
+            if (sbInstruksi.length() > 0) {
+                sbInstruksi.append("\n");
+            }
+            sbInstruksi.append(item);
+        }
+
+        plan = hapusBarisAkhir(sbPlan.toString());
+        instruksi = sbInstruksi.toString().trim();
+        sukses = true;
         dispose();
     }
 
-    private String toInstruksi(String s) {
-        s=s.trim(); if(s.isEmpty()) return s;
-        String[] a=s.split("\\s+",2); String w=a[0], rest=a.length>1?" "+a[1]:"";
-        String l=w.toLowerCase();
-        Map<String,String> m=new LinkedHashMap<>();
-        m.put("identifikasi","Mengidentifikasi"); m.put("monitor","Memonitor");
-        m.put("berikan","Memberikan"); m.put("jelaskan","Menjelaskan");
-        m.put("anjurkan","Menganjurkan"); m.put("fasilitasi","Memfasilitasi");
-        m.put("observasi","Mengobservasi"); m.put("evaluasi","Mengevaluasi");
-        m.put("ajarkan","Mengajarkan"); m.put("ukur","Mengukur");
-        m.put("pantau","Memantau"); m.put("lakukan","Melakukan");
-        m.put("catat","Mencatat"); m.put("atur","Mengatur"); m.put("bantu","Membantu");
-        if(m.containsKey(l)) return m.get(l)+rest;
-        if(l.startsWith("me") || l.startsWith("meng") || l.startsWith("men") || l.startsWith("mem")) {
-            return w + rest;
+    private String toInstruksi(String tindakan) {
+        String s = tindakan.trim();
+        if (s.isEmpty()) return "";
+
+        String[] parts = s.split("\\s+", 2);
+        String first = parts[0];
+        String rest = parts.length > 1 ? parts[1] : "";
+
+        // Konversi umum kata kerja SIKI menjadi bentuk instruksi.
+        // Jika kata kerja sudah berupa instruksi, biarkan.
+        String f = first.toLowerCase();
+
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("identifikasi", "Mengidentifikasi");
+        map.put("monitor", "Memonitor");
+        map.put("observasi", "Mengobservasi");
+        map.put("pantau", "Memantau");
+        map.put("berikan", "Memberikan");
+        map.put("beri", "Memberikan");
+        map.put("atur", "Mengatur");
+        map.put("jelaskan", "Menjelaskan");
+        map.put("anjurkan", "Menganjurkan");
+        map.put("ajarkan", "Mengajarkan");
+        map.put("kolaborasi", "Berkolaborasi");
+        map.put("periksa", "Memeriksa");
+        map.put("ukur", "Mengukur");
+        map.put("catat", "Mencatat");
+        map.put("evaluasi", "Mengevaluasi");
+        map.put("pertahankan", "Mempertahankan");
+        map.put("lakukan", "Melakukan");
+        map.put("posisikan", "Memposisikan");
+        map.put("hentikan", "Menghentikan");
+        map.put("batasi", "Membatasi");
+        map.put("tingkatkan", "Meningkatkan");
+        map.put("turunkan", "Menurunkan");
+        map.put("bersihkan", "Membersihkan");
+        map.put("pastikan", "Memastikan");
+
+        if (map.containsKey(f)) {
+            return map.get(f) + (rest.isEmpty() ? "" : " " + rest);
         }
 
-        return "Melakukan " +
-               Character.toLowerCase(w.charAt(0)) +
-               w.substring(1) + rest;
+        // Jika sudah diawali me-/mem-/men-/meng-/meny-/ber-, jangan diubah.
+        if (f.startsWith("me") || f.startsWith("ber")) {
+            return s;
+        }
+
+        // Fallback aman: hanya kapitalisasi kata pertama.
+        return Character.toUpperCase(first.charAt(0))
+                + first.substring(1)
+                + (rest.isEmpty() ? "" : " " + rest);
     }
 
-    private String trim(String s) { return s.replaceFirst("\\s+$",""); }
-    private void error(String title,Exception e) { JOptionPane.showMessageDialog(this,title+":\n"+e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE); }
-    public boolean isSimpan(){return simpan;}
-    public String getAsesmen(){return asesmen;}
-    public String getPlan(){return plan;}
-    public String getInstruksi(){return instruksi;}
+    private String hapusBarisAkhir(String s) {
+        return s.replaceFirst("\\s+$", "");
+    }
+
+    private void BtnCariActionPerformed(ActionEvent evt) {
+        loadSDKI();
+    }
+
+    private void BtnPilihSDKIActionPerformed(ActionEvent evt) {
+        pilihSDKI();
+    }
+
+    private void BtnTerapkanActionPerformed(ActionEvent evt) {
+        terapkan();
+    }
+
+    private void BtnBatalActionPerformed(ActionEvent evt) {
+        sukses = false;
+        dispose();
+    }
+
+    private Integer getInteger(Object value) {
+        if (value == null) return null;
+        if (value instanceof Number) return ((Number) value).intValue();
+        try {
+            return Integer.valueOf(value.toString());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Long getLong(Object value) {
+        if (value == null) return null;
+        if (value instanceof Number) return ((Number) value).longValue();
+        try {
+            return Long.valueOf(value.toString());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public boolean isSimpan() {
+        return sukses;
+    }
+
+    public String getAsesmen() {
+        return asesmen;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public String getInstruksi() {
+        return instruksi;
+    }
 }

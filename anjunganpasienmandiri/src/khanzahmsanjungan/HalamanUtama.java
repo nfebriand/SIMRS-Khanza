@@ -141,7 +141,9 @@ public class HalamanUtama extends javax.swing.JFrame {
         panelAtas.setPreferredSize(new java.awt.Dimension(500, 100));
         panelAtas.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
 
-        flatLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/smc-lg.png"))); // NOI18N
+        flatLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/logoresbun.png"))); // NOI18N
+        flatLabel1.setText("ANJUNGAN PASIEN RSIA RESTU BUNDA");
+        flatLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         panelAtas.add(flatLabel1);
 
         getContentPane().add(panelAtas, java.awt.BorderLayout.PAGE_START);
@@ -153,7 +155,7 @@ public class HalamanUtama extends javax.swing.JFrame {
         panelBawah.setLayout(new java.awt.BorderLayout());
 
         judul.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        judul.setText("ANJUNGAN PASIEN MANDIRI");
+        judul.setText("SILAHKAN PILIH MENU YANG TERSEDIA");
         judul.setFont(new java.awt.Font("Inter", 1, 36)); // NOI18N
         judul.setPreferredSize(new java.awt.Dimension(750, 40));
         panelBawah.add(judul, java.awt.BorderLayout.CENTER);

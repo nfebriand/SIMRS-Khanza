@@ -46,7 +46,7 @@
         <Component class="com.formdev.flatlaf.extras.components.FlatLabel" name="flatLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/picture/smc-lg.png"/>
+              <Image iconType="3" name="/picture/logoresbun.png"/>
             </Property>
           </Properties>
         </Component>

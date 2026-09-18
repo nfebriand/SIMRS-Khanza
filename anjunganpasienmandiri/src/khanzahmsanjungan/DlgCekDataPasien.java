@@ -77,7 +77,7 @@ public class DlgCekDataPasien extends widget.Dialog {
         panelAtas.setPreferredSize(new java.awt.Dimension(500, 100));
         panelAtas.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
 
-        flatLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/smc-lg.png"))); // NOI18N
+        flatLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/logoresbun.png"))); // NOI18N
         panelAtas.add(flatLabel1);
 
         getContentPane().add(panelAtas, java.awt.BorderLayout.PAGE_START);

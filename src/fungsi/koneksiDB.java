@@ -2180,4 +2180,28 @@ public class koneksiDB {
             return "";
         }
     }
+    
+    public static String VERSIAPP() {
+        String var = "";
+        try {
+            Properties prop = new Properties();
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            var = prop.getProperty("VERSIAPP");
+        } catch (Exception e) {
+            var = "2026.09.17";
+        }
+        return var;
+    }
+
+    public static String URLUPDATE() {
+        String var = "";
+        try {
+            Properties prop = new Properties();
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            var = prop.getProperty("URLUPDATE");
+        } catch (Exception e) {
+            var = "";
+        }
+        return var;
+    }
 }

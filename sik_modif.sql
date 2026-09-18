@@ -2827,79 +2827,1024 @@ CREATE TABLE `laborat_kesling_pelanggan`  (
   PRIMARY KEY (`kode_pelanggan`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
-CREATE TABLE IF NOT EXISTS kep_otek (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    kode VARCHAR(20) NOT NULL UNIQUE,
-    nama VARCHAR(100) NOT NULL,
-    urutan INT NOT NULL DEFAULT 0,
-    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y'
-) ENGINE=InnoDB;
 
-INSERT INTO kep_otek (kode,nama,urutan) VALUES
-('OBS','OBSERVASI',1),
-('TER','TERAPEUTIK',2),
-('EDU','EDUKASI',3),
-('KOL','KOLABORASI',4)
-ON DUPLICATE KEY UPDATE nama=VALUES(nama), urutan=VALUES(urutan);
+CREATE TABLE `handover` (
+  `no_rawat` varchar(17) NOT NULL,
+  `tgl_perawatan` date NOT NULL,
+  `jam_rawat` time NOT NULL,
+  `situation` varchar(2000) DEFAULT NULL,
+  `background` varchar(2000) DEFAULT NULL,
+  `assesment` varchar(2000) NOT NULL,
+  `recommendation` varchar(2000) NOT NULL,
+  `tindakan` text NOT NULL,
+  `shift` enum('Pagi','Siang','Malam') NOT NULL,
+  `nip` varchar(20) NOT NULL,
+  `shift2` enum('Pagi','Siang','Malam') NOT NULL,
+  `nip2` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS kep_sdki (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    kode VARCHAR(20) NOT NULL UNIQUE,
-    nama_diagnosis VARCHAR(255) NOT NULL,
-    kategori VARCHAR(150) NULL,
-    subkategori VARCHAR(150) NULL,
-    jenis VARCHAR(50) NULL,
-    definisi TEXT NULL,
-    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y',
-    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_sdki_nama (nama_diagnosis),
-    INDEX idx_sdki_aktif (aktif)
-) ENGINE=InnoDB;
+ALTER TABLE `handover`
+  ADD PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`jam_rawat`) USING BTREE,
+  ADD KEY `no_rawat` (`no_rawat`) USING BTREE,
+  ADD KEY `nip` (`nip`) USING BTREE,
+  ADD KEY `handover_ibfk_3` (`nip2`);
 
-CREATE TABLE IF NOT EXISTS kep_siki (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    kode VARCHAR(20) NOT NULL UNIQUE,
-    nama_intervensi VARCHAR(255) NOT NULL,
-    definisi TEXT NULL,
-    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y',
-    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_siki_nama (nama_intervensi),
-    INDEX idx_siki_aktif (aktif)
-) ENGINE=InnoDB;
+ALTER TABLE `handover`
+  ADD CONSTRAINT `handover_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `handover_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `handover_ibfk_3` FOREIGN KEY (`nip2`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-CREATE TABLE IF NOT EXISTS kep_siki_detail (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    siki_id INT NOT NULL,
-    tindakan TEXT NOT NULL,
-    urutan INT NOT NULL DEFAULT 0,
-    aktif ENUM('Y','N') NOT NULL DEFAULT 'Y',
-    CONSTRAINT fk_kep_siki_detail_siki
-        FOREIGN KEY (siki_id) REFERENCES kep_siki(id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    INDEX idx_siki_detail_siki (siki_id)
-) ENGINE=InnoDB;
+CREATE TABLE `validasi_handover` (
+  `no_rawat` varchar(17) NOT NULL,
+  `tgl_perawatan` date NOT NULL,
+  `jam_rawat` time NOT NULL,
+  `shift` enum('Pagi','Siang','Malam') NOT NULL,
+  `situation` text NOT NULL,
+  `background` text NOT NULL,
+  `assesment` text NOT NULL,
+  `recommendation` text NOT NULL,
+  `tindakan` text NOT NULL,
+  `nik` varchar(20) NOT NULL,
+  `nik_validator` varchar(20) NOT NULL,
+  `tgl_validasi` date NOT NULL,
+  `jam_validasi` time NOT NULL,
+  `status_validasi` enum('-','Validasi','Tidak Di Validasi') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS kep_sdki_otek_siki (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    sdki_id INT NOT NULL,
-    otek_id INT NOT NULL,
-    siki_id INT NOT NULL,
-    urutan INT NOT NULL DEFAULT 0,
-    CONSTRAINT fk_kep_rel_sdki
-        FOREIGN KEY (sdki_id) REFERENCES kep_sdki(id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_kep_rel_otek
-        FOREIGN KEY (otek_id) REFERENCES kep_otek(id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_kep_rel_siki
-        FOREIGN KEY (siki_id) REFERENCES kep_siki(id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE KEY uk_kep_sdki_otek_siki (sdki_id, otek_id, siki_id),
-    INDEX idx_kep_rel_sdki (sdki_id),
-    INDEX idx_kep_rel_otek (otek_id),
-    INDEX idx_kep_rel_siki (siki_id)
-) ENGINE=InnoDB;
+ALTER TABLE `validasi_handover`
+  ADD PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`jam_rawat`) USING BTREE,
+  ADD KEY `no_rawat` (`no_rawat`) USING BTREE,
+  ADD KEY `validasi_pemeriksaan_sbar_2` (`nik`) USING BTREE;
 
+CREATE TABLE
+IF
+	NOT EXISTS kep_otek (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		kode VARCHAR ( 20 ) NOT NULL UNIQUE,
+		nama VARCHAR ( 100 ) NOT NULL,
+		urutan INT NOT NULL DEFAULT 0,
+		aktif ENUM ( 'Y', 'N' ) NOT NULL DEFAULT 'Y' 
+	) ENGINE = INNODB DEFAULT CHARSET = utf8mb4;
+INSERT INTO kep_otek ( kode, nama, urutan )
+VALUES
+	( 'OBS', 'OBSERVASI', 1 ),
+	( 'TER', 'TERAPEUTIK', 2 ),
+	( 'EDU', 'EDUKASI', 3 ),
+	( 'KOL', 'KOLABORASI', 4 ) 
+	ON DUPLICATE KEY UPDATE nama =
+VALUES
+	( nama ),
+	urutan =
+VALUES
+	( urutan );
+CREATE TABLE
+IF
+	NOT EXISTS kep_sdki (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		kode VARCHAR ( 20 ) NOT NULL UNIQUE,
+		nama_diagnosis VARCHAR ( 255 ) NOT NULL,
+		kategori VARCHAR ( 100 ) NOT NULL,
+		subkategori VARCHAR ( 150 ) NOT NULL,
+		jenis ENUM ( 'AKTUAL', 'RISIKO', 'PROMOSI_KESEHATAN', 'LAINNYA' ) NULL,
+		definisi TEXT NULL,
+		aktif ENUM ( 'Y', 'N' ) NOT NULL DEFAULT 'Y',
+		created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		INDEX idx_sdki_nama ( nama_diagnosis ),
+		INDEX idx_sdki_kategori ( kategori, subkategori ),
+		INDEX idx_sdki_aktif ( aktif ) 
+	) ENGINE = INNODB DEFAULT CHARSET = utf8mb4;
+CREATE TABLE
+IF
+	NOT EXISTS kep_siki (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		kode VARCHAR ( 20 ) NOT NULL UNIQUE,
+		nama_intervensi VARCHAR ( 255 ) NOT NULL,
+		definisi TEXT NULL,
+		aktif ENUM ( 'Y', 'N' ) NOT NULL DEFAULT 'Y',
+		created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		INDEX idx_siki_nama ( nama_intervensi ),
+		INDEX idx_siki_aktif ( aktif ) 
+	) ENGINE = INNODB DEFAULT CHARSET = utf8mb4;
+CREATE TABLE
+IF
+	NOT EXISTS kep_siki_detail (
+		id BIGINT AUTO_INCREMENT PRIMARY KEY,
+		siki_id INT NOT NULL,
+		otek_id INT NOT NULL,
+		tindakan TEXT NOT NULL,
+		urutan INT NOT NULL DEFAULT 0,
+		aktif ENUM ( 'Y', 'N' ) NOT NULL DEFAULT 'Y',
+		CONSTRAINT fk_siki_detail_siki FOREIGN KEY ( siki_id ) REFERENCES kep_siki ( id ) ON DELETE CASCADE ON UPDATE CASCADE,
+		CONSTRAINT fk_siki_detail_otek FOREIGN KEY ( otek_id ) REFERENCES kep_otek ( id ) ON DELETE CASCADE ON UPDATE CASCADE,
+		INDEX idx_siki_detail_siki ( siki_id ),
+		INDEX idx_siki_detail_otek ( otek_id ) 
+	) ENGINE = INNODB DEFAULT CHARSET = utf8mb4;
+CREATE TABLE
+IF
+	NOT EXISTS kep_sdki_siki (
+		id BIGINT AUTO_INCREMENT PRIMARY KEY,
+		sdki_id INT NOT NULL,
+		siki_id INT NOT NULL,
+		urutan INT NOT NULL DEFAULT 0,
+		CONSTRAINT fk_sdki_siki_sdki FOREIGN KEY ( sdki_id ) REFERENCES kep_sdki ( id ) ON DELETE CASCADE ON UPDATE CASCADE,
+		CONSTRAINT fk_sdki_siki_siki FOREIGN KEY ( siki_id ) REFERENCES kep_siki ( id ) ON DELETE CASCADE ON UPDATE CASCADE,
+	UNIQUE KEY uk_sdki_siki ( sdki_id, siki_id ) 
+	) ENGINE = INNODB DEFAULT CHARSET = utf8mb4;
+
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('001', 'Bersihan Jalan Napas Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('002', 'Gangguan Penyapihan Ventilator');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('003', 'Gangguan Pertukaran Gas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('004', 'Gangguan Ventilasi Spontan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('005', 'Pola Napas Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('006', 'Risiko Aspirasi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('007', 'Gangguan Sirkulasi Spontan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('008', 'Penurunan Curah Jantung');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('009', 'Perfusi Perifer Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('010', 'Risiko Gangguan Sirkulasi Spontan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('011', 'Risiko Penurunan Curah Jantung');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('012', 'Risiko Perdarahan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('013', 'Risiko Perfusi Gastrointestinal Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('014', 'Risiko Perfusi Miokard Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('015', 'Risiko Perfusi Perifer Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('016', 'Risiko Perfusi Renal Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('017', 'Risiko Perfusi Serebral Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('018', 'Berat Badan Lebih');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('019', 'Defisit Nutrisi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('020', 'Diare');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('021', 'Disfungsi Motilitas Gastrointestinal');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('022', 'Hipervolemia');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('023', 'Hipovolemia');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('024', 'Ikterik Neonatus');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('025', 'Kesiapan Peningkatan Keseimbangan Cairan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('026', 'Kesiapan Peningkatan Nutrisi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('027', 'Ketidakstabilan Kadar Glukosa Darah');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('028', 'Menyusui Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('029', 'Menyusui Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('030', 'Obesitas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('031', 'Risiko Berat Badan Lebih');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('032', 'Risiko Defisit Nutrisi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('033', 'Risiko Disfungsi Motilitas Gastrointestinal');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('034', 'Risiko Hipovolemia');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('035', 'Risiko Ikterik Neonatus');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('036', 'Risiko Ketidakseimbangan Cairan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('037', 'Risiko Ketidakseimbangan Elektrolit');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('038', 'Risiko Ketidakstabilan Kadar Glukosa Darah');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('039', 'Risiko Syok');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('040', 'Gangguan Eliminasi Urin');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('041', 'Inkontinensia Fekal');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('042', 'Inkontinensia Urin Berlanjut');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('043', 'Inkontinensia Urin Berlebih');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('044', 'Inkontinensia Urin Fungsional');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('045', 'Inkontinensia Urin Refleks');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('046', 'Inkontinensia Urin Stres');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('047', 'Inkontinensia Urin Urgensi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('048', 'Kesiapan Peningkatan Eliminasi Urin');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('049', 'Konstipasi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('050', 'Retensi Urin');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('051', 'Risiko Inkontinensia Urin Urgensi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('052', 'Risiko Konstipasi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('053', 'Disorganisasi Perilaku Bayi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('054', 'Gangguan Mobilitas Fisik');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('055', 'Gangguan Pola Tidur');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('056', 'Intoleransi Aktivitas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('057', 'Keletihan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('058', 'Kesiapan Peningkatan Tidur');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('059', 'Risiko Disorganisasi Perilaku Bayi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('060', 'Risiko Intoleransi Aktivitas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('061', 'Disrefleksia Otonom');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('062', 'Gangguan Memori');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('063', 'Gangguan Menelan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('064', 'Konfusi Akut');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('065', 'Konfusi Kronis');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('066', 'Penurunan Kapasitas Adaptif Intrakranial');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('067', 'Risiko Disfungsi Neurovaskuler Perifer');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('068', 'Risiko Konfusi Akut');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('069', 'Disfungsi Seksual');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('070', 'Kesiapan Persalinan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('071', 'Pola Seksual Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('072', 'Risiko Disfungsi Seksual');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('073', 'Risiko Kehamilan Tidak Dikehendaki');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('074', 'Gangguan Rasa Nyaman');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('075', 'Ketidaknyamanan Pasca Partum');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('076', 'Nausea');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('077', 'Nyeri Akut');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('078', 'Nyeri Kronis');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('079', 'Nyeri Melahirkan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('080', 'Ansietas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('081', 'Berduka');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('082', 'Distres Spiritual');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('083', 'Gangguan Citra Tubuh');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('084', 'Gangguan Identitas Diri');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('085', 'Gangguan Persepsi Sensori');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('086', 'Harga Diri Rendah Kronis');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('087', 'Harga Diri Rendah Situasional');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('088', 'Keputusasaan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('089', 'Kesiapan Peningkatan Konsep Diri');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('090', 'Kesiapan Peningkatan Koping Keluarga');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('091', 'Kesiapan Peningkatan Koping Komunitas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('092', 'Ketidakberdayaan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('093', 'Ketidakmampuan Koping Keluarga');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('094', 'Koping Defensif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('095', 'Koping Komunitas Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('096', 'Koping Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('097', 'Penurunan Koping Keluarga');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('098', 'Penyangkalan Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('099', 'Perilaku Kesehatan Cenderung Berisiko');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('100', 'Risiko Distres Spiritual');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('101', 'Sindrom Pasca Trauma');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('102', 'Waham');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('103', 'Risiko Harga Diri Rendah Kronis');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('104', 'Risiko Harga Diri Rendah Situasional');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('105', 'Risiko Ketidakberdayaan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('106', 'Gangguan Tumbuh Kembang');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('107', 'Risiko Gangguan Perkembangan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('108', 'Risiko Gangguan Pertumbuhan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('109', 'Defisit Perawatan Diri');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('110', 'Defisit Kesehatan Komunitas');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('111', 'Defisit Pengetahuan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('112', 'Kesiapan Peningkatan Manajemen Kesehatan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('113', 'Kesiapan Peningkatan Pengetahuan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('114', 'Ketidakpatuhan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('115', 'Manajemen Kesehatan Keluarga Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('116', 'Manajemen Kesehatan Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('117', 'Pemeliharaan Kesehatan Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('118', 'Gangguan Interaksi Sosial');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('119', 'Gangguan Komunikasi Verbal');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('120', 'Gangguan Proses Keluarga');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('121', 'Isolasi Sosial');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('122', 'Kesiapan Peningkatan Menjadi Orang Tua');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('123', 'Kesiapan Peningkatan Proses Keluarga');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('124', 'Ketegangan Peran Pemberi Asuhan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('125', 'Penampilan Peran Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('126', 'Pencapaian Peran Menjadi Orang Tua');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('127', 'Risiko Gangguan Perlekatan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('128', 'Risiko Proses Pengasuhan Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('129', 'Gangguan Integritas Kulit/Jaringan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('130', 'Hipertermia');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('131', 'Hipotermia');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('132', 'Perilaku Kekerasan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('133', 'Perlambatan Pemulihan Pascabedah');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('134', 'Risiko Alergi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('135', 'Risiko Bunuh Diri');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('136', 'Risiko Cedera');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('137', 'Risiko Cedera Pada Ibu');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('138', 'Risiko Cedera Pada Janin');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('139', 'Risiko Gangguan Integritas Kulit/Jaringan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('140', 'Risiko Hipotermia');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('141', 'Risiko Hipotermia Perioperatif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('142', 'Risiko Infeksi');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('143', 'Risiko Jatuh');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('144', 'Risiko Luka Tekan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('145', 'Risiko Mutilasi Diri');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('146', 'Risiko Perilaku Kekerasan');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('147', 'Risiko Perlambatan Pemulihan Pascabedah');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('148', 'Risiko Termoregulasi Tidak Efektif');
+INSERT INTO `master_masalah_keperawatan`(`kode_masalah`, `nama_masalah`) VALUES ('149', 'Termoregulasi Tidak Efektif');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('001', '001', 'Latihan Batuk Efektif');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('001', '002', 'Manajemen Jalan Napas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('001', '003', 'Pemantauan Respirasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('002', '004', 'Pemantauan Respirasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('002', '005', 'Penyapihan Ventilasi Mekanik');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('003', '006', 'Pemantauan Respirasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('003', '007', 'Terapi Oksigen');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('004', '008', 'Pemantauan Respirasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('004', '009', 'Dukungan Ventilasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('005', '010', 'Manajemen Jalan Napas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('005', '011', 'Pemantauan Respirasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('006', '012', 'Manajemen Muntah');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('006', '013', 'Pencegahan Aspirasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('007', '014', 'Resusitasi Jantung Paru');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('008', '015', 'Perawatan Jantung');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('008', '016', 'Perawatan Jantung Akut');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('009', '017', 'Perawatan Sirkulasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('009', '018', 'Manajemen Sensasi Perifer');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('010', '019', 'Resusitasi Jantung Paru');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('010', '020', 'Pencegahan Syok');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('011', '021', 'Perawatan Jantung');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('011', '022', 'Perawatan Jantung Akut');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('012', '023', 'Pencegahan Perdarahan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('013', '024', 'Pencegahan Syok');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('013', '025', 'Pemantauan Tanda Vital');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('014', '026', 'Perawatan Jantung');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('014', '027', 'Perawatan Jantung Akut');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('014', '028', 'Manajemen Aritmia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('015', '029', 'Perawatan Sirkulasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('015', '030', 'Pencegahan Syok');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('016', '031', 'Pencegahan Syok');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('016', '032', 'Pemantauan Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('017', '033', 'Manajemen Peningkatan Tekanan Intrakranial');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('017', '034', 'Pemantauan Tekanan Intrakranial');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('018', '035', 'Konseling Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('018', '036', 'Manajemen Berat Badan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('019', '037', 'Manajemen Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('019', '038', 'Promosi Berat Badan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('020', '039', 'Pemantauan Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('020', '040', 'Manajemen Diare');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('021', '041', 'Manajemen Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('021', '042', 'Manajemen Diare');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('022', '043', 'Pemantauan Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('022', '044', 'Manajemen Hipervolemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('023', '045', 'Pemantauan Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('023', '046', 'Manajemen Hipovolemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('024', '047', 'Fototerapi Neonatus');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('024', '048', 'Perawatan Bayi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('025', '049', 'Pemantauan Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('025', '050', 'Manajemen Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('026', '051', 'Konseling Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('026', '052', 'Edukasi Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('027', '053', 'Manajemen Hiperglikemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('027', '054', 'Manajemen Hipoglikemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('028', '055', 'Edukasi Menyusui');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('028', '056', 'Konseling Laktasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('029', '057', 'Edukasi Menyusui');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('029', '058', 'Konseling Laktasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('029', '059', 'Perawatan Payudara');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('030', '060', 'Manajemen Berat Badan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('030', '061', 'Edukasi Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('031', '062', 'Konseling Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('031', '063', 'Edukasi Diet');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('032', '064', 'Manajemen Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('032', '065', 'Pemantauan Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('033', '066', 'Manajemen Nutrisi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('033', '067', 'Edukasi Diet');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('034', '068', 'Manajemen Hipovolemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('034', '069', 'Manajemen Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('035', '070', 'Fototerapi Neonatus');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('035', '071', 'Perawatan Bayi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('036', '072', 'Pemantauan Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('036', '073', 'Manajemen Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('037', '074', 'Manajemen Cairan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('037', '075', 'Pemantauan Elektrolit');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('038', '076', 'Manajemen Hiperglikemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('038', '077', 'Manajemen Hipoglikemia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('039', '078', 'Pencegahan Syok');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('039', '079', 'Pemantauan Tanda Vital');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('040', '080', 'Manajemen Eliminasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('041', '081', 'Latihan Eliminasi Fekal');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('041', '082', 'Perawatan Inkontinensia Fekal');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('042', '083', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('042', '084', 'Latihan Otot Panggul');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('043', '085', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('043', '086', 'Kateterisasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('044', '087', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('044', '088', 'Latihan Berkemih');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('045', '089', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('045', '090', 'Kateterisasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('046', '091', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('046', '092', 'Latihan Otot Panggul');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('047', '093', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('047', '094', 'Latihan Otot Panggul');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('048', '095', 'Manajemen Eliminasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('048', '096', 'Edukasi Eliminasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('049', '097', 'Manajemen Konstipasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('049', '098', 'Manajemen Eliminasi Fekal');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('050', '099', 'Manajemen Eliminasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('050', '100', 'Kateterisasi Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('051', '101', 'Perawatan Inkontinensia Urin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('051', '102', 'Latihan Otot Panggul');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('052', '103', 'Manajemen Konstipasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('052', '104', 'Manajemen Eliminasi Fekal');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('053', '105', 'Perawatan Bayi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('053', '106', 'Perawatan Perkembangan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('054', '107', 'Dukungan Mobilisasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('054', '108', 'Dukungan Ambulasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('055', '109', 'Dukungan Tidur');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('055', '110', 'Edukasi Aktivitas/Istirahat');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('056', '111', 'Manajemen Energi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('056', '112', 'Terapi Aktivitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('057', '113', 'Edukasi Aktivitas/Istirahat');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('057', '114', 'Manajemen Energi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('058', '115', 'Dukungan Tidur');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('058', '116', 'Edukasi Aktivitas/Istirahat');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('059', '117', 'Perawatan Bayi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('059', '118', 'Perawatan Perkembangan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('060', '119', 'Manajemen Energi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('060', '120', 'Terapi Aktivitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('061', '121', 'Manajemen Disrefleksia Otonom');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('062', '122', 'Latihan Memori');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('062', '123', 'Orientasi Realita');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('063', '124', 'Dukungan Perawatan Diri: Makan/Minum');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('063', '125', 'Manajemen Gangguan Menelan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('064', '126', 'Manajemen Delirium');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('065', '127', 'Orientasi Realita');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('065', '128', 'Manajemen Demensia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('066', '129', 'Manajemen Peningkatan Tekanan Intrakranial');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('066', '130', 'Pemantauan Tekanan Intrakranial');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('067', '131', 'Manajemen Sensasi Perifer');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('068', '132', 'Manajemen Delirium');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('069', '133', 'Konseling Seksualitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('069', '134', 'Edukasi Seksualitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('070', '135', 'Edukasi Persalinan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('070', '136', 'Persiapan Persalinan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('071', '137', 'Konseling Seksualitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('071', '138', 'Edukasi Seksualitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('072', '139', 'Konseling Seksualitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('072', '140', 'Edukasi Seksualitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('073', '141', 'Konseling Keluarga Berencana');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('073', '142', 'Edukasi Keluarga Berencana');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('074', '143', 'Manajemen Nyeri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('074', '144', 'Terapi Relaksasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('075', '145', 'Manajemen Nyeri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('075', '146', 'Perawatan Pasca Partum');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('076', '147', 'Manajemen Muntah');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('076', '148', 'Manajemen Mual');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('077', '149', 'Manajemen Nyeri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('077', '150', 'Pemberian Analgesik');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('078', '151', 'Manajemen Nyeri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('078', '152', 'Perawatan Kenyamanan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('079', '153', 'Manajemen Nyeri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('079', '154', 'Latihan Pernapasan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('080', '155', 'Terapi Relaksasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('080', '156', 'Reduksi Ansietas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('081', '157', 'Dukungan Proses Berduka');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('081', '158', 'Dukungan Emosional');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('082', '159', 'Dukungan Spiritual');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('083', '160', 'Promosi Citra Tubuh');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('084', '161', 'Promosi Kesadaran Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('085', '162', 'Manajemen Halusinasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('086', '163', 'Promosi Harga Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('087', '164', 'Promosi Harga Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('088', '165', 'Dukungan Emosional');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('088', '166', 'Promosi Harapan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('089', '167', 'Promosi Kesadaran Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('090', '168', 'Dukungan Koping Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('091', '169', 'Promosi Koping Komunitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('092', '170', 'Promosi Koping');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('093', '171', 'Dukungan Koping Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('094', '172', 'Promosi Koping');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('095', '173', 'Promosi Koping Komunitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('096', '174', 'Promosi Koping');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('097', '175', 'Dukungan Koping Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('098', '176', 'Promosi Koping');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('099', '177', 'Edukasi Kesehatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('100', '178', 'Dukungan Spiritual');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('101', '179', 'Dukungan Pemulihan Trauma');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('102', '180', 'Manajemen Waham');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('103', '181', 'Promosi Harga Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('104', '182', 'Promosi Harga Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('105', '183', 'Promosi Harapan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('105', '184', 'Dukungan Pengambilan Keputusan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('106', '185', 'Perawatan Perkembangan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('106', '186', 'Promosi Perkembangan Anak');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('107', '187', 'Promosi Perkembangan Anak');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('108', '188', 'Promosi Berat Badan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('109', '189', 'Dukungan Perawatan Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('110', '190', 'Pengembangan Kesehatan Masyarakat');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('111', '191', 'Edukasi Kesehatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('112', '192', 'Edukasi Kesehatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('113', '193', 'Edukasi Kesehatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('114', '194', 'Dukungan Kepatuhan Program Pengobatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('115', '195', 'Dukungan Koping Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('116', '196', 'Bimbingan Sistem Kesehatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('117', '197', 'Edukasi Kesehatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('118', '198', 'Modifikasi Perilaku Keterampilan Sosial');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('119', '199', 'Promosi Komunikasi: Defisit Bicara');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('120', '200', 'Dukungan Koping Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('121', '201', 'Terapi Aktivitas');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('121', '202', 'Promosi Sosialisasi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('122', '203', 'Promosi Pengasuhan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('122', '204', 'Dukungan Proses Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('123', '205', 'Dukungan Koping Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('123', '206', 'Dukungan Proses Keluarga');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('124', '207', 'Dukungan Pemberi Asuhan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('125', '208', 'Promosi Peran');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('126', '209', 'Promosi Pengasuhan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('127', '210', 'Promosi Perlekatan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('128', '211', 'Promosi Pengasuhan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('129', '212', 'Perawatan Integritas Kulit');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('129', '213', 'Perawatan Luka');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('130', '214', 'Manajemen Hipertermia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('131', '215', 'Manajemen Hipotermia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('132', '216', 'Pencegahan Perilaku Kekerasan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('133', '217', 'Perawatan Pasca Anestesi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('134', '218', 'Pencegahan Alergi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('135', '219', 'Pencegahan Bunuh Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('136', '220', 'Pencegahan Cedera');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('137', '221', 'Pencegahan Cedera');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('137', '222', 'Perawatan Kehamilan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('138', '223', 'Pemantauan Denyut Jantung Janin');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('139', '224', 'Perawatan Integritas Kulit');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('139', '225', 'Pencegahan Luka Tekan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('140', '226', 'Manajemen Hipotermia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('141', '227', 'Manajemen Hipotermia');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('142', '228', 'Pencegahan Infeksi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('143', '229', 'Pencegahan Jatuh');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('144', '230', 'Pencegahan Luka Tekan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('145', '231', 'Pencegahan Mutilasi Diri');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('146', '232', 'Pencegahan Perilaku Kekerasan');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('147', '233', 'Perawatan Pasca Anestesi');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('148', '234', 'Regulasi Temperatur');
+INSERT INTO `master_rencana_keperawatan`(`kode_masalah`, `kode_rencana`, `rencana_keperawatan`) VALUES ('149', '235', 'Regulasi Temperatur');
+INSERT INTO `kep_otek`(`id`, `kode`, `nama`, `urutan`, `aktif`) VALUES (1, 'OBS', 'OBSERVASI', 1, 'Y');
+INSERT INTO `kep_otek`(`id`, `kode`, `nama`, `urutan`, `aktif`) VALUES (2, 'TER', 'TERAPEUTIK', 2, 'Y');
+INSERT INTO `kep_otek`(`id`, `kode`, `nama`, `urutan`, `aktif`) VALUES (3, 'EDU', 'EDUKASI', 3, 'Y');
+INSERT INTO `kep_otek`(`id`, `kode`, `nama`, `urutan`, `aktif`) VALUES (4, 'KOL', 'KOLABORASI', 4, 'Y');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (5, 'D.0001', 'Bersihan Jalan Napas Tidak Efektif', 'Fisiologis', 'Respirasi', NULL, NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (6, 'D.0002', 'Gangguan Penyapihan Ventilator', 'Fisiologis', 'Respirasi', NULL, NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (7, 'D.0003', 'Gangguan Pertukaran Gas', 'Fisiologis', 'Respirasi', NULL, NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (8, 'D.0004', 'Gangguan Ventilasi Spontan', 'Fisiologis', 'Respirasi', NULL, NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (9, 'D.0005', 'Pola Napas Tidak Efektif', 'Fisiologis', 'Respirasi', NULL, NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (10, 'D.0006', 'Risiko Aspirasi', 'Fisiologis', 'Respirasi', NULL, NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (11, 'D.0007', 'Gangguan Sirkulasi Spontan', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (12, 'D.0008', 'Penurunan Curah Jantung', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (13, 'D.0009', 'Perfusi Perifer Tidak Efektif', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (14, 'D.0010', 'Risiko Gangguan Sirkulasi Spontan', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (15, 'D.0011', 'Risiko Penurunan Curah Jantung', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (16, 'D.0012', 'Risiko Perdarahan', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (17, 'D.0013', 'Risiko Perfusi Gastrointestinal Tidak Efektif', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (18, 'D.0014', 'Risiko Perfusi Miokard Tidak Efektif', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (19, 'D.0015', 'Risiko Perfusi Perifer Tidak Efektif', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (20, 'D.0016', 'Risiko Perfusi Renal Tidak Efektif', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (21, 'D.0017', 'Risiko Perfusi Serebral Tidak Efektif', 'Fisiologis', 'Sirkulasi', NULL, NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (22, 'D.0018', 'Berat Badan Lebih', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (23, 'D.0019', 'Defisit Nutrisi', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (24, 'D.0020', 'Diare', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (25, 'D.0021', 'Disfungsi Motilitas Gastrointestinal', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (26, 'D.0022', 'Hipervolemia', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (27, 'D.0023', 'Hipovolemia', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (28, 'D.0024', 'Ikterik Neonatus', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (29, 'D.0025', 'Kesiapan Peningkatan Keseimbangan Cairan', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (30, 'D.0026', 'Kesiapan Peningkatan Nutrisi', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (31, 'D.0027', 'Ketidakstabilan Kadar Glukosa Darah', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (32, 'D.0028', 'Menyusui Efektif', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (33, 'D.0029', 'Menyusui Tidak Efektif', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (34, 'D.0030', 'Obesitas', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (35, 'D.0031', 'Risiko Berat Badan Lebih', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (36, 'D.0032', 'Risiko Defisit Nutrisi', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (37, 'D.0033', 'Risiko Disfungsi Motilitas Gastrointestinal', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (38, 'D.0034', 'Risiko Hipovolemia', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (39, 'D.0035', 'Risiko Ikterik Neonatus', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (40, 'D.0036', 'Risiko Ketidakseimbangan Cairan', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (41, 'D.0037', 'Risiko Ketidakseimbangan Elektrolit', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (42, 'D.0038', 'Risiko Ketidakstabilan Kadar Glukosa Darah', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (43, 'D.0039', 'Risiko Syok', 'Fisiologis', 'Nutrisi dan Cairan', NULL, NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (44, 'D.0040', 'Gangguan Eliminasi Urin', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (45, 'D.0041', 'Inkontinensia Fekal', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (46, 'D.0042', 'Inkontinensia Urin Berlanjut', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (47, 'D.0043', 'Inkontinensia Urin Berlebih', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (48, 'D.0044', 'Inkontinensia Urin Fungsional', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (49, 'D.0045', 'Inkontinensia Urin Refleks', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (50, 'D.0046', 'Inkontinensia Urin Stres', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (51, 'D.0047', 'Inkontinensia Urin Urgensi', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (52, 'D.0048', 'Kesiapan Peningkatan Eliminasi Urin', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (53, 'D.0049', 'Konstipasi', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (54, 'D.0050', 'Retensi Urin', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (55, 'D.0051', 'Risiko Inkontinensia Urin Urgensi', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (56, 'D.0052', 'Risiko Konstipasi', 'Fisiologis', 'Eliminasi', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (57, 'D.0053', 'Disorganisasi Perilaku Bayi', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (58, 'D.0054', 'Gangguan Mobilitas Fisik', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (59, 'D.0055', 'Gangguan Pola Tidur', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (60, 'D.0056', 'Intoleransi Aktivitas', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (61, 'D.0057', 'Keletihan', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (62, 'D.0058', 'Kesiapan Peningkatan Tidur', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (63, 'D.0059', 'Risiko Disorganisasi Perilaku Bayi', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (64, 'D.0060', 'Risiko Intoleransi Aktivitas', 'Fisiologis', 'Aktivitas dan Istirahat', NULL, NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (65, 'D.0061', 'Disrefleksia Otonom', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (66, 'D.0062', 'Gangguan Memori', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (67, 'D.0063', 'Gangguan Menelan', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (68, 'D.0064', 'Konfusi Akut', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (69, 'D.0065', 'Konfusi Kronis', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (70, 'D.0066', 'Penurunan Kapasitas Adaptif Intrakranial', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (71, 'D.0067', 'Risiko Disfungsi Neurovaskuler Perifer', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (72, 'D.0068', 'Risiko Konfusi Akut', 'Fisiologis', 'Neurosensori', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (73, 'D.0069', 'Disfungsi Seksual', 'Fisiologis', 'Reproduksi dan Seksualitas', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (74, 'D.0070', 'Kesiapan Persalinan', 'Fisiologis', 'Reproduksi dan Seksualitas', NULL, NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (75, 'D.0071', 'Pola Seksual Tidak Efektif', 'Fisiologis', 'Reproduksi dan Seksualitas', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (76, 'D.0072', 'Risiko Disfungsi Seksual', 'Fisiologis', 'Reproduksi dan Seksualitas', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (77, 'D.0073', 'Risiko Kehamilan Tidak Dikehendaki', 'Fisiologis', 'Reproduksi dan Seksualitas', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (78, 'D.0074', 'Gangguan Rasa Nyaman', 'Psikologis', 'Nyeri dan Kenyamanan', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (79, 'D.0075', 'Ketidaknyamanan Pasca Partum', 'Psikologis', 'Nyeri dan Kenyamanan', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (80, 'D.0076', 'Nausea', 'Psikologis', 'Nyeri dan Kenyamanan', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (81, 'D.0077', 'Nyeri Akut', 'Psikologis', 'Nyeri dan Kenyamanan', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (82, 'D.0078', 'Nyeri Kronis', 'Psikologis', 'Nyeri dan Kenyamanan', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (83, 'D.0079', 'Nyeri Melahirkan', 'Psikologis', 'Nyeri dan Kenyamanan', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (84, 'D.0080', 'Ansietas', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (85, 'D.0081', 'Berduka', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (86, 'D.0082', 'Distres Spiritual', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (87, 'D.0083', 'Gangguan Citra Tubuh', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (88, 'D.0084', 'Gangguan Identitas Diri', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (89, 'D.0085', 'Gangguan Persepsi Sensori', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (90, 'D.0086', 'Harga Diri Rendah Kronis', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (91, 'D.0087', 'Harga Diri Rendah Situasional', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (92, 'D.0088', 'Keputusasaan', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (93, 'D.0089', 'Kesiapan Peningkatan Konsep Diri', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (94, 'D.0090', 'Kesiapan Peningkatan Koping Keluarga', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (95, 'D.0091', 'Kesiapan Peningkatan Koping Komunitas', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (96, 'D.0092', 'Ketidakberdayaan', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (97, 'D.0093', 'Ketidakmampuan Koping Keluarga', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (98, 'D.0094', 'Koping Defensif', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (99, 'D.0095', 'Koping Komunitas Tidak Efektif', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (100, 'D.0096', 'Koping Tidak Efektif', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (101, 'D.0097', 'Penurunan Koping Keluarga', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (102, 'D.0098', 'Penyangkalan Tidak Efektif', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (103, 'D.0099', 'Perilaku Kesehatan Cenderung Berisiko', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (104, 'D.0100', 'Risiko Distres Spiritual', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (105, 'D.0101', 'Sindrom Pasca Trauma', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (106, 'D.0102', 'Waham', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (107, 'D.0103', 'Risiko Harga Diri Rendah Kronis', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (108, 'D.0104', 'Risiko Harga Diri Rendah Situasional', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (109, 'D.0105', 'Risiko Ketidakberdayaan', 'Psikologis', 'Integritas Ego', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (110, 'D.0106', 'Gangguan Tumbuh Kembang', 'Psikologis', 'Pertumbuhan dan Perkembangan', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (111, 'D.0107', 'Risiko Gangguan Perkembangan', 'Psikologis', 'Pertumbuhan dan Perkembangan', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (112, 'D.0108', 'Risiko Gangguan Pertumbuhan', 'Psikologis', 'Pertumbuhan dan Perkembangan', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (113, 'D.0109', 'Defisit Perawatan Diri', 'Perilaku', 'Kebersihan Diri', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (114, 'D.0110', 'Defisit Kesehatan Komunitas', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (115, 'D.0111', 'Defisit Pengetahuan', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (116, 'D.0112', 'Kesiapan Peningkatan Manajemen Kesehatan', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (117, 'D.0113', 'Kesiapan Peningkatan Pengetahuan', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (118, 'D.0114', 'Ketidakpatuhan', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (119, 'D.0115', 'Manajemen Kesehatan Keluarga Tidak Efektif', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (120, 'D.0116', 'Manajemen Kesehatan Tidak Efektif', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (121, 'D.0117', 'Pemeliharaan Kesehatan Tidak Efektif', 'Perilaku', 'Penyuluhan dan Pembelajaran', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (122, 'D.0118', 'Gangguan Interaksi Sosial', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (123, 'D.0119', 'Gangguan Komunikasi Verbal', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (124, 'D.0120', 'Gangguan Proses Keluarga', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (125, 'D.0121', 'Isolasi Sosial', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (126, 'D.0122', 'Kesiapan Peningkatan Menjadi Orang Tua', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (127, 'D.0123', 'Kesiapan Peningkatan Proses Keluarga', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (128, 'D.0124', 'Ketegangan Peran Pemberi Asuhan', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (129, 'D.0125', 'Penampilan Peran Tidak Efektif', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (130, 'D.0126', 'Pencapaian Peran Menjadi Orang Tua', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (131, 'D.0127', 'Risiko Gangguan Perlekatan', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (132, 'D.0128', 'Risiko Proses Pengasuhan Tidak Efektif', 'Relasional', 'Interaksi Sosial', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (133, 'D.0129', 'Gangguan Integritas Kulit/Jaringan', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (134, 'D.0130', 'Hipertermia', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (135, 'D.0131', 'Hipotermia', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (136, 'D.0132', 'Perilaku Kekerasan', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (137, 'D.0133', 'Perlambatan Pemulihan Pascabedah', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (138, 'D.0134', 'Risiko Alergi', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (139, 'D.0135', 'Risiko Bunuh Diri', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (140, 'D.0136', 'Risiko Cedera', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (141, 'D.0137', 'Risiko Cedera Pada Ibu', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (142, 'D.0138', 'Risiko Cedera Pada Janin', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (143, 'D.0139', 'Risiko Gangguan Integritas Kulit/Jaringan', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (144, 'D.0140', 'Risiko Hipotermia', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (145, 'D.0141', 'Risiko Hipotermia Perioperatif', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (146, 'D.0142', 'Risiko Infeksi', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (147, 'D.0143', 'Risiko Jatuh', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (148, 'D.0144', 'Risiko Luka Tekan', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (149, 'D.0145', 'Risiko Mutilasi Diri', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (150, 'D.0146', 'Risiko Perilaku Kekerasan', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (151, 'D.0147', 'Risiko Perlambatan Pemulihan Pascabedah', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (152, 'D.0148', 'Risiko Termoregulasi Tidak Efektif', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki`(`id`, `kode`, `nama_diagnosis`, `kategori`, `subkategori`, `jenis`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (153, 'D.0149', 'Termoregulasi Tidak Efektif', 'Lingkungan', 'Keamanan dan Proteksi', NULL, NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (5, 5, 6, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (6, 5, 7, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (7, 5, 8, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (8, 6, 9, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (9, 6, 8, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (10, 7, 8, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (11, 7, 10, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (12, 8, 11, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (13, 8, 8, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (14, 9, 7, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (15, 9, 8, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (16, 10, 12, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (17, 10, 13, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (18, 11, 14, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (19, 12, 15, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (20, 12, 16, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (21, 13, 17, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (22, 13, 18, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (23, 14, 19, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (24, 14, 14, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (25, 15, 15, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (26, 15, 16, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (27, 16, 20, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (28, 17, 19, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (29, 17, 21, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (30, 18, 22, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (31, 18, 15, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (32, 18, 16, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (33, 19, 19, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (34, 19, 17, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (35, 20, 19, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (36, 20, 23, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (37, 21, 24, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (38, 21, 25, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (39, 22, 26, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (40, 22, 27, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (41, 23, 28, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (42, 23, 29, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (43, 24, 30, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (44, 24, 23, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (45, 25, 28, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (46, 25, 30, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (47, 26, 31, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (48, 26, 23, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (49, 27, 32, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (50, 27, 23, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (51, 28, 33, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (52, 28, 34, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (53, 29, 35, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (54, 29, 23, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (55, 30, 36, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (56, 30, 26, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (57, 31, 37, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (58, 31, 38, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (59, 32, 39, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (60, 32, 40, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (61, 33, 39, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (62, 33, 40, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (63, 33, 41, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (64, 34, 27, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (65, 34, 36, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (66, 35, 26, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (67, 35, 42, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (68, 36, 28, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (69, 36, 43, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (70, 37, 28, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (71, 37, 42, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (72, 38, 35, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (73, 38, 32, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (74, 39, 34, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (75, 39, 33, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (76, 40, 35, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (77, 40, 23, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (78, 41, 35, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (79, 41, 44, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (80, 42, 37, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (81, 42, 38, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (82, 43, 19, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (83, 43, 21, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (84, 44, 45, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (85, 45, 46, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (86, 45, 47, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (87, 46, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (88, 46, 49, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (89, 47, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (90, 47, 50, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (91, 48, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (92, 48, 51, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (93, 49, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (94, 49, 50, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (95, 50, 49, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (96, 50, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (97, 51, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (98, 51, 49, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (99, 52, 52, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (100, 52, 45, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (101, 53, 53, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (102, 53, 54, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (103, 54, 45, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (104, 54, 50, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (105, 55, 48, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (106, 55, 49, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (107, 56, 53, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (108, 56, 54, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (109, 57, 55, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (110, 57, 34, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (111, 58, 56, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (112, 58, 57, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (113, 59, 58, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (114, 59, 59, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (115, 60, 60, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (116, 60, 61, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (117, 61, 59, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (118, 61, 60, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (119, 62, 58, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (120, 62, 59, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (121, 63, 55, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (122, 63, 34, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (123, 64, 60, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (124, 64, 61, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (125, 65, 62, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (126, 66, 63, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (127, 66, 64, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (128, 67, 65, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (129, 67, 66, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (130, 68, 67, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (131, 69, 68, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (132, 69, 64, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (133, 70, 24, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (134, 70, 25, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (135, 71, 18, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (136, 72, 67, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (137, 73, 69, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (138, 73, 70, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (139, 74, 71, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (140, 74, 72, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (141, 75, 69, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (142, 75, 70, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (143, 76, 69, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (144, 76, 70, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (145, 77, 73, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (146, 77, 74, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (147, 78, 75, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (148, 78, 76, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (149, 79, 75, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (150, 79, 77, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (151, 80, 78, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (152, 80, 12, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (153, 81, 75, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (154, 81, 79, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (155, 82, 75, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (156, 82, 80, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (157, 83, 75, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (158, 83, 81, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (159, 84, 82, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (160, 84, 76, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (161, 85, 83, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (162, 85, 89, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (163, 86, 84, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (164, 87, 85, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (165, 88, 86, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (166, 89, 87, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (167, 90, 88, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (168, 91, 88, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (169, 92, 89, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (170, 92, 90, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (171, 93, 86, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (172, 94, 91, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (173, 95, 92, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (174, 96, 93, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (175, 97, 91, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (176, 98, 93, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (177, 99, 92, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (178, 100, 93, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (179, 101, 91, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (180, 102, 93, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (181, 103, 94, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (182, 104, 84, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (183, 105, 95, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (184, 106, 96, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (185, 107, 88, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (186, 108, 88, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (187, 109, 90, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (188, 109, 97, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (189, 110, 55, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (190, 110, 98, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (191, 111, 98, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (192, 112, 29, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (193, 113, 99, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (194, 114, 100, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (195, 115, 94, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (196, 116, 94, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (197, 117, 94, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (198, 118, 101, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (199, 119, 91, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (200, 120, 102, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (201, 121, 94, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (202, 122, 103, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (203, 123, 104, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (204, 124, 91, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (205, 125, 105, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (206, 125, 61, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (207, 126, 106, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (208, 126, 107, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (209, 127, 107, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (210, 127, 91, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (211, 128, 108, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (212, 129, 109, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (213, 130, 106, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (214, 131, 110, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (215, 132, 106, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (216, 133, 111, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (217, 133, 112, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (218, 134, 113, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (219, 135, 114, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (220, 136, 115, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (221, 137, 116, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (222, 138, 117, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (223, 139, 118, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (224, 140, 119, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (225, 141, 119, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (226, 141, 120, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (227, 142, 121, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (228, 143, 122, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (229, 143, 111, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (230, 144, 114, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (231, 145, 114, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (232, 146, 123, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (233, 147, 124, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (234, 148, 122, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (235, 149, 125, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (236, 150, 115, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (237, 151, 116, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (238, 152, 126, 0);
+INSERT INTO `kep_sdki_siki`(`id`, `sdki_id`, `siki_id`, `urutan`) VALUES (239, 153, 126, 0);
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (6, 'I.01006', 'Latihan Batuk Efektif', NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (7, 'I.01011', 'Manajemen Jalan Napas', NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (8, 'I.01014', 'Pemantauan Respirasi', NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (9, 'I.01021', 'Penyapihan Ventilasi Mekanik', NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (10, 'I.01026', 'Terapi Oksigen', NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (11, 'I.01002', 'Dukungan Ventilasi', NULL, 'Y', '2026-09-09 22:19:43', '2026-09-09 22:19:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (12, 'I.03118', 'Manajemen Muntah', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (13, 'I.01018', 'Pencegahan Aspirasi', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (14, 'I.02083', 'Resusitasi Jantung Paru', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (15, 'I.02075', 'Perawatan Jantung', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (16, 'I.02076', 'Perawatan Jantung Akut', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (17, 'I.02079', 'Perawatan Sirkulasi', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (18, 'I.06195', 'Manajemen Sensasi Perifer', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (19, 'I.02068', 'Pencegahan Syok', NULL, 'Y', '2026-09-09 22:22:42', '2026-09-09 22:22:42');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (20, 'I.02067', 'Pencegahan Perdarahan', NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (21, 'I.02060', 'Pemantauan Tanda Vital', NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (22, 'I.02035', 'Manajemen Aritmia', NULL, 'Y', '2026-09-09 22:32:19', '2026-09-09 22:32:19');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (23, 'I.03121', 'Pemantauan Cairan', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (24, 'I.06194', 'Manajemen Peningkatan Tekanan Intrakranial', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (25, 'I.06198', 'Pemantauan Tekanan Intrakranial', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (26, 'I.03094', 'Konseling Nutrisi', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (27, 'I.03097', 'Manajemen Berat Badan', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (28, 'I.03119', 'Manajemen Nutrisi', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (29, 'I.03136', 'Promosi Berat Badan', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (30, 'I.03101', 'Manajemen Diare', NULL, 'Y', '2026-09-09 22:38:22', '2026-09-09 22:38:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (31, 'I.03114', 'Manajemen Hipervolemia', NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (32, 'I.03116', 'Manajemen Hipovolemia', NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (33, 'I.03091', 'Fototerapi Neonatus', NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (34, 'I.10324', 'Perawatan Bayi', NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (35, 'I.03098', 'Manajemen Cairan', NULL, 'Y', '2026-09-09 22:44:46', '2026-09-09 22:44:46');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (36, 'I.12395', 'Edukasi Nutrisi', NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (37, 'I.03115', 'Manajemen Hiperglikemia', NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (38, 'I.03111', 'Manajemen Hipoglikemia', NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (39, 'I.12393', 'Edukasi Menyusui', NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (40, 'I.03093', 'Konseling Laktasi', NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (41, 'I.07214', 'Perawatan Payudara', NULL, 'Y', '2026-09-09 22:46:43', '2026-09-09 22:46:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (42, 'I.12369', 'Edukasi Diet', NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (43, 'I.03123', 'Pemantauan Nutrisi', NULL, 'Y', '2026-09-09 22:48:04', '2026-09-09 22:48:04');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (44, 'I.03122', 'Pemantauan Elektrolit', NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (45, 'I.04152', 'Manajemen Eliminasi Urin', NULL, 'Y', '2026-09-09 22:50:41', '2026-09-09 22:50:41');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (46, 'I.04150', 'Latihan Eliminasi Fekal', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (47, 'I.04162', 'Perawatan Inkontinensia Fekal', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (48, 'I.04163', 'Perawatan Inkontinensia Urin', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (49, 'I.07215', 'Latihan Otot Panggul', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (50, 'I.04148', 'Kateterisasi Urin', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (51, 'I.04149', 'Latihan Berkemih', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (52, 'I.12368', 'Edukasi Eliminasi Urin', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (53, 'I.04155', 'Manajemen Konstipasi', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (54, 'I.04151', 'Manajemen Eliminasi Fekal', NULL, 'Y', '2026-09-09 22:51:22', '2026-09-09 22:51:22');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (55, 'I.10336', 'Perawatan Perkembangan', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (56, 'I.05173', 'Dukungan Mobilisasi', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (57, 'I.05171', 'Dukungan Ambulasi', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (58, 'I.05174', 'Dukungan Tidur', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (59, 'I.12362', 'Edukasi Aktivitas/Istirahat', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (60, 'I.05178', 'Manajemen Energi', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (61, 'I.05186', 'Terapi Aktivitas', NULL, 'Y', '2026-09-09 22:53:45', '2026-09-09 22:53:45');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (62, 'I.06191', 'Manajemen Disrefleksia Otonom', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (63, 'I.06188', 'Latihan Memori', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (64, 'I.09297', 'Orientasi Realita', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (65, 'I.11351', 'Dukungan Perawatan Diri: Makan/Minum', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (66, 'I.03112', 'Manajemen Gangguan Menelan', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (67, 'I.09283', 'Manajemen Delirium', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (68, 'I.09284', 'Manajemen Demensia', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (69, 'I.07213', 'Konseling Seksualitas', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (70, 'I.12422', 'Edukasi Seksualitas', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (71, 'I.12437', 'Edukasi Persalinan', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (72, 'I.07225', 'Persiapan Persalinan', NULL, 'Y', '2026-09-09 22:55:43', '2026-09-09 22:55:43');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (73, 'I.07212', 'Konseling Keluarga Berencana', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (74, 'I.12381', 'Edukasi Keluarga Berencana', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (75, 'I.08238', 'Manajemen Nyeri', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (76, 'I.09326', 'Terapi Relaksasi', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (77, 'I.07226', 'Perawatan Pasca Partum', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (78, 'I.03117', 'Manajemen Mual', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (79, 'I.08243', 'Pemberian Analgesik', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (80, 'I.08245', 'Perawatan Kenyamanan', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (81, 'I.01007', 'Latihan Pernapasan', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (82, 'I.09314', 'Reduksi Ansietas', NULL, 'Y', '2026-09-09 22:56:37', '2026-09-09 22:56:37');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (83, 'I.09277', 'Dukungan Proses Berduka', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (84, 'I.09276', 'Dukungan Spiritual', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (85, 'I.09305', 'Promosi Citra Tubuh', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (86, 'I.09312', 'Promosi Kesadaran Diri', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (87, 'I.09293', 'Manajemen Halusinasi', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (88, 'I.09308', 'Promosi Harga Diri', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (89, 'I.09274', 'Dukungan Emosional', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (90, 'I.09307', 'Promosi Harapan', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (91, 'I.09260', 'Dukungan Koping Keluarga', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (92, 'I.09309', 'Promosi Koping Komunitas', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (93, 'I.09313', 'Promosi Koping', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (94, 'I.12383', 'Edukasi Kesehatan', NULL, 'Y', '2026-09-09 22:58:24', '2026-09-09 22:58:24');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (95, 'I.09275', 'Dukungan Pemulihan Trauma', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (96, 'I.09295', 'Manajemen Waham', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (97, 'I.09265', 'Dukungan Pengambilan Keputusan', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (98, 'I.10340', 'Promosi Perkembangan Anak', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (99, 'I.11348', 'Dukungan Perawatan Diri', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (100, 'I.14548', 'Pengembangan Kesehatan Masyarakat', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (101, 'I.12361', 'Dukungan Kepatuhan Program Pengobatan', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (102, 'I.12360', 'Bimbingan Sistem Kesehatan', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (103, 'I.09299', 'Modifikasi Perilaku Keterampilan Sosial', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (104, 'I.13492', 'Promosi Komunikasi: Defisit Bicara', NULL, 'Y', '2026-09-09 23:00:54', '2026-09-09 23:00:54');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (105, 'I.09315', 'Promosi Sosialisasi', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (106, 'I.13495', 'Promosi Pengasuhan', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (107, 'I.13483', 'Dukungan Proses Keluarga', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (108, 'I.13491', 'Dukungan Pemberi Asuhan', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (109, 'I.13497', 'Promosi Peran', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (110, 'I.10341', 'Promosi Perlekatan', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (111, 'I.11353', 'Perawatan Integritas Kulit', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (112, 'I.14564', 'Perawatan Luka', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (113, 'I.15506', 'Manajemen Hipertermia', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (114, 'I.14507', 'Manajemen Hipotermia', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (115, 'I.09303', 'Pencegahan Perilaku Kekerasan', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (116, 'I.14526', 'Perawatan Pasca Anestesi', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (117, 'I.14524', 'Pencegahan Alergi', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (118, 'I.09301', 'Pencegahan Bunuh Diri', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (119, 'I.14537', 'Pencegahan Cedera', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (120, 'I.14525', 'Perawatan Kehamilan', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (121, 'I.02056', 'Pemantauan Denyut Jantung Janin', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (122, 'I.14543', 'Pencegahan Luka Tekan', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (123, 'I.14539', 'Pencegahan Infeksi', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (124, 'I.14540', 'Pencegahan Jatuh', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (125, 'I.09302', 'Pencegahan Mutilasi Diri', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+INSERT INTO `kep_siki`(`id`, `kode`, `nama_intervensi`, `definisi`, `aktif`, `created_at`, `updated_at`) VALUES (126, 'I.14578', 'Regulasi Temperatur', NULL, 'Y', '2026-09-09 23:03:05', '2026-09-09 23:03:05');
+	
 SET FOREIGN_KEY_CHECKS=1;

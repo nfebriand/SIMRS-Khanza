@@ -186,6 +186,7 @@ import rekammedis.RMSkriningNutrisiDewasa;
 import rekammedis.RMSkriningNutrisiLansia;
 import rekammedis.RMTimeOutSebelumInsisi;
 import rekammedis.RMTransferPasienAntarRuang;
+import rekammedis.RMHandOver;
 import surat.SuratKontrol;
 
 /**
@@ -896,6 +897,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         TNadi = new widget.TextBox();
         jLabel61 = new widget.Label();
         BtnSDKIOTEK = new widget.Button();
+        BtnHandOver = new widget.Button();
         internalFrame6 = new widget.InternalFrame();
         Scroll4 = new widget.ScrollPane();
         tbPemeriksaanObstetri = new widget.Table();
@@ -1283,7 +1285,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-08-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-08-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1297,7 +1299,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-08-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-08-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2169,10 +2171,12 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass12.add(jLabel61);
         jLabel61.setBounds(296, 190, 79, 23);
 
+        BtnSDKIOTEK.setBackground(new java.awt.Color(51, 51, 255));
         BtnSDKIOTEK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnSDKIOTEK.setMnemonic('4');
         BtnSDKIOTEK.setText("Askep SDKI");
         BtnSDKIOTEK.setToolTipText("ALt+4");
+        BtnSDKIOTEK.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         BtnSDKIOTEK.setName("BtnSDKIOTEK"); // NOI18N
         BtnSDKIOTEK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2181,6 +2185,21 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         });
         panelGlass12.add(BtnSDKIOTEK);
         BtnSDKIOTEK.setBounds(910, 40, 110, 23);
+
+        BtnHandOver.setBackground(new java.awt.Color(153, 255, 153));
+        BtnHandOver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        BtnHandOver.setMnemonic('4');
+        BtnHandOver.setText("Hand Over");
+        BtnHandOver.setToolTipText("ALt+4");
+        BtnHandOver.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnHandOver.setName("BtnHandOver"); // NOI18N
+        BtnHandOver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnHandOverActionPerformed(evt);
+            }
+        });
+        panelGlass12.add(BtnHandOver);
+        BtnHandOver.setBounds(910, 70, 110, 23);
 
         PanelInput1.add(panelGlass12, java.awt.BorderLayout.CENTER);
 
@@ -2957,7 +2976,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         TPasien.setBounds(283, 10, 260, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-08-2026" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-08-2026" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -8291,7 +8310,8 @@ public final class DlgRawatInap extends javax.swing.JDialog {
 
     private void BtnSDKIOTEKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSDKIOTEKActionPerformed
         if (TNoRw.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "Silakan pilih pasien terlebih dahulu.");
+            JOptionPane.showMessageDialog(null,
+                    "Silakan pilih pasien terlebih dahulu.");
             return;
         }
 
@@ -8319,6 +8339,21 @@ public final class DlgRawatInap extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_BtnSDKIOTEKActionPerformed
+
+    private void BtnHandOverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHandOverActionPerformed
+        if(TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            TCari.requestFocus();
+        }else{
+            RMHandOver form = new RMHandOver(null, false);
+            form.isCek();
+            form.setSize(internalFrame1.getWidth() - 20, internalFrame1.getHeight() - 20);
+            form.setLocationRelativeTo(internalFrame1);
+            form.emptTeks();
+            form.setNoRm(TNoRw.getText(), new java.util.Date());
+            form.setVisible(true);
+        }
+    }//GEN-LAST:event_BtnHandOverActionPerformed
 
     private void BtnSkorBromagePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
@@ -9258,6 +9293,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
     private widget.Button BtnDokumentasiESWL;
     private widget.Button BtnEdit;
     private widget.Button BtnFollowUpDBD;
+    private widget.Button BtnHandOver;
     private widget.Button BtnHapus;
     private widget.Button BtnHasilPemeriksaanUSG;
     private widget.Button BtnInformasiObat;

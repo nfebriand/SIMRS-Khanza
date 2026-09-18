@@ -154,7 +154,11 @@
         <Component class="com.formdev.flatlaf.extras.components.FlatLabel" name="flatLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/picture/smc-lg.png"/>
+              <Image iconType="3" name="/picture/logoresbun.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="ANJUNGAN PASIEN RSIA RESTU BUNDA"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI Black" size="36" style="0"/>
             </Property>
           </Properties>
         </Component>
@@ -189,7 +193,7 @@
         <Component class="widget.Label" name="judul">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="ANJUNGAN PASIEN MANDIRI"/>
+            <Property name="text" type="java.lang.String" value="SILAHKAN PILIH MENU YANG TERSEDIA"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Inter" size="36" style="1"/>
             </Property>

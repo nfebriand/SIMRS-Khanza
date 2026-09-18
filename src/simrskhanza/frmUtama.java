@@ -237,6 +237,7 @@ import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
+import fungsi.UpdateHelper;
 import grafikanalisa.GrafikDemografiRegistrasi;
 import grafikanalisa.GrafikHemodialisaPerBulan;
 import grafikanalisa.GrafikHemodialisaPerTanggal;
@@ -516,6 +517,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -1273,6 +1277,15 @@ public class frmUtama extends javax.swing.JFrame {
         initSMC();
         setIconImage(new ImageIcon(super.getClass().getResource("/picture/yaski24.png")).getImage());
 
+        //SCHEDULE CEK UPDATE
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(new Runnable() {
+        @Override
+        public void run() {
+                UpdateHelper.cekUpdate();
+            }
+        }, 5, 4 * 3600, TimeUnit.SECONDS);
+        
         this.setExtendedState(MAXIMIZED_BOTH);
         //this.setSize(screen.width,screen.height);
         edAdmin.setDocument(new batasInput((byte)100).getKata(edAdmin));
@@ -1285,7 +1298,6 @@ public class frmUtama extends javax.swing.JFrame {
         jMenu7.setOpaque(false);
         jMenu4.setOpaque(false);
 
-        lblTgl.setText(tanggal.getSelectedItem().toString());
         try {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
         } catch (Exception e) {
@@ -1837,6 +1849,7 @@ public class frmUtama extends javax.swing.JFrame {
         LblIP = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         PanelUtama = new javax.swing.JPanel();
         scrollPane1 = new widget.ScrollPane();
         PanelWall = new usu.widget.glass.PanelGlass();
@@ -1922,7 +1935,7 @@ public class frmUtama extends javax.swing.JFrame {
         internalFrame3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(100, 125, 90), 1, true), ":: Silahkan Anda Login ::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame3.setName("internalFrame3"); // NOI18N
         internalFrame3.setRequestFocusEnabled(false);
-        internalFrame3.setWarnaAtas(new java.awt.Color(205, 240, 205));
+        internalFrame3.setWarnaAtas(new java.awt.Color(250, 215, 215));
         internalFrame3.setWarnaBawah(new java.awt.Color(245, 255, 245));
         internalFrame3.setLayout(null);
 
@@ -2113,7 +2126,7 @@ public class frmUtama extends javax.swing.JFrame {
 
         tanggal.setEditable(false);
         tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24/06/2026" }));
+        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17/09/2026" }));
         tanggal.setDisplayFormat("dd/MM/yyyy");
         tanggal.setName("tanggal"); // NOI18N
         tanggal.setOpaque(false);
@@ -7198,7 +7211,7 @@ public class frmUtama extends javax.swing.JFrame {
         internalFrame1.setPreferredSize(new java.awt.Dimension(40, 42));
         internalFrame1.setVerifyInputWhenFocusTarget(false);
         internalFrame1.setWarnaAtas(new java.awt.Color(245, 255, 245));
-        internalFrame1.setWarnaBawah(new java.awt.Color(153, 153, 153));
+        internalFrame1.setWarnaBawah(new java.awt.Color(200, 235, 200));
         internalFrame1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
         BtnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/menu.png"))); // NOI18N
@@ -7418,7 +7431,7 @@ public class frmUtama extends javax.swing.JFrame {
         internalFrame4.setBorder(null);
         internalFrame4.setName("internalFrame4"); // NOI18N
         internalFrame4.setPreferredSize(new java.awt.Dimension(330, 25));
-        internalFrame4.setWarnaAtas(new java.awt.Color(204, 204, 204));
+        internalFrame4.setWarnaAtas(new java.awt.Color(205, 240, 205));
         internalFrame4.setWarnaBawah(new java.awt.Color(245, 255, 245));
         internalFrame4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 4, 1));
 
@@ -7498,12 +7511,17 @@ public class frmUtama extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(50, 50, 50));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/file-edit-16x16.png"))); // NOI18N
-        jLabel7.setText(" Didesain & dibuat oleh Khanza.Soft Media");
+        jLabel7.setText(" Didesain & dibuat oleh Khanza.Soft Media ");
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jLabel7.setIconTextGap(3);
         jLabel7.setName("jLabel7"); // NOI18N
         jLabel7.setPreferredSize(new java.awt.Dimension(287, 23));
         internalFrame4.add(jLabel7);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jLabel2.setText("Versi :" + fungsi.koneksiDB.VERSIAPP());
+        jLabel2.setName("jLabel2"); // NOI18N
+        internalFrame4.add(jLabel2);
 
         getContentPane().add(internalFrame4, java.awt.BorderLayout.PAGE_END);
 
@@ -24623,6 +24641,7 @@ public class frmUtama extends javax.swing.JFrame {
     private widget.InternalFrame internalFrame4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
