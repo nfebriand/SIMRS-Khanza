@@ -1576,10 +1576,10 @@ public final class RMHandOver extends javax.swing.JDialog {
     }
 
     public void isCek() {
-        BtnSimpan.setEnabled(akses.getcatatan_observasi_ranap_kebidanan());
-        BtnHapus.setEnabled(akses.getcatatan_observasi_ranap_kebidanan());
-        BtnEdit.setEnabled(akses.getcatatan_observasi_ranap_kebidanan());
-        BtnPrint.setEnabled(akses.getcatatan_observasi_ranap_kebidanan()); 
+        BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
+        BtnHapus.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
+        BtnEdit.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
+        BtnPrint.setEnabled(akses.getpenilaian_awal_keperawatan_ranap()); 
         if(akses.getjml2()>=1){
             NIP.setEditable(false);
             BtnSeekPegawai1.setEnabled(false);

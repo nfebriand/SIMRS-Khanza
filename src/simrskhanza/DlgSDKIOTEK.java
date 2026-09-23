@@ -35,25 +35,6 @@ import widget.ScrollPane;
 import widget.Table;
 import widget.TextBox;
 
-/**
- * Dialog pemilihan SDKI -> SIKI -> OTEK.
- *
- * Model C:
- *   Kiri  : pencarian + daftar diagnosis SDKI.
- *   Kanan : filter OTEK + daftar tindakan SIKI.
- *
- * Database:
- *   kep_sdki
- *      -> kep_sdki_siki
- *      -> kep_siki
- *      -> kep_siki_detail
- *      -> kep_otek
- *
- * Catatan:
- *   - selectedDetail menyimpan status centang berdasarkan kep_siki_detail.id.
- *   - Mematikan/menghidupkan filter OTEK tidak menghapus centang.
- *   - Ganti SDKI mengosongkan pilihan karena diagnosis berubah.
- */
 public final class DlgSDKIOTEK extends JDialog {
 
     private final Connection koneksi = koneksiDB.condb();
@@ -119,7 +100,6 @@ public final class DlgSDKIOTEK extends JDialog {
                 BorderFactory.createLineBorder(new java.awt.Color(210, 215, 205)),
                 " SDKI / SIKI / OTEK "));
 
-        // ---------------- KIRI: PENCARIAN SDKI ----------------
         PanelBiasa panelCari = new PanelBiasa(new FlowLayout(FlowLayout.LEFT, 4, 3));
         Label lblCari = new Label();
         lblCari.setText("Cari :");
@@ -159,7 +139,6 @@ public final class DlgSDKIOTEK extends JDialog {
         panelPilihSDKI.add(BtnPilihSDKI);
         panelKiri.add(panelPilihSDKI, BorderLayout.SOUTH);
 
-        // ---------------- KANAN: FILTER OTEK ----------------
         PanelBiasa panelFilter = new PanelBiasa(new FlowLayout(FlowLayout.LEFT, 10, 3));
 
         chkOBS.setText("OBSERVASI");
@@ -179,7 +158,7 @@ public final class DlgSDKIOTEK extends JDialog {
 
         modelSIKI = new DefaultTableModel(
                 new Object[][]{},
-                new Object[]{"Pilih", "O/T/E/K", "SIKI", "Tindakan", "DetailID", "OtekID"}) {
+                new Object[]{"Pilih", "X", "SIKI", "Tindakan", "DetailID", "OtekID"}) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 0;
@@ -201,7 +180,6 @@ public final class DlgSDKIOTEK extends JDialog {
         panelKanan.add(panelFilter, BorderLayout.NORTH);
         panelKanan.add(scrollSIKI, BorderLayout.CENTER);
 
-        // ---------------- TOMBOL BAWAH ----------------
         PanelBiasa panelBawah = new PanelBiasa(new FlowLayout(FlowLayout.RIGHT, 5, 3));
         BtnTerapkan.setText("Terapkan");
         BtnTerapkan.setPreferredSize(new Dimension(95, 28));
@@ -218,7 +196,6 @@ public final class DlgSDKIOTEK extends JDialog {
         root.add(tengah, BorderLayout.CENTER);
         root.add(panelBawah, BorderLayout.SOUTH);
 
-        // ---------------- EVENT ----------------
         BtnCari.addActionListener(this::BtnCariActionPerformed);
         BtnPilihSDKI.addActionListener(this::BtnPilihSDKIActionPerformed);
         BtnTerapkan.addActionListener(this::BtnTerapkanActionPerformed);
@@ -243,7 +220,22 @@ public final class DlgSDKIOTEK extends JDialog {
                 }
             }
         });
+        
+        tbSDKI.getInputMap(javax.swing.JComponent.WHEN_FOCUSED).put(
+                javax.swing.KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0),
+                "pilihSDKI"
+        );
 
+        tbSDKI.getActionMap().put(
+                "pilihSDKI",
+                new javax.swing.AbstractAction() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        pilihSDKI();
+                    }
+                }
+        );
+        
         tbSDKI.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             if (!e.getValueIsAdjusting()) {
                 int row = tbSDKI.getSelectedRow();
