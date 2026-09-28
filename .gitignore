@@ -1,6 +1,7 @@
 # Root level ignore
 /.vscode/
 /.idea/
+/.claude/
 /*.css
 /*.html
 /*.html_files
@@ -18,6 +19,8 @@
 /webapps/inacbg/conf/wsinacbg.php
 /webapps/conf/conf.php
 /webapps/inacbg/conf/wsinacbg.php
+report/.settings/org.eclipse.core.resources.prefs
+report/.project
 
 *.DS_Store
 *.*~*
@@ -34,6 +37,7 @@
 *.xlsx
 *.py
 *.txt
+CLAUDE.local.md
 
 # Don't ignore these
 !lisensi.txt
@@ -45,6 +49,3 @@
 !sik_bridging_satusehat.sql
 !sik_modif.sql
 !sik.sql
-
-KhanzaSecurity16bit/src/AESsecurity/EnkripsiAES.java
-*.iyem

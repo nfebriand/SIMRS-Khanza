@@ -272,7 +272,7 @@ public final class akses {
             intervensi_nyeri_nonfarmakologi=false,surat_pengajuan_cuti_pasien=false,checklist_kriteria_masuk_isolasi=false,satu_sehat_mapping_kptl_tindakan_ralan=false,
             satu_sehat_mapping_kptl_tindakan_ranap=false,satu_sehat_mapping_kptl_tindakan_radiologi=false,satu_sehat_mapping_kptl_tindakan_laborat=false,satu_sehat_mapping_kptl_tindakan_operasi=false,
             satu_sehat_mapping_kptl_tarif_kamar=false,checklist_kriteria_keluar_isolasi=false,satu_sehat_tanda_tangan_elektronik=false,satu_sehat_kirim_composition=false,
-            ringkasan_hutang_vendor_inventaris=false,ringkasan_beban_hutang_lain=false,set_resep_per_cara_bayar=false;
+            ringkasan_hutang_vendor_inventaris=false,ringkasan_beban_hutang_lain=false,set_resep_per_cara_bayar=false,skrining_tolac=false;
 
     private static boolean edit_hapus_spo_medis = false,
         edit_hapus_spo_nonmedis = false,
@@ -292,7 +292,8 @@ public final class akses {
         pengajuan_izin_smc = false,
         jam_masuk_smc = false,
         jadwal_pegawai_smc = false,
-        template_laboratorium_smc = false;
+        template_laboratorium_smc = false,
+        rekap_kehadiran_smc = false;
 
 
     private static final Set<String> columns = new LinkedHashSet();
@@ -1569,7 +1570,9 @@ public final class akses {
                         akses.ringkasan_hutang_vendor_inventaris=akses.getBoolean(rs2, "ringkasan_hutang_vendor_inventaris");
                         akses.ringkasan_beban_hutang_lain=akses.getBoolean(rs2, "ringkasan_beban_hutang_lain");
                         akses.template_laboratorium_smc=akses.getBoolean(rs2, "template_laboratorium_smc");
+                        akses.rekap_kehadiran_smc=akses.getBoolean(rs2, "rekap_kehadiran_smc");
                         akses.set_resep_per_cara_bayar=akses.getBoolean(rs2, "set_resep_per_cara_bayar");
+                        akses.skrining_tolac=akses.getBoolean(rs2, "skrining_tolac");
                         try (PreparedStatement psx = koneksi.prepareStatement("select * from set_akses_edit_sementara where id_user = ? and now() < tgl_selesai")) {
                             psx.setString(1, user);
                             try (ResultSet rsx = psx.executeQuery()) {
@@ -1577,8 +1580,7 @@ public final class akses {
                                     akses.tglSelesai = rsx.getTimestamp("tgl_selesai").getTime();
                                     akses.edit = ((System.currentTimeMillis() - akses.tglSelesai) / 1000) < 0;
                                 } else {
-                                    akses.tglSelesai = -1;
-                                    akses.edit = false;
+                                    akses.resetEdit();
                                 }
                             }
                         }
@@ -2852,7 +2854,9 @@ public final class akses {
         akses.ringkasan_hutang_vendor_inventaris=isadmin;
         akses.ringkasan_beban_hutang_lain=isadmin;
         akses.template_laboratorium_smc=isadmin;
+        akses.rekap_kehadiran_smc=isadmin;
         akses.set_resep_per_cara_bayar=isadmin;
+        akses.skrining_tolac=isadmin;
         akses.edit=isadmin;
         akses.tglSelesai=-1;
     }
@@ -4137,7 +4141,9 @@ public final class akses {
     public static boolean getringkasan_hutang_vendor_inventaris(){return akses.ringkasan_hutang_vendor_inventaris;}
     public static boolean getringkasan_beban_hutang_lain(){return akses.ringkasan_beban_hutang_lain;}
     public static boolean gettemplate_laboratorium_smc(){return akses.template_laboratorium_smc;}
+    public static boolean getrekap_kehadiran_smc(){return akses.rekap_kehadiran_smc;}
     public static boolean getset_resep_per_cara_bayar(){return akses.set_resep_per_cara_bayar;}
+    public static boolean getskrining_tolac(){return akses.skrining_tolac;}
     public static boolean getakses_edit_sementara() {akses.setEdit();return akses.edit;}
     public static void resetEdit() {
         akses.edit = false;
