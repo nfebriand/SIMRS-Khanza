@@ -517,7 +517,7 @@ public class DlgAntrian extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_BtnKeluarActionPerformed
 
     private void BtnAntriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAntriActionPerformed
-        Sequel.menghapusSmc("antriloketsmc");
+        //Sequel.menghapusSmc("antriloketsmc");
         Sequel.executeRawSmc(
             "insert into antriloketsmc values (?, concat(?, lpad(?, 3, '0')))",
             cmbloket.getSelectedItem().toString(),

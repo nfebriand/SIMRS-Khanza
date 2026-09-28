@@ -6334,7 +6334,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-09-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-09-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6347,7 +6347,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-09-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-09-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6487,7 +6487,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-09-2026" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-09-2026" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -14936,7 +14936,7 @@ public final class DlgReg extends javax.swing.JDialog {
 
         if (Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = ? and no_rawat != ?", textNoAntrian.getText().trim(), Valid.getTglSmc(DTPReg), textNoRawatAntrian.getText())) {
             JOptionPane.showMessageDialog(null, "Maaf, no. antrian ini sudah pernah digunakan!");
-        } else if (Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ? and tgl_daftar = ?", TNoRM.getText().trim(), Valid.getTglSmc(DTPReg))) {
+        } else if (Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ?", TNoRM.getText().trim())) {
             Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = null, no_rkm_medis = null", "no_rawat = ?", textNoRawatAntrian.getText());
             Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = ?, no_rkm_medis = ?", "tanggal = ? and nomor = ?", textNoRawatAntrian.getText(), TNoRM.getText(), Valid.getTglSmc(DTPReg), textNoAntrian.getText().trim());
         }

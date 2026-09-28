@@ -4,7 +4,7 @@ import bridging.ApiOrthanc;
 import bridging.WorklistRadiologiSMC;
 import bridging.koneksiDBFUJI;
 import fungsi.BackgroundMusic;
-import fungsi.WarnaTablePermintaanRad;
+import fungsi.WarnaTable;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -136,7 +136,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbRadiologiRalan.setDefaultRenderer(Object.class, new WarnaTablePermintaanRad());
+        tbRadiologiRalan.setDefaultRenderer(Object.class, new WarnaTable());
         tabMode2=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Poli Registrasi","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
             }){
@@ -187,7 +187,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbRadiologiRalan2.setDefaultRenderer(Object.class, new WarnaTablePermintaanRad());
+        tbRadiologiRalan2.setDefaultRenderer(Object.class, new WarnaTable());
         
         tabMode3=new DefaultTableModel(null,new Object[]{
             "No.Permintaan","No.Rawat","Pasien","Tgl. Lahir","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
@@ -239,7 +239,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
                 column.setPreferredWidth(110);
             }
         }
-        tbRadiologiRanap.setDefaultRenderer(Object.class, new WarnaTablePermintaanRad());
+        tbRadiologiRanap.setDefaultRenderer(Object.class, new WarnaTable());
      
         tabMode4=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"

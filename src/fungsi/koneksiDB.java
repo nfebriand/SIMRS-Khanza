@@ -121,7 +121,7 @@ public class koneksiDB {
                     "  #    ___) || | | |  | ||  _ <  ___) | | . \\ | | | || (_| || | | | / /| (_| |\n" +
                     "  #   |____/|___||_|  |_||_| \\_\\|____/  |_|\\_\\|_| |_| \\__,_||_| |_|/___|\\__,_|\n" +
                     "  #                                                                           \n\n"+
-                    "  Versi : 81 Tahun Merdeka (08/2026 MD5 f4d97b6b6b90ae2ad671700f5f8a24f5a45e618b) \n"+
+                    "  Versi : Akreditasi PARIPURNA (09/2026 MD5 cf0a7511c3cf91f317bef6a3a682c839ee6ac7dc) \n"+
                     "                                                                           "
                 );
                 return;

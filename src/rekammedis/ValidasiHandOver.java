@@ -1248,15 +1248,15 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
     }
     
     public void isCek(){
-        BtnSimpan.setEnabled(akses.getdata_resume_pasien());
+        BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
 //        BtnHapus.setEnabled(akses.getdata_resume_pasien());
 //        BtnEdit.setEnabled(akses.getdata_resume_pasien());
 //        BtnPrint.setEnabled(akses.getdata_resume_pasien()); 
-        MnInputDiagnosa.setEnabled(akses.getdiagnosa_pasien());   
-        ppBerkasDigital.setEnabled(akses.getberkas_digital_perawatan());    
+        MnInputDiagnosa.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());   
+        ppBerkasDigital.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());    
         if(akses.getjml2()>=1){
             NIP2.setEditable(false);
-            BtnDokter.setEnabled(false);
+            BtnDokter.setEnabled(true);
             NIP2.setText(akses.getkode());
             Sequel.cariIsi("select nm_dokter from dokter where kd_dokter=?", NamaPetugas2,NIP2.getText());
             if(NamaPetugas2.getText().equals("")){

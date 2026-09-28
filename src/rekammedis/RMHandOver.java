@@ -1582,7 +1582,7 @@ public final class RMHandOver extends javax.swing.JDialog {
         BtnPrint.setEnabled(akses.getpenilaian_awal_keperawatan_ranap()); 
         if(akses.getjml2()>=1){
             NIP.setEditable(false);
-            BtnSeekPegawai1.setEnabled(false);
+            BtnSeekPegawai1.setEnabled(true);
             NIP.setText(akses.getkode());
             NamaPetugas.setText(petugas.tampil3(NIP.getText()));
             if(NamaPetugas.getText().equals("")){
