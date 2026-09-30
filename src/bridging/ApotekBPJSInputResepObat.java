@@ -446,7 +446,7 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         LabelDepo = new widget.Label();
         nmgudang = new widget.TextBox();
         BtnGudang = new widget.Button();
-        TabRawat = new javax.swing.JTabbedPane();
+        TabRawat = new widget.TabPane();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
         jPanel3 = new javax.swing.JPanel();
@@ -861,7 +861,7 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         Scroll2.setName("Scroll2"); // NOI18N
         Scroll2.setOpaque(true);
 
-        tbDetailObatRacikan.setAutoCreateRowSorter(true);
+        tbDetailObatRacikan.setAutoCreateRowSorter(false);
         tbDetailObatRacikan.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         tbDetailObatRacikan.setName("tbDetailObatRacikan"); // NOI18N
         tbDetailObatRacikan.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1662,7 +1662,7 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRW;
     private widget.TextBox TPasien;
-    private javax.swing.JTabbedPane TabRawat;
+    private widget.TabPane TabRawat;
     private widget.TextBox TglResep;
     private widget.TextBox TglSEP;
     private widget.ComboBox cmbDtk;

@@ -320,7 +320,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JTabbedPane" name="TabRawat">
+        <Container class="widget.TabPane" name="TabRawat">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fe" green="ff" red="ff" type="rgb"/>
@@ -365,7 +365,7 @@
               <SubComponents>
                 <Component class="widget.Table" name="tbObat">
                   <Properties>
-                    <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                    <Property name="autoCreateRowSorter" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="tbObat" noResource="true"/>
                   </Properties>
                 </Component>
@@ -391,7 +391,7 @@
               <SubComponents>
                 <Component class="widget.Table" name="tbObat1">
                   <Properties>
-                    <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                    <Property name="autoCreateRowSorter" type="boolean" value="false"/>
                     <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="jPopupMenu1"/>
                     </Property>

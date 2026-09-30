@@ -1604,11 +1604,12 @@
                         <Component class="widget.ComboBox" name="cmbKesadaran">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="4">
+                              <StringArray count="5">
                                 <StringItem index="0" value="Compos Mentis"/>
                                 <StringItem index="1" value="Somnolence"/>
                                 <StringItem index="2" value="Sopor"/>
                                 <StringItem index="3" value="Coma"/>
+                                <StringItem index="4" value="Meninggal"/>
                               </StringArray>
                             </Property>
                             <Property name="name" type="java.lang.String" value="cmbKesadaran" noResource="true"/>
@@ -3588,7 +3589,7 @@
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
-                    <StringItem index="0" value="29-08-2026"/>
+					<StringItem index="0" value="29-08-2026"/>
                   </StringArray>
                 </Property>
                 <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -3950,9 +3951,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnRiwayat" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnRiwayatActionPerformed"/>
@@ -3977,9 +3977,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnResepObat" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnResepObatActionPerformed"/>
@@ -4004,9 +4003,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCopyResep" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCopyResepActionPerformed"/>
@@ -4031,9 +4029,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnResepLuar" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnResepLuarActionPerformed"/>
@@ -4058,9 +4055,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnInputObat" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnInputObatActionPerformed"/>
@@ -4085,9 +4081,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnObatBhp" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnObatBhpActionPerformed"/>
@@ -4112,9 +4107,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnBerkasDigital" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnBerkasDigitalActionPerformed"/>
@@ -4139,9 +4133,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPermintaanLab" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPermintaanLabActionPerformed"/>
@@ -4166,9 +4159,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPermintaanRad" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPermintaanRadActionPerformed"/>
@@ -4193,9 +4185,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnJadwalOperasi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnJadwalOperasiActionPerformed"/>
@@ -4220,9 +4211,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSKDP" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSKDPActionPerformed"/>
@@ -4247,9 +4237,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnKamar" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnKamarActionPerformed"/>
@@ -4274,9 +4263,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnTriaseIGD" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnTriaseIGDActionPerformed"/>
@@ -4301,9 +4289,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnRujukInternal" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnRujukInternalActionPerformed"/>
@@ -4328,9 +4315,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnResume" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnResumeActionPerformed"/>
@@ -4355,9 +4341,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatanIGD" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanIGDActionPerformed"/>
@@ -4382,9 +4367,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanActionPerformed"/>
@@ -4409,9 +4393,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatanGigi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanGigiActionPerformed"/>
@@ -4436,9 +4419,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatanKandungan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanKandunganActionPerformed"/>
@@ -4463,9 +4445,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatanAnak" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanAnakActionPerformed"/>
@@ -4490,9 +4471,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatanPsikiatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanPsikiatriActionPerformed"/>
@@ -4517,9 +4497,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalKeperawatanGeriatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalKeperawatanGeriatriActionPerformed"/>
@@ -4544,9 +4523,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalFisioterapi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalFisioterapiActionPerformed"/>
@@ -4571,9 +4549,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalTerapiWicara" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalTerapiWicaraActionPerformed"/>
@@ -4598,9 +4575,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisIGD" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisIGDActionPerformed"/>
@@ -4625,9 +4601,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisIGDPsikiatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisIGDPsikiatriActionPerformed"/>
@@ -4652,9 +4627,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedis" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisActionPerformed"/>
@@ -4679,9 +4653,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisKandungan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisKandunganActionPerformed"/>
@@ -4706,9 +4679,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisAnak" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisAnakActionPerformed"/>
@@ -4733,9 +4705,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisTHT" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisTHTActionPerformed"/>
@@ -4760,9 +4731,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisPsikiatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisPsikiatriActionPerformed"/>
@@ -4787,9 +4757,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisPenyakitDalam" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisPenyakitDalamActionPerformed"/>
@@ -4814,9 +4783,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisMata" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisMataActionPerformed"/>
@@ -4841,9 +4809,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisNeurologi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisNeurologiActionPerformed"/>
@@ -4868,9 +4835,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisOrthopedi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisOrthopediActionPerformed"/>
@@ -4895,9 +4861,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisBedah" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisBedahActionPerformed"/>
@@ -4922,9 +4887,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisBedahMulut" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisBedahMulutActionPerformed"/>
@@ -4949,9 +4913,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisGeriatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisGeriatriActionPerformed"/>
@@ -4976,9 +4939,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisKulitKelamin" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisKulitKelaminActionPerformed"/>
@@ -5003,9 +4965,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisParu" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisParuActionPerformed"/>
@@ -5030,9 +4991,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisRehabMedik" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisRehabMedikActionPerformed"/>
@@ -5057,9 +5017,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAwalMedisHemodialisa" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAwalMedisHemodialisaActionPerformed"/>
@@ -5084,9 +5043,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnRujukKeluar" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnRujukKeluarActionPerformed"/>
@@ -5111,9 +5069,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCatatan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCatatanActionPerformed"/>
@@ -5138,9 +5095,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCatatanObservasiIGD" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCatatanObservasiIGDActionPerformed"/>
@@ -5165,9 +5121,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCatatanCekGDS" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCatatanCekGDSActionPerformed"/>
@@ -5192,9 +5147,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCatatanKeperawatan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCatatanKeperawatanActionPerformed"/>
@@ -5219,9 +5173,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianUlangNyeri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianUlangNyeriActionPerformed"/>
@@ -5246,9 +5199,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPemantauanPEWSAnak" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPemantauanPEWSAnakActionPerformed"/>
@@ -5273,9 +5225,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPemantauanPEWSDewasa" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPemantauanPEWSDewasaActionPerformed"/>
@@ -5300,9 +5251,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPemantauanMEOWS" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPemantauanMEOWSActionPerformed"/>
@@ -5327,9 +5277,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPemantauanEWSNeonatus" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPemantauanEWSNeonatusActionPerformed"/>
@@ -5354,9 +5303,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnMonitoringReaksiTranfusi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnMonitoringReaksiTranfusiActionPerformed"/>
@@ -5381,9 +5329,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnUjiFungsiKFR" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnUjiFungsiKFRActionPerformed"/>
@@ -5408,9 +5355,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnChecklistKriteriaMasukHCU" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnChecklistKriteriaMasukHCUActionPerformed"/>
@@ -5435,9 +5381,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnChecklistKriteriaMasukICU" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnChecklistKriteriaMasukICUActionPerformed"/>
@@ -5462,9 +5407,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnChecklistPreOperasi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnChecklistPreOperasiActionPerformed"/>
@@ -5489,9 +5433,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSignInSebelumAnestesi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSignInSebelumAnestesiActionPerformed"/>
@@ -5516,9 +5459,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnTimeOutSebelumInsisi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnTimeOutSebelumInsisiActionPerformed"/>
@@ -5543,9 +5485,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSignOutSebelumMenutupLuka" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSignOutSebelumMenutupLukaActionPerformed"/>
@@ -5570,9 +5511,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnChecklistPostOperasi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnChecklistPostOperasiActionPerformed"/>
@@ -5597,9 +5537,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianPreOperasi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianPreOperasiActionPerformed"/>
@@ -5624,9 +5563,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianPreAnestesi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianPreAnestesiActionPerformed"/>
@@ -5651,9 +5589,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSkorAldrettePascaAnestesi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSkorAldrettePascaAnestesiActionPerformed"/>
@@ -5678,9 +5615,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSkorStewardPascaAnestesi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSkorStewardPascaAnestesiActionPerformed"/>
@@ -5705,9 +5641,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnMedicalCheckUp" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnMedicalCheckUpActionPerformed"/>
@@ -5732,9 +5667,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanRisikoJatuhDewasa" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanRisikoJatuhDewasaActionPerformed"/>
@@ -5759,9 +5693,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanRisikoJatuhAnak" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanRisikoJatuhAnakActionPerformed"/>
@@ -5786,9 +5719,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanRisikoJatuhLansia" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanRisikoJatuhLansiaActionPerformed"/>
@@ -5813,9 +5745,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanRisikoJatuhNeonatus" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanRisikoJatuhNeonatusActionPerformed"/>
@@ -5840,9 +5771,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanRisikoJatuhGeriatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanRisikoJatuhGeriatriActionPerformed"/>
@@ -5867,9 +5797,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanRisikoJatuhPsikiatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanRisikoJatuhPsikiatriActionPerformed"/>
@@ -5894,9 +5823,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianLanjutanSkriningFungsional" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianLanjutanSkriningFungsionalActionPerformed"/>
@@ -5921,9 +5849,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnHasilPemeriksaanUSG" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnHasilPemeriksaanUSGActionPerformed"/>
@@ -5948,9 +5875,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnDokumentasiESWL" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnDokumentasiESWLActionPerformed"/>
@@ -5975,9 +5901,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCatatanPersalinanan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCatatanPersalinananActionPerformed"/>
@@ -6002,9 +5927,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSkriningNutrisiDewasa" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSkriningNutrisiDewasaActionPerformed"/>
@@ -6029,9 +5953,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSkriningNutrisiLansia" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSkriningNutrisiLansiaActionPerformed"/>
@@ -6056,9 +5979,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSkriningNutrisiAnak" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSkriningNutrisiAnakActionPerformed"/>
@@ -6083,9 +6005,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnSkriningGiziLanjut" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnSkriningGiziLanjutActionPerformed"/>
@@ -6110,9 +6031,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnAsuhanGizi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAsuhanGiziActionPerformed"/>
@@ -6137,9 +6057,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnMonitoringAsuhanGizi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnMonitoringAsuhanGiziActionPerformed"/>
@@ -6164,9 +6083,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnCatatanADIMEGizi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCatatanADIMEGiziActionPerformed"/>
@@ -6191,9 +6109,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnKonselingFarmasi" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnKonselingFarmasiActionPerformed"/>
@@ -6218,9 +6135,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnInformasiObat" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnInformasiObatActionPerformed"/>
@@ -6245,9 +6161,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnRekonsiliasiObat" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnRekonsiliasiObatActionPerformed"/>
@@ -6272,9 +6187,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnTransferAntarRuang" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnTransferAntarRuangActionPerformed"/>
@@ -6299,9 +6213,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnEdukasiPasienKeluarga" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnEdukasiPasienKeluargaActionPerformed"/>
@@ -6326,9 +6239,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPengkajianRestrain" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPengkajianRestrainActionPerformed"/>
@@ -6353,9 +6265,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianPasienTerminal" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianPasienTerminalActionPerformed"/>
@@ -6380,9 +6291,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianKorbanKekerasan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianKorbanKekerasanActionPerformed"/>
@@ -6407,9 +6317,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianPasienPenyakitMenular" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianPasienPenyakitMenularActionPerformed"/>
@@ -6434,9 +6343,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianPasienKeracunan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianPasienKeracunanActionPerformed"/>
@@ -6461,9 +6369,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianTambahanGeriatri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianTambahanGeriatriActionPerformed"/>
@@ -6488,9 +6395,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianTambahanBunuhDiri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianTambahanBunuhDiriActionPerformed"/>
@@ -6515,9 +6421,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianTambahanPerilakuKekerasan" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianTambahanPerilakuKekerasanActionPerformed"/>
@@ -6542,9 +6447,8 @@
                         </Property>
                         <Property name="name" type="java.lang.String" value="BtnPenilaianTambahanMelarikanDiri" noResource="true"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[190, 23]"/>
+                          <Dimension value="[185, 23]"/>
                         </Property>
-                        <Property name="roundRect" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPenilaianTambahanMelarikanDiriActionPerformed"/>
