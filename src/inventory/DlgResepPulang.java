@@ -825,7 +825,7 @@ public final class DlgResepPulang extends javax.swing.JDialog {
                 Valid.MyReportqry("rptItemResepPulang.jasper","report","::[ Aturan Pakai Obat ]::",
                     "select resep_pulang.no_rawat,resep_pulang.tanggal, "+
                     "reg_periksa.no_rkm_medis,pasien.nm_pasien,databarang.nama_brng,"+
-                    "resep_pulang.dosis,resep_pulang.jml_barang,kodesatuan.satuan "+
+                    "resep_pulang.dosis,resep_pulang.jml_barang,kodesatuan.satuan,resep_pulang.tgl_kadaluarsa "+
                     "from resep_pulang inner join reg_periksa on resep_pulang.no_rawat=reg_periksa.no_rawat "+
                     "inner join databarang on resep_pulang.kode_brng=databarang.kode_brng "+
                     "inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "+
@@ -857,7 +857,7 @@ public final class DlgResepPulang extends javax.swing.JDialog {
                 Valid.MyReportqry("rptItemResepPulang2.jasper","report","::[ Aturan Pakai Obat ]::",
                     "select resep_pulang.no_rawat,resep_pulang.tanggal,jenis.nama,"+
                     "reg_periksa.no_rkm_medis,pasien.nm_pasien,databarang.nama_brng,"+
-                    "resep_pulang.dosis,resep_pulang.jml_barang,kodesatuan.satuan "+
+                    "resep_pulang.dosis,resep_pulang.jml_barang,kodesatuan.satuan,resep_pulang.tgl_kadaluarsa "+
                     "from resep_pulang inner join reg_periksa on resep_pulang.no_rawat=reg_periksa.no_rawat "+
                     "inner join databarang on resep_pulang.kode_brng=databarang.kode_brng "+
                     "inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "+
@@ -890,7 +890,7 @@ public final class DlgResepPulang extends javax.swing.JDialog {
                 Valid.MyReportqry("rptItemResepPulang3.jasper","report","::[ Aturan Pakai Obat ]::",
                     "select resep_pulang.no_rawat,resep_pulang.tanggal, "+
                     "reg_periksa.no_rkm_medis,pasien.nm_pasien,databarang.nama_brng,"+
-                    "resep_pulang.dosis,resep_pulang.jml_barang,kodesatuan.satuan "+
+                    "resep_pulang.dosis,resep_pulang.jml_barang,kodesatuan.satuan,resep_pulang.tgl_kadaluarsa "+
                     "from resep_pulang inner join reg_periksa on resep_pulang.no_rawat=reg_periksa.no_rawat "+
                     "inner join databarang on resep_pulang.kode_brng=databarang.kode_brng "+
                     "inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "+
