@@ -980,34 +980,22 @@ public final class RMHandOver extends javax.swing.JDialog {
         Valid.pindah(evt, TCari, BtnSimpan);
 }//GEN-LAST:event_TPasienKeyPressed
 
-    private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
+    private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {                                          
         if ((!TSituation.getText().trim().equals("")) || (!TBackground.getText().trim().equals("")) || (!TAssesment.getText().trim().equals(""))
                 || (!TRecommendation.getText().trim().equals(""))) {
             if (NIP.getText().trim().equals("") || NamaPetugas.getText().trim().equals("")) {
                 Valid.textKosong(NIP, "Dokter/Paramedis masih kosong...!!");
             } else {
-                if (akses.getkode().equals("Admin Utama")) {
-                    Sequel.menyimpan("handover", "?,?,?,?,?,?,?,?,?,?,?,?", "Data", 12, new String[]{
-                        TNoRw.getText(), Valid.SetTgl(DTPTgl.getSelectedItem() + ""), cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem(),
-                        TSituation.getText(), TBackground.getText(), TAssesment.getText(), TRecommendation.getText(), Tindakan.getText(), ShiftKeluar.getSelectedItem().toString(),  NIP.getText(),
-                        ShiftMasuk.getSelectedItem().toString(), NIP2.getText()});
-                    tampil();
-                    BtnBatalActionPerformed(evt);
-                } else {
-                    if (akses.getkode().equals(NIP.getText())) {
-                        Sequel.menyimpan("handover", "?,?,?,?,?,?,?,?,?,?,?,?", "Data", 12, new String[]{
-                        TNoRw.getText(), Valid.SetTgl(DTPTgl.getSelectedItem() + ""), cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem(),
-                        TSituation.getText(), TBackground.getText(), TAssesment.getText(), TRecommendation.getText(), Tindakan.getText(), ShiftKeluar.getSelectedItem().toString(),  NIP.getText(),
-                        ShiftMasuk.getSelectedItem().toString(), NIP2.getText()});
-                        tampil();
-                        BtnBatalActionPerformed(evt);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Hanya bisa disimpan oleh dokter/petugas yang bersangkutan..!!");
-                    }
-                }
+                // Simpan langsung tanpa validasi kepemilikan user login
+                Sequel.menyimpan("handover", "?,?,?,?,?,?,?,?,?,?,?,?", "Data", 12, new String[]{
+                    TNoRw.getText(), Valid.SetTgl(DTPTgl.getSelectedItem() + ""), cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem(),
+                    TSituation.getText(), TBackground.getText(), TAssesment.getText(), TRecommendation.getText(), Tindakan.getText(), ShiftKeluar.getSelectedItem().toString(), NIP.getText(),
+                    ShiftMasuk.getSelectedItem().toString(), NIP2.getText()});
+                tampil();
+                BtnBatalActionPerformed(evt);
             }
         }
-}//GEN-LAST:event_BtnSimpanActionPerformed
+    }
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
         /*    if(evt.getKeyCode()==KeyEvent.VK_SPACE){
@@ -1038,19 +1026,9 @@ public final class RMHandOver extends javax.swing.JDialog {
         } else {
             for (i = 0; i < tbPemeriksaanSbar.getRowCount(); i++) {
                 if (tbPemeriksaanSbar.getValueAt(i, 0).toString().equals("true")) {
-                    if (akses.getkode().equals("Admin Utama")) {
                         Sequel.queryu("delete from handover where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
                                 + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString()
                                 + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(i, 5).toString() + "' ");
-                    } else {
-                        if (akses.getkode().equals(tbPemeriksaanSbar.getValueAt(i, 10).toString())) {
-                            Sequel.queryu("delete from handover where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
-                                    + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString()
-                                    + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(i, 5).toString() + "' ");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Hanya bisa dihapus oleh dokter/petugas yang bersangkutan..!!");
-                        }
-                    }
                 }
             }
             emptTeks();
@@ -1066,52 +1044,38 @@ public final class RMHandOver extends javax.swing.JDialog {
         }
 }//GEN-LAST:event_BtnHapusKeyPressed
 
-    private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
+    private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {                                        
         if ((!TSituation.getText().trim().equals("")) || (!TBackground.getText().trim().equals("")) || (!TAssesment.getText().trim().equals(""))
                 || (!TRecommendation.getText().trim().equals(""))) {
             if (tbPemeriksaanSbar.getSelectedRow() > -1) {
-                if (akses.getkode().equals("Admin Utama")) {
-                    Sequel.mengedit(
-                            "handover",
-                            "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
-                            + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
-                            + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
-                            "no_rawat='" + TNoRw.getText()
-                            + "', situation='" + TSituation.getText()
-                            + "', background='" + TBackground.getText()
-                            + "', assesment='" + TAssesment.getText()
-                            + "', recommendation='" + TRecommendation.getText()
-                            + "', tindakan='" + Tindakan.getText()
-                            + "', tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem().toString())
-                            + "', jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem()
-                            + "', nip='" + NIP.getText() + "'"
-                    );
+                // Update langsung tanpa batasan NIP login
+                Sequel.mengedit(
+                        "handover",
+                        "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
+                        + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
+                        + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
+                        "no_rawat='" + TNoRw.getText()
+                        + "', situation='" + TSituation.getText()
+                        + "', background='" + TBackground.getText()
+                        + "', assesment='" + TAssesment.getText()
+                        + "', recommendation='" + TRecommendation.getText()
+                        + "', tindakan='" + Tindakan.getText()
+                        + "', tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem().toString())
+                        + "', jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem()
+                        + "', shift='" + ShiftKeluar.getSelectedItem().toString()
+                        + "', nip='" + NIP.getText()
+                        + "', shift2='" + ShiftMasuk.getSelectedItem().toString()
+                        + "', nip2='" + NIP2.getText() + "'"
+                );
 
-                    tampil();
-                    BtnBatalActionPerformed(evt);
-                } else {
-                    if (akses.getkode().equals(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 10).toString())) {
-                        Sequel.mengedit("handover", "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
-                                + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
-                                + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
-                                "no_rawat='" + TNoRw.getText() + "',situation='" + TSituation.getText() + "',background='" + TBackground.getText() + "',"
-                                + "assesment='" + TAssesment.getText() + "',recommendation='" + TRecommendation.getText() + "',"
-                                + "',tindakan='" + Tindakan.getText() + "',"
-                                + "tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem() + "") + "',"
-                                + "jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem() + "'");
-
-                        tampil();
-                        BtnBatalActionPerformed(evt);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Hanya bisa diganti oleh dokter/petugas yang bersangkutan..!!");
-                    }
-                }
+                tampil();
+                BtnBatalActionPerformed(evt);
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Silahkan pilih data yang mau diganti..!!");
                 TCari.requestFocus();
             }
         }
-}//GEN-LAST:event_BtnEditActionPerformed
+    }
 
     private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnEditKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -1540,7 +1504,7 @@ public final class RMHandOver extends javax.swing.JDialog {
         + "INNER JOIN kamar_inap ON kamar_inap.kd_kamar = kamar.kd_kamar "
         + "WHERE kamar_inap.no_rawat=? "
         + "ORDER BY kamar_inap.tgl_masuk DESC LIMIT 1", TNoRw.getText()));
-        
+
         cekDataShiftSebelumnya();
     }
 
@@ -1576,18 +1540,25 @@ public final class RMHandOver extends javax.swing.JDialog {
     }
 
     public void isCek() {
+        BtnStatusVerifikasiHandOver.setEnabled(false);
+        BtnValidasiHandOver.setEnabled(false);
+        BtnSimpan.setEnabled(akses.getcatatan_observasi_ranap_kebidanan());
+        BtnHapus.setEnabled(akses.getcatatan_observasi_ranap_kebidanan());
+        BtnEdit.setEnabled(akses.getcatatan_observasi_ranap_kebidanan());
+        BtnPrint.setEnabled(akses.getcatatan_observasi_ranap_kebidanan()); 
         BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnHapus.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnEdit.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnPrint.setEnabled(akses.getpenilaian_awal_keperawatan_ranap()); 
-        if(akses.getjml2()>=1){
+        
+        if (akses.getjml2() >= 1) {
             NIP.setEditable(false);
-            BtnSeekPegawai1.setEnabled(false);
+            BtnSeekPegawai1.setEnabled(true); 
             NIP.setText(akses.getkode());
             NamaPetugas.setText(petugas.tampil3(NIP.getText()));
-            if(NamaPetugas.getText().equals("")){
+            if (NamaPetugas.getText().equals("")) {
                 NIP.setText("");
-                JOptionPane.showMessageDialog(null,"User login bukan petugas...!!");
+                JOptionPane.showMessageDialog(null, "User login bukan petugas...!!");
             }
         }
 
@@ -1601,7 +1572,6 @@ public final class RMHandOver extends javax.swing.JDialog {
                 cmbDtk.setEnabled(false);
             }
         }
-
     }
 
     private void jam() {
@@ -1748,7 +1718,7 @@ public final class RMHandOver extends javax.swing.JDialog {
                 ps.setString(1, TNoRw.getText());
                 ps.setString(2, Valid.SetTgl(DTPTgl.getSelectedItem() + ""));
                 rs = ps.executeQuery();
-                
+
                 if (rs.next()) {
                     // Jika shift sebelumnya sudah mengisi, salin datanya
                     TSituation.setText(rs.getString("situation"));
@@ -1756,11 +1726,11 @@ public final class RMHandOver extends javax.swing.JDialog {
                     TAssesment.setText(rs.getString("assesment"));
                     TRecommendation.setText(rs.getString("recommendation"));
                     Tindakan.setText(rs.getString("tindakan"));
-                    
+
                     // Kunci inputan agar tidak berubah tanpa disengaja
                     kunciKolomIsian(false);
                     ChkUpdateData.setSelected(false);
-                    
+
                     // Opsional: Set otomatis dropdown ke shift selanjutnya
                     if (rs.getString("shift").equals("Pagi")) {
                         ShiftKeluar.setSelectedItem("Siang");
@@ -1792,7 +1762,7 @@ public final class RMHandOver extends javax.swing.JDialog {
         TRecommendation.setEditable(status);
         Tindakan.setEditable(status);
     }
-    
+
     // Method untuk mengosongkan SBAR jika ini shift pertama
     private void emptTeksSBAR() {
         TSituation.setText("");

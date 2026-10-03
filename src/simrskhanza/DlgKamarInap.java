@@ -424,6 +424,9 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         try {
             KUNCIDOKTERRANAP=koneksiDB.KUNCIDOKTERRANAP();
+            if(KUNCIDOKTERRANAP==null){
+                KUNCIDOKTERRANAP="no";
+            }
         } catch (Exception e) {
             KUNCIDOKTERRANAP="no";
         }
@@ -21612,7 +21615,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                 MnHapusDataSalah.setEnabled(false);
             }
             namadokter="";
-            if(KUNCIDOKTERRANAP.equals("yes")){
+            if("yes".equals(KUNCIDOKTERRANAP)){
                 dokterranap=Sequel.CariDokter(akses.getkode());
                 if(!dokterranap.equals("")){
                     namadokter=akses.getkode();
@@ -21660,11 +21663,11 @@ public class DlgKamarInap extends javax.swing.JDialog {
             dlgobt.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dlgobt.setLocationRelativeTo(internalFrame1);
             if(R1.isSelected()==true){
-                dlgobt.setNoRm(norawat,TNoRMCari.getText(),TPasienCari.getText(),new Date(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(), true);
+                dlgobt.setNoRm(norawat,TNoRMCari.getText(),TPasienCari.getText(),new Date(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(),false);
             }else if(R2.isSelected()==true){
-                dlgobt.setNoRm(norawat,TNoRMCari.getText(),TPasienCari.getText(),DTPCari1.getDate(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(), true);
+                dlgobt.setNoRm(norawat,TNoRMCari.getText(),TPasienCari.getText(),DTPCari1.getDate(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(),false);
             }else if(R3.isSelected()==true){
-                dlgobt.setNoRm(norawat,TNoRMCari.getText(),TPasienCari.getText(),DTPCari3.getDate(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(), true);
+                dlgobt.setNoRm(norawat,TNoRMCari.getText(),TPasienCari.getText(),DTPCari3.getDate(),cmbJam.getSelectedItem().toString(),cmbMnt.getSelectedItem().toString(),cmbDtk.getSelectedItem().toString(),false);
             }
             dlgobt.isCek();
             dlgobt.tampil();
@@ -22715,7 +22718,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
             ceksukses = true;
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             Valid.tabelKosongSmc(tabMode);
-            final boolean kunciTampilDPJP = KUNCIDOKTERRANAP.trim().equals("yes") && !akses.getakses_dokter_lain_rawat_jalan();
+            final boolean kunciTampilDPJP = "yes".equals(KUNCIDOKTERRANAP == null ? "" : KUNCIDOKTERRANAP.trim()) && !akses.getakses_dokter_lain_rawat_jalan();
 
             new SwingWorker<List<String>, Object[]>() {
                 final boolean belumPulang = R1.isSelected();

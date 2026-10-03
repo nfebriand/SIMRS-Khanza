@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.0.0  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="184" pageHeight="113" columnWidth="174" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="0215df48-fc9e-4cec-965a-b946cd41d2b9">
 	<property name="ireport.zoom" value="4.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="koneksi"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="namars" class="java.lang.String"/>
 	<parameter name="alamatrs" class="java.lang.String"/>
@@ -16,19 +17,17 @@
 	<queryString>
 		<![CDATA[select resep_obat.no_resep,resep_obat.tgl_perawatan,resep_obat.jam, pasien.tgl_lahir,
 resep_obat.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,databarang.nama_brng,
-aturan_pakai.aturan,detail_pemberian_obat.jml,detail_pemberian_obat.tgl_kadaluarsa,
-kodesatuan.satuan,jenis.nama as jenis,
-pasien.jk,reg_periksa.umurdaftar,reg_periksa.sttsumur
-from resep_obat inner join reg_periksa inner join pasien inner join
+aturan_pakai.aturan,detail_pemberian_obat.jml,detail_pemberian_obat.tgl_kadaluarsa,kodesatuan.satuan,jenis.nama as jenis 
+from resep_obat inner join reg_periksa inner join pasien inner join 
 aturan_pakai inner join databarang inner join detail_pemberian_obat
-inner join kodesatuan inner join jenis on resep_obat.no_rawat=reg_periksa.no_rawat
+inner join kodesatuan inner join jenis on resep_obat.no_rawat=reg_periksa.no_rawat  
 and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and
-databarang.kode_brng=aturan_pakai.kode_brng and databarang.kdjns=jenis.kdjns and
-detail_pemberian_obat.kode_brng=databarang.kode_brng
-and resep_obat.no_rawat=aturan_pakai.no_rawat and
-resep_obat.tgl_perawatan=aturan_pakai.tgl_perawatan and
+databarang.kode_brng=aturan_pakai.kode_brng and databarang.kdjns=jenis.kdjns and 
+detail_pemberian_obat.kode_brng=databarang.kode_brng 
+and resep_obat.no_rawat=aturan_pakai.no_rawat and 
+resep_obat.tgl_perawatan=aturan_pakai.tgl_perawatan and 
 resep_obat.jam=aturan_pakai.jam and resep_obat.no_rawat=detail_pemberian_obat.no_rawat
-and resep_obat.tgl_perawatan=detail_pemberian_obat.tgl_perawatan and
+and resep_obat.tgl_perawatan=detail_pemberian_obat.tgl_perawatan and 
 resep_obat.jam=detail_pemberian_obat.jam and kodesatuan.kode_sat=databarang.kode_sat]]>
 	</queryString>
 	<field name="no_resep" class="java.lang.String">
@@ -94,23 +93,11 @@ resep_obat.jam=detail_pemberian_obat.jam and kodesatuan.kode_sat=databarang.kode
 		<property name="com.jaspersoft.studio.field.label" value="jenis"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="jenis"/>
 	</field>
-	<field name="jk" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="jk"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
-	</field>
-	<field name="umurdaftar" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="umurdaftar"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reg_periksa"/>
-	</field>
-	<field name="sttsumur" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="sttsumur"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reg_periksa"/>
-	</field>
 	<detail>
 		<band height="103" splitType="Stretch">
 			<rectangle>
 				<reportElement mode="Opaque" x="0" y="0" width="174" height="103" forecolor="#9999FF" backcolor="#9999FF" uuid="6d6908a5-d802-4091-b350-205f5577a8bd">
-					<printWhenExpression><![CDATA[($F{jenis}.toLowerCase().equals("obat luar")||$F{jenis}.toLowerCase().equals("suntik") ?
+					<printWhenExpression><![CDATA[($F{jenis}.toLowerCase().equals("obat luar")||$F{jenis}.toLowerCase().equals("suntik") ? 
   Boolean.TRUE:Boolean.FALSE)]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
@@ -181,10 +168,10 @@ resep_obat.jam=detail_pemberian_obat.jam and kodesatuan.kode_sat=databarang.kode
 					<pen lineWidth="0.25" lineStyle="Solid"/>
 				</graphicElement>
 			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="3" y="82" width="169" height="20" uuid="69622ccb-f1fe-43bb-a5d1-92154dccc969"/>
+			<textField>
+				<reportElement x="3" y="90" width="169" height="12" uuid="69622ccb-f1fe-43bb-a5d1-92154dccc969"/>
 				<textElement textAlignment="Center">
-					<font fontName="Tahoma" size="7"/>
+					<font fontName="Tahoma" size="9"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{aturan}]]></textFieldExpression>
@@ -272,7 +259,7 @@ resep_obat.jam=detail_pemberian_obat.jam and kodesatuan.kode_sat=databarang.kode
 					<font fontName="Tahoma" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nm_pasien}+" / "+$F{jk}+" / "+$F{umurdaftar}+" "+$F{sttsumur}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nm_pasien}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="110" y="36" width="62" height="8" uuid="2075238c-e8d8-4c82-ab52-b1f19cba6193"/>
@@ -320,6 +307,32 @@ resep_obat.jam=detail_pemberian_obat.jam and kodesatuan.kode_sat=databarang.kode
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jam}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="117" y="81" width="16" height="9" uuid="668d5b6d-c03a-4934-a64e-112893986669">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="81" width="4" height="9" uuid="f58f3ef5-d902-4d3b-97ed-8604d24c810a"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="134" y="81" width="38" height="9" uuid="d4ed65be-acca-4a59-b72a-54bab00e1ce3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_kadaluarsa}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

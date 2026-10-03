@@ -448,6 +448,26 @@ public final class RMPenilaianAwalKeperawatanKebidananRanap extends javax.swing.
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
 
+        javax.swing.JPopupMenu jPopupMenu1 = new javax.swing.JPopupMenu();
+        javax.swing.JMenuItem mnPenilaianKebidananRanap = new javax.swing.JMenuItem("Formulir Pengkajian Kebidanan Ranap");
+        mnPenilaianKebidananRanap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/b_print.png")));
+        mnPenilaianKebidananRanap.addActionListener(e -> {
+            BtnPrint1ActionPerformed(null);
+        });
+        jPopupMenu1.add(mnPenilaianKebidananRanap);
+        tbObat.setComponentPopupMenu(jPopupMenu1);
+        tbObat.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger() || javax.swing.SwingUtilities.isRightMouseButton(e)) {
+                    int row = tbObat.rowAtPoint(e.getPoint());
+                    if (row >= 0 && row < tbObat.getRowCount()) {
+                        tbObat.setRowSelectionInterval(row, row);
+                    }
+                }
+            }
+        });
+
         tabModeRiwayatKehamilan=new DefaultTableModel(null,new Object[]{
                 "No","Tgl/Thn","Tempat Persalinan","Usia Hamil","Jenis Persalinan","Penolong","Penyulit","J.K.","BB/PB","Keadaan"
             }){
@@ -4777,21 +4797,26 @@ public final class RMPenilaianAwalKeperawatanKebidananRanap extends javax.swing.
                     bw.flush();
                 }
                 String pilihan = (String) JOptionPane.showInputDialog(null, "Silahkan pilih laporan..!", "Pilihan Cetak", JOptionPane.QUESTION_MESSAGE, null, new Object[] {
-                    "Laporan 1 (HTML)", "Laporan 2 (WPS)", "Laporan 3 (CSV)", "Laporan 4 (XLSX)"
+                    "Laporan 1 (HTML)", "Laporan 2 (WPS)", "Laporan 3 (CSV)", "Laporan 4 (XLSX)", "Laporan 5 (Formulir Pengkajian Kebidanan Ranap)"
                 }, "Laporan 1 (HTML)");
-                switch (pilihan) {
-                    case "Laporan 1 (HTML)":
-                        Valid.exportHtmlSmc("RMPenilaianAwalKeperawatanKebidananRanap.html", "DATA PENGKAJIAN AWAL KEPERAWATAN RANAP KEBIDANAN & KANDUNGAN", tbObat);
-                        break;
-                    case "Laporan 2 (WPS)":
-                        Valid.exportWPSSmc("RMPenilaianAwalKeperawatanKebidananRanap.wps", "DATA PENGKAJIAN AWAL KEPERAWATAN RANAP KEBIDANAN & KANDUNGAN", tbObat);
-                        break;
-                    case "Laporan 3 (CSV)":
-                        Valid.exportCSVSmc("RMPenilaianAwalKeperawatanKebidananRanap.csv", tbObat);
-                        break;
-                    case "Laporan 4 (XLSX)":
-                        Valid.exportXlsxSmc("RMPenilaianAwalKeperawatanKebidananRanap.xlsx", tbObat);
-                        break;
+                if (null != pilihan) {
+                    switch (pilihan) {
+                        case "Laporan 1 (HTML)":
+                            Valid.exportHtmlSmc("RMPenilaianAwalKeperawatanKebidananRanap.html", "DATA PENGKAJIAN AWAL KEPERAWATAN RANAP KEBIDANAN & KANDUNGAN", tbObat);
+                            break;
+                        case "Laporan 2 (WPS)":
+                            Valid.exportWPSSmc("RMPenilaianAwalKeperawatanKebidananRanap.wps", "DATA PENGKAJIAN AWAL KEPERAWATAN RANAP KEBIDANAN & KANDUNGAN", tbObat);
+                            break;
+                        case "Laporan 3 (CSV)":
+                            Valid.exportCSVSmc("RMPenilaianAwalKeperawatanKebidananRanap.csv", tbObat);
+                            break;
+                        case "Laporan 4 (XLSX)":
+                            Valid.exportXlsxSmc("RMPenilaianAwalKeperawatanKebidananRanap.xlsx", tbObat);
+                            break;
+                        case "Laporan 5 (Formulir Pengkajian Kebidanan Ranap)":
+                            BtnPrint1ActionPerformed(null);
+                            break;
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Notifikasi : "+e);
