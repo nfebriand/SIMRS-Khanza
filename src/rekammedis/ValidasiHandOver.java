@@ -65,8 +65,7 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         initComponents();
         
         tabMode=new DefaultTableModel(null,new Object[]{
-            "Tgl.Rawat","Status","No.Rawat","No.RM","Nama Pasien","NIP Perawat Pemberi","Nama Perawat Pemberi","Tanggal Handover","Jam HandOver","Shift","S (SITUATION)","B (BACKGROUND)",
-            "A (ASSESSMENT)","R (RECOMENDATION)","Tindakan/ Medikasi"
+            "Tgl.Rawat","Status","No.Rawat","No.RM","Nama Pasien","NIP Perawat Pemberi","Nama Perawat Pemberi","Tanggal Handover","Jam HandOver","Shift","Isi Handover"
         }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -76,39 +75,10 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 15; i++) {
+        int[] lebarKolom={65,40,105,90,150,90,150,90,90,60,500};
+        for (i = 0; i < lebarKolom.length; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
-            if(i==0){
-                column.setPreferredWidth(65);
-            }else if(i==1){
-                column.setPreferredWidth(40);
-            }else if(i==2){
-                column.setPreferredWidth(105);
-            }else if(i==3){
-                column.setPreferredWidth(90);
-            }else if(i==4){
-                column.setPreferredWidth(90);
-            }else if(i==5){
-                column.setPreferredWidth(90);
-            }else if(i==6){
-                column.setPreferredWidth(150);
-            }else if(i==7){
-                column.setPreferredWidth(90);
-            }else if(i==8){
-                column.setPreferredWidth(90);
-            }else if(i==9){
-                column.setPreferredWidth(250);
-            }else if(i==10){
-                column.setPreferredWidth(250);
-            }else if(i==11){
-                column.setPreferredWidth(250);
-            }else if(i==12){
-                column.setPreferredWidth(170);
-            }else if(i==13){
-                column.setPreferredWidth(250);
-            }else if(i==14){
-                column.setPreferredWidth(170);
-            }
+            column.setPreferredWidth(lebarKolom[i]);
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
 
@@ -177,6 +147,7 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         
         
         
+        Shift.setEnabled(false);
         ChkInput.setSelected(false);
         isForm();
       
@@ -228,14 +199,6 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         NIP2 = new widget.TextBox();
         NamaPetugas2 = new widget.TextBox();
         BtnDokter = new widget.Button();
-        scrollPane1 = new widget.ScrollPane();
-        TSituation = new widget.TextArea();
-        scrollPane2 = new widget.ScrollPane();
-        TBackground = new widget.TextArea();
-        scrollPane3 = new widget.ScrollPane();
-        TAssesment = new widget.TextArea();
-        scrollPane4 = new widget.ScrollPane();
-        TRecomendation = new widget.TextArea();
         label15 = new widget.Label();
         NIP = new widget.TextBox();
         NamaPetugas = new widget.TextBox();
@@ -245,8 +208,8 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         JamPemeriksaan = new widget.TextBox();
         jLabel96 = new widget.Label();
         Shift = new widget.ComboBox();
-        scrollPane5 = new widget.ScrollPane();
-        Tindakan = new widget.TextArea();
+        scrollIsi = new widget.ScrollPane();
+        TIsi = new widget.TextArea();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -611,82 +574,6 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         FormInput.add(BtnDokter);
         BtnDokter.setBounds(519, 40, 28, 23);
 
-        scrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("S (SITUATION)"));
-        scrollPane1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane1.setName("scrollPane1"); // NOI18N
-
-        TSituation.setEditable(false);
-        TSituation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TSituation.setColumns(20);
-        TSituation.setRows(5);
-        TSituation.setName("TSituation"); // NOI18N
-        TSituation.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TSituationKeyPressed(evt);
-            }
-        });
-        scrollPane1.setViewportView(TSituation);
-
-        FormInput.add(scrollPane1);
-        scrollPane1.setBounds(30, 130, 360, 80);
-
-        scrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("B (BACKGROUND)"));
-        scrollPane2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane2.setName("scrollPane2"); // NOI18N
-
-        TBackground.setEditable(false);
-        TBackground.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TBackground.setColumns(20);
-        TBackground.setRows(5);
-        TBackground.setName("TBackground"); // NOI18N
-        TBackground.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TBackgroundKeyPressed(evt);
-            }
-        });
-        scrollPane2.setViewportView(TBackground);
-
-        FormInput.add(scrollPane2);
-        scrollPane2.setBounds(30, 220, 360, 80);
-
-        scrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("A (ASSESSMENT)"));
-        scrollPane3.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane3.setName("scrollPane3"); // NOI18N
-
-        TAssesment.setEditable(false);
-        TAssesment.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TAssesment.setColumns(20);
-        TAssesment.setRows(5);
-        TAssesment.setName("TAssesment"); // NOI18N
-        TAssesment.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TAssesmentKeyPressed(evt);
-            }
-        });
-        scrollPane3.setViewportView(TAssesment);
-
-        FormInput.add(scrollPane3);
-        scrollPane3.setBounds(30, 310, 360, 80);
-
-        scrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("R (RECOMMENDATION)"));
-        scrollPane4.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane4.setName("scrollPane4"); // NOI18N
-
-        TRecomendation.setEditable(false);
-        TRecomendation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TRecomendation.setColumns(20);
-        TRecomendation.setRows(5);
-        TRecomendation.setName("TRecomendation"); // NOI18N
-        TRecomendation.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TRecomendationKeyPressed(evt);
-            }
-        });
-        scrollPane4.setViewportView(TRecomendation);
-
-        FormInput.add(scrollPane4);
-        scrollPane4.setBounds(400, 130, 360, 80);
-
         label15.setText("Perawat Pemberi:");
         label15.setName("label15"); // NOI18N
         label15.setPreferredSize(new java.awt.Dimension(70, 23));
@@ -769,24 +656,21 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         FormInput.add(Shift);
         Shift.setBounds(580, 100, 100, 20);
 
-        scrollPane5.setBorder(javax.swing.BorderFactory.createTitledBorder("Tindakan dan Medikasi"));
-        scrollPane5.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane5.setName("scrollPane5"); // NOI18N
+        scrollIsi.setBorder(javax.swing.BorderFactory.createTitledBorder("Isi Handover Shift"));
+        scrollIsi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        scrollIsi.setName("scrollIsi"); // NOI18N
 
-        Tindakan.setEditable(false);
-        Tindakan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        Tindakan.setColumns(20);
-        Tindakan.setRows(5);
-        Tindakan.setName("Tindakan"); // NOI18N
-        Tindakan.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TindakanKeyPressed(evt);
-            }
-        });
-        scrollPane5.setViewportView(Tindakan);
+        TIsi.setEditable(false);
+        TIsi.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        TIsi.setColumns(20);
+        TIsi.setLineWrap(true);
+        TIsi.setRows(5);
+        TIsi.setWrapStyleWord(true);
+        TIsi.setName("TIsi"); // NOI18N
+        scrollIsi.setViewportView(TIsi);
 
-        FormInput.add(scrollPane5);
-        scrollPane5.setBounds(400, 220, 360, 170);
+        FormInput.add(scrollIsi);
+        scrollIsi.setBounds(30, 130, 730, 170);
 
         scrollInput.setViewportView(FormInput);
 
@@ -817,16 +701,17 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
             Valid.textKosong(TNoRw,"Pasien");
         }else if(NIP2.getText().equals("")||NamaPetugas2.getText().equals("")){
             Valid.textKosong(BtnDokter,"Validator");
-        }else if(NIP.getText().equals("")||NamaPetugas2.getText().equals("")){
+        }else if(NIP.getText().equals("")||NamaPetugas.getText().equals("")){
             Valid.textKosong(BtnDokter,"Nama Pemeriksa");
-        }else if(TSituation.getText().equals("")){
-            Valid.textKosong(TSituation,"S (SITUATION");
-        }else if(TBackground.getText().equals("")){
-            Valid.textKosong(TBackground,"B (BACKGROUND)");
+        }else if(TanggalPemeriksaan.getText().equals("")){
+            JOptionPane.showMessageDialog(rootPane,"Silahkan pilih data handover yang akan divalidasi pada tabel..!!");
+        }else if(TIsi.getText().trim().equals("")){
+            Valid.textKosong(TIsi,"Isi Handover");
         }else{
-            if(Sequel.menyimpantf("validasi_handover","?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",14,new String[]{
-                    TNoRw.getText(),TanggalPemeriksaan.getText(),JamPemeriksaan.getText(),Shift.getSelectedItem().toString(),TSituation.getText(),TBackground.getText(),TAssesment.getText(),TRecomendation.getText(),Tindakan.getText(), 
-                    NIP.getText(),NIP2.getText(),tanggalNow.format(new Date()),jamNow.format(new Date()),"Validasi",
+            // Satu validasi = satu shift pada satu baris handover (no_rawat + tgl_perawatan + shift)
+            if(Sequel.menyimpantf("validasi_handover_shift","?,?,?,?,?,?,?,?,?,?","No.Rawat",10,new String[]{
+                    TNoRw.getText(),TanggalPemeriksaan.getText(),JamPemeriksaan.getText(),Shift.getSelectedItem().toString(),TIsi.getText(),
+                    NIP.getText(),NIP2.getText(),tanggalNow.format(new Date()),jamNow.format(new Date()),"Validasi"
                 })==true){
                     tampil();
                     emptTeks();
@@ -838,7 +723,7 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             BtnSimpanActionPerformed(null);
         }else{
-            Valid.pindah(evt,TSituation,BtnBatal);
+            Valid.pindah(evt,TCari,BtnBatal);
         }
 }//GEN-LAST:event_BtnSimpanKeyPressed
 
@@ -932,7 +817,7 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
 }//GEN-LAST:event_tbObatKeyPressed
 
     private void NIP2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NIP2KeyPressed
-        Valid.pindah(evt,TCari,TSituation);
+        Valid.pindah(evt,TCari,BtnSimpan);
     }//GEN-LAST:event_NIP2KeyPressed
 
     private void BtnDokterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDokterActionPerformed
@@ -944,7 +829,7 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
     }//GEN-LAST:event_BtnDokterActionPerformed
 
     private void BtnDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnDokterKeyPressed
-       Valid.pindah(evt,TCari,TSituation);
+       Valid.pindah(evt,TCari,BtnSimpan);
     }//GEN-LAST:event_BtnDokterKeyPressed
 
     private void MnLaporanResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnLaporanResumeActionPerformed
@@ -1009,28 +894,16 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
 
     }//GEN-LAST:event_MnDigitalTTEActionPerformed
 
-    private void TSituationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TSituationKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TSituationKeyPressed
 
-    private void TBackgroundKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBackgroundKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TBackgroundKeyPressed
 
-    private void TAssesmentKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TAssesmentKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TAssesmentKeyPressed
 
-    private void TRecomendationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TRecomendationKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TRecomendationKeyPressed
 
     private void NIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NIPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NIPActionPerformed
 
     private void NIPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NIPKeyPressed
-        Valid.pindah(evt,TCari,TSituation);
+        Valid.pindah(evt,TCari,BtnSimpan);
     }//GEN-LAST:event_NIPKeyPressed
 
     private void TanggalPemeriksaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TanggalPemeriksaanActionPerformed
@@ -1049,9 +922,6 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_JamPemeriksaanKeyPressed
 
-    private void TindakanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TindakanKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TindakanKeyPressed
 
     /**
     * @param args the command line arguments
@@ -1092,16 +962,12 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
     private javax.swing.JPanel PanelInput;
     private widget.ScrollPane Scroll;
     private widget.ComboBox Shift;
-    private widget.TextArea TAssesment;
-    private widget.TextArea TBackground;
+    private widget.TextArea TIsi;
     private widget.TextBox TCari;
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
-    private widget.TextArea TRecomendation;
-    private widget.TextArea TSituation;
     private widget.TextBox TanggalPemeriksaan;
-    private widget.TextArea Tindakan;
     private widget.InternalFrame internalFrame1;
     private widget.Label jLabel19;
     private widget.Label jLabel21;
@@ -1119,45 +985,33 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
     private widget.panelisi panelGlass9;
     private javax.swing.JMenuItem ppBerkasDigital;
     private widget.ScrollPane scrollInput;
-    private widget.ScrollPane scrollPane1;
-    private widget.ScrollPane scrollPane2;
-    private widget.ScrollPane scrollPane3;
-    private widget.ScrollPane scrollPane4;
-    private widget.ScrollPane scrollPane5;
+    private widget.ScrollPane scrollIsi;
     private widget.Table tbObat;
     // End of variables declaration//GEN-END:variables
 
     public void tampil() {
         Valid.tabelKosong(tabMode);
         try{
-            if(TCari.getText().equals("")){
-                ps=koneksi.prepareStatement(
-                    "select reg_periksa.tgl_registrasi,reg_periksa.status_lanjut,handover.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, "+
-                    "handover.tgl_perawatan,handover.jam_rawat,handover.shift,handover.situation, " +
-                    "handover.background,handover.assesment,handover.recommendation,handover.tindakan,handover.nip,handover.nip2,petugas.nama from pasien inner join reg_periksa inner join handover "+
-                    "on handover.no_rawat=reg_periksa.no_rawat and reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join petugas on handover.nip=petugas.nip LEFT JOIN validasi_handover "+
-                    "ON validasi_handover.no_rawat = handover.no_rawat AND validasi_handover.tgl_perawatan = handover.tgl_perawatan AND validasi_handover.jam_rawat = handover.jam_rawat where "+
-                    "handover.no_rawat like ? and ISNULL(validasi_handover.status_validasi) order by handover.no_rawat desc");
-            }else{
-                ps=koneksi.prepareStatement(
-                    "select reg_periksa.tgl_registrasi,reg_periksa.status_lanjut,handover.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, "+
-                    "handover.tgl_perawatan,handover.jam_rawat,handover.shift,handover.situation, " +
-                    "handover.background,handover.assesment,handover.recommendation,handover.tindakan,handover.nip,handover.nip2,petugas.nama from pasien inner join reg_periksa inner join handover "+
-                    "on handover.no_rawat=reg_periksa.no_rawat and reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join petugas on handover.nip=petugas.nip LEFT JOIN validasi_handover "+
-                    "ON validasi_handover.no_rawat = handover.no_rawat AND validasi_handover.tgl_perawatan = handover.tgl_perawatan AND validasi_handover.jam_rawat = handover.jam_rawat where "+
-                    "handover.no_rawat like ? and ISNULL(validasi_handover.status_validasi) order by handover.no_rawat desc");
-            }
+            // Satu baris handover dipecah per shift (Pagi/Siang/Malam); hanya shift yang terisi
+            // dan belum ada di validasi_handover_shift yang ditampilkan.
+            ps=koneksi.prepareStatement(
+                "select reg_periksa.tgl_registrasi,reg_periksa.status_lanjut,x.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, "+
+                "x.tgl_perawatan,x.jam_rawat,x.shift_isi,x.isi,x.nip,petugas.nama from ("+
+                "select no_rawat,tgl_perawatan,jam_rawat,if(ifnull(nip_pagi,'')='',nip,nip_pagi) as nip,'Pagi' as shift_isi,shift_pagi as isi from handover where shift_pagi<>'' "+
+                "union all select no_rawat,tgl_perawatan,jam_rawat,if(ifnull(nip_siang,'')='',nip,nip_siang),'Siang',shift_siang from handover where shift_siang<>'' "+
+                "union all select no_rawat,tgl_perawatan,jam_rawat,if(ifnull(nip_sore,'')='',nip,nip_sore),'Malam',shift_sore from handover where shift_sore<>'') x "+
+                "inner join reg_periksa on x.no_rawat=reg_periksa.no_rawat "+
+                "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
+                "inner join petugas on x.nip=petugas.nip "+
+                "left join validasi_handover_shift v on v.no_rawat=x.no_rawat and v.tgl_perawatan=x.tgl_perawatan and v.shift=x.shift_isi "+
+                "where x.no_rawat like ? and v.no_rawat is null order by x.no_rawat desc,x.tgl_perawatan,x.shift_isi");
             try {
-                if(!TCari.getText().equals("")){
-                    ps.setString(1,"%"+TCari.getText()+"%");
-                }else{
-                    ps.setString(1,"%"+TCari.getText()+"%");
-                }   
+                ps.setString(1,"%"+TCari.getText()+"%");
                 rs=ps.executeQuery();
                 while(rs.next()){
                     tabMode.addRow(new String[]{
                         rs.getString("tgl_registrasi"),rs.getString("status_lanjut"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("nip"),rs.getString("nama"),
-                        rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("shift"),rs.getString("situation"),rs.getString("background"),rs.getString("assesment"),rs.getString("recommendation"),rs.getString("tindakan")
+                        rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("shift_isi"),rs.getString("isi")
                     });
                 }
             } catch (Exception e) {
@@ -1178,24 +1032,20 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
     }
 
     public void emptTeks() {
+        TNoRw.setText("");
+        TNoRM.setText("");
+        TPasien.setText("");
         NIP.setText("");
         NamaPetugas.setText("");
         TanggalPemeriksaan.setText("");
         JamPemeriksaan.setText("");
-        TSituation.setText("");
-        TBackground.setText("");
-        TAssesment.setText("");
-        TRecomendation.setText("");
+        TIsi.setText("");
         TNoRw.requestFocus();
-        NIP.requestFocus();
-        TanggalPemeriksaan.requestFocus();
-        JamPemeriksaan.requestFocus();
     } 
-
+    
     private void getData() {
         if(tbObat.getSelectedRow()!= -1){
-//"Tgl.Rawat","Status","No.Rawat","No.RM","Nama Pasien","NIP Perawat Pemberi","Nama Perawat Pemberi","Tanggal Handover","Jam HandOver","Shift","S (SITUATION)","B (BACKGROUND)",
- //           "A (ASSESSMENT)","R (RECOMENDATION)","Tindakan/ Medikasi"             
+//"Tgl.Rawat","Status","No.Rawat","No.RM","Nama Pasien","NIP Perawat Pemberi","Nama Perawat Pemberi","Tanggal Handover","Jam HandOver","Shift","Isi Handover"
             TNoRw.setText(tbObat.getValueAt(tbObat.getSelectedRow(),2).toString());  
             TNoRM.setText(tbObat.getValueAt(tbObat.getSelectedRow(),3).toString());  
             TPasien.setText(tbObat.getValueAt(tbObat.getSelectedRow(),4).toString());  
@@ -1204,14 +1054,10 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
             TanggalPemeriksaan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),7).toString());  
             JamPemeriksaan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),8).toString()); 
             Shift.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),9).toString());
-            TSituation.setText(tbObat.getValueAt(tbObat.getSelectedRow(),10).toString());   
-            TBackground.setText(tbObat.getValueAt(tbObat.getSelectedRow(),11).toString());  
-            TAssesment.setText(tbObat.getValueAt(tbObat.getSelectedRow(),12).toString());
-            TRecomendation.setText(tbObat.getValueAt(tbObat.getSelectedRow(),13).toString());
-            Tindakan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),14).toString());
+            TIsi.setText(tbObat.getValueAt(tbObat.getSelectedRow(),10).toString());   
         }
     }
-
+    
     private void isRawat() {
          Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat='"+TNoRw.getText()+"' ",TNoRM);
     }
@@ -1258,10 +1104,10 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
             NIP2.setEditable(false);
             BtnDokter.setEnabled(true);
             NIP2.setText(akses.getkode());
-            Sequel.cariIsi("select nm_dokter from dokter where kd_dokter=?", NamaPetugas2,NIP2.getText());
+            NamaPetugas2.setText(petugas.tampil3(NIP2.getText()));
             if(NamaPetugas2.getText().equals("")){
                 NIP2.setText("");
-                JOptionPane.showMessageDialog(null,"User login bukan dokter...!!");
+                JOptionPane.showMessageDialog(null,"User login bukan petugas...!!");
             }
         }            
     }

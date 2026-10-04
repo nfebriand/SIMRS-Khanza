@@ -14959,7 +14959,7 @@ public final class DlgReg extends javax.swing.JDialog {
 
             if (Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = ? and no_rawat != ?", textNoAntrian.getText().trim(), Valid.getTglSmc(DTPReg), textNoRawatAntrian.getText())) {
                 JOptionPane.showMessageDialog(null, "Maaf, no. antrian ini sudah pernah digunakan!");
-            } else if (Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ? and tgl_daftar = ?", TNoRM.getText().trim(), Valid.getTglSmc(DTPReg))) {
+            } else if (Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ?", TNoRM.getText().trim())) {
                 Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = null, no_rkm_medis = null", "no_rawat = ?", textNoRawatAntrian.getText());
                 Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = ?, no_rkm_medis = ?", "tanggal = ? and nomor = ?", textNoRawatAntrian.getText(), TNoRM.getText(), Valid.getTglSmc(DTPReg), textNoAntrian.getText().trim());
             }
@@ -14978,7 +14978,7 @@ public final class DlgReg extends javax.swing.JDialog {
 
             if (Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = ? and no_rawat != ?", textNoAntrian.getText().trim(), Valid.getTglSmc(DTPReg), textNoRawatAntrian.getText())) {
                 JOptionPane.showMessageDialog(null, "Maaf, no. antrian ini sudah pernah digunakan!");
-            } else if (Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ? and tgl_daftar = ?", TNoRM.getText().trim(), Valid.getTglSmc(DTPReg))) {
+            } else if (Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ?", TNoRM.getText().trim())) { 
                 Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = null, no_rkm_medis = null", "no_rawat = ?", textNoRawatAntrian.getText());
                 Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = ?, no_rkm_medis = ?", "tanggal = ? and nomor = ?", textNoRawatAntrian.getText(), TNoRM.getText(), Valid.getTglSmc(DTPReg), textNoAntrian.getText().trim());
             }

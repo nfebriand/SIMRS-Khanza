@@ -69,7 +69,7 @@ public class DlgCariPeriksaLabPA extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        Object[] row={"No.Rawat","Pasien","Petugas","Tgl.Periksa","Jam Periksa","Dokter Perujuk","Penanggung Jawab","Pemeriksaan","Biaya","Diagnosa Klinis","Makroskopik","Mikroskopik","Kesimpulan","Kesan","Kode Periksa","Cara Bayar"};
+        Object[] row={"No.Rawat","Pasien","Petugas","Tgl.Periksa","Jam Periksa","Dokter Perujuk","Penanggung Jawab","Pemeriksaan","Biaya","Diagnosa Klinis","Makroskopik","Mikroskopik","Kesimpulan","Saran","Kode Periksa","Cara Bayar"};
         tabMode=new DefaultTableModel(null,row){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -727,7 +727,6 @@ public class DlgCariPeriksaLabPA extends javax.swing.JDialog {
 
         TabRawat.setBackground(new java.awt.Color(255, 255, 253));
         TabRawat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 246, 236)));
-        TabRawat.setForeground(new java.awt.Color(50, 50, 50));
         TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawat.setName("TabRawat"); // NOI18N
         TabRawat.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -976,11 +975,12 @@ public class DlgCariPeriksaLabPA extends javax.swing.JDialog {
         scrollPane5.setBounds(15, 475, 385, 50);
 
         label21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        label21.setText("Kesan :");
+        label21.setText("Saran :");
         label21.setName("label21"); // NOI18N
         label21.setPreferredSize(new java.awt.Dimension(60, 23));
         FormPass.add(label21);
         label21.setBounds(15, 531, 90, 23);
+        label21.getAccessibleContext().setAccessibleName("Saran :");
 
         scrollPane6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         scrollPane6.setName("scrollPane6"); // NOI18N
@@ -2504,7 +2504,7 @@ public class DlgCariPeriksaLabPA extends javax.swing.JDialog {
                                                     "<td valign='top' bgcolor='#fdfff9' align='center' width='35%'>Makroskopik</td>"+
                                                     "<td valign='top' bgcolor='#fdfff9' align='center' width='35%'>Mikroskopik</td>"+
                                                     "<td valign='top' bgcolor='#fdfff9' align='center' width='10%'>Kesimpulan</td>"+
-                                                    "<td valign='top' bgcolor='#fdfff9' align='center' width='10%'>Kesan</td>"+
+                                                    "<td valign='top' bgcolor='#fdfff9' align='center' width='10%'>Saran</td>"+
                                                 "</tr>");
                                         }
                                         rs5.beforeFirst();

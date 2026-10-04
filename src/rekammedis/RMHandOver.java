@@ -26,6 +26,7 @@ import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +55,17 @@ public final class RMHandOver extends javax.swing.JDialog {
     private int i = 0, pilihan = 0;
     private DlgCariPetugas petugas = new DlgCariPetugas(null, false);
     private String TANGGALMUNDUR = "yes";
+    private boolean abaikanEventTanggal = false;
+    // Isi shift yang ditarik otomatis dari shift sebelumnya (belum disimpan)
+    private String shiftPrefill = "";
+    private String teksPrefill = "";
+    // true = isi shift sebelumnya hanya ditarik jika shift tersebut sudah divalidasi (validasi_handover_shift).
+    // Set false jika ingin selalu ditarik walau belum divalidasi.
+    private static final boolean WAJIB_VALIDASI_SEBELUMNYA = true;
+    // Jadwal: Pagi 08-14, Siang 14-20, Malam 20-08. Malam dicatat di tanggal saat shift dimulai,
+    // jadi Malam yang dicentang sebelum jam ini memakai tanggal kemarin.
+    private static final int JAM_MULAI_PAGI = 8;
+    private boolean tanggalOtomatisMundur = false;
 
     /**
      * Creates new form DlgRujuk
@@ -68,8 +80,8 @@ public final class RMHandOver extends javax.swing.JDialog {
         setSize(628, 674);
 
         tabMode = new DefaultTableModel(null, new Object[]{
-            "P", "No.Rawat", "No.R.M.", "Nama Pasien", "Tgl.Rawat", "Jam", "Situation", "Background", "Assesment",
-            "Recommendation", "Tindakan/ Medikasi", "Shift Keluar", "NIP Keluar", "Nama Petugas Keluar", "Shift Masuk","NIP Masuk", "Nama Petugas Masuk",
+            "P", "No.Rawat", "No.R.M.", "Nama Pasien", "Tgl.Rawat", "Jam", "Shift Pagi", "Shift Siang", "Shift Malam",
+            "Shift Keluar", "NIP Keluar", "Nama Petugas Keluar", "Shift Masuk", "NIP Masuk", "Nama Petugas Masuk",
             "Status Verifikasi"}) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -83,9 +95,7 @@ public final class RMHandOver extends javax.swing.JDialog {
                 java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
-                java.lang.Object.class, java.lang.Object.class
-
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             @Override
@@ -97,55 +107,18 @@ public final class RMHandOver extends javax.swing.JDialog {
         tbPemeriksaanSbar.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbPemeriksaanSbar.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 18; i++) {
+        int[] lebarKolom = {20, 105, 70, 180, 100, 100, 190, 190, 190, 100, 120, 150, 100, 120, 150, 260};
+        for (i = 0; i < lebarKolom.length; i++) {
             TableColumn column = tbPemeriksaanSbar.getColumnModel().getColumn(i);
-            if (i == 0) {
-                column.setPreferredWidth(20);
-            } else if (i == 1) {
-                column.setPreferredWidth(105);
-            } else if (i == 2) {
-                column.setPreferredWidth(70);
-            } else if (i == 3) {
-                column.setPreferredWidth(180);
-            } else if (i == 4) {
-                column.setPreferredWidth(100);
-            } else if (i == 5) {
-                column.setPreferredWidth(100);
-            } else if (i == 6) {
-                column.setPreferredWidth(190);
-            } else if (i == 7) {
-                column.setPreferredWidth(190);
-            } else if (i == 8) {
-                column.setPreferredWidth(190);
-            } else if (i == 9) {
-                column.setPreferredWidth(180);
-            } else if (i == 10) {
-                column.setPreferredWidth(100);
-            } else if (i == 11) {
-                column.setPreferredWidth(100);
-            } else if (i == 12) {
-                column.setPreferredWidth(120);
-            } else if (i == 13) {
-                column.setPreferredWidth(120);
-            } else if (i == 14) {
-                column.setPreferredWidth(100);
-            } else if (i == 15) {
-                column.setPreferredWidth(120);
-            } else if (i == 16) {
-                column.setPreferredWidth(120);
-            } else if (i == 17) {
-                column.setPreferredWidth(120);
-            }
+            column.setPreferredWidth(lebarKolom[i]);
         }
         tbPemeriksaanSbar.setDefaultRenderer(Object.class, new WarnaTable());
 
         TNoRw.setDocument(new batasInput((byte) 17).getKata(TNoRw));
         NIP.setDocument(new batasInput((byte) 20).getKata(NIP));
-        TSituation.setDocument(new batasInput((int) 1000).getKata(TSituation));
-        TBackground.setDocument(new batasInput((int) 1000).getKata(TBackground));
-        TAssesment.setDocument(new batasInput((int) 1000).getKata(TAssesment));
-        TRecommendation.setDocument(new batasInput((int) 1000).getKata(TRecommendation));
-        Tindakan.setDocument(new batasInput((int) 1000).getKata(Tindakan));
+        TShiftPagi.setDocument(new batasInput((int) 2000).getKata(TShiftPagi));
+        TShiftSiang.setDocument(new batasInput((int) 2000).getKata(TShiftSiang));
+        TShiftMalam.setDocument(new batasInput((int) 2000).getKata(TShiftMalam));
         TCari.setDocument(new batasInput((int) 100).getKata(TCari));
 
         if (koneksiDB.CARICEPAT().equals("aktif")) {
@@ -223,6 +196,16 @@ public final class RMHandOver extends javax.swing.JDialog {
             TANGGALMUNDUR = "yes";
         }
 
+        pilihShift("");
+        DTPTgl.addItemListener(new java.awt.event.ItemListener() {
+            @Override
+            public void itemStateChanged(java.awt.event.ItemEvent e) {
+                if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED && !abaikanEventTanggal) {
+                    muatDataHandover();
+                }
+            }
+        });
+
         ChkInput.setSelected(false);
         isForm();
 
@@ -269,42 +252,41 @@ public final class RMHandOver extends javax.swing.JDialog {
         ChkInput = new widget.CekBox();
         scrollInput = new widget.ScrollPane();
         FormInput = new widget.PanelBiasa();
-        jLabel4 = new widget.Label();
+        jLabel5 = new widget.Label();
         TNoRw = new widget.TextBox();
-        TPasien = new widget.TextBox();
-        DTPTgl = new widget.Tanggal();
         TNoRM = new widget.TextBox();
+        TPasien = new widget.TextBox();
+        jLabel4 = new widget.Label();
+        RuangRawat = new widget.TextBox();
+        jLabel9 = new widget.Label();
+        DTPTgl = new widget.Tanggal();
         cmbJam = new widget.ComboBox();
         cmbMnt = new widget.ComboBox();
         cmbDtk = new widget.ComboBox();
         ChkKejadian = new widget.CekBox();
-        scrollPane5 = new widget.ScrollPane();
-        TSituation = new widget.TextArea();
-        scrollPane6 = new widget.ScrollPane();
-        TBackground = new widget.TextArea();
-        scrollPane9 = new widget.ScrollPane();
-        TAssesment = new widget.TextArea();
-        scrollPane10 = new widget.ScrollPane();
-        TRecommendation = new widget.TextArea();
+        jLabel8 = new widget.Label();
+        DiagnosaAwal = new widget.TextBox();
+        jLabel96 = new widget.Label();
+        ShiftKeluar = new widget.ComboBox();
         NIP = new widget.TextBox();
         NamaPetugas = new widget.TextBox();
         BtnSeekPegawai1 = new widget.Button();
-        NIP2 = new widget.TextBox();
+        BtnStatusVerifikasiHandOver = new widget.Button();
         jLabel94 = new widget.Label();
+        ShiftMasuk = new widget.ComboBox();
+        NIP2 = new widget.TextBox();
         NamaPetugas2 = new widget.TextBox();
         BtnSeekPegawai2 = new widget.Button();
-        jLabel96 = new widget.Label();
-        ShiftKeluar = new widget.ComboBox();
-        scrollPane11 = new widget.ScrollPane();
-        Tindakan = new widget.TextArea();
         BtnValidasiHandOver = new widget.Button();
-        BtnStatusVerifikasiHandOver = new widget.Button();
-        ShiftMasuk = new widget.ComboBox();
-        jLabel5 = new widget.Label();
-        jLabel8 = new widget.Label();
-        DiagnosaAwal = new widget.TextBox();
-        RuangRawat = new widget.TextBox();
-        ChkUpdateData = new javax.swing.JCheckBox();
+        ChkShiftPagi = new javax.swing.JCheckBox();
+        ChkShiftSiang = new javax.swing.JCheckBox();
+        ChkShiftMalam = new javax.swing.JCheckBox();
+        scrollShiftPagi = new widget.ScrollPane();
+        TShiftPagi = new widget.TextArea();
+        scrollShiftSiang = new widget.ScrollPane();
+        TShiftSiang = new widget.TextArea();
+        scrollShiftMalam = new widget.ScrollPane();
+        TShiftMalam = new widget.TextArea();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -607,13 +589,13 @@ public final class RMHandOver extends javax.swing.JDialog {
         FormInput.setBackground(new java.awt.Color(250, 255, 245));
         FormInput.setBorder(null);
         FormInput.setName("FormInput"); // NOI18N
-        FormInput.setPreferredSize(new java.awt.Dimension(100, 225));
+        FormInput.setPreferredSize(new java.awt.Dimension(960, 375));
         FormInput.setLayout(null);
 
-        jLabel4.setText("Ruang Rawat :");
-        jLabel4.setName("jLabel4"); // NOI18N
-        FormInput.add(jLabel4);
-        jLabel4.setBounds(490, 40, 90, 23);
+        jLabel5.setText("No.Rawat :");
+        jLabel5.setName("jLabel5"); // NOI18N
+        FormInput.add(jLabel5);
+        jLabel5.setBounds(0, 10, 95, 23);
 
         TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
@@ -625,6 +607,17 @@ public final class RMHandOver extends javax.swing.JDialog {
         FormInput.add(TNoRw);
         TNoRw.setBounds(100, 10, 130, 23);
 
+        TNoRM.setEditable(false);
+        TNoRM.setHighlighter(null);
+        TNoRM.setName("TNoRM"); // NOI18N
+        TNoRM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TNoRMKeyPressed(evt);
+            }
+        });
+        FormInput.add(TNoRM);
+        TNoRM.setBounds(240, 10, 100, 23);
+
         TPasien.setEditable(false);
         TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
@@ -634,7 +627,23 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(TPasien);
-        TPasien.setBounds(340, 10, 260, 23);
+        TPasien.setBounds(350, 10, 290, 23);
+
+        jLabel4.setText("Ruang Rawat :");
+        jLabel4.setName("jLabel4"); // NOI18N
+        FormInput.add(jLabel4);
+        jLabel4.setBounds(650, 10, 90, 23);
+
+        RuangRawat.setEditable(false);
+        RuangRawat.setHighlighter(null);
+        RuangRawat.setName("RuangRawat"); // NOI18N
+        FormInput.add(RuangRawat);
+        RuangRawat.setBounds(740, 10, 200, 23);
+
+        jLabel9.setText("Tanggal :");
+        jLabel9.setName("jLabel9"); // NOI18N
+        FormInput.add(jLabel9);
+        jLabel9.setBounds(0, 40, 95, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
         DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-09-2026" }));
@@ -647,18 +656,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(DTPTgl);
-        DTPTgl.setBounds(610, 10, 90, 23);
-
-        TNoRM.setEditable(false);
-        TNoRM.setHighlighter(null);
-        TNoRM.setName("TNoRM"); // NOI18N
-        TNoRM.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TNoRMKeyPressed(evt);
-            }
-        });
-        FormInput.add(TNoRM);
-        TNoRM.setBounds(240, 10, 90, 23);
+        DTPTgl.setBounds(100, 40, 130, 23);
 
         cmbJam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbJam.setName("cmbJam"); // NOI18N
@@ -668,7 +666,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(cmbJam);
-        cmbJam.setBounds(700, 10, 50, 23);
+        cmbJam.setBounds(235, 40, 50, 23);
 
         cmbMnt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMnt.setName("cmbMnt"); // NOI18N
@@ -678,7 +676,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(cmbMnt);
-        cmbMnt.setBounds(750, 10, 50, 23);
+        cmbMnt.setBounds(285, 40, 50, 23);
 
         cmbDtk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbDtk.setName("cmbDtk"); // NOI18N
@@ -688,7 +686,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(cmbDtk);
-        cmbDtk.setBounds(800, 10, 50, 23);
+        cmbDtk.setBounds(335, 40, 50, 23);
 
         ChkKejadian.setBorder(null);
         ChkKejadian.setSelected(true);
@@ -697,79 +695,33 @@ public final class RMHandOver extends javax.swing.JDialog {
         ChkKejadian.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ChkKejadian.setName("ChkKejadian"); // NOI18N
         FormInput.add(ChkKejadian);
-        ChkKejadian.setBounds(850, 10, 23, 23);
+        ChkKejadian.setBounds(385, 40, 23, 23);
 
-        scrollPane5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "[ Situation ]", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(51, 51, 51))); // NOI18N
-        scrollPane5.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane5.setName("scrollPane5"); // NOI18N
+        jLabel8.setText("Diagnosa :");
+        jLabel8.setName("jLabel8"); // NOI18N
+        FormInput.add(jLabel8);
+        jLabel8.setBounds(420, 40, 75, 23);
 
-        TSituation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TSituation.setColumns(20);
-        TSituation.setRows(5);
-        TSituation.setName("TSituation"); // NOI18N
-        TSituation.addKeyListener(new java.awt.event.KeyAdapter() {
+        DiagnosaAwal.setEditable(false);
+        DiagnosaAwal.setHighlighter(null);
+        DiagnosaAwal.setName("DiagnosaAwal"); // NOI18N
+        DiagnosaAwal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                TSituationKeyPressed(evt);
+                DiagnosaAwalKeyPressed(evt);
             }
         });
-        scrollPane5.setViewportView(TSituation);
+        FormInput.add(DiagnosaAwal);
+        DiagnosaAwal.setBounds(495, 40, 445, 23);
 
-        FormInput.add(scrollPane5);
-        scrollPane5.setBounds(100, 70, 360, 70);
+        jLabel96.setText("Petugas Menyerahkan :");
+        jLabel96.setName("jLabel96"); // NOI18N
+        FormInput.add(jLabel96);
+        jLabel96.setBounds(0, 70, 140, 23);
 
-        scrollPane6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "[ Background ]", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(51, 51, 51))); // NOI18N
-        scrollPane6.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane6.setName("scrollPane6"); // NOI18N
-
-        TBackground.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TBackground.setColumns(20);
-        TBackground.setRows(5);
-        TBackground.setName("TBackground"); // NOI18N
-        TBackground.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TBackgroundKeyPressed(evt);
-            }
-        });
-        scrollPane6.setViewportView(TBackground);
-
-        FormInput.add(scrollPane6);
-        scrollPane6.setBounds(100, 150, 360, 70);
-
-        scrollPane9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "[ Asesmen ]", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(51, 51, 51))); // NOI18N
-        scrollPane9.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane9.setName("scrollPane9"); // NOI18N
-
-        TAssesment.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TAssesment.setColumns(20);
-        TAssesment.setRows(5);
-        TAssesment.setName("TAssesment"); // NOI18N
-        TAssesment.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TAssesmentKeyPressed(evt);
-            }
-        });
-        scrollPane9.setViewportView(TAssesment);
-
-        FormInput.add(scrollPane9);
-        scrollPane9.setBounds(100, 230, 360, 70);
-
-        scrollPane10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "[ Recommendation ]", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(51, 51, 51))); // NOI18N
-        scrollPane10.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane10.setName("scrollPane10"); // NOI18N
-
-        TRecommendation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        TRecommendation.setColumns(20);
-        TRecommendation.setRows(5);
-        TRecommendation.setName("TRecommendation"); // NOI18N
-        TRecommendation.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TRecommendationKeyPressed(evt);
-            }
-        });
-        scrollPane10.setViewportView(TRecommendation);
-
-        FormInput.add(scrollPane10);
-        scrollPane10.setBounds(500, 70, 360, 100);
+        ShiftKeluar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pagi", "Siang", "Malam" }));
+        ShiftKeluar.setName("ShiftKeluar"); // NOI18N
+        FormInput.add(ShiftKeluar);
+        ShiftKeluar.setBounds(140, 70, 80, 23);
 
         NIP.setHighlighter(null);
         NIP.setName("NIP"); // NOI18N
@@ -784,7 +736,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(NIP);
-        NIP.setBounds(220, 310, 115, 23);
+        NIP.setBounds(225, 70, 110, 23);
 
         NamaPetugas.setEditable(false);
         NamaPetugas.setHighlighter(null);
@@ -795,7 +747,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(NamaPetugas);
-        NamaPetugas.setBounds(340, 310, 330, 23);
+        NamaPetugas.setBounds(340, 70, 270, 23);
 
         BtnSeekPegawai1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnSeekPegawai1.setMnemonic('4');
@@ -807,95 +759,7 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnSeekPegawai1);
-        BtnSeekPegawai1.setBounds(680, 310, 30, 23);
-
-        NIP2.setHighlighter(null);
-        NIP2.setName("NIP2"); // NOI18N
-        NIP2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NIP2ActionPerformed(evt);
-            }
-        });
-        NIP2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                NIP2KeyPressed(evt);
-            }
-        });
-        FormInput.add(NIP2);
-        NIP2.setBounds(220, 340, 115, 23);
-
-        jLabel94.setText("Shift Masuk :");
-        jLabel94.setName("jLabel94"); // NOI18N
-        FormInput.add(jLabel94);
-        jLabel94.setBounds(0, 340, 90, 23);
-
-        NamaPetugas2.setEditable(false);
-        NamaPetugas2.setHighlighter(null);
-        NamaPetugas2.setName("NamaPetugas2"); // NOI18N
-        NamaPetugas2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NamaPetugas2ActionPerformed(evt);
-            }
-        });
-        FormInput.add(NamaPetugas2);
-        NamaPetugas2.setBounds(340, 340, 330, 23);
-
-        BtnSeekPegawai2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        BtnSeekPegawai2.setMnemonic('4');
-        BtnSeekPegawai2.setToolTipText("ALt+4");
-        BtnSeekPegawai2.setName("BtnSeekPegawai2"); // NOI18N
-        BtnSeekPegawai2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnSeekPegawai2ActionPerformed(evt);
-            }
-        });
-        FormInput.add(BtnSeekPegawai2);
-        BtnSeekPegawai2.setBounds(680, 340, 28, 23);
-
-        jLabel96.setText("Shift Keluar :");
-        jLabel96.setName("jLabel96"); // NOI18N
-        FormInput.add(jLabel96);
-        jLabel96.setBounds(0, 310, 90, 23);
-
-        ShiftKeluar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pagi", "Siang", "Malam" }));
-        ShiftKeluar.setName("ShiftKeluar"); // NOI18N
-        FormInput.add(ShiftKeluar);
-        ShiftKeluar.setBounds(100, 310, 100, 23);
-
-        scrollPane11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "[ Tindakan dan Medikasi ]", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(51, 51, 51))); // NOI18N
-        scrollPane11.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        scrollPane11.setName("scrollPane11"); // NOI18N
-
-        Tindakan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        Tindakan.setColumns(20);
-        Tindakan.setRows(5);
-        Tindakan.setName("Tindakan"); // NOI18N
-        Tindakan.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TindakanKeyPressed(evt);
-            }
-        });
-        scrollPane11.setViewportView(Tindakan);
-
-        FormInput.add(scrollPane11);
-        scrollPane11.setBounds(500, 180, 360, 120);
-
-        BtnValidasiHandOver.setForeground(new java.awt.Color(0, 0, 0));
-        BtnValidasiHandOver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/peminjaman.png"))); // NOI18N
-        BtnValidasiHandOver.setMnemonic('4');
-        BtnValidasiHandOver.setText("Status Validasi");
-        BtnValidasiHandOver.setToolTipText("ALt+4");
-        BtnValidasiHandOver.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        BtnValidasiHandOver.setGlassColor(new java.awt.Color(255, 153, 153));
-        BtnValidasiHandOver.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        BtnValidasiHandOver.setName("BtnValidasiHandOver"); // NOI18N
-        BtnValidasiHandOver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnValidasiHandOverActionPerformed(evt);
-            }
-        });
-        FormInput.add(BtnValidasiHandOver);
-        BtnValidasiHandOver.setBounds(720, 340, 140, 26);
+        BtnSeekPegawai1.setBounds(615, 70, 28, 23);
 
         BtnStatusVerifikasiHandOver.setForeground(new java.awt.Color(0, 0, 0));
         BtnStatusVerifikasiHandOver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/peminjaman.png"))); // NOI18N
@@ -912,50 +776,145 @@ public final class RMHandOver extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnStatusVerifikasiHandOver);
-        BtnStatusVerifikasiHandOver.setBounds(720, 310, 140, 26);
+        BtnStatusVerifikasiHandOver.setBounds(800, 69, 140, 26);
+
+        jLabel94.setText("Petugas Penerima :");
+        jLabel94.setName("jLabel94"); // NOI18N
+        FormInput.add(jLabel94);
+        jLabel94.setBounds(0, 100, 140, 23);
 
         ShiftMasuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pagi", "Siang", "Malam" }));
         ShiftMasuk.setName("ShiftMasuk"); // NOI18N
         FormInput.add(ShiftMasuk);
-        ShiftMasuk.setBounds(100, 340, 100, 23);
+        ShiftMasuk.setBounds(140, 100, 80, 23);
 
-        jLabel5.setText("No.Rawat :");
-        jLabel5.setName("jLabel5"); // NOI18N
-        FormInput.add(jLabel5);
-        jLabel5.setBounds(0, 10, 90, 23);
-
-        jLabel8.setText("Diagnosa Awal :");
-        jLabel8.setName("jLabel8"); // NOI18N
-        FormInput.add(jLabel8);
-        jLabel8.setBounds(0, 40, 90, 23);
-
-        DiagnosaAwal.setEditable(false);
-        DiagnosaAwal.setHighlighter(null);
-        DiagnosaAwal.setName("DiagnosaAwal"); // NOI18N
-        DiagnosaAwal.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                DiagnosaAwalKeyPressed(evt);
-            }
-        });
-        FormInput.add(DiagnosaAwal);
-        DiagnosaAwal.setBounds(100, 40, 360, 23);
-
-        RuangRawat.setEditable(false);
-        RuangRawat.setHighlighter(null);
-        RuangRawat.setName("RuangRawat"); // NOI18N
-        FormInput.add(RuangRawat);
-        RuangRawat.setBounds(590, 40, 270, 23);
-
-        ChkUpdateData.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        ChkUpdateData.setText("Update Data Shift");
-        ChkUpdateData.setName("ChkUpdateData"); // NOI18N
-        ChkUpdateData.addActionListener(new java.awt.event.ActionListener() {
+        NIP2.setHighlighter(null);
+        NIP2.setName("NIP2"); // NOI18N
+        NIP2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChkUpdateDataActionPerformed(evt);
+                NIP2ActionPerformed(evt);
             }
         });
-        FormInput.add(ChkUpdateData);
-        ChkUpdateData.setBounds(870, 80, 130, 19);
+        NIP2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NIP2KeyPressed(evt);
+            }
+        });
+        FormInput.add(NIP2);
+        NIP2.setBounds(225, 100, 110, 23);
+
+        NamaPetugas2.setEditable(false);
+        NamaPetugas2.setHighlighter(null);
+        NamaPetugas2.setName("NamaPetugas2"); // NOI18N
+        NamaPetugas2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NamaPetugas2ActionPerformed(evt);
+            }
+        });
+        FormInput.add(NamaPetugas2);
+        NamaPetugas2.setBounds(340, 100, 270, 23);
+
+        BtnSeekPegawai2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        BtnSeekPegawai2.setMnemonic('4');
+        BtnSeekPegawai2.setToolTipText("ALt+4");
+        BtnSeekPegawai2.setName("BtnSeekPegawai2"); // NOI18N
+        BtnSeekPegawai2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSeekPegawai2ActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnSeekPegawai2);
+        BtnSeekPegawai2.setBounds(615, 100, 28, 23);
+
+        BtnValidasiHandOver.setForeground(new java.awt.Color(0, 0, 0));
+        BtnValidasiHandOver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/peminjaman.png"))); // NOI18N
+        BtnValidasiHandOver.setMnemonic('4');
+        BtnValidasiHandOver.setText("Status Validasi");
+        BtnValidasiHandOver.setToolTipText("ALt+4");
+        BtnValidasiHandOver.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnValidasiHandOver.setGlassColor(new java.awt.Color(255, 153, 153));
+        BtnValidasiHandOver.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnValidasiHandOver.setName("BtnValidasiHandOver"); // NOI18N
+        BtnValidasiHandOver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnValidasiHandOverActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnValidasiHandOver);
+        BtnValidasiHandOver.setBounds(800, 99, 140, 26);
+
+        ChkShiftPagi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ChkShiftPagi.setText("Shift Pagi");
+        ChkShiftPagi.setName("ChkShiftPagi"); // NOI18N
+        ChkShiftPagi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkShiftPagiActionPerformed(evt);
+            }
+        });
+        FormInput.add(ChkShiftPagi);
+        ChkShiftPagi.setBounds(0, 135, 310, 23);
+
+        ChkShiftSiang.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ChkShiftSiang.setText("Shift Siang");
+        ChkShiftSiang.setName("ChkShiftSiang"); // NOI18N
+        ChkShiftSiang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkShiftSiangActionPerformed(evt);
+            }
+        });
+        FormInput.add(ChkShiftSiang);
+        ChkShiftSiang.setBounds(325, 135, 310, 23);
+
+        ChkShiftMalam.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ChkShiftMalam.setText("Shift Malam");
+        ChkShiftMalam.setName("ChkShiftMalam"); // NOI18N
+        ChkShiftMalam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkShiftMalamActionPerformed(evt);
+            }
+        });
+        FormInput.add(ChkShiftMalam);
+        ChkShiftMalam.setBounds(650, 135, 290, 23);
+
+        scrollShiftPagi.setName("scrollShiftPagi"); // NOI18N
+
+        TShiftPagi.setColumns(20);
+        TShiftPagi.setEditable(false);
+        TShiftPagi.setLineWrap(true);
+        TShiftPagi.setRows(5);
+        TShiftPagi.setWrapStyleWord(true);
+        TShiftPagi.setName("TShiftPagi"); // NOI18N
+        scrollShiftPagi.setViewportView(TShiftPagi);
+
+        FormInput.add(scrollShiftPagi);
+        scrollShiftPagi.setBounds(0, 165, 310, 200);
+
+        scrollShiftSiang.setName("scrollShiftSiang"); // NOI18N
+
+        TShiftSiang.setColumns(20);
+        TShiftSiang.setEditable(false);
+        TShiftSiang.setLineWrap(true);
+        TShiftSiang.setRows(5);
+        TShiftSiang.setWrapStyleWord(true);
+        TShiftSiang.setName("TShiftSiang"); // NOI18N
+        scrollShiftSiang.setViewportView(TShiftSiang);
+
+        FormInput.add(scrollShiftSiang);
+        scrollShiftSiang.setBounds(325, 165, 310, 200);
+
+        scrollShiftMalam.setName("scrollShiftMalam"); // NOI18N
+
+        TShiftMalam.setColumns(20);
+        TShiftMalam.setEditable(false);
+        TShiftMalam.setLineWrap(true);
+        TShiftMalam.setRows(5);
+        TShiftMalam.setWrapStyleWord(true);
+        TShiftMalam.setName("TShiftMalam"); // NOI18N
+        scrollShiftMalam.setViewportView(TShiftMalam);
+
+        FormInput.add(scrollShiftMalam);
+        scrollShiftMalam.setBounds(650, 165, 290, 200);
+
 
         scrollInput.setViewportView(FormInput);
 
@@ -981,32 +940,7 @@ public final class RMHandOver extends javax.swing.JDialog {
 }//GEN-LAST:event_TPasienKeyPressed
 
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
-        if ((!TSituation.getText().trim().equals("")) || (!TBackground.getText().trim().equals("")) || (!TAssesment.getText().trim().equals(""))
-                || (!TRecommendation.getText().trim().equals(""))) {
-            if (NIP.getText().trim().equals("") || NamaPetugas.getText().trim().equals("")) {
-                Valid.textKosong(NIP, "Dokter/Paramedis masih kosong...!!");
-            } else {
-                if (akses.getkode().equals("Admin Utama")) {
-                    Sequel.menyimpan("handover", "?,?,?,?,?,?,?,?,?,?,?,?", "Data", 12, new String[]{
-                        TNoRw.getText(), Valid.SetTgl(DTPTgl.getSelectedItem() + ""), cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem(),
-                        TSituation.getText(), TBackground.getText(), TAssesment.getText(), TRecommendation.getText(), Tindakan.getText(), ShiftKeluar.getSelectedItem().toString(),  NIP.getText(),
-                        ShiftMasuk.getSelectedItem().toString(), NIP2.getText()});
-                    tampil();
-                    BtnBatalActionPerformed(evt);
-                } else {
-                    if (akses.getkode().equals(NIP.getText())) {
-                        Sequel.menyimpan("handover", "?,?,?,?,?,?,?,?,?,?,?,?", "Data", 12, new String[]{
-                        TNoRw.getText(), Valid.SetTgl(DTPTgl.getSelectedItem() + ""), cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem(),
-                        TSituation.getText(), TBackground.getText(), TAssesment.getText(), TRecommendation.getText(), Tindakan.getText(), ShiftKeluar.getSelectedItem().toString(),  NIP.getText(),
-                        ShiftMasuk.getSelectedItem().toString(), NIP2.getText()});
-                        tampil();
-                        BtnBatalActionPerformed(evt);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Hanya bisa disimpan oleh dokter/petugas yang bersangkutan..!!");
-                    }
-                }
-            }
-        }
+        simpanHandover();
 }//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
@@ -1038,18 +972,15 @@ public final class RMHandOver extends javax.swing.JDialog {
         } else {
             for (i = 0; i < tbPemeriksaanSbar.getRowCount(); i++) {
                 if (tbPemeriksaanSbar.getValueAt(i, 0).toString().equals("true")) {
-                    if (akses.getkode().equals("Admin Utama")) {
+                    // kolom 10 = NIP petugas yang menyerahkan
+                    if (akses.getkode().equals("Admin Utama") || akses.getkode().equals(tbPemeriksaanSbar.getValueAt(i, 10).toString())) {
                         Sequel.queryu("delete from handover where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
                                 + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString()
                                 + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(i, 5).toString() + "' ");
+                        Sequel.queryu("delete from validasi_handover_shift where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
+                                + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString() + "' ");
                     } else {
-                        if (akses.getkode().equals(tbPemeriksaanSbar.getValueAt(i, 10).toString())) {
-                            Sequel.queryu("delete from handover where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
-                                    + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString()
-                                    + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(i, 5).toString() + "' ");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Hanya bisa dihapus oleh dokter/petugas yang bersangkutan..!!");
-                        }
+                        JOptionPane.showMessageDialog(null, "Hanya bisa dihapus oleh dokter/petugas yang bersangkutan..!!");
                     }
                 }
             }
@@ -1067,49 +998,11 @@ public final class RMHandOver extends javax.swing.JDialog {
 }//GEN-LAST:event_BtnHapusKeyPressed
 
     private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
-        if ((!TSituation.getText().trim().equals("")) || (!TBackground.getText().trim().equals("")) || (!TAssesment.getText().trim().equals(""))
-                || (!TRecommendation.getText().trim().equals(""))) {
-            if (tbPemeriksaanSbar.getSelectedRow() > -1) {
-                if (akses.getkode().equals("Admin Utama")) {
-                    Sequel.mengedit(
-                            "handover",
-                            "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
-                            + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
-                            + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
-                            "no_rawat='" + TNoRw.getText()
-                            + "', situation='" + TSituation.getText()
-                            + "', background='" + TBackground.getText()
-                            + "', assesment='" + TAssesment.getText()
-                            + "', recommendation='" + TRecommendation.getText()
-                            + "', tindakan='" + Tindakan.getText()
-                            + "', tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem().toString())
-                            + "', jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem()
-                            + "', nip='" + NIP.getText() + "'"
-                    );
-
-                    tampil();
-                    BtnBatalActionPerformed(evt);
-                } else {
-                    if (akses.getkode().equals(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 10).toString())) {
-                        Sequel.mengedit("handover", "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
-                                + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
-                                + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
-                                "no_rawat='" + TNoRw.getText() + "',situation='" + TSituation.getText() + "',background='" + TBackground.getText() + "',"
-                                + "assesment='" + TAssesment.getText() + "',recommendation='" + TRecommendation.getText() + "',"
-                                + "',tindakan='" + Tindakan.getText() + "',"
-                                + "tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem() + "") + "',"
-                                + "jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem() + "'");
-
-                        tampil();
-                        BtnBatalActionPerformed(evt);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Hanya bisa diganti oleh dokter/petugas yang bersangkutan..!!");
-                    }
-                }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Silahkan pilih data yang mau diganti..!!");
-                TCari.requestFocus();
-            }
+        if (tbPemeriksaanSbar.getSelectedRow() > -1) {
+            simpanHandover();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Silahkan pilih data yang mau diganti..!!");
+            TCari.requestFocus();
         }
 }//GEN-LAST:event_BtnEditActionPerformed
 
@@ -1221,33 +1114,17 @@ public final class RMHandOver extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_MnCatatanADIMEActionPerformed
 
-    private void TSituationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TSituationKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TSituationKeyPressed
-
-    private void TBackgroundKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBackgroundKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TBackgroundKeyPressed
-
-    private void TAssesmentKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TAssesmentKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TAssesmentKeyPressed
-
-    private void TRecommendationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TRecommendationKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TRecommendationKeyPressed
-
     private void NIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NIPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NIPActionPerformed
 
     private void NIPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NIPKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_PAGE_DOWN) {
-            Sequel.cariIsi("select petugas.nama from petugas where petugas.nik=?", NamaPetugas, NIP.getText());
+            Sequel.cariIsi("select petugas.nama from petugas where petugas.nip=?", NamaPetugas, NIP.getText());
         } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
             BtnSeekPegawai1ActionPerformed(null);
         } else {
-            Valid.pindah(evt, TNoRw, TSituation);
+            Valid.pindah(evt, TNoRw, NIP2);
         }
     }//GEN-LAST:event_NIPKeyPressed
 
@@ -1283,7 +1160,13 @@ public final class RMHandOver extends javax.swing.JDialog {
     }//GEN-LAST:event_NIP2ActionPerformed
 
     private void NIP2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NIP2KeyPressed
-        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_PAGE_DOWN) {
+            Sequel.cariIsi("select petugas.nama from petugas where petugas.nip=?", NamaPetugas2, NIP2.getText());
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            BtnSeekPegawai2ActionPerformed(null);
+        } else {
+            Valid.pindah(evt, NIP, ChkShiftPagi);
+        }
     }//GEN-LAST:event_NIP2KeyPressed
 
     private void NamaPetugas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaPetugas2ActionPerformed
@@ -1298,10 +1181,6 @@ public final class RMHandOver extends javax.swing.JDialog {
         petugas.setLocationRelativeTo(internalFrame1);
         petugas.setVisible(true);
     }//GEN-LAST:event_BtnSeekPegawai2ActionPerformed
-
-    private void TindakanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TindakanKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TindakanKeyPressed
 
     private void BtnValidasiHandOverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnValidasiHandOverActionPerformed
         if (TNoRw.getText().trim().equals("")) {
@@ -1340,13 +1219,17 @@ public final class RMHandOver extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_DiagnosaAwalKeyPressed
 
-    private void ChkUpdateDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkUpdateDataActionPerformed
-        if (ChkUpdateData.isSelected()) {
-            kunciKolomIsian(true); // Buka kunci jika dicentang
-        } else {
-            kunciKolomIsian(false); // Kunci kembali jika tidak dicentang
-        }
-    }//GEN-LAST:event_ChkUpdateDataActionPerformed
+    private void ChkShiftPagiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkShiftPagiActionPerformed
+        shiftDicentang("Pagi", ChkShiftPagi.isSelected());
+    }//GEN-LAST:event_ChkShiftPagiActionPerformed
+
+    private void ChkShiftSiangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkShiftSiangActionPerformed
+        shiftDicentang("Siang", ChkShiftSiang.isSelected());
+    }//GEN-LAST:event_ChkShiftSiangActionPerformed
+
+    private void ChkShiftMalamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkShiftMalamActionPerformed
+        shiftDicentang("Malam", ChkShiftMalam.isSelected());
+    }//GEN-LAST:event_ChkShiftMalamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1379,7 +1262,9 @@ public final class RMHandOver extends javax.swing.JDialog {
     private widget.Button BtnValidasiHandOver;
     private widget.CekBox ChkInput;
     private widget.CekBox ChkKejadian;
-    private javax.swing.JCheckBox ChkUpdateData;
+    private javax.swing.JCheckBox ChkShiftMalam;
+    private javax.swing.JCheckBox ChkShiftPagi;
+    private javax.swing.JCheckBox ChkShiftSiang;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Tanggal DTPTgl;
@@ -1397,16 +1282,14 @@ public final class RMHandOver extends javax.swing.JDialog {
     private widget.ScrollPane Scroll;
     private widget.ComboBox ShiftKeluar;
     private widget.ComboBox ShiftMasuk;
-    private widget.TextArea TAssesment;
-    private widget.TextArea TBackground;
     private widget.TextBox TCari;
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
-    private widget.TextArea TRecommendation;
-    private widget.TextArea TSituation;
+    private widget.TextArea TShiftMalam;
+    private widget.TextArea TShiftPagi;
+    private widget.TextArea TShiftSiang;
     private widget.TextBox TanggalRegistrasi;
-    private widget.TextArea Tindakan;
     private widget.TextBox Umur;
     private widget.ComboBox cmbDtk;
     private widget.ComboBox cmbJam;
@@ -1419,6 +1302,7 @@ public final class RMHandOver extends javax.swing.JDialog {
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private widget.Label jLabel8;
+    private widget.Label jLabel9;
     private widget.Label jLabel94;
     private widget.Label jLabel96;
     private javax.swing.JPanel jPanel3;
@@ -1426,11 +1310,9 @@ public final class RMHandOver extends javax.swing.JDialog {
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.ScrollPane scrollInput;
-    private widget.ScrollPane scrollPane10;
-    private widget.ScrollPane scrollPane11;
-    private widget.ScrollPane scrollPane5;
-    private widget.ScrollPane scrollPane6;
-    private widget.ScrollPane scrollPane9;
+    private widget.ScrollPane scrollShiftMalam;
+    private widget.ScrollPane scrollShiftPagi;
+    private widget.ScrollPane scrollShiftSiang;
     private widget.Table tbPemeriksaanSbar;
     // End of variables declaration//GEN-END:variables
 
@@ -1438,37 +1320,36 @@ public final class RMHandOver extends javax.swing.JDialog {
         Valid.tabelKosong(tabMode);
         try {
             ps = koneksi.prepareStatement("select handover.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,"
-                    + "handover.tgl_perawatan,handover.jam_rawat,handover.situation,handover.background, "
-                    + "handover.assesment,handover.recommendation,handover.tindakan,handover.shift,handover.nip,handover.shift2,handover.nip2,IF(vps.no_rawat IS NOT NULL, 'Tervalidasi', 'Belum Divalidasi')"
+                    + "handover.tgl_perawatan,handover.jam_rawat,handover.shift_pagi,handover.shift_siang,handover.shift_sore,"
+                    + "handover.shift,handover.nip,handover.shift2,handover.nip2,"
+                    + "CONCAT('Pagi: '," + statusShiftSql("shift_pagi", "Pagi") + ",' | Siang: '," + statusShiftSql("shift_siang", "Siang")
+                    + ",' | Malam: '," + statusShiftSql("shift_sore", "Malam") + ") as status_validasi "
                     + "from pasien inner join reg_periksa on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "
                     + "inner join handover on handover.no_rawat=reg_periksa.no_rawat "
                     + "inner join petugas on handover.nip=petugas.nip "
-                    + "LEFT JOIN validasi_handover vps ON CONCAT(handover.no_rawat, handover.tgl_perawatan, handover.jam_rawat) = CONCAT (vps.no_rawat, vps.tgl_perawatan, vps.jam_rawat) where "
-                    + "handover.tgl_perawatan between ? and ? and reg_periksa.no_rawat like ? "
+                    + "where "
+                    + "handover.tgl_perawatan between ? and ? "
                     + (TCari.getText().trim().equals("") ? "" : "and (handover.no_rawat like ? or reg_periksa.no_rkm_medis like ? or pasien.nm_pasien like ? or "
-                    + "handover.situation like ? or handover.background like ? or handover.assesment like ? or "
-                    + "handover.recommendation like ?)")
+                    + "handover.shift_pagi like ? or handover.shift_siang like ? or handover.shift_sore like ?) ")
                     + "order by handover.no_rawat,handover.tgl_perawatan,handover.jam_rawat desc");
             try {
                 ps.setString(1, Valid.SetTgl(DTPCari1.getSelectedItem() + ""));
                 ps.setString(2, Valid.SetTgl(DTPCari2.getSelectedItem() + ""));
-                ps.setString(3, "%" + TCari.getText() + "%");
                 if (!TCari.getText().trim().equals("")) {
-                    ps.setString(4, "%" + TCari.getText().trim() + "%");
-                    ps.setString(5, "%" + TCari.getText().trim() + "%");
-                    ps.setString(6, "%" + TCari.getText().trim() + "%");
-                    ps.setString(7, "%" + TCari.getText().trim() + "%");
-                    ps.setString(8, "%" + TCari.getText().trim() + "%");
-                    ps.setString(9, "%" + TCari.getText().trim() + "%");
-                    ps.setString(10, "%" + TCari.getText().trim() + "%");
+                    for (int p = 3; p <= 8; p++) {
+                        ps.setString(p, "%" + TCari.getText().trim() + "%");
+                    }
                 }
 
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     tabMode.addRow(new Object[]{
-                        false, rs.getString("no_rawat"), rs.getString("no_rkm_medis"), rs.getString("nm_pasien"), rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),
-                        rs.getString("situation"), rs.getString("background"), rs.getString("assesment"), rs.getString("recommendation"), rs.getString("tindakan"), 
-                        rs.getString("shift"), rs.getString("nip"), petugas.tampil3(rs.getString("nip")), rs.getString("shift2"), rs.getString("nip2"), petugas.tampil3(rs.getString("nip2")), rs.getString(15)
+                        false, rs.getString("no_rawat"), rs.getString("no_rkm_medis"), rs.getString("nm_pasien"),
+                        rs.getString("tgl_perawatan"), rs.getString("jam_rawat"),
+                        nz(rs.getString("shift_pagi")), nz(rs.getString("shift_siang")), nz(rs.getString("shift_sore")),
+                        rs.getString("shift"), rs.getString("nip"), petugas.tampil3(rs.getString("nip")),
+                        rs.getString("shift2"), rs.getString("nip2"), petugas.tampil3(rs.getString("nip2")),
+                        rs.getString("status_validasi")
                     });
                 }
             } catch (Exception e) {
@@ -1487,22 +1368,31 @@ public final class RMHandOver extends javax.swing.JDialog {
         LCount.setText("" + tabMode.getRowCount());
     }
 
+    // Status validasi satu shift: '-' = shift belum diisi, 'Belum' = belum divalidasi, 'Valid' = sudah (validasi_handover_shift)
+    private String statusShiftSql(String kolom, String shift) {
+        return "IF(IFNULL(handover." + kolom + ",'')='','-',IF(EXISTS(select 1 from validasi_handover_shift v "
+                + "where v.no_rawat=handover.no_rawat and v.tgl_perawatan=handover.tgl_perawatan and v.shift='" + shift + "'),'Valid','Belum'))";
+    }
+
     public void emptTeks() {
+        abaikanEventTanggal = true;
         DTPTgl.setDate(new Date());
+        abaikanEventTanggal = false;
+        tanggalOtomatisMundur = false;
         TNoRw.setText("");
         TNoRM.setText("");
         TPasien.setText("");
         DiagnosaAwal.setText("");
         RuangRawat.setText("");
-        TSituation.setText("");
-        TBackground.setText("");
-        TAssesment.setText("");
-        TRecommendation.setText("");
-        Tindakan.setText("");
+        resetPrefill();
+        TShiftPagi.setText("");
+        TShiftSiang.setText("");
+        TShiftMalam.setText("");
         NIP.setText("");
         NamaPetugas.setText("");
         NIP2.setText("");
         NamaPetugas2.setText("");
+        pilihShift("");
     }
 
     private void isRawat() {
@@ -1534,14 +1424,14 @@ public final class RMHandOver extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Notif : " + e);
         }
-        DiagnosaAwal.setText(Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=?",TNoRw.getText()));
+        DiagnosaAwal.setText(Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=?", TNoRw.getText()));
         RuangRawat.setText(Sequel.cariIsi("SELECT CONCAT(kamar.kd_kamar, ' ', bangsal.nm_bangsal) as ruangrawat FROM bangsal "
-        + "INNER JOIN kamar ON bangsal.kd_bangsal = kamar.kd_bangsal "
-        + "INNER JOIN kamar_inap ON kamar_inap.kd_kamar = kamar.kd_kamar "
-        + "WHERE kamar_inap.no_rawat=? "
-        + "ORDER BY kamar_inap.tgl_masuk DESC LIMIT 1", TNoRw.getText()));
-        
-        cekDataShiftSebelumnya();
+                + "INNER JOIN kamar ON bangsal.kd_bangsal = kamar.kd_bangsal "
+                + "INNER JOIN kamar_inap ON kamar_inap.kd_kamar = kamar.kd_kamar "
+                + "WHERE kamar_inap.no_rawat=? "
+                + "ORDER BY kamar_inap.tgl_masuk DESC LIMIT 1", TNoRw.getText()));
+
+        muatDataHandover();
     }
 
     public void setNoRm(String norwt, Date tgl2) {
@@ -1579,15 +1469,15 @@ public final class RMHandOver extends javax.swing.JDialog {
         BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnHapus.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnEdit.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
-        BtnPrint.setEnabled(akses.getpenilaian_awal_keperawatan_ranap()); 
-        if(akses.getjml2()>=1){
+        BtnPrint.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
+        if (akses.getjml2() >= 1) {
             NIP.setEditable(false);
             BtnSeekPegawai1.setEnabled(true);
             NIP.setText(akses.getkode());
             NamaPetugas.setText(petugas.tampil3(NIP.getText()));
-            if(NamaPetugas.getText().equals("")){
+            if (NamaPetugas.getText().equals("")) {
                 NIP.setText("");
-                JOptionPane.showMessageDialog(null,"User login bukan petugas...!!");
+                JOptionPane.showMessageDialog(null, "User login bukan petugas...!!");
             }
         }
 
@@ -1604,6 +1494,7 @@ public final class RMHandOver extends javax.swing.JDialog {
 
     }
 
+
     private void jam() {
         ActionListener taskPerformer = new ActionListener() {
             private int nilai_jam;
@@ -1617,7 +1508,7 @@ public final class RMHandOver extends javax.swing.JDialog {
 
                 Date now = Calendar.getInstance().getTime();
 
-                // Mengambil nilaj JAM, MENIT, dan DETIK Sekarang
+                // Mengambil nilai JAM, MENIT, dan DETIK sekarang
                 if (ChkKejadian.isSelected() == true) {
                     nilai_jam = now.getHours();
                     nilai_menit = now.getMinutes();
@@ -1628,27 +1519,18 @@ public final class RMHandOver extends javax.swing.JDialog {
                     nilai_detik = cmbDtk.getSelectedIndex();
                 }
 
-                // Jika nilai JAM lebih kecil dari 10 (hanya 1 digit)
                 if (nilai_jam <= 9) {
-                    // Tambahkan "0" didepannya
                     nol_jam = "0";
                 }
-                // Jika nilai MENIT lebih kecil dari 10 (hanya 1 digit)
                 if (nilai_menit <= 9) {
-                    // Tambahkan "0" didepannya
                     nol_menit = "0";
                 }
-                // Jika nilai DETIK lebih kecil dari 10 (hanya 1 digit)
                 if (nilai_detik <= 9) {
-                    // Tambahkan "0" didepannya
                     nol_detik = "0";
                 }
-                // Membuat String JAM, MENIT, DETIK
                 String jam = nol_jam + Integer.toString(nilai_jam);
                 String menit = nol_menit + Integer.toString(nilai_menit);
                 String detik = nol_detik + Integer.toString(nilai_detik);
-                // Menampilkan pada Layar
-                //tampil_jam.setText("  " + jam + " : " + menit + " : " + detik + "  ");
                 cmbJam.setSelectedItem(jam);
                 cmbMnt.setSelectedItem(menit);
                 cmbDtk.setSelectedItem(detik);
@@ -1658,147 +1540,365 @@ public final class RMHandOver extends javax.swing.JDialog {
         new Timer(1000, taskPerformer).start();
     }
 
-    private void ganti() {
-        if ((!TSituation.getText().trim().equals("")) || (!TBackground.getText().trim().equals("")) || (!TAssesment.getText().trim().equals(""))
-                || (!TRecommendation.getText().trim().equals(""))) {
-            if (tbPemeriksaanSbar.getSelectedRow() > -1) {
-                if (akses.getkode().equals("Admin Utama")) {
-                    Sequel.mengedit("handover", "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
-                            + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
-                            + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
-                            "no_rawat='" + TNoRw.getText() + "',situation='" + TSituation.getText() + "',background='" + TBackground.getText() + "',"
-                            + "assesment='" + TAssesment.getText() + "',recommendation='" + TRecommendation.getText() + "',"
-                            + "tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem() + "") + "',"
-                            + "jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem() + "',"
-                            + "nip='" + NIP.getText() + "'");
-                    tampil();
-                    BtnBatalActionPerformed(null);
-                } else {
-                    if (akses.getkode().equals(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 10).toString())) {
-                        Sequel.mengedit("handover", "no_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1)
-                                + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4)
-                                + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5) + "'",
-                                "no_rawat='" + TNoRw.getText() + "',situation='" + TSituation.getText() + "',background='" + TBackground.getText() + "',"
-                                + "assesment='" + TAssesment.getText() + "',recommendation='" + TRecommendation.getText() + "',"
-                                + "tgl_perawatan='" + Valid.SetTgl(DTPTgl.getSelectedItem() + "") + "',"
-                                + "jam_rawat='" + cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem() + "'");
+    // ------------------------------------------------------------------
+    // Handover per shift: satu baris per no_rawat + tanggal, isi tiap shift
+    // disimpan di kolomnya sendiri (shift_pagi / shift_siang / shift_sore).
+    // ------------------------------------------------------------------
+    private String nz(String s) {
+        return s == null ? "" : s;
+    }
 
-                        tampil();
-                        BtnBatalActionPerformed(null);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Hanya bisa diganti oleh dokter/petugas yang bersangkutan..!!");
-                    }
-                }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Silahkan pilih data yang mau diganti..!!");
-                TCari.requestFocus();
+    private String cell(int row, int col) {
+        Object o = tbPemeriksaanSbar.getValueAt(row, col);
+        return o == null ? "" : o.toString();
+    }
+
+    // Shift yang dicentang: "Pagi" / "Siang" / "Malam" / "" (belum ada)
+    private String getShiftTerpilih() {
+        if (ChkShiftPagi.isSelected()) {
+            return "Pagi";
+        } else if (ChkShiftSiang.isSelected()) {
+            return "Siang";
+        } else if (ChkShiftMalam.isSelected()) {
+            return "Malam";
+        }
+        return "";
+    }
+
+    // Kolom tabel handover untuk tiap shift (Malam = shift_sore)
+    private String kolomShift(String shift) {
+        if (shift.equals("Pagi")) {
+            return "shift_pagi";
+        } else if (shift.equals("Siang")) {
+            return "shift_siang";
+        }
+        return "shift_sore";
+    }
+
+    // Shift petugas penerima = shift sesudahnya
+    private String shiftBerikutnya(String shift) {
+        if (shift.equals("Pagi")) {
+            return "Siang";
+        } else if (shift.equals("Siang")) {
+            return "Malam";
+        }
+        return "Pagi";
+    }
+
+    private widget.TextArea getAreaShift(String shift) {
+        if (shift.equals("Pagi")) {
+            return TShiftPagi;
+        } else if (shift.equals("Siang")) {
+            return TShiftSiang;
+        }
+        return TShiftMalam;
+    }
+
+    private void aturAreaShift(widget.TextArea area, boolean aktif) {
+        area.setEditable(aktif);
+        area.setBackground(aktif ? java.awt.Color.WHITE : new java.awt.Color(240, 240, 240));
+    }
+
+    // Hanya satu shift yang bisa dicentang; hanya kolom shift itu yang bisa diisi/diubah
+    private void pilihShift(String shift) {
+        ChkShiftPagi.setSelected(shift.equals("Pagi"));
+        ChkShiftSiang.setSelected(shift.equals("Siang"));
+        ChkShiftMalam.setSelected(shift.equals("Malam"));
+        aturAreaShift(TShiftPagi, shift.equals("Pagi"));
+        aturAreaShift(TShiftSiang, shift.equals("Siang"));
+        aturAreaShift(TShiftMalam, shift.equals("Malam"));
+        if (!shift.equals("")) {
+            // Shift Keluar = shift yang dicentang, Shift Masuk = shift sesudahnya (masih bisa diubah manual)
+            ShiftKeluar.setSelectedItem(shift);
+            ShiftMasuk.setSelectedItem(shiftBerikutnya(shift));
+        }
+    }
+
+    private void shiftDicentang(String shift, boolean dicentang) {
+        batalkanPrefillBelumDiubah();
+        aturTanggalMalamDiniHari(dicentang && shift.equals("Malam"));
+        pilihShift(dicentang ? shift : "");
+        if (dicentang) {
+            tarikDataShiftSebelumnya(shift);
+            getAreaShift(shift).requestFocus();
+        }
+    }
+
+    // Malam dini hari (sebelum JAM_MULAI_PAGI) -> tanggal form mundur sehari ke tanggal mulai shift.
+    // Hanya jika tanggal form masih hari ini (tidak menimpa tanggal yang dipilih manual / dari tabel).
+    // Kembali ke hari ini saat Malam dilepas atau diganti shift lain.
+    private void aturTanggalMalamDiniHari(boolean malamDicentang) {
+        java.time.LocalDate hariIni = java.time.LocalDate.now();
+        String tglForm = Valid.SetTgl(DTPTgl.getSelectedItem() + "");
+        if (malamDicentang) {
+            if (!tanggalOtomatisMundur && java.time.LocalTime.now().getHour() < JAM_MULAI_PAGI
+                    && tglForm.equals(hariIni.toString())) {
+                DTPTgl.setDate(java.sql.Date.valueOf(hariIni.minusDays(1)));
+                tanggalOtomatisMundur = true;
             }
+        } else if (tanggalOtomatisMundur) {
+            if (tglForm.equals(hariIni.minusDays(1).toString())) {
+                DTPTgl.setDate(java.sql.Date.valueOf(hariIni));
+            }
+            tanggalOtomatisMundur = false;
         }
     }
 
-    private void hapus() {
-        if (Sequel.queryu2tf("delete from catatan_adime_gizi where tanggal=? and no_rawat=?", 2, new String[]{
-            tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5).toString(), tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 0).toString()
-        }) == true) {
-            tabMode.removeRow(tbPemeriksaanSbar.getSelectedRow());
-            LCount.setText("" + tabMode.getRowCount());
-            emptTeks();
-        } else {
-            JOptionPane.showMessageDialog(null, "Gagal menghapus..!!");
-        }
+    private void resetPrefill() {
+        shiftPrefill = "";
+        teksPrefill = "";
     }
 
-    private void getDataPemeriksaanSbar() {
-        if (tbPemeriksaanSbar.getSelectedRow() != -1) {
-            TNoRw.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 1).toString());
-            TNoRM.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 2).toString());
-            TPasien.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 3).toString());
-            Valid.SetTgl(DTPTgl, tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 4).toString());
-            cmbJam.setSelectedItem(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5).toString().substring(0, 2));
-            cmbMnt.setSelectedItem(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5).toString().substring(3, 5));
-            cmbDtk.setSelectedItem(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 5).toString().substring(6, 8));
-            TSituation.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 6).toString());
-            TBackground.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 7).toString());
-            TAssesment.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 8).toString());
-            TRecommendation.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 9).toString());
-            Tindakan.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 10).toString());
-            ShiftKeluar.setSelectedItem(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 11).toString());
-            NIP.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 12).toString());
-            ShiftMasuk.setSelectedItem(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 14).toString());
-            NIP2.setText(tbPemeriksaanSbar.getValueAt(tbPemeriksaanSbar.getSelectedRow(), 15).toString());
-            NamaPetugas.setText(Sequel.cariIsi("select nama from petugas where nip=?", NIP.getText()));
-            NamaPetugas2.setText(Sequel.cariIsi("select nama from petugas where nip=?", NIP2.getText()));
-            DiagnosaAwal.setText(Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=?", TNoRw.getText()));
-            RuangRawat.setText(Sequel.cariIsi("SELECT CONCAT(kamar.kd_kamar, ' ', bangsal.nm_bangsal) as ruangrawat FROM bangsal "
-                    + "INNER JOIN kamar ON bangsal.kd_bangsal = kamar.kd_bangsal "
-                    + "INNER JOIN kamar_inap ON kamar_inap.kd_kamar = kamar.kd_kamar "
-                    + "WHERE kamar_inap.no_rawat=? "
-                    + "ORDER BY kamar_inap.tgl_masuk DESC LIMIT 1", TNoRw.getText()));
+    // Isi hasil tarikan yang belum diubah user & belum disimpan dikosongkan lagi saat shift diganti/dilepas,
+    // supaya tidak terlihat seperti data yang sudah tersimpan.
+    private void batalkanPrefillBelumDiubah() {
+        if (!shiftPrefill.equals("") && getAreaShift(shiftPrefill).getText().equals(teksPrefill)) {
+            getAreaShift(shiftPrefill).setText("");
         }
-        kunciKolomIsian(true);
-        ChkUpdateData.setSelected(true);
+        resetPrefill();
     }
 
-// Method untuk mengecek dan menyalin data dari shift sebelumnya hari ini
-    private void cekDataShiftSebelumnya() {
+    // Shift Siang <- isi Pagi, Shift Malam <- isi Siang (hari yang sama),
+    // Shift Pagi <- isi Malam hari sebelumnya (shift Malam dicatat di tanggal saat shift dimulai).
+    // Hanya jika kolom shift tujuan masih kosong, sehingga isian yang sudah ada tidak tertimpa.
+    private void tarikDataShiftSebelumnya(String shift) {
+        String sebelumnya = shift.equals("Siang") ? "Pagi" : (shift.equals("Malam") ? "Siang" : "Malam");
+        if (TNoRw.getText().trim().equals("")) {
+            return;
+        }
+        widget.TextArea tujuan = getAreaShift(shift);
+        if (!tujuan.getText().trim().equals("")) {
+            return;
+        }
+        String noRawat = TNoRw.getText().trim();
+        String tgl = Valid.SetTgl(DTPTgl.getSelectedItem() + "");
         try {
-            // Mencari data handover terakhir pada hari yang sama untuk pasien ini
-            ps = koneksi.prepareStatement("SELECT * FROM handover WHERE no_rawat=? AND tgl_perawatan=? ORDER BY jam_rawat DESC LIMIT 1");
-            try {
-                ps.setString(1, TNoRw.getText());
-                ps.setString(2, Valid.SetTgl(DTPTgl.getSelectedItem() + ""));
-                rs = ps.executeQuery();
-                
-                if (rs.next()) {
-                    // Jika shift sebelumnya sudah mengisi, salin datanya
-                    TSituation.setText(rs.getString("situation"));
-                    TBackground.setText(rs.getString("background"));
-                    TAssesment.setText(rs.getString("assesment"));
-                    TRecommendation.setText(rs.getString("recommendation"));
-                    Tindakan.setText(rs.getString("tindakan"));
-                    
-                    // Kunci inputan agar tidak berubah tanpa disengaja
-                    kunciKolomIsian(false);
-                    ChkUpdateData.setSelected(false);
-                    
-                    // Opsional: Set otomatis dropdown ke shift selanjutnya
-                    if (rs.getString("shift").equals("Pagi")) {
-                        ShiftKeluar.setSelectedItem("Siang");
-                    } else if (rs.getString("shift").equals("Siang")) {
-                        ShiftKeluar.setSelectedItem("Malam");
-                    }
-                } else {
-                    // Jika belum ada data hari ini (Shift 1), biarkan kosong dan buka kunci
-                    emptTeksSBAR();
-                    kunciKolomIsian(true);
-                    ChkUpdateData.setSelected(true);
-                }
-            } catch (Exception e) {
-                System.out.println("Notif : " + e);
-            } finally {
-                if (rs != null) { rs.close(); }
-                if (ps != null) { ps.close(); }
+            if (shift.equals("Pagi")) {
+                tgl = java.time.LocalDate.parse(tgl).minusDays(1).toString(); // Malam hari sebelumnya
+            }
+            if (WAJIB_VALIDASI_SEBELUMNYA && !sudahDivalidasi(noRawat, tgl, sebelumnya)) {
+                return;
+            }
+            String isi = ambilIsiShift(noRawat, tgl, sebelumnya).trim();
+            if (!isi.equals("")) {
+                tujuan.setText(isi);
+                shiftPrefill = shift;
+                teksPrefill = tujuan.getText();
             }
         } catch (Exception e) {
             System.out.println("Notif : " + e);
         }
     }
 
-    // Method untuk mengunci atau membuka kolom isian
-    private void kunciKolomIsian(boolean status) {
-        TSituation.setEditable(status);
-        TBackground.setEditable(status);
-        TAssesment.setEditable(status);
-        TRecommendation.setEditable(status);
-        Tindakan.setEditable(status);
+    private String ambilIsiShift(String noRawat, String tgl, String shift) throws SQLException {
+        try (PreparedStatement pst = koneksi.prepareStatement("select " + kolomShift(shift)
+                + " from handover where no_rawat=? and tgl_perawatan=? order by jam_rawat desc limit 1")) {
+            pst.setString(1, noRawat);
+            pst.setString(2, tgl);
+            try (ResultSet rst = pst.executeQuery()) {
+                return rst.next() ? nz(rst.getString(1)) : "";
+            }
+        }
     }
-    
-    // Method untuk mengosongkan SBAR jika ini shift pertama
-    private void emptTeksSBAR() {
-        TSituation.setText("");
-        TBackground.setText("");
-        TAssesment.setText("");
-        TRecommendation.setText("");
-        Tindakan.setText("");
-    }    
+
+    private boolean sudahDivalidasi(String noRawat, String tgl, String shift) throws SQLException {
+        try (PreparedStatement pst = koneksi.prepareStatement("select 1 from validasi_handover_shift "
+                + "where no_rawat=? and tgl_perawatan=? and shift=? limit 1")) {
+            pst.setString(1, noRawat);
+            pst.setString(2, tgl);
+            pst.setString(3, shift);
+            try (ResultSet rst = pst.executeQuery()) {
+                return rst.next();
+            }
+        }
+    }
+
+    // Tampilkan isi handover (3 shift) untuk no.rawat + tanggal yang dipilih
+    private void muatDataHandover() {
+        if (TNoRw.getText().trim().equals("")) {
+            return;
+        }
+        resetPrefill();
+        TShiftPagi.setText("");
+        TShiftSiang.setText("");
+        TShiftMalam.setText("");
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            pst = koneksi.prepareStatement("select shift_pagi,shift_siang,shift_sore from handover "
+                    + "where no_rawat=? and tgl_perawatan=? order by jam_rawat desc limit 1");
+            pst.setString(1, TNoRw.getText().trim());
+            pst.setString(2, Valid.SetTgl(DTPTgl.getSelectedItem() + ""));
+            rst = pst.executeQuery();
+            if (rst.next()) {
+                TShiftPagi.setText(nz(rst.getString("shift_pagi")));
+                TShiftSiang.setText(nz(rst.getString("shift_siang")));
+                TShiftMalam.setText(nz(rst.getString("shift_sore")));
+            }
+        } catch (Exception e) {
+            System.out.println("Notif : " + e);
+        } finally {
+            try {
+                if (rst != null) {
+                    rst.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+            }
+        }
+    }
+
+    // Simpan handover untuk shift yang dicentang.
+    // Belum ada baris untuk no.rawat + tanggal -> INSERT; sudah ada -> UPDATE hanya kolom shift tsb
+    // (isi shift lain tidak ikut tertimpa).
+    private void simpanHandover() {
+        String shift = getShiftTerpilih();
+        if (TNoRw.getText().trim().equals("") || TPasien.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Silahkan pilih pasien terlebih dahulu..!!");
+            TNoRw.requestFocus();
+            return;
+        }
+        if (shift.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Silahkan centang shift yang akan diupdate..!!");
+            return;
+        }
+        widget.TextArea area = getAreaShift(shift);
+        if (area.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Isi handover shift " + shift + " masih kosong..!!");
+            area.requestFocus();
+            return;
+        }
+        if (NIP.getText().trim().equals("") || NamaPetugas.getText().trim().equals("")) {
+            Valid.textKosong(NIP, "Dokter/Paramedis masih kosong...!!");
+            return;
+        }
+        if (!akses.getkode().equals("Admin Utama") && !akses.getkode().equals(NIP.getText())) {
+            JOptionPane.showMessageDialog(null, "Hanya bisa disimpan oleh dokter/petugas yang bersangkutan..!!");
+            return;
+        }
+
+        String noRawat = TNoRw.getText().trim();
+        String tgl = Valid.SetTgl(DTPTgl.getSelectedItem() + "");
+        String isi = area.getText().trim();
+
+        try {
+            if (sudahDivalidasi(noRawat, tgl, shift)) {
+                JOptionPane.showMessageDialog(rootPane, "Handover shift " + shift + " sudah divalidasi, tidak bisa diubah lagi..!!");
+                return;
+            }
+            if (adaBaris(noRawat, tgl)) {
+                updateHandover(noRawat, tgl, shift, isi);
+            } else {
+                try {
+                    insertHandover(noRawat, tgl, shift, isi);
+                } catch (SQLException ex) {
+                    // 1062 = duplicate key (unique no_rawat+tgl_perawatan): user lain baru saja menyimpan -> ubah saja
+                    if (ex.getErrorCode() == 1062) {
+                        updateHandover(noRawat, tgl, shift, isi);
+                    } else {
+                        throw ex;
+                    }
+                }
+            }
+            tampil();
+            BtnBatalActionPerformed(null);
+        } catch (Exception e) {
+            System.out.println("Notifikasi : " + e);
+            JOptionPane.showMessageDialog(rootPane, "Gagal menyimpan data handover..!!");
+        }
+    }
+
+    private boolean adaBaris(String noRawat, String tgl) throws SQLException {
+        try (PreparedStatement pst = koneksi.prepareStatement("select 1 from handover where no_rawat=? and tgl_perawatan=? limit 1")) {
+            pst.setString(1, noRawat);
+            pst.setString(2, tgl);
+            try (ResultSet rst = pst.executeQuery()) {
+                return rst.next();
+            }
+        }
+    }
+
+    // Petugas pemberi/penerima disimpan per shift (nip_pagi/nip_siang/nip_sore & nip2_*),
+    // selain nip/nip2/shift/shift2 yang tetap mencatat update terakhir.
+    private String sufiksShift(String shift) {
+        return kolomShift(shift).substring(6); // shift_pagi -> pagi, shift_siang -> siang, shift_sore -> sore
+    }
+
+    // Baris hari itu sudah ada: ubah hanya kolom shift yang dicentang + petugas shift tsb.
+    // jam_rawat tidak diubah supaya tetap konsisten dengan data lain yang merujuknya.
+    private void updateHandover(String noRawat, String tgl, String shift, String isi) throws SQLException {
+        String suf = sufiksShift(shift);
+        try (PreparedStatement pst = koneksi.prepareStatement("update handover set " + kolomShift(shift)
+                + "=?,nip_" + suf + "=?,nip2_" + suf + "=?,shift=?,nip=?,shift2=?,nip2=? where no_rawat=? and tgl_perawatan=?")) {
+            pst.setString(1, isi);
+            pst.setString(2, NIP.getText().trim());
+            pst.setString(3, NIP2.getText().trim());
+            pst.setString(4, ShiftKeluar.getSelectedItem().toString());
+            pst.setString(5, NIP.getText().trim());
+            pst.setString(6, ShiftMasuk.getSelectedItem().toString());
+            pst.setString(7, NIP2.getText().trim());
+            pst.setString(8, noRawat);
+            pst.setString(9, tgl);
+            pst.executeUpdate();
+        }
+    }
+
+    private void insertHandover(String noRawat, String tgl, String shift, String isi) throws SQLException {
+        String nip = NIP.getText().trim();
+        String nip2 = NIP2.getText().trim();
+        try (PreparedStatement pst = koneksi.prepareStatement("insert into handover(no_rawat,tgl_perawatan,jam_rawat,"
+                + "shift_pagi,shift_siang,shift_sore,nip_pagi,nip_siang,nip_sore,nip2_pagi,nip2_siang,nip2_sore,"
+                + "shift,nip,shift2,nip2) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
+            pst.setString(1, noRawat);
+            pst.setString(2, tgl);
+            pst.setString(3, cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem());
+            pst.setString(4, shift.equals("Pagi") ? isi : "");
+            pst.setString(5, shift.equals("Siang") ? isi : "");
+            pst.setString(6, shift.equals("Malam") ? isi : "");
+            pst.setString(7, shift.equals("Pagi") ? nip : "");
+            pst.setString(8, shift.equals("Siang") ? nip : "");
+            pst.setString(9, shift.equals("Malam") ? nip : "");
+            pst.setString(10, shift.equals("Pagi") ? nip2 : "");
+            pst.setString(11, shift.equals("Siang") ? nip2 : "");
+            pst.setString(12, shift.equals("Malam") ? nip2 : "");
+            pst.setString(13, ShiftKeluar.getSelectedItem().toString());
+            pst.setString(14, nip);
+            pst.setString(15, ShiftMasuk.getSelectedItem().toString());
+            pst.setString(16, nip2);
+            pst.executeUpdate();
+        }
+    }
+
+    private void getDataPemeriksaanSbar() {
+        int r = tbPemeriksaanSbar.getSelectedRow();
+        if (r != -1) {
+            TNoRw.setText(cell(r, 1));
+            TNoRM.setText(cell(r, 2));
+            TPasien.setText(cell(r, 3));
+            abaikanEventTanggal = true;
+            Valid.SetTgl(DTPTgl, cell(r, 4));
+            abaikanEventTanggal = false;
+            tanggalOtomatisMundur = false;
+            resetPrefill();
+            TShiftPagi.setText(cell(r, 6));
+            TShiftSiang.setText(cell(r, 7));
+            TShiftMalam.setText(cell(r, 8));
+            NIP.setText(cell(r, 10));
+            NamaPetugas.setText(cell(r, 11));
+            NIP2.setText(cell(r, 13));
+            NamaPetugas2.setText(cell(r, 14));
+            DiagnosaAwal.setText(Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=?", TNoRw.getText()));
+            RuangRawat.setText(Sequel.cariIsi("SELECT CONCAT(kamar.kd_kamar, ' ', bangsal.nm_bangsal) as ruangrawat FROM bangsal "
+                    + "INNER JOIN kamar ON bangsal.kd_bangsal = kamar.kd_bangsal "
+                    + "INNER JOIN kamar_inap ON kamar_inap.kd_kamar = kamar.kd_kamar "
+                    + "WHERE kamar_inap.no_rawat=? "
+                    + "ORDER BY kamar_inap.tgl_masuk DESC LIMIT 1", TNoRw.getText()));
+            // centang shift yang terakhir diupdate, lalu isi Shift Keluar/Masuk sesuai data tersimpan
+            pilihShift(cell(r, 9));
+            ShiftKeluar.setSelectedItem(cell(r, 9));
+            ShiftMasuk.setSelectedItem(cell(r, 12));
+        }
+    }
 }
