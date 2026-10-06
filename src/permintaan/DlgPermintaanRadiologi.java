@@ -11,6 +11,7 @@
 
 package permintaan;
 
+import fungsi.WarnaTable;
 import bridging.AccessionRadiologiSMC;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

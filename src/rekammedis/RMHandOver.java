@@ -1466,6 +1466,8 @@ public final class RMHandOver extends javax.swing.JDialog {
     }
 
     public void isCek() {
+        // BtnStatusVerifikasiHandOver.setEnabled(false);
+        // BtnValidasiHandOver.setEnabled(false);
         BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnHapus.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
         BtnEdit.setEnabled(akses.getpenilaian_awal_keperawatan_ranap());
