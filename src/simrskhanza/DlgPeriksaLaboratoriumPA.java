@@ -87,7 +87,7 @@ public final class DlgPeriksaLaboratoriumPA extends javax.swing.JDialog {
         setSize(885,674);
 
         tabMode=new DefaultTableModel(null,new Object[]{
-                "Pemeriksaan","Diagnosa Klinis","Makroskopik","Mikroskopik","Kesimpulan","Kesan","Kode Jenis"
+                "Pemeriksaan","Diagnosa Klinis","Makroskopik","Mikroskopik","Kesimpulan","Saran","Kode Jenis"
             }){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){
                     boolean a = true;

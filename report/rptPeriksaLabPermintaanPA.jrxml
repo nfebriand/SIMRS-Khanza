@@ -559,7 +559,7 @@
 					<font fontName="Tahoma" size="10" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Kesan]]></text>
+				<text><![CDATA[Saran]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="1" y="389" width="521" height="14" uuid="f2fed99b-1a65-4415-8bb4-2496e6cb9806"/>

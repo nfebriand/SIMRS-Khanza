@@ -445,7 +445,7 @@
 					<font fontName="Tahoma" size="10" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Kesan]]></text>
+				<text><![CDATA[Saran]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="1" y="360" width="521" height="14" uuid="539238cd-c3b1-4142-9ece-340146963720"/>

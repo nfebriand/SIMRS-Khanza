@@ -398,69 +398,56 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                             "<td valign='top' align='center'>"+
                                 "<table width='100%' border='0' align='center' cellpadding='2px' cellspacing='0'>");
                     try {
-                        rs2=koneksi.prepareStatement(
-                                "select handover.tgl_perawatan,handover.jam_rawat,handover.shift,handover.situation,"+
-                                "handover.background,handover.assesment,handover.recommendation,handover.tindakan,handover.nip,petugas.nama, "+
-                                "validasi_handover.nik_validator,namavalidator.nama as namavalidator,validasi_handover.tgl_validasi,validasi_handover.jam_validasi,validasi_handover.status_validasi "+ 
-                                "from handover LEFT JOIN validasi_handover ON validasi_handover.no_rawat = handover.no_rawat AND validasi_handover.tgl_perawatan = handover.tgl_perawatan AND validasi_handover.jam_rawat = handover.jam_rawat inner join petugas on handover.nip=petugas.nip LEFT JOIN petugas AS namavalidator ON validasi_handover.nik_validator=namavalidator.nip where handover.no_rawat='"+rs.getString("no_rawat")+"' "+
-                                "order by handover.tgl_perawatan,handover.jam_rawat").executeQuery();
+                        ps2=koneksi.prepareStatement(
+                                "select x.tgl_perawatan,x.jam_rawat,x.shift_isi,x.isi,x.nip,petugas.nama,"+
+                                "v.nik_validator,namavalidator.nama as namavalidator,v.tgl_validasi,v.jam_validasi,v.status_validasi from ("+
+                                "select no_rawat,tgl_perawatan,jam_rawat,if(ifnull(nip_pagi,'')='',nip,nip_pagi) as nip,'Pagi' as shift_isi,shift_pagi as isi from handover where no_rawat=? and shift_pagi<>'' "+
+                                "union all select no_rawat,tgl_perawatan,jam_rawat,if(ifnull(nip_siang,'')='',nip,nip_siang),'Siang',shift_siang from handover where no_rawat=? and shift_siang<>'' "+
+                                "union all select no_rawat,tgl_perawatan,jam_rawat,if(ifnull(nip_sore,'')='',nip,nip_sore),'Malam',shift_sore from handover where no_rawat=? and shift_sore<>'') x "+
+                                "inner join petugas on x.nip=petugas.nip "+
+                                "left join validasi_handover_shift v on v.no_rawat=x.no_rawat and v.tgl_perawatan=x.tgl_perawatan and v.shift=x.shift_isi "+
+                                "left join petugas as namavalidator on v.nik_validator=namavalidator.nip "+
+                                "order by x.tgl_perawatan,field(x.shift_isi,'Pagi','Siang','Malam')");
+                        ps2.setString(1,rs.getString("no_rawat"));
+                        ps2.setString(2,rs.getString("no_rawat"));
+                        ps2.setString(3,rs.getString("no_rawat"));
+                        rs2=ps2.executeQuery();
                         if(rs2.next()){
                             htmlContent.append(
                                     "<tr class='isi'>"+
                                         "<td valign='middle' bgcolor='#FFFFF8' align='center' width='10%'>Tanggal</td>"+
-                                        "<td valign='middle' align='center'  width=40%' bgcolor='#FFFAF8'>Nama Pegawai</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Shift</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Subjek</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Objek</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Asesmen</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Recommendation</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Tindakan</td>"+
-                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='16%'>Validasi</td>"+                                        
+                                        "<td valign='middle' bgcolor='#FFFAF8' align='center' width='20%'>Nama Pegawai</td>"+
+                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='8%'>Shift</td>"+
+                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='47%'>Isi Handover</td>"+
+                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='15%'>Validasi</td>"+
                                     "</tr>");
-                            rs2.beforeFirst();
-                            while(rs2.next()){
-                                String bagian="",stylee="",gbrverif="";
-                                
-                            //    bagian=Sequel.cariIsi("SELECT bidang FROM pegawai WHERE nik='"+rs2.getString("nip")+"'");
-                                
-                                //19960928201806045
-                           /*     if(bagian.equals("Medis")){
-                                    stylee=" style=' background-color:#f7d4e8 '";
-                                }else{
-                                    stylee=" style=' background-color:#ccffcc '";
-                                } */
-                                
-                                if(Sequel.cariInteger("select count(validasi_handover.nik_validator) " +
-                                        "from handover LEFT JOIN validasi_handover ON validasi_handover.no_rawat = handover.no_rawat AND validasi_handover.tgl_perawatan = handover.tgl_perawatan AND validasi_handover.jam_rawat = handover.jam_rawat "+
-                                        "inner join petugas on handover.nip=petugas.nip LEFT JOIN petugas AS namavalidator ON validasi_handover.nik_validator=namavalidator.nip where handover.no_rawat='"+rs.getString("no_rawat")+"' AND validasi_handover.nik_validator='"+rs2.getString("nik_validator")+"'" +
-                                        "order by handover.tgl_perawatan,handover.jam_rawat")>0){
+                            do{
+                                String gbrverif="";
+                                boolean valid="Validasi".equals(rs2.getString("status_validasi"));
+                                if(valid){
                                     gbrverif="<img src ='http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/images/verif.png' align='center' width='100' height='50'/";
                                 }else{
                                     gbrverif="<img src ='http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/images/notverif.png' align='center' width='100' height='50'/";
                                 }
-//                                 System.out.println("Notif Rekening : "+stylee);
-//                                 System.out.println("Notif Rekening : "+rs2.getString("nik"));
-                                //2021/04/18/000056
-                                 htmlContent.append(                             
-                                    "<tr class='isi'  >"+
-                                        "<td align='center' "+stylee+" >"+rs2.getString("tgl_perawatan")+"<br>"+rs2.getString("jam_rawat")+"</td>"+
-                                        "<td valign='top'  "+stylee+" >"+rs2.getString("nama")+"</td>"+
-                                        "<td align='left' "+stylee+" >"+rs2.getString("shift")+"</td>"+
-                                        "<td align='left' "+stylee+" >"+rs2.getString("situation")+"</td>"+
-                                        "<td align='left' "+stylee+">"+rs2.getString("background")+"</td>"+
-                                        "<td align='left' "+stylee+">"+rs2.getString("assesment")+"</td>"+
-                                        "<td align='left' "+stylee+">"+rs2.getString("recommendation")+"</td>"+
-                                        "<td align='left' "+stylee+">"+rs2.getString("tindakan")+"</td>"+
-                                        "<td align='left' "+stylee+" "+gbrverif+">"+"<br>"+rs2.getString("namavalidator")+"<br>"+rs2.getString("tgl_validasi")+"<br>"+rs2.getString("jam_validasi")+"</td>"+
+                                htmlContent.append(
+                                    "<tr class='isi'>"+
+                                        "<td align='center'>"+rs2.getString("tgl_perawatan")+"<br>"+rs2.getString("jam_rawat")+"</td>"+
+                                        "<td valign='top'>"+rs2.getString("nama")+"</td>"+
+                                        "<td align='left'>"+rs2.getString("shift_isi")+"</td>"+
+                                        "<td align='left'>"+html(rs2.getString("isi"))+"</td>"+
+                                        "<td align='left' "+gbrverif+">"+(valid?"<br>"+html(rs2.getString("namavalidator"))+"<br>"+rs2.getString("tgl_validasi")+"<br>"+rs2.getString("jam_validasi"):"<br>Belum divalidasi")+"</td>"+
                                     "</tr>"
-                                 ); 
-                            } 
-                        }       
+                                );
+                            }while(rs2.next());
+                        }
                     } catch (Exception e) {
                         System.out.println("Notifikasi : "+e);
                     } finally{
                         if(rs2!=null){
                             rs2.close();
+                        }
+                        if(ps2!=null){
+                            ps2.close();
                         }
                     }
                     htmlContent.append(
@@ -493,6 +480,13 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
         
     }
     
+    private String html(String s){
+        if(s==null){
+            return "";
+        }
+        return s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\r\n","\n").replace("\n","<br>");
+    }
+
     public void isCek(){
         BtnPrint.setEnabled(akses.getharian_klasifikasi_pasien_ranap());
     }

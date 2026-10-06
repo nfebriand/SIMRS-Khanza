@@ -81,8 +81,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                 "No.Rawat", "No.R.M.", "Nama Pasien", "Umur", "JK", "Tgl.Lahir", "Tanggal", "Kode Petugas",
                 "Nama Petugas/Dokter/Perawat", "Materi Edukasi",
                 "Keterangan", "Lama Edukasi", "Status", "Edukasi Kepada", "Keterangan Edukasi Diberikan", "Metode",
-                "Hasil Edukasi", "Nilai Kepercayaan", "Baca", "Hambatan Belajar", "Butuh Penterjemah",
-                "Kesediaan Info", "Kebutuhan Asesmen"
+                "Hasil Edukasi", "Nilai Kepercayaan", "Baca", "Hambatan", "Butuh Penterjemah",
+                "Kesediaan Info", "Kebutuhan Asesmen", "Keterbatasan"
         }) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -94,7 +94,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 23; i++) {
+        for (i = 0; i < 24; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(105);
@@ -142,6 +142,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                 column.setPreferredWidth(95);
             } else if (i == 22) {
                 column.setPreferredWidth(130);
+            } else if (i == 23) {
+                column.setPreferredWidth(70);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
@@ -280,6 +282,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
         KesediaanInfo = new widget.ComboBox();
         jLabelAsesmen = new widget.Label();
         KebutuhanAsesmen = new widget.ComboBox();
+        jLabelKeterbatasan = new widget.Label();
+        Keterbatasan = new widget.ComboBox();
 
         ChkInput = new widget.CekBox();
         PanelAccor = new widget.PanelBiasa();
@@ -895,12 +899,12 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
         FormInput.add(KemampuanBacaTulis);
         KemampuanBacaTulis.setBounds(335, 180, 110, 23);
 
-        jLabelHambatan.setText("Hambatan Belajar :");
+        jLabelHambatan.setText("Hambatan :");
         jLabelHambatan.setName("jLabelHambatan"); // NOI18N
         FormInput.add(jLabelHambatan);
         jLabelHambatan.setBounds(455, 180, 100, 23);
 
-        HambatanBelajar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tidak", "Ya" }));
+        HambatanBelajar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tidak Ada", "Emosional", "Motivasi" }));
         HambatanBelajar.setName("HambatanBelajar"); // NOI18N
         HambatanBelajar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -956,6 +960,22 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
         });
         FormInput.add(KebutuhanAsesmen);
         KebutuhanAsesmen.setBounds(355, 210, 210, 23);
+
+        jLabelKeterbatasan.setText("Keterbatasan :");
+        jLabelKeterbatasan.setName("jLabelKeterbatasan");
+        FormInput.add(jLabelKeterbatasan);
+        jLabelKeterbatasan.setBounds(570, 210, 85, 23);
+
+        Keterbatasan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { 
+                "Tidak Ada", "Fisik", "Kognitif" }));
+        Keterbatasan.setName("Keterbatasan");
+        Keterbatasan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                KeterbatasanKeyPressed(evt);
+            }
+        });
+        FormInput.add(Keterbatasan);
+        Keterbatasan.setBounds(660, 210, 110, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -1106,7 +1126,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
         if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             BtnSimpanActionPerformed(null);
         } else {
-            Valid.pindah(evt, KebutuhanAsesmen, BtnBatal);
+            Valid.pindah(evt, Keterbatasan, BtnBatal);
         }
     }
 
@@ -1411,21 +1431,25 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
             param.put("logo", Sequel.cariGambar("select setting.logo from setting"));
             Valid.MyReportqry("rptFormulirPelaksanaanInformasiEdukasi.jasper", "report",
                     "::[ Formulir Pelaksanaan Informasi & Edukasi ]::",
-                    "select reg_periksa.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,reg_periksa.umurdaftar,reg_periksa.sttsumur,pasien.jk,pasien.tgl_lahir,pasien.agama,coalesce(pasien.pnd,'') as pnd,coalesce(pasien.pekerjaan,'') as pekerjaan,coalesce(bahasa_pasien.nama_bahasa,'') as nama_bahasa,coalesce(edukasi_pasien_keluarga_rj.perlu_penerjemah,'') as perlu_penerjemah,pelaksanaan_informasi_edukasi.tanggal,pegawai.jbtn,reg_periksa.tgl_registrasi,"
+                    "select reg_periksa.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,reg_periksa.umurdaftar,reg_periksa.sttsumur,pasien.jk,pasien.tgl_lahir,pasien.agama,coalesce(pasien.pnd,'') as pnd,coalesce(pasien.pekerjaan,'') as pekerjaan,coalesce(bahasa_pasien.nama_bahasa,'') as nama_bahasa,coalesce(edukasi_pasien_keluarga_rj.perlu_penerjemah,'') as perlu_penerjemah,pelaksanaan_informasi_edukasi.tanggal,"
+                            + "case when pegawai.jbtn<>'-' then pegawai.jbtn else concat('Dokter ',ifnull(spesialis.nm_sps,'')) end as jbtn,reg_periksa.tgl_registrasi,"
                             + "pelaksanaan_informasi_edukasi.nik,pegawai.nama,pelaksanaan_informasi_edukasi.materi_edukasi,pelaksanaan_informasi_edukasi.keterangan,pelaksanaan_informasi_edukasi.diberikan_pada,reg_periksa.jam_reg,"
                             + "pelaksanaan_informasi_edukasi.keterangan_diberikan_pada,pelaksanaan_informasi_edukasi.lama_edukasi,pelaksanaan_informasi_edukasi.metode_edukasi,pelaksanaan_informasi_edukasi.hasil_verifikasi,"
-                            + "pelaksanaan_informasi_edukasi.status,coalesce(pelaksanaan_informasi_edukasi.nilai_kepercayaan,'') as nilai_kepercayaan,coalesce(pelaksanaan_informasi_edukasi.kemampuan_bacatulis,'') as kemampuan_bacatulis,coalesce(pelaksanaan_informasi_edukasi.terdapat_hambatan_belajar,'') as terdapat_hambatan_belajar,coalesce(pelaksanaan_informasi_edukasi.butuh_penterjemah,'') as butuh_penterjemah,coalesce(pelaksanaan_informasi_edukasi.kesediaan_menerima_informasi,'') as kesediaan_menerima_informasi,coalesce(pelaksanaan_informasi_edukasi.kebutuhan_asesmen,'') as kebutuhan_asesmen,concat('http://" + koneksiDB.HOSTHYBRIDWEB() + ":"
-                            + koneksiDB.PORTWEB() + "/" + koneksiDB.HYBRIDWEB()
-                            + "/pelaksanaanedukasi/',bukti_pelaksanaan_informasi_edukasi.photo) as photo  "
+                            + "pelaksanaan_informasi_edukasi.status,coalesce(pelaksanaan_informasi_edukasi.nilai_kepercayaan,'') as nilai_kepercayaan,coalesce(pelaksanaan_informasi_edukasi.kemampuan_bacatulis,'') as kemampuan_bacatulis,coalesce(pelaksanaan_informasi_edukasi.terdapat_hambatan_belajar,'') as terdapat_hambatan_belajar,coalesce(pelaksanaan_informasi_edukasi.butuh_penterjemah,'') as butuh_penterjemah,coalesce(pelaksanaan_informasi_edukasi.kesediaan_menerima_informasi,'') as kesediaan_menerima_informasi,coalesce(pelaksanaan_informasi_edukasi.kebutuhan_asesmen,'') as kebutuhan_asesmen,coalesce(pelaksanaan_informasi_edukasi.keterbatasan,'') as keterbatasan,"
+                            + "ifnull((select concat(kamar_inap.kd_kamar,' ',bangsal.nm_bangsal) from kamar_inap inner join kamar on kamar_inap.kd_kamar=kamar.kd_kamar inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal where kamar_inap.no_rawat=reg_periksa.no_rawat order by kamar_inap.tgl_masuk desc,kamar_inap.jam_masuk desc limit 1),poliklinik.nm_poli) as kamar,"
+                            + "concat('http://" + koneksiDB.HOSTHYBRIDWEB() + ":" + koneksiDB.PORTWEB() + "/" + koneksiDB.HYBRIDWEB() + "/pelaksanaanedukasi/',bukti_pelaksanaan_informasi_edukasi.photo) as photo "
                             + "from pelaksanaan_informasi_edukasi inner join reg_periksa on pelaksanaan_informasi_edukasi.no_rawat=reg_periksa.no_rawat "
                             + "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "
+                            + "inner join poliklinik on reg_periksa.kd_poli=poliklinik.kd_poli "
                             + "inner join bahasa_pasien on pasien.bahasa_pasien=bahasa_pasien.id "
                             + "left join edukasi_pasien_keluarga_rj on reg_periksa.no_rawat=edukasi_pasien_keluarga_rj.no_rawat "
                             + "inner join pegawai on pelaksanaan_informasi_edukasi.nik=pegawai.nik "
+                            + "left join dokter on pegawai.nik=dokter.kd_dokter "
+                            + "left join spesialis on dokter.kd_sps=spesialis.kd_sps "
                             + "inner join bukti_pelaksanaan_informasi_edukasi on pelaksanaan_informasi_edukasi.no_rawat=bukti_pelaksanaan_informasi_edukasi.no_rawat "
                             + "and pelaksanaan_informasi_edukasi.tanggal=bukti_pelaksanaan_informasi_edukasi.tanggal "
-                            + "where reg_periksa.no_rawat='" + tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString()
-                            + "' " + "order by pelaksanaan_informasi_edukasi.tanggal",
+                            + "where reg_periksa.no_rawat='" + tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString() + "' "
+                            + "order by pelaksanaan_informasi_edukasi.tanggal",
                     param);
         }
     }
@@ -1479,7 +1503,11 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
     }
 
     private void KebutuhanAsesmenKeyPressed(java.awt.event.KeyEvent evt) {
-        Valid.pindah(evt, KesediaanInfo, BtnSimpan);
+        Valid.pindah(evt, KesediaanInfo, Keterbatasan);
+    }
+
+    private void KeterbatasanKeyPressed(java.awt.event.KeyEvent evt) {
+        Valid.pindah(evt, KebutuhanAsesmen, BtnSimpan);
     }
 
     private void StatusKeyPressed(java.awt.event.KeyEvent evt) {
@@ -1654,6 +1682,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
     private widget.ComboBox KemampuanBacaTulis;
     private widget.ComboBox Kepada;
     private widget.ComboBox KesediaanInfo;
+    private widget.ComboBox Keterbatasan;
     private widget.TextBox Keterangan;
     private widget.TextBox KeteranganKepada;
     private widget.Label LCount;
@@ -1703,6 +1732,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
     private widget.Label jLabelBacaTulis;
     private widget.Label jLabelHambatan;
     private widget.Label jLabelKesediaan;
+    private widget.Label jLabelKeterbatasan;
     private widget.Label jLabelNilaiBudaya;
     private widget.Label jLabelPenterjemah;
     private javax.swing.JPanel jPanel3;
@@ -1721,7 +1751,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                         "select reg_periksa.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,reg_periksa.umurdaftar,reg_periksa.sttsumur,pasien.jk,pasien.tgl_lahir,pelaksanaan_informasi_edukasi.tanggal,"
                                 + "pelaksanaan_informasi_edukasi.nik,pegawai.nama,pelaksanaan_informasi_edukasi.materi_edukasi,pelaksanaan_informasi_edukasi.keterangan,pelaksanaan_informasi_edukasi.diberikan_pada,"
                                 + "pelaksanaan_informasi_edukasi.keterangan_diberikan_pada,pelaksanaan_informasi_edukasi.lama_edukasi,pelaksanaan_informasi_edukasi.metode_edukasi,pelaksanaan_informasi_edukasi.hasil_verifikasi,"
-                                + "pelaksanaan_informasi_edukasi.status,pelaksanaan_informasi_edukasi.nilai_kepercayaan,pelaksanaan_informasi_edukasi.kemampuan_bacatulis,pelaksanaan_informasi_edukasi.terdapat_hambatan_belajar,pelaksanaan_informasi_edukasi.butuh_penterjemah,pelaksanaan_informasi_edukasi.kesediaan_menerima_informasi,pelaksanaan_informasi_edukasi.kebutuhan_asesmen "
+                                + "pelaksanaan_informasi_edukasi.status,pelaksanaan_informasi_edukasi.nilai_kepercayaan,pelaksanaan_informasi_edukasi.kemampuan_bacatulis,pelaksanaan_informasi_edukasi.terdapat_hambatan_belajar,pelaksanaan_informasi_edukasi.butuh_penterjemah,pelaksanaan_informasi_edukasi.kesediaan_menerima_informasi,pelaksanaan_informasi_edukasi.kebutuhan_asesmen,pelaksanaan_informasi_edukasi.keterbatasan "
                                 + "from pelaksanaan_informasi_edukasi inner join reg_periksa on pelaksanaan_informasi_edukasi.no_rawat=reg_periksa.no_rawat "
                                 + "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "
                                 + "inner join pegawai on pelaksanaan_informasi_edukasi.nik=pegawai.nik where "
@@ -1731,7 +1761,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                         "select reg_periksa.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,reg_periksa.umurdaftar,reg_periksa.sttsumur,pasien.jk,pasien.tgl_lahir,pelaksanaan_informasi_edukasi.tanggal,"
                                 + "pelaksanaan_informasi_edukasi.nik,pegawai.nama,pelaksanaan_informasi_edukasi.materi_edukasi,pelaksanaan_informasi_edukasi.keterangan,pelaksanaan_informasi_edukasi.diberikan_pada,"
                                 + "pelaksanaan_informasi_edukasi.keterangan_diberikan_pada,pelaksanaan_informasi_edukasi.lama_edukasi,pelaksanaan_informasi_edukasi.metode_edukasi,pelaksanaan_informasi_edukasi.hasil_verifikasi,"
-                                + "pelaksanaan_informasi_edukasi.status,pelaksanaan_informasi_edukasi.nilai_kepercayaan,pelaksanaan_informasi_edukasi.kemampuan_bacatulis,pelaksanaan_informasi_edukasi.terdapat_hambatan_belajar,pelaksanaan_informasi_edukasi.butuh_penterjemah,pelaksanaan_informasi_edukasi.kesediaan_menerima_informasi,pelaksanaan_informasi_edukasi.kebutuhan_asesmen "
+                                + "pelaksanaan_informasi_edukasi.status,pelaksanaan_informasi_edukasi.nilai_kepercayaan,pelaksanaan_informasi_edukasi.kemampuan_bacatulis,pelaksanaan_informasi_edukasi.terdapat_hambatan_belajar,pelaksanaan_informasi_edukasi.butuh_penterjemah,pelaksanaan_informasi_edukasi.kesediaan_menerima_informasi,pelaksanaan_informasi_edukasi.kebutuhan_asesmen,pelaksanaan_informasi_edukasi.keterbatasan "
                                 + "from pelaksanaan_informasi_edukasi inner join reg_periksa on pelaksanaan_informasi_edukasi.no_rawat=reg_periksa.no_rawat "
                                 + "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "
                                 + "inner join pegawai on pelaksanaan_informasi_edukasi.nik=pegawai.nik where "
@@ -1770,7 +1800,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                             rs.getString("terdapat_hambatan_belajar"),
                             rs.getString("butuh_penterjemah"),
                             rs.getString("kesediaan_menerima_informasi"),
-                            rs.getString("kebutuhan_asesmen")
+                            rs.getString("kebutuhan_asesmen"),
+                            rs.getString("keterbatasan")
                     });
                 }
             } catch (Exception e) {
@@ -1804,6 +1835,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
         ButuhPenterjemah.setSelectedIndex(0);
         KesediaanInfo.setSelectedIndex(0);
         KebutuhanAsesmen.setSelectedIndex(0);
+        Keterbatasan.setSelectedIndex(0);
         Tanggal.setDate(new Date());
         ChkKejadian.setSelected(true);
         Materi.requestFocus();
@@ -1831,6 +1863,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
             ButuhPenterjemah.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(), 20).toString());
             KesediaanInfo.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(), 21).toString());
             KebutuhanAsesmen.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(), 22).toString());
+            Keterbatasan.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(), 23).toString());
             ChkKejadian.setSelected(false);
             Jam.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(), 6).toString().substring(11, 13));
             Menit.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(), 6).toString().substring(14, 16));
@@ -1963,8 +1996,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
 
     private void ganti() {
         if (Sequel.mengedittf("pelaksanaan_informasi_edukasi", "tanggal=? and no_rawat=?",
-                "no_rawat=?,tanggal=?,nik=?,materi_edukasi=?,keterangan=?,diberikan_pada=?,keterangan_diberikan_pada=?,lama_edukasi=?,metode_edukasi=?,hasil_verifikasi=?,status=?,nilai_kepercayaan=?,kemampuan_bacatulis=?,terdapat_hambatan_belajar=?,butuh_penterjemah=?,kesediaan_menerima_informasi=?,kebutuhan_asesmen=?",
-                19, new String[] {
+                "no_rawat=?,tanggal=?,nik=?,materi_edukasi=?,keterangan=?,diberikan_pada=?,keterangan_diberikan_pada=?,lama_edukasi=?,metode_edukasi=?,hasil_verifikasi=?,status=?,nilai_kepercayaan=?,kemampuan_bacatulis=?,terdapat_hambatan_belajar=?,butuh_penterjemah=?,kesediaan_menerima_informasi=?,kebutuhan_asesmen=?,keterbatasan=?",
+                20, new String[] {
                         TNoRw.getText(),
                         Valid.SetTgl(Tanggal.getSelectedItem() + "") + " " + Jam.getSelectedItem() + ":"
                                 + Menit.getSelectedItem() + ":" + Detik.getSelectedItem(),
@@ -1978,6 +2011,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                         ButuhPenterjemah.getSelectedItem().toString(),
                         KesediaanInfo.getSelectedItem().toString(),
                         KebutuhanAsesmen.getSelectedItem().toString(),
+                        Keterbatasan.getSelectedItem().toString(),
                         tbObat.getValueAt(tbObat.getSelectedRow(), 6).toString(),
                         tbObat.getValueAt(tbObat.getSelectedRow(), 0).toString()
                 }) == true) {
@@ -2005,6 +2039,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
             tbObat.setValueAt(ButuhPenterjemah.getSelectedItem().toString(), tbObat.getSelectedRow(), 20);
             tbObat.setValueAt(KesediaanInfo.getSelectedItem().toString(), tbObat.getSelectedRow(), 21);
             tbObat.setValueAt(KebutuhanAsesmen.getSelectedItem().toString(), tbObat.getSelectedRow(), 22);
+            tbObat.setValueAt(Keterbatasan.getSelectedItem().toString(), tbObat.getSelectedRow(), 23);
             emptTeks();
         }
     }
@@ -2024,7 +2059,7 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
     }
 
     private void simpan() {
-        if (Sequel.menyimpantf("pelaksanaan_informasi_edukasi", "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", "Data", 17, new String[] {
+        if (Sequel.menyimpantf("pelaksanaan_informasi_edukasi", "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", "Data", 18, new String[] {
                 TNoRw.getText(),
                 Valid.SetTgl(Tanggal.getSelectedItem() + "") + " " + Jam.getSelectedItem() + ":"
                         + Menit.getSelectedItem() + ":" + Detik.getSelectedItem(),
@@ -2037,7 +2072,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                 HambatanBelajar.getSelectedItem().toString(),
                 ButuhPenterjemah.getSelectedItem().toString(),
                 KesediaanInfo.getSelectedItem().toString(),
-                KebutuhanAsesmen.getSelectedItem().toString()
+                KebutuhanAsesmen.getSelectedItem().toString(),
+                Keterbatasan.getSelectedItem().toString()
         }) == true) {
             tabMode.addRow(new Object[] {
                     TNoRw.getText(), TNoRM.getText(), TPasien.getText(), Umur.getText(), JK.getText(),
@@ -2053,7 +2089,8 @@ public final class RMPelaksanaanInformasiEdukasi extends javax.swing.JDialog {
                     HambatanBelajar.getSelectedItem().toString(),
                     ButuhPenterjemah.getSelectedItem().toString(),
                     KesediaanInfo.getSelectedItem().toString(),
-                    KebutuhanAsesmen.getSelectedItem().toString()
+                    KebutuhanAsesmen.getSelectedItem().toString(),
+                    Keterbatasan.getSelectedItem().toString()
             });
             LCount.setText("" + tabMode.getRowCount());
             emptTeks();
