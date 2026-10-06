@@ -161,7 +161,7 @@ public class DlgRekapObatPasien extends javax.swing.JDialog {
         nmgolongan = new widget.TextBox();
         BtnGolongan = new widget.Button();
         status = new widget.ComboBox();
-        TabRawat1 = new javax.swing.JTabbedPane();
+        TabRawat1 = new widget.TabPane();
         scrollPane4 = new widget.ScrollPane();
         tbDokter = new widget.Table();
         scrollPane5 = new widget.ScrollPane();
@@ -522,7 +522,7 @@ public class DlgRekapObatPasien extends javax.swing.JDialog {
         scrollPane4.setName("scrollPane4"); // NOI18N
         scrollPane4.setOpaque(true);
 
-        tbDokter.setAutoCreateRowSorter(true);
+        tbDokter.setAutoCreateRowSorter(false);
         tbDokter.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -543,7 +543,7 @@ public class DlgRekapObatPasien extends javax.swing.JDialog {
         scrollPane5.setName("scrollPane5"); // NOI18N
         scrollPane5.setOpaque(true);
 
-        tbDokter2.setAutoCreateRowSorter(true);
+        tbDokter2.setAutoCreateRowSorter(false);
         tbDokter2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -1043,7 +1043,7 @@ public class DlgRekapObatPasien extends javax.swing.JDialog {
     private widget.TextBox Kd2;
     private javax.swing.JPanel PanelInput;
     private widget.TextBox TCari;
-    private javax.swing.JTabbedPane TabRawat1;
+    private widget.TabPane TabRawat1;
     private widget.Tanggal Tgl1;
     private widget.Tanggal Tgl2;
     private widget.InternalFrame internalFrame1;

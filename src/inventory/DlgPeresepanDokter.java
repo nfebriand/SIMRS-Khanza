@@ -417,7 +417,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         LTotalTagihan = new widget.Label();
         textTemplateResep = new widget.TextBox();
         btnPilihTemplateResep = new widget.Button();
-        TabRawat = new javax.swing.JTabbedPane();
+        TabRawat = new widget.TabPane();
         Scroll = new widget.ScrollPane();
         tbResep = new widget.Table();
         jPanel3 = new javax.swing.JPanel();
@@ -940,7 +940,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         Scroll2.setName("Scroll2"); // NOI18N
         Scroll2.setOpaque(true);
 
-        tbDetailResepObatRacikan.setAutoCreateRowSorter(true);
+        tbDetailResepObatRacikan.setAutoCreateRowSorter(false);
         tbDetailResepObatRacikan.setComponentPopupMenu(Popup);
         tbDetailResepObatRacikan.setName("tbDetailResepObatRacikan"); // NOI18N
         tbDetailResepObatRacikan.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1784,7 +1784,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     private widget.TextBox TCari;
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
-    private javax.swing.JTabbedPane TabRawat;
+    private widget.TabPane TabRawat;
     private widget.Button btnDokter;
     private widget.Button btnPilihTemplateResep;
     private widget.CekBox checkboxSimpanTemplateResep;

@@ -123,7 +123,7 @@
         <Property name="verticalGap" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JTabbedPane" name="TabRawat">
+        <Container class="widget.TabPane" name="TabRawat">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fe" green="ff" red="ff" type="rgb"/>
@@ -1955,7 +1955,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JTabbedPane" name="TabRujukan">
+                <Container class="widget.TabPane" name="TabRujukan">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fe" green="ff" red="ff" type="rgb"/>
@@ -2003,7 +2003,7 @@
                       <SubComponents>
                         <Component class="widget.Table" name="tbObat">
                           <Properties>
-                            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                            <Property name="autoCreateRowSorter" type="boolean" value="false"/>
                             <Property name="toolTipText" type="java.lang.String" value="Silahkan klik untuk memilih data yang mau diedit ataupun dihapus"/>
                             <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
                               <ComponentRef name="jPopupMenu1"/>
@@ -2041,7 +2041,7 @@
                       <SubComponents>
                         <Component class="widget.Table" name="tbObat2">
                           <Properties>
-                            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                            <Property name="autoCreateRowSorter" type="boolean" value="false"/>
                             <Property name="toolTipText" type="java.lang.String" value="Silahkan klik untuk memilih data yang mau diedit ataupun dihapus"/>
                             <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
                               <ComponentRef name="jPopupMenu1"/>

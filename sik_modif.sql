@@ -1954,6 +1954,8 @@ ALTER TABLE `setting` ADD COLUMN IF NOT EXISTS `sistem_import_koding` enum('','I
 
 ALTER TABLE `setting` ADD COLUMN IF NOT EXISTS `kode_ppkapotek` varchar(15) NULL DEFAULT NULL AFTER `sistem_import_koding`;
 
+ALTER TABLE `setting` ADD COLUMN IF NOT EXISTS `tgl_cutoff_gaji` tinyint(2) UNSIGNED NULL DEFAULT NULL AFTER `kode_ppkapotek`;
+
 CREATE TABLE IF NOT EXISTS `smc_master_masalah_keperawatan`  (
   `menu` varchar(50) NOT NULL,
   `kode_masalah` varchar(3) NOT NULL,
@@ -2266,6 +2268,8 @@ ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `jam_masuk_smc` enum('true','false')
 ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `jadwal_pegawai_smc` enum('true','false') NULL DEFAULT NULL AFTER `jam_masuk_smc`;
 
 ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `template_laboratorium_smc` enum('true','false') NULL DEFAULT NULL AFTER `ringkasan_beban_hutang_lain`;
+
+ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `rekap_kehadiran_smc` enum('true','false') NULL DEFAULT NULL AFTER `template_laboratorium_smc`;
 
 ALTER TABLE `user` MODIFY COLUMN IF EXISTS `penyakit` enum('true','false') NULL DEFAULT NULL AFTER `password`;
 
@@ -2847,63 +2851,27 @@ CREATE TABLE `laborat_kesling_pelanggan`  (
   PRIMARY KEY (`kode_pelanggan`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
-
 CREATE TABLE `handover` (
   `no_rawat` varchar(17) NOT NULL,
   `tgl_perawatan` date NOT NULL,
   `jam_rawat` time NOT NULL,
-  `situation` varchar(2000) DEFAULT NULL,
-  `background` varchar(2000) DEFAULT NULL,
-  `assesment` varchar(2000) DEFAULT NULL,
-  `recommendation` varchar(2000) DEFAULT NULL,
-  `tindakan` text DEFAULT NULL,
+  `shift_pagi` varchar(2000) DEFAULT NULL,
+  `shift_siang` varchar(2000) NOT NULL,
+  `shift_sore` varchar(2000) NOT NULL,
   `shift` enum('Pagi','Siang','Malam') NOT NULL,
   `nip` varchar(20) NOT NULL,
   `shift2` enum('Pagi','Siang','Malam') NOT NULL,
   `nip2` varchar(20) NOT NULL,
-  `shift_pagi` varchar(2000) DEFAULT NULL,
-  `shift_siang` varchar(2000) DEFAULT NULL,
-  `shift_sore` varchar(2000) DEFAULT NULL,
   `nip_pagi` varchar(20) NOT NULL DEFAULT '',
   `nip_siang` varchar(20) NOT NULL DEFAULT '',
   `nip_sore` varchar(20) NOT NULL DEFAULT '',
   `nip2_pagi` varchar(20) NOT NULL DEFAULT '',
   `nip2_siang` varchar(20) NOT NULL DEFAULT '',
-  `nip2_sore` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+  `nip2_sore` varchar(20) NOT NULL DEFAULT '',
+  UNIQUE KEY `uq_handover_rawat_tgl` (`no_rawat`,`tgl_perawatan`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC
 
-ALTER TABLE `handover`
-  ADD PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`jam_rawat`) USING BTREE,
-  ADD KEY `no_rawat` (`no_rawat`) USING BTREE,
-  ADD KEY `nip2` (`nip2`);
-
-ALTER TABLE `handover`
-  ADD CONSTRAINT `handover_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `handover_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-CREATE TABLE `validasi_handover` (
-  `no_rawat` varchar(17) NOT NULL,
-  `tgl_perawatan` date NOT NULL,
-  `jam_rawat` time NOT NULL,
-  `shift` enum('Pagi','Siang','Malam') NOT NULL,
-  `situation` text NOT NULL,
-  `background` text NOT NULL,
-  `assesment` text NOT NULL,
-  `recommendation` text NOT NULL,
-  `tindakan` text NOT NULL,
-  `nik` varchar(20) NOT NULL,
-  `nik_validator` varchar(20) NOT NULL,
-  `tgl_validasi` date NOT NULL,
-  `jam_validasi` time NOT NULL,
-  `status_validasi` enum('-','Validasi','Tidak Di Validasi') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
-
-ALTER TABLE `validasi_handover`
-  ADD PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`jam_rawat`) USING BTREE,
-  ADD KEY `no_rawat` (`no_rawat`) USING BTREE,
-  ADD KEY `validasi_pemeriksaan_sbar_2` (`nik`) USING BTREE;
-
-CREATE TABLE IF NOT EXISTS `validasi_handover_shift` (
+CREATE TABLE `validasi_handover_shift` (
   `no_rawat` varchar(17) NOT NULL,
   `tgl_perawatan` date NOT NULL,
   `jam_rawat` time NOT NULL,
@@ -2914,11 +2882,10 @@ CREATE TABLE IF NOT EXISTS `validasi_handover_shift` (
   `tgl_validasi` date NOT NULL,
   `jam_validasi` time NOT NULL,
   `status_validasi` enum('-','Validasi','Tidak Di Validasi') NOT NULL,
-  PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`jam_rawat`,`shift`) USING BTREE,
-  KEY `no_rawat` (`no_rawat`) USING BTREE,
-  KEY `nik` (`nik`) USING BTREE,
-  KEY `nik_validator` (`nik_validator`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`shift`) USING BTREE,
+  KEY `idx_vhs_nik` (`nik`) USING BTREE,
+  KEY `idx_vhs_validator` (`nik_validator`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS `verifikasi_pengkajian_faskes_lain_smc` (
   `no_rawat` varchar(17) NOT NULL,

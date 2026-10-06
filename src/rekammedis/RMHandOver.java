@@ -973,15 +973,15 @@ public final class RMHandOver extends javax.swing.JDialog {
             for (i = 0; i < tbPemeriksaanSbar.getRowCount(); i++) {
                 if (tbPemeriksaanSbar.getValueAt(i, 0).toString().equals("true")) {
                     // kolom 10 = NIP petugas yang menyerahkan
-                    // if (akses.getkode().equals("Admin Utama") || akses.getkode().equals(tbPemeriksaanSbar.getValueAt(i, 10).toString())) {
+                    if (akses.getkode().equals("Admin Utama") || akses.getkode().equals(tbPemeriksaanSbar.getValueAt(i, 10).toString())) {
                         Sequel.queryu("delete from handover where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
                                 + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString()
                                 + "' and jam_rawat='" + tbPemeriksaanSbar.getValueAt(i, 5).toString() + "' ");
                         Sequel.queryu("delete from validasi_handover_shift where no_rawat='" + tbPemeriksaanSbar.getValueAt(i, 1).toString()
                                 + "' and tgl_perawatan='" + tbPemeriksaanSbar.getValueAt(i, 4).toString() + "' ");
-                    // } else {
-                    //     JOptionPane.showMessageDialog(null, "Hanya bisa dihapus oleh dokter/petugas yang bersangkutan..!!");
-                    // }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hanya bisa dihapus oleh dokter/petugas yang bersangkutan..!!");
+                    }
                 }
             }
             emptTeks();
@@ -1776,10 +1776,10 @@ public final class RMHandOver extends javax.swing.JDialog {
             Valid.textKosong(NIP, "Dokter/Paramedis masih kosong...!!");
             return;
         }
-        // if (!akses.getkode().equals("Admin Utama") && !akses.getkode().equals(NIP.getText())) {
-        //     JOptionPane.showMessageDialog(null, "Hanya bisa disimpan oleh dokter/petugas yang bersangkutan..!!");
-        //     return;
-        // }
+        if (!akses.getkode().equals("Admin Utama") && !akses.getkode().equals(NIP.getText())) {
+            JOptionPane.showMessageDialog(null, "Hanya bisa disimpan oleh dokter/petugas yang bersangkutan..!!");
+            return;
+        }
 
         String noRawat = TNoRw.getText().trim();
         String tgl = Valid.SetTgl(DTPTgl.getSelectedItem() + "");
@@ -1832,17 +1832,15 @@ public final class RMHandOver extends javax.swing.JDialog {
     // jam_rawat tidak diubah supaya tetap konsisten dengan data lain yang merujuknya.
     private void updateHandover(String noRawat, String tgl, String shift, String isi) throws SQLException {
         String suf = sufiksShift(shift);
-        String nip = NIP.getText().trim();
-        String nip2 = NIP2.getText().trim().isEmpty() ? "-" : NIP2.getText().trim();
         try (PreparedStatement pst = koneksi.prepareStatement("update handover set " + kolomShift(shift)
                 + "=?,nip_" + suf + "=?,nip2_" + suf + "=?,shift=?,nip=?,shift2=?,nip2=? where no_rawat=? and tgl_perawatan=?")) {
             pst.setString(1, isi);
-            pst.setString(2, nip);
-            pst.setString(3, nip2);
+            pst.setString(2, NIP.getText().trim());
+            pst.setString(3, NIP2.getText().trim());
             pst.setString(4, ShiftKeluar.getSelectedItem().toString());
-            pst.setString(5, nip);
+            pst.setString(5, NIP.getText().trim());
             pst.setString(6, ShiftMasuk.getSelectedItem().toString());
-            pst.setString(7, nip2);
+            pst.setString(7, NIP2.getText().trim());
             pst.setString(8, noRawat);
             pst.setString(9, tgl);
             pst.executeUpdate();
@@ -1851,22 +1849,22 @@ public final class RMHandOver extends javax.swing.JDialog {
 
     private void insertHandover(String noRawat, String tgl, String shift, String isi) throws SQLException {
         String nip = NIP.getText().trim();
-        String nip2 = NIP2.getText().trim().isEmpty() ? "-" : NIP2.getText().trim();
+        String nip2 = NIP2.getText().trim();
         try (PreparedStatement pst = koneksi.prepareStatement("insert into handover(no_rawat,tgl_perawatan,jam_rawat,"
                 + "shift_pagi,shift_siang,shift_sore,nip_pagi,nip_siang,nip_sore,nip2_pagi,nip2_siang,nip2_sore,"
                 + "shift,nip,shift2,nip2) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
             pst.setString(1, noRawat);
             pst.setString(2, tgl);
             pst.setString(3, cmbJam.getSelectedItem() + ":" + cmbMnt.getSelectedItem() + ":" + cmbDtk.getSelectedItem());
-            pst.setString(4, "Pagi".equals(shift) ? isi : "");
-            pst.setString(5, "Siang".equals(shift) ? isi : "");
-            pst.setString(6, "Malam".equals(shift) ? isi : "");
-            pst.setString(7, "Pagi".equals(shift) ? nip : "");
-            pst.setString(8, "Siang".equals(shift) ? nip : "");
-            pst.setString(9, "Malam".equals(shift) ? nip : "");
-            pst.setString(10, "Pagi".equals(shift) ? nip2 : "");
-            pst.setString(11, "Siang".equals(shift) ? nip2 : "");
-            pst.setString(12, "Malam".equals(shift) ? nip2 : "");
+            pst.setString(4, shift.equals("Pagi") ? isi : "");
+            pst.setString(5, shift.equals("Siang") ? isi : "");
+            pst.setString(6, shift.equals("Malam") ? isi : "");
+            pst.setString(7, shift.equals("Pagi") ? nip : "");
+            pst.setString(8, shift.equals("Siang") ? nip : "");
+            pst.setString(9, shift.equals("Malam") ? nip : "");
+            pst.setString(10, shift.equals("Pagi") ? nip2 : "");
+            pst.setString(11, shift.equals("Siang") ? nip2 : "");
+            pst.setString(12, shift.equals("Malam") ? nip2 : "");
             pst.setString(13, ShiftKeluar.getSelectedItem().toString());
             pst.setString(14, nip);
             pst.setString(15, ShiftMasuk.getSelectedItem().toString());
@@ -1891,14 +1889,8 @@ public final class RMHandOver extends javax.swing.JDialog {
             TShiftMalam.setText(cell(r, 8));
             NIP.setText(cell(r, 10));
             NamaPetugas.setText(cell(r, 11));
-            String nipPenerima = cell(r, 13);
-            if ("-".equals(nipPenerima)) {
-                NIP2.setText("");
-                NamaPetugas2.setText("");
-            } else {
-                NIP2.setText(nipPenerima);
-                NamaPetugas2.setText(cell(r, 14));
-            }
+            NIP2.setText(cell(r, 13));
+            NamaPetugas2.setText(cell(r, 14));
             DiagnosaAwal.setText(Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=?", TNoRw.getText()));
             RuangRawat.setText(Sequel.cariIsi("SELECT CONCAT(kamar.kd_kamar, ' ', bangsal.nm_bangsal) as ruangrawat FROM bangsal "
                     + "INNER JOIN kamar ON bangsal.kd_bangsal = kamar.kd_bangsal "

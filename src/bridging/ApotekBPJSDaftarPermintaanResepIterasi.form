@@ -325,7 +325,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JTabbedPane" name="TabData">
+            <Container class="widget.TabPane" name="TabData">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fe" green="ff" red="fe" type="rgb"/>
@@ -495,7 +495,7 @@
           <SubComponents>
             <Component class="widget.Table" name="tbResep">
               <Properties>
-                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                <Property name="autoCreateRowSorter" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="tbResep" noResource="true"/>
               </Properties>
               <Events>

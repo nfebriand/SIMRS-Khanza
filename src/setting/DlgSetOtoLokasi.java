@@ -150,7 +150,7 @@ public class DlgSetOtoLokasi extends javax.swing.JDialog {
         BtnHapus = new widget.Button();
         BtnEdit = new widget.Button();
         BtnKeluar = new widget.Button();
-        TabRawat = new javax.swing.JTabbedPane();
+        TabRawat = new widget.TabPane();
         internalFrame2 = new widget.InternalFrame();
         panelGlass7 = new widget.panelisi();
         jLabel4 = new widget.Label();
@@ -381,7 +381,7 @@ public class DlgSetOtoLokasi extends javax.swing.JDialog {
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
-        tbAdmin.setAutoCreateRowSorter(true);
+        tbAdmin.setAutoCreateRowSorter(false);
         tbAdmin.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         tbAdmin.setName("tbAdmin"); // NOI18N
         tbAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -496,7 +496,7 @@ public class DlgSetOtoLokasi extends javax.swing.JDialog {
         Scroll1.setName("Scroll1"); // NOI18N
         Scroll1.setOpaque(true);
 
-        tbRalan.setAutoCreateRowSorter(true);
+        tbRalan.setAutoCreateRowSorter(false);
         tbRalan.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         tbRalan.setName("tbRalan"); // NOI18N
         tbRalan.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -611,7 +611,7 @@ public class DlgSetOtoLokasi extends javax.swing.JDialog {
         Scroll2.setName("Scroll2"); // NOI18N
         Scroll2.setOpaque(true);
 
-        tbRanap.setAutoCreateRowSorter(true);
+        tbRanap.setAutoCreateRowSorter(false);
         tbRanap.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         tbRanap.setName("tbRanap"); // NOI18N
         tbRanap.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1131,7 +1131,7 @@ public class DlgSetOtoLokasi extends javax.swing.JDialog {
     private widget.ScrollPane Scroll;
     private widget.ScrollPane Scroll1;
     private widget.ScrollPane Scroll2;
-    private javax.swing.JTabbedPane TabRawat;
+    private widget.TabPane TabRawat;
     private widget.Button btnBangsal;
     private widget.Button btnBangsal1;
     private widget.Button btnBangsal2;

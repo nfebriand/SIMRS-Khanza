@@ -179,7 +179,7 @@ public final class DlgSetOtoRalan extends javax.swing.JDialog {
         BtnAll = new widget.Button();
         jLabel10 = new widget.Label();
         LCount = new widget.Label();
-        TabRawat = new javax.swing.JTabbedPane();
+        TabRawat = new widget.TabPane();
         internalFrame2 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         Table1 = new widget.Table();
@@ -426,7 +426,7 @@ public final class DlgSetOtoRalan extends javax.swing.JDialog {
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
-        Table1.setAutoCreateRowSorter(true);
+        Table1.setAutoCreateRowSorter(false);
         Table1.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         Table1.setName("Table1"); // NOI18N
         Table1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -577,7 +577,7 @@ public final class DlgSetOtoRalan extends javax.swing.JDialog {
         Scroll1.setName("Scroll1"); // NOI18N
         Scroll1.setOpaque(true);
 
-        Table2.setAutoCreateRowSorter(true);
+        Table2.setAutoCreateRowSorter(false);
         Table2.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         Table2.setName("Table2"); // NOI18N
         Table2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -811,7 +811,7 @@ public final class DlgSetOtoRalan extends javax.swing.JDialog {
         Scroll2.setName("Scroll2"); // NOI18N
         Scroll2.setOpaque(true);
 
-        Table3.setAutoCreateRowSorter(true);
+        Table3.setAutoCreateRowSorter(false);
         Table3.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
         Table3.setName("Table3"); // NOI18N
         Table3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1620,7 +1620,7 @@ public final class DlgSetOtoRalan extends javax.swing.JDialog {
     private widget.ScrollPane Scroll1;
     private widget.ScrollPane Scroll2;
     private widget.TextBox TCari;
-    private javax.swing.JTabbedPane TabRawat;
+    private widget.TabPane TabRawat;
     private widget.Table Table1;
     private widget.Table Table2;
     private widget.Table Table3;

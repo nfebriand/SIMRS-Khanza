@@ -709,14 +709,12 @@ public final class ValidasiHandOver extends javax.swing.JDialog {
             Valid.textKosong(TIsi,"Isi Handover");
         }else{
             // Satu validasi = satu shift pada satu baris handover (no_rawat + tgl_perawatan + shift)
-            if(Sequel.menyimpantfNotifSmc("Handover Shift","validasi_handover_shift",
-                    "no_rawat,tgl_perawatan,jam_rawat,shift,isi,nik,nik_validator,tgl_validasi,jam_validasi,status_validasi",
+            if(Sequel.menyimpantf("validasi_handover_shift","?,?,?,?,?,?,?,?,?,?","No.Rawat",10,new String[]{
                     TNoRw.getText(),TanggalPemeriksaan.getText(),JamPemeriksaan.getText(),Shift.getSelectedItem().toString(),TIsi.getText(),
-                    NIP.getText(),NIP2.getText(),tanggalNow.format(new Date()),jamNow.format(new Date()),"Validasi")){
-                String shiftCol = "Pagi".equals(Shift.getSelectedItem().toString()) ? "nip2_pagi" : ("Siang".equals(Shift.getSelectedItem().toString()) ? "nip2_siang" : "nip2_sore");
-                Sequel.mengedit("handover", "no_rawat='" + TNoRw.getText() + "' and tgl_perawatan='" + TanggalPemeriksaan.getText() + "'", shiftCol + "='" + NIP2.getText() + "',nip2='" + NIP2.getText() + "'");
-                tampil();
-                emptTeks();
+                    NIP.getText(),NIP2.getText(),tanggalNow.format(new Date()),jamNow.format(new Date()),"Validasi"
+                })==true){
+                    tampil();
+                    emptTeks();
             }
         }
 }//GEN-LAST:event_BtnSimpanActionPerformed
