@@ -1,4 +1,5 @@
 package permintaan;
+import fungsi.WarnaTable;
 import bridging.ApiCareStream;
 import bridging.ApiOrthanc;
 import bridging.WorklistRadiologiSMC;

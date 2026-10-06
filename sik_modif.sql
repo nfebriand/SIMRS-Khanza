@@ -774,6 +774,8 @@ ALTER TABLE `pegawai` MODIFY COLUMN IF EXISTS `nama` varchar(100) NOT NULL AFTER
 
 ALTER TABLE `pegawai` MODIFY COLUMN IF EXISTS `alamat` varchar(150) NOT NULL AFTER `tgl_lahir`;
 
+ALTER TABLE `pelaksanaan_informasi_edukasi` ADD COLUMN IF NOT EXISTS `keterbatasan` enum('Tidak Ada','Fisik','Kognitif') NOT NULL DEFAULT 'Tidak Ada' AFTER `kebutuhan_asesmen`;
+
 CREATE TABLE IF NOT EXISTS `pemeriksaan_labpk`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `kode_pemeriksaan` varchar(20) NOT NULL,
@@ -2883,7 +2885,35 @@ CREATE TABLE `validasi_handover_shift` (
   PRIMARY KEY (`no_rawat`,`tgl_perawatan`,`shift`) USING BTREE,
   KEY `idx_vhs_nik` (`nik`) USING BTREE,
   KEY `idx_vhs_validator` (`nik_validator`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE IF NOT EXISTS `verifikasi_pengkajian_faskes_lain_smc` (
+  `no_rawat` varchar(17) NOT NULL,
+  `tgl_verifikasi` date NOT NULL,
+  `jam_verifikasi` time NOT NULL,
+  `asal_faskes` varchar(100) NOT NULL DEFAULT '',
+  `anamnesis` enum('Ada','Tidak Ada') NOT NULL DEFAULT 'Ada',
+  `hasil_anamnesis` varchar(255) NOT NULL DEFAULT '',
+  `pemeriksaan_fisik` enum('Ada','Tidak Ada') NOT NULL DEFAULT 'Ada',
+  `hasil_pemeriksaan_fisik` varchar(255) NOT NULL DEFAULT '',
+  `pemeriksaan_penunjang` enum('Ada','Tidak Ada') NOT NULL DEFAULT 'Ada',
+  `hasil_pemeriksaan_penunjang` varchar(255) NOT NULL DEFAULT '',
+  `diagnosis` enum('Ada','Tidak Ada') NOT NULL DEFAULT 'Ada',
+  `hasil_diagnosis` varchar(255) NOT NULL DEFAULT '',
+  `terapi_tindakan` enum('Ada','Tidak Ada') NOT NULL DEFAULT 'Ada',
+  `hasil_terapi_tindakan` varchar(255) NOT NULL DEFAULT '',
+  `alergi_obat` enum('Ada','Tidak Ada') NOT NULL DEFAULT 'Ada',
+  `hasil_alergi_obat` varchar(255) NOT NULL DEFAULT '',
+  `kesimpulan` enum('Pengkajian dapat digunakan','Pengkajian perlu dilengkapi','Pengkajian perlu dilakukan ulang') NOT NULL DEFAULT 'Pengkajian dapat digunakan',
+  `nip` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`no_rawat`,`tgl_verifikasi`,`jam_verifikasi`) USING BTREE,
+  KEY `no_rawat` (`no_rawat`) USING BTREE,
+  KEY `nip` (`nip`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+
+ALTER TABLE `verifikasi_pengkajian_faskes_lain_smc`
+  ADD CONSTRAINT `verifikasi_pengkajian_faskes_lain_smc_ibfk_1` FOREIGN KEY IF NOT EXISTS (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `verifikasi_pengkajian_faskes_lain_smc_ibfk_2` FOREIGN KEY IF NOT EXISTS (`nip`) REFERENCES `petugas` (`nip`) ON UPDATE CASCADE;
 
 CREATE TABLE
 IF
