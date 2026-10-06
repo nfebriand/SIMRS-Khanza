@@ -23,7 +23,10 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import laporan.sirs.SirsRLDef;
+import laporan.sirs.SirsRLDef;
 import laporan.sirs.SirsRLRegistry;
+import laporan.sirs.SirsRLRegistry;
+import laporan.sirs.SirsResult;
 import laporan.sirs.SirsResult;
 
 /**
