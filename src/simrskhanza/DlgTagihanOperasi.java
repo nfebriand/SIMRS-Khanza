@@ -224,7 +224,7 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
 
         Kd2 = new widget.TextBox();
         Popup = new javax.swing.JPopupMenu();
-        ppBersihkan = new javax.swing.JMenuItem();
+        ppBersihkan = new widget.MenuItem();
         internalFrame1 = new widget.InternalFrame();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -3388,7 +3388,8 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
                     PostOp.setText(template.getTable().getValueAt(template.getTable().getSelectedRow(),3).toString());
                     Jaringan.setText(template.getTable().getValueAt(template.getTable().getSelectedRow(),4).toString());
                     DikirimPA.setSelectedItem(template.getTable().getValueAt(template.getTable().getSelectedRow(),5).toString());
-                    Laporan.setText(template.getTable().getValueAt(template.getTable().getSelectedRow(),6).toString());
+                    // Laporan.setText(template.getTable().getValueAt(template.getTable().getSelectedRow(),6).toString());
+                    Laporan.setText(template.getIsiTemplateSmc());
                     Laporan.requestFocus();
                 }
             }
@@ -3651,7 +3652,7 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
     private widget.panelisi panelisi1;
     private widget.panelisi panelisi4;
     private widget.panelisi panelisi5;
-    private javax.swing.JMenuItem ppBersihkan;
+    private widget.MenuItem ppBersihkan;
     private widget.ScrollPane scrollPane1;
     private widget.ScrollPane scrollPane2;
     private widget.Table tbObat;
