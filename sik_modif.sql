@@ -2877,7 +2877,7 @@ CREATE TABLE `handover` (
   `nip2_siang` varchar(20) NOT NULL DEFAULT '',
   `nip2_sore` varchar(20) NOT NULL DEFAULT '',
   UNIQUE KEY `uq_handover_rawat_tgl` (`no_rawat`,`tgl_perawatan`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE `validasi_handover_shift` (
   `no_rawat` varchar(17) NOT NULL,
