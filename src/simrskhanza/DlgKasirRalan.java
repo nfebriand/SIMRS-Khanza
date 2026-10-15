@@ -25,8 +25,10 @@ import bridging.INACBGPerawatanCorona;
 import bridging.InhealthDataSJP;
 import bridging.PCareDataPendaftaran;
 import bridging.SisruteRujukanKeluar;
+import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTable;
 import fungsi.WarnaTableKasirRalan;
+import fungsi.WarnaTablePrioritasSMC;
 import fungsi.akses;
 import fungsi.akseskamarinapralan;
 import fungsi.akuntindakanralan;
@@ -323,7 +325,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
             "Kode Dokter","Dokter Dituju","No.RM","Pasien",
             "Poliklinik","Penanggung Jawab","Alamat P.J.","Hubungan P.J.",
             "Biaya Reg","Jenis Bayar","Status","No.Rawat","Tanggal",
-            "Jam","No.Reg","Status Bayar","Stts Poli","Kd PJ","Kd Poli","No.Telp Pasien"}){
+            "Jam","No.Reg","Status Bayar","Stts Poli","Kd PJ","Kd Poli","No.Telp Pasien","Prioritas"}){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
         tbKasirRalan.setModel(tabModekasir);
@@ -331,7 +333,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         tbKasirRalan.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbKasirRalan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < 21; i++) {
             TableColumn column = tbKasirRalan.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(70);
@@ -375,6 +377,8 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                 column.setMaxWidth(0);
             }else if(i==19){
                 column.setPreferredWidth(95);
+            }else if(i==20){
+                column.setPreferredWidth(110);
             }
         }
         try {
@@ -386,6 +390,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         } catch (Exception e) {
             tbKasirRalan.setDefaultRenderer(Object.class, new WarnaTable());
         }
+        tbKasirRalan.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbKasirRalan.getDefaultRenderer(Object.class), 3, 20));
 
         tabModekasir2=new DefaultTableModel(null,new String[]{
             "Kode Dokter","Dokter Rujukan","Nomer RM","Pasien",
@@ -19451,7 +19456,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                         "reg_periksa.kd_dokter, dokter.nm_dokter, reg_periksa.no_rkm_medis, pasien.nm_pasien, poliklinik.nm_poli, " +
                         "reg_periksa.p_jawab, reg_periksa.almt_pj, reg_periksa.hubunganpj, reg_periksa.biaya_reg, reg_periksa.stts, " +
                         "penjab.png_jawab, concat(reg_periksa.umurdaftar, ' ', reg_periksa.sttsumur) as umur, reg_periksa.status_bayar, " +
-                        "reg_periksa.status_poli, reg_periksa.kd_pj, reg_periksa.kd_poli, pasien.no_tlp from reg_periksa join dokter on " +
+                        "reg_periksa.status_poli, reg_periksa.kd_pj, reg_periksa.kd_poli, pasien.no_tlp, " + PrioritasPasienSMC.KOLOM + " from reg_periksa join dokter on " +
                         "reg_periksa.kd_dokter = dokter.kd_dokter join pasien on reg_periksa.no_rkm_medis = pasien.no_rkm_medis join " +
                         "poliklinik on reg_periksa.kd_poli = poliklinik.kd_poli join penjab on reg_periksa.kd_pj = penjab.kd_pj where " +
                         "reg_periksa.tgl_registrasi between ? and ? and reg_periksa.status_lanjut = 'Ralan' " + tampildiagnosa + perJenisAsuransi +
@@ -19459,7 +19464,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                         "reg_periksa.status_bayar like ? and (reg_periksa.no_reg like ? or reg_periksa.no_rawat like ? or reg_periksa.tgl_registrasi like ? or " +
                         "reg_periksa.kd_dokter like ? or dokter.nm_dokter like ? or reg_periksa.no_rkm_medis like ? or pasien.nm_pasien like ? or " +
                         "poliklinik.nm_poli like ? or reg_periksa.p_jawab like ? or penjab.png_jawab like ? or reg_periksa.almt_pj like ? or " +
-                        "reg_periksa.status_bayar like ? or reg_periksa.hubunganpj like ?) ") + terbitsep + "order by " + order;
+                        "reg_periksa.status_bayar like ? or reg_periksa.hubunganpj like ?) ") + terbitsep + "order by " + PrioritasPasienSMC.URUT + order;
 
                     try (PreparedStatement ps = koneksi.prepareStatement(sql)) {
                         int p = 0;
@@ -19496,7 +19501,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
                                         rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), Valid.SetAngka(rs.getDouble(13)),
                                         rs.getString("png_jawab"), rs.getString(14), rs.getString("no_rawat"), rs.getString("tgl_registrasi"),
                                         rs.getString("jam_reg"), rs.getString(1), rs.getString("status_bayar"), rs.getString("status_poli"),
-                                        rs.getString("kd_pj"), rs.getString("kd_poli"), rs.getString("no_tlp")
+                                        rs.getString("kd_pj"), rs.getString("kd_poli"), rs.getString("no_tlp"), rs.getString("prioritas_smc")
                                     });
                                 } while (rs.next() && ceksukses);
                             }
