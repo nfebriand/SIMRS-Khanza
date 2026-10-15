@@ -13,9 +13,7 @@ import bridging.koneksiDBVANSLAB;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.BackgroundMusic;
-import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTable;
-import fungsi.WarnaTablePrioritasSMC;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -109,7 +107,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
         tabMode=new DefaultTableModel(null,new Object[]{
             "No.Permintaan","No.Rawat","Pasien","Permintaan","Jam","Sampel","Jam","Hasil","Jam",
             "Kode Dokter","Dokter Perujuk","Poli Registrasi","Informasi Tambahan","Diagnosis Klinis",
-            "Kode Bayar","Jenis Bayar","Prioritas"
+            "Kode Bayar","Jenis Bayar"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -157,8 +155,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
             }
         }
         tbLabRalan.setDefaultRenderer(Object.class, new WarnaTable());
-        tbLabRalan.getColumnModel().getColumn(16).setPreferredWidth(110);
-        tbLabRalan.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbLabRalan.getDefaultRenderer(Object.class), 2, 16));
 
         tabMode2=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Detail Pemeriksaan","Satuan","Nilai Rujukan","Permintaan","Jam","Sampel","Jam","Hasil",
@@ -223,7 +219,7 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
 
         tabMode3=new DefaultTableModel(null,new Object[]{
             "No.Permintaan","No.Rawat","Pasien","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter",
-            "Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar","Prioritas"
+            "Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -271,8 +267,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
             }
         }
         tbLabRanap.setDefaultRenderer(Object.class, new WarnaTable());
-        tbLabRanap.getColumnModel().getColumn(16).setPreferredWidth(110);
-        tbLabRanap.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbLabRanap.getDefaultRenderer(Object.class), 2, 16));
 
         tabMode4=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Detail Pemeriksaan","Satuan","Nilai Rujukan","Permintaan","Jam",
@@ -5078,7 +5072,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
                     }
                 }
                 LCount.setText(""+i);
-                PrioritasPasienSMC.isi(tabMode, 1, 16);
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
             } finally{
@@ -5410,7 +5403,6 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
                     }
                 }
                 LCount.setText(""+i);
-                PrioritasPasienSMC.isi(tabMode3, 1, 16);
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
             } finally{

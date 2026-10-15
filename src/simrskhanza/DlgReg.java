@@ -27,9 +27,7 @@ import bridging.InhealthDataSJP;
 import bridging.PCareDataPendaftaran;
 import bridging.PilihanBridgingAsuransi;
 import bridging.SisruteRujukanKeluar;
-import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTableRegistrasi;
-import fungsi.WarnaTableRegistrasiSMC;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.catatanpasien;
@@ -333,7 +331,6 @@ public final class DlgReg extends javax.swing.JDialog {
             URUTNOREG="",status="Baru",order="reg_periksa.tgl_registrasi,reg_periksa.jam_reg desc",alamatperujuk="-",aktifjadwal="",IPPRINTERTRACER="",umur="0",sttsumur="Th",terbitsep="",
             norawatdipilih="",normdipilih="";
     private String kodeDokterCari = "", kodePoliCari = "";
-    private String rmVerifikasiPrioritasSmc = "";
     private final boolean BOOKINGLANGSUNGREGISTRASI = koneksiDB.BOOKINGLANGSUNGREGISTRASI(),
                           JADIKANBOOKINGSURATKONTROL = koneksiDB.JADIKANBOOKINGSURATKONTROL().equals("yes");
     private SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
@@ -399,7 +396,7 @@ public final class DlgReg extends javax.swing.JDialog {
         tabMode=new DefaultTableModel(null,new Object[]{
             "P","No.Reg","No.Rawat","Tanggal","Jam","Kode Dokter","Dokter Dituju","Nomer RM",
             "Pasien","J.K.","Umur","Poliklinik","Jenis Bayar","Penanggung Jawab","Alamat P.J.","Hubungan P.J.",
-            "Biaya Regristrasi","Status","No.Telp","Stts Rawat","Stts Poli","Kode Poli","Kode PJ","Status Bayar","No. Antrian","Prioritas"
+            "Biaya Regristrasi","Status","No.Telp","Stts Rawat","Stts Poli","Kode Poli","Kode PJ","Status Bayar","No. Antrian"
         }){
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex){
@@ -411,8 +408,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
-                java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class, java.lang.Object.class,
-                java.lang.Object.class
+                java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class, java.lang.Object.class
             };
             @Override
             public Class getColumnClass(int columnIndex) {
@@ -424,7 +420,7 @@ public final class DlgReg extends javax.swing.JDialog {
         tbPetugas.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbPetugas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 26; i++) {
+        for (i = 0; i < 25; i++) {
             TableColumn column = tbPetugas.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(20);
@@ -478,12 +474,9 @@ public final class DlgReg extends javax.swing.JDialog {
                 column.setPreferredWidth(70);
             } else if (i == 24) {
                 column.setPreferredWidth(60);
-            } else if (i == 25) {
-                column.setPreferredWidth(110);
             }
         }
-        //tbPetugas.setDefaultRenderer(Object.class, new WarnaTableRegistrasi());
-        tbPetugas.setDefaultRenderer(Object.class, new WarnaTableRegistrasiSMC(8, 25));
+        tbPetugas.setDefaultRenderer(Object.class, new WarnaTableRegistrasi());
 
         tabMode2=new DefaultTableModel(null,new Object[]{
             "P","No.Rawat","Tanggal","Jam","Kode Dokter","Dokter Rujukan","Nomer RM",
@@ -1124,9 +1117,6 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel22 = new widget.Label();
         THbngn = new widget.TextBox();
         ChkJln = new widget.CekBox();
-        labelPrioritasSmc = new widget.Label();
-        ChkIbuHamilSmc = new widget.CekBox();
-        ChkLansiaSmc = new widget.CekBox();
         jLabel19 = new widget.Label();
         TPoli = new widget.TextBox();
         TBiaya = new widget.TextBox();
@@ -6458,7 +6448,7 @@ public final class DlgReg extends javax.swing.JDialog {
         PanelInput.setLayout(new java.awt.BorderLayout(1, 1));
 
         FormInput.setName("FormInput"); // NOI18N
-        FormInput.setPreferredSize(new java.awt.Dimension(490, 195));
+        FormInput.setPreferredSize(new java.awt.Dimension(490, 167));
         FormInput.setLayout(null);
 
         jLabel3.setText("No. Reg. :");
@@ -6812,23 +6802,6 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(labelKeterangan);
         labelKeterangan.setBounds(884, 12, 280, 23);
 
-        labelPrioritasSmc.setText("Prioritas :");
-        labelPrioritasSmc.setName("labelPrioritasSmc"); // NOI18N
-        FormInput.add(labelPrioritasSmc);
-        labelPrioritasSmc.setBounds(0, 162, 70, 23);
-
-        ChkIbuHamilSmc.setText("Ibu Hamil");
-        ChkIbuHamilSmc.setName("ChkIbuHamilSmc"); // NOI18N
-        FormInput.add(ChkIbuHamilSmc);
-        ChkIbuHamilSmc.setBounds(74, 162, 100, 23);
-
-        ChkLansiaSmc.setText("Lansia (60 Th+)");
-        ChkLansiaSmc.setToolTipText("Otomatis dari umur pasien 60 tahun ke atas");
-        ChkLansiaSmc.setEnabled(false);
-        ChkLansiaSmc.setName("ChkLansiaSmc"); // NOI18N
-        FormInput.add(ChkLansiaSmc);
-        ChkLansiaSmc.setBounds(180, 162, 130, 23);
-
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
         ChkInput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
@@ -7012,9 +6985,6 @@ public final class DlgReg extends javax.swing.JDialog {
             Valid.textKosong(TBiaya,"biaya regristrasi");
         }else if(kdpnj.getText().trim().equals("")||nmpnj.getText().trim().equals("")){
             Valid.textKosong(kdpnj,"Jenis Bayar");
-        }else if(ChkIbuHamilSmc.isSelected()&&!"P".equals(JK.getText())){
-            JOptionPane.showMessageDialog(null,"Status prioritas Ibu Hamil hanya berlaku untuk pasien perempuan..!!");
-            ChkIbuHamilSmc.requestFocus();
         }else if(Sequel.cariInteger(
                 "select count(pasien.no_rkm_medis) from pasien inner join reg_periksa on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                 "inner join kamar_inap on reg_periksa.no_rawat=kamar_inap.no_rawat where kamar_inap.stts_pulang='-' and pasien.no_rkm_medis=?",TNoRM.getText())>0){
@@ -17126,10 +17096,8 @@ public final class DlgReg extends javax.swing.JDialog {
     private widget.Button BtnSeek5;
     private widget.Button BtnSimpan;
     private widget.Button BtnUnit;
-    private widget.CekBox ChkIbuHamilSmc;
     private widget.CekBox ChkInput;
     private widget.CekBox ChkJln;
-    private widget.CekBox ChkLansiaSmc;
     private widget.CekBox ChkTracker;
     private widget.ComboBox CmbDetik;
     private widget.ComboBox CmbJam;
@@ -17486,7 +17454,6 @@ public final class DlgReg extends javax.swing.JDialog {
     private widget.Label label40;
     private widget.Label label41;
     private widget.Label labelKeterangan;
-    private widget.Label labelPrioritasSmc;
     private widget.TextBox nmpnj;
     private widget.PanelBiasa panelBiasa3;
     private widget.PanelBiasa panelBiasa4;
@@ -17790,10 +17757,6 @@ public final class DlgReg extends javax.swing.JDialog {
         TNoAntrian.setText("");
         tbPetugas.clearSelection();
         TNoAntrian.setEditable(true);
-        rmVerifikasiPrioritasSmc="";
-        ChkIbuHamilSmc.setSelected(false);
-        ChkIbuHamilSmc.setEnabled(true);
-        ChkLansiaSmc.setSelected(false);
         labelKeterangan.setText("");
         labelKeterangan.setForeground(new Color(50, 50, 50));
     }
@@ -17823,11 +17786,6 @@ public final class DlgReg extends javax.swing.JDialog {
             TNoReg.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),1).toString());
             TNoAntrian.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 24).toString());
             TNoAntrian.setEditable(false);
-            Object prioritasSmc = tbPetugas.getValueAt(tbPetugas.getSelectedRow(), 25);
-            String teksPrioritasSmc = null == prioritasSmc ? "" : prioritasSmc.toString();
-            ChkIbuHamilSmc.setSelected(teksPrioritasSmc.contains("Ibu Hamil"));
-            ChkLansiaSmc.setSelected(teksPrioritasSmc.contains("Lansia"));
-            ChkIbuHamilSmc.setEnabled(false);
         }
     }
 
@@ -18001,7 +17959,7 @@ public final class DlgReg extends javax.swing.JDialog {
     private void isForm(){
         if(ChkInput.isSelected()==true){
             ChkInput.setVisible(false);
-            PanelInput.setPreferredSize(new Dimension(WIDTH,216));
+            PanelInput.setPreferredSize(new Dimension(WIDTH,188));
             FormInput.setVisible(true);
             ChkInput.setVisible(true);
         }else if(ChkInput.isSelected()==false){
@@ -18516,7 +18474,6 @@ public final class DlgReg extends javax.swing.JDialog {
 
         if(ceksukses==true){
             UpdateUmur();
-            simpanPrioritasSmc();
             if(!AsalRujukan.getText().equals("")){
                 Valid.autoNomer3("select ifnull(MAX(CONVERT(RIGHT(rujuk_masuk.no_rawat,4),signed)),0) from reg_periksa inner join rujuk_masuk on reg_periksa.no_rawat=rujuk_masuk.no_rawat where reg_periksa.tgl_registrasi='"+Valid.SetTgl(DTPReg.getSelectedItem()+"")+"' ","BR/"+dateformat.format(DTPReg.getDate())+"/",4,NoBalasan);
 
@@ -20231,14 +20188,14 @@ public final class DlgReg extends javax.swing.JDialog {
                         "select reg_periksa.no_reg, reg_periksa.no_rawat, reg_periksa.tgl_registrasi, reg_periksa.jam_reg, reg_periksa.kd_dokter, dokter.nm_dokter, reg_periksa.no_rkm_medis, " +
                         "pasien.nm_pasien, pasien.jk, concat(reg_periksa.umurdaftar, ' ', reg_periksa.sttsumur) as umur, poliklinik.nm_poli, reg_periksa.p_jawab, reg_periksa.almt_pj, " +
                         "reg_periksa.hubunganpj, reg_periksa.biaya_reg, reg_periksa.stts_daftar, penjab.png_jawab, pasien.no_tlp, reg_periksa.stts, reg_periksa.status_poli, " +
-                        "reg_periksa.kd_poli, reg_periksa.kd_pj, reg_periksa.status_bayar, antriloketcetak_smc.nomor as no_antrian, " + PrioritasPasienSMC.KOLOM + " from reg_periksa inner join dokter on " +
+                        "reg_periksa.kd_poli, reg_periksa.kd_pj, reg_periksa.status_bayar, antriloketcetak_smc.nomor as no_antrian from reg_periksa inner join dokter on " +
                         "reg_periksa.kd_dokter = dokter.kd_dokter inner join pasien on reg_periksa.no_rkm_medis = pasien.no_rkm_medis inner join poliklinik on " +
                         "reg_periksa.kd_poli = poliklinik.kd_poli inner join penjab on reg_periksa.kd_pj = penjab.kd_pj left join antriloketcetak_smc on " +
                         "reg_periksa.no_rawat = antriloketcetak_smc.no_rawat where reg_periksa.tgl_registrasi between ? and ? and reg_periksa.kd_poli != 'IGDK' " +
                         (kodePoliCari.isBlank() ? "" : "and reg_periksa.kd_poli = ? ") + (kodeDokterCari.isBlank() ? "" : "and reg_periksa.kd_dokter = ? ") + terbitsep +
                         (cari.isBlank() ? "" : "and (reg_periksa.no_reg like ? or reg_periksa.no_rawat like ? or reg_periksa.tgl_registrasi like ? or reg_periksa.kd_dokter like ? " +
                         "or dokter.nm_dokter like ? or reg_periksa.no_rkm_medis like ? or reg_periksa.stts_daftar like ? or pasien.nm_pasien like ? or poliklinik.nm_poli like ? " +
-                        "or reg_periksa.p_jawab like ? or reg_periksa.almt_pj like ? or reg_periksa.hubunganpj like ? or penjab.png_jawab like ?) ") + "order by " + PrioritasPasienSMC.URUT + order
+                        "or reg_periksa.p_jawab like ? or reg_periksa.almt_pj like ? or reg_periksa.hubunganpj like ? or penjab.png_jawab like ?) ") + "order by " + order
                     )) {
                         int p = 0;
                         ps.setString(++p, tglAwal);
@@ -20275,7 +20232,7 @@ public final class DlgReg extends javax.swing.JDialog {
                                     rs.getString("jk"), rs.getString("umur"), rs.getString("nm_poli"), rs.getString("png_jawab"), rs.getString("p_jawab"),
                                     rs.getString("almt_pj"), rs.getString("hubunganpj"), Valid.SetAngka(rs.getDouble("biaya_reg")),
                                     rs.getString("stts_daftar"), rs.getString("no_tlp"), rs.getString("stts"), rs.getString("status_poli"),
-                                    rs.getString("kd_poli"), rs.getString("kd_pj"), rs.getString("status_bayar"), rs.getString("no_antrian"), rs.getString("prioritas_smc")
+                                    rs.getString("kd_poli"), rs.getString("kd_pj"), rs.getString("status_bayar"), rs.getString("no_antrian")
                                 });
                             }
                         }
@@ -20423,43 +20380,6 @@ public final class DlgReg extends javax.swing.JDialog {
             labelKeterangan.setText("");
         }
         isCekPasien();
-        isPrioritasSmc();
-    }
-
-    private boolean isLansiaSmc(String umurPasien, String satuanUmur) {
-        try {
-            return "Th".equals(satuanUmur) && Integer.parseInt(umurPasien) >= 60;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private void isPrioritasSmc() {
-        ChkLansiaSmc.setSelected(isLansiaSmc(umur, sttsumur));
-        ChkIbuHamilSmc.setEnabled(true);
-        if (rmVerifikasiPrioritasSmc.equals(TNoRM.getText())) {
-            return;
-        }
-        rmVerifikasiPrioritasSmc = TNoRM.getText();
-        ChkIbuHamilSmc.setSelected(false);
-        if (!"P".equals(JK.getText())) {
-            return;
-        }
-        String noRawatSebelumnya = Sequel.cariIsi("select reg_periksa.no_rawat from reg_periksa where reg_periksa.no_rkm_medis = ? and reg_periksa.stts != 'Batal' order by reg_periksa.tgl_registrasi desc, reg_periksa.jam_reg desc limit 1", TNoRM.getText());
-        if (noRawatSebelumnya.isBlank() || !Sequel.cariExistsSmc("select * from prioritas_pasien_smc where prioritas_pasien_smc.no_rawat = ? and prioritas_pasien_smc.jenis = 'Ibu Hamil'", noRawatSebelumnya)) {
-            return;
-        }
-        String tglSebelumnya = Sequel.cariIsi("select reg_periksa.tgl_registrasi from reg_periksa where reg_periksa.no_rawat = ?", noRawatSebelumnya);
-        int jawaban = JOptionPane.showConfirmDialog(null, "Pada kunjungan sebelumnya (" + tglSebelumnya + ") pasien ditandai sebagai prioritas (Ibu Hamil).\nApakah status prioritas Ibu Hamil tetap berlaku pada kunjungan ini?", "Verifikasi Pasien Prioritas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        ChkIbuHamilSmc.setSelected(JOptionPane.YES_OPTION == jawaban);
-    }
-
-    private void simpanPrioritasSmc() {
-        if (ChkIbuHamilSmc.isSelected()) {
-            if (!Sequel.menyimpantfSmc("prioritas_pasien_smc", "no_rawat, jenis, dicatat_oleh", TNoRw.getText(), "Ibu Hamil", akses.getkode())) {
-                JOptionPane.showMessageDialog(null, "Registrasi tersimpan, tetapi status prioritas Ibu Hamil gagal disimpan..!!");
-            }
-        }
     }
 
     private boolean validasiRegistrasi() {
