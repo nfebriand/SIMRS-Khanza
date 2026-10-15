@@ -5,7 +5,9 @@ import bridging.ApiOrthanc;
 import bridging.WorklistRadiologiSMC;
 import bridging.koneksiDBFUJI;
 import fungsi.BackgroundMusic;
+import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTable;
+import fungsi.WarnaTablePrioritasSMC;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -88,7 +90,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         WindowAmbilSampel.setSize(530,80);
         WindowTujuanWorklistSmc.setSize(640,300);
         tabMode=new DefaultTableModel(null,new Object[]{
-            "No.Permintaan","No.Rawat","Pasien","Tgl. Lahir","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Poli Registrasi","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
+            "No.Permintaan","No.Rawat","Pasien","Tgl. Lahir","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Poli Registrasi","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar","Prioritas"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -138,6 +140,8 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
             }
         }
         tbRadiologiRalan.setDefaultRenderer(Object.class, new WarnaTable());
+        tbRadiologiRalan.getColumnModel().getColumn(17).setPreferredWidth(110);
+        tbRadiologiRalan.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbRadiologiRalan.getDefaultRenderer(Object.class), 2, 17));
         tabMode2=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Poli Registrasi","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
             }){
@@ -191,7 +195,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         tbRadiologiRalan2.setDefaultRenderer(Object.class, new WarnaTable());
         
         tabMode3=new DefaultTableModel(null,new Object[]{
-            "No.Permintaan","No.Rawat","Pasien","Tgl. Lahir","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
+            "No.Permintaan","No.Rawat","Pasien","Tgl. Lahir","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar","Prioritas"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -241,6 +245,8 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
             }
         }
         tbRadiologiRanap.setDefaultRenderer(Object.class, new WarnaTable());
+        tbRadiologiRanap.getColumnModel().getColumn(17).setPreferredWidth(110);
+        tbRadiologiRanap.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbRadiologiRanap.getDefaultRenderer(Object.class), 2, 17));
      
         tabMode4=new DefaultTableModel(null,new Object[]{
                 "No.Permintaan","No.Rawat","Pasien","Pemeriksaan","Permintaan","Jam","Sampel","Jam","Hasil","Jam","Kode Dokter","Dokter Perujuk","Kamar Terakhir","Informasi Tambahan","Diagnosis Klinis","Kode Bayar","Jenis Bayar"
@@ -2836,6 +2842,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
                     }
                 }
                 LCount.setText(""+i);
+                PrioritasPasienSMC.isi(tabMode, 1, 17);
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
             } finally{
@@ -3102,6 +3109,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
                     }
                 }
                 LCount.setText(""+i);
+                PrioritasPasienSMC.isi(tabMode3, 1, 17);
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
             } finally{

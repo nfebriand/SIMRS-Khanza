@@ -8895,7 +8895,7 @@
               <Properties>
                 <Property name="name" type="java.lang.String" value="FormInput" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[490, 167]"/>
+                  <Dimension value="[490, 195]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -9656,6 +9656,41 @@
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                       <AbsoluteConstraints x="884" y="12" width="280" height="23"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="widget.Label" name="labelPrioritasSmc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Prioritas :"/>
+                    <Property name="name" type="java.lang.String" value="labelPrioritasSmc" noResource="true"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="0" y="162" width="70" height="23"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="widget.CekBox" name="ChkIbuHamilSmc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ibu Hamil"/>
+                    <Property name="name" type="java.lang.String" value="ChkIbuHamilSmc" noResource="true"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="74" y="162" width="100" height="23"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="widget.CekBox" name="ChkLansiaSmc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Lansia (60 Th+)"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Otomatis dari umur pasien 60 tahun ke atas"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="ChkLansiaSmc" noResource="true"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="180" y="162" width="130" height="23"/>
                     </Constraint>
                   </Constraints>
                 </Component>

@@ -26,8 +26,10 @@ import bridging.PCareDataPendaftaran;
 import bridging.SisruteRujukanKeluar;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTable;
 import fungsi.WarnaTableKamarInap;
+import fungsi.WarnaTablePrioritasSMC;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -278,7 +280,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         tabMode=new DefaultTableModel(null,new Object[]{
             "No.Rawat","Nomer RM","Nama Pasien","Alamat Pasien","Penanggung Jawab","Hubungan P.J.","Jenis Bayar","Kamar","Tarif Kamar",
             "Diagnosa Awal","Diagnosa Akhir","Tgl.Masuk","Jam Masuk","Tgl.Keluar","Jam Keluar",
-            "Ttl.Biaya","Stts.Pulang","Lama","Dokter P.J.","Dokter Pengirim","Kamar","Status Bayar","Agama","no_rawat"
+            "Ttl.Biaya","Stts.Pulang","Lama","Dokter P.J.","Dokter Pengirim","Kamar","Status Bayar","Agama","no_rawat","Prioritas"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -340,6 +342,8 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }else if(i==23){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
+            }else if(i==24){
+                column.setPreferredWidth(110);
             }
         }
 
@@ -348,6 +352,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         } else {
             tbKamIn.setDefaultRenderer(Object.class, new WarnaTable());
         }
+        tbKamIn.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbKamIn.getDefaultRenderer(Object.class), 2, 24));
 
         norawat.setDocument(new batasInput((byte)17).getKata(norawat));
         kdkamar.setDocument(new batasInput((byte)15).getKata(kdkamar));
@@ -22204,7 +22209,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                         "kamar_inap.diagnosa_akhir, kamar_inap.tgl_masuk, kamar_inap.jam_masuk, if(kamar_inap.tgl_keluar = '0000-00-00', '', kamar_inap.tgl_keluar) as tgl_keluar, " +
                         "if(kamar_inap.jam_keluar = '00:00:00', '', kamar_inap.jam_keluar) as jam_keluar, kamar_inap.ttl_biaya, kamar_inap.stts_pulang, kamar_inap.lama, " + (kunciTampilDPJP ?
                         "dokter.nm_dokter, " : "'' as nm_dokter, ") + "dokter_poli.nm_dokter as dokter_asal_poli, kamar_inap.kd_kamar, reg_periksa.kd_pj, concat(reg_periksa.umurdaftar, ' ', " +
-                        "reg_periksa.sttsumur) as umur, reg_periksa.status_bayar, pasien.agama from kamar_inap inner join kamar on kamar_inap.kd_kamar = kamar.kd_kamar inner join bangsal on " +
+                        "reg_periksa.sttsumur) as umur, reg_periksa.status_bayar, pasien.agama, " + PrioritasPasienSMC.KOLOM + " from kamar_inap inner join kamar on kamar_inap.kd_kamar = kamar.kd_kamar inner join bangsal on " +
                         "kamar.kd_bangsal = bangsal.kd_bangsal inner join reg_periksa on kamar_inap.no_rawat = reg_periksa.no_rawat inner join pasien on reg_periksa.no_rkm_medis = pasien.no_rkm_medis " +
                         "inner join kelurahan on pasien.kd_kel = kelurahan.kd_kel inner join kecamatan on pasien.kd_kec = kecamatan.kd_kec inner join kabupaten on pasien.kd_kab = kabupaten.kd_kab " +
                         "inner join penjab on reg_periksa.kd_pj = penjab.kd_pj inner join dokter dokter_poli on reg_periksa.kd_dokter = dokter_poli.kd_dokter " + (kunciTampilDPJP ? "inner join dpjp_ranap on " +
@@ -22259,7 +22264,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
                                     rs.getString("no_rawat"), rs.getString("no_rkm_medis"), rs.getString("nm_pasien") + " (" + rs.getString("umur") + ")", rs.getString("alamat"), rs.getString("p_jawab"), rs.getString("hubunganpj"),
                                     rs.getString("png_jawab"), rs.getString("kamar"), Valid.SetAngka(rs.getDouble("trf_kamar")), rs.getString("diagnosa_awal"), rs.getString("diagnosa_akhir"), rs.getString("tgl_masuk"),
                                     rs.getString("jam_masuk"), rs.getString("tgl_keluar"), rs.getString("jam_keluar"), Valid.SetAngka(rs.getDouble("ttl_biaya")), rs.getString("stts_pulang"), rs.getString("lama"),
-                                    rs.getString("nm_dokter"), rs.getString("dokter_asal_poli"), rs.getString("kd_kamar"), rs.getString("status_bayar"), rs.getString("agama"), rs.getString("no_rawat")
+                                    rs.getString("nm_dokter"), rs.getString("dokter_asal_poli"), rs.getString("kd_kamar"), rs.getString("status_bayar"), rs.getString("agama"), rs.getString("no_rawat"), rs.getString("prioritas_smc")
                                 });
                             }
                         }

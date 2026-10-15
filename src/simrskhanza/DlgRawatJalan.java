@@ -13,6 +13,7 @@
 package simrskhanza;
 
 import bridging.ICareRiwayatPerawatan;
+import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTable;
 import fungsi.akses;
 import fungsi.akuntindakanralan;
@@ -11382,6 +11383,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         DTPCari1.setDate(tgl1);
         DTPCari2.setDate(tgl2);
         isRawat();
+        tampilBannerPrioritasSmc();
         KdDok2.setText(KdDok.getText());
         KdDok3.setText(KdDok.getText());
         TDokter2.setText(TDokter.getText());
@@ -11395,6 +11397,23 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         ChkInput3.setSelected(true);
         isForm4();
         TabRawatMouseClicked(null);
+    }
+
+    private void tampilBannerPrioritasSmc() {
+        String prioritas = Sequel.cariIsi(PrioritasPasienSMC.BASIS_BANNER, TNoRw.getText());
+        if (internalFrame1.getBorder() instanceof javax.swing.border.TitledBorder) {
+            javax.swing.border.TitledBorder titledBorder = (javax.swing.border.TitledBorder) internalFrame1.getBorder();
+            if (null == prioritas || prioritas.isBlank()) {
+                titledBorder.setTitle("::[ Perawatan/Tindakan Rawat Jalan ]::");
+                titledBorder.setTitleColor(new java.awt.Color(50, 50, 50));
+                titledBorder.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+            } else {
+                titledBorder.setTitle("::[ Perawatan/Tindakan Rawat Jalan ]::    PASIEN PRIORITAS: " + prioritas.toUpperCase());
+                titledBorder.setTitleColor(prioritas.contains("Ibu Hamil") ? PrioritasPasienSMC.WARNA_HAMIL : new java.awt.Color(204, 102, 0));
+                titledBorder.setTitleFont(new java.awt.Font("Tahoma", 1, 12));
+            }
+            internalFrame1.repaint();
+        }
     }
 
     private void isForm(){
@@ -12502,6 +12521,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         DTPCari1.setDate(tgl1);
         DTPCari2.setDate(tgl2);
         isRawat();
+        tampilBannerPrioritasSmc();
         ChkInput.setSelected(true);
         isForm();
         ChkInput1.setSelected(true);

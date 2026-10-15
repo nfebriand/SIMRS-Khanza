@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fungsi.BackgroundMusic;
+import fungsi.PrioritasPasienSMC;
 import fungsi.WarnaTable;
+import fungsi.WarnaTablePrioritasSMC;
 import fungsi.akses;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -103,7 +105,7 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
         tabMode=new DefaultTableModel(null,new Object[]{
                 "No.Resep","Tgl.Peresepan","Jam Peresepan","No.Rawat","No.RM","Pasien","Dokter Peresep",
                 "Status","Kode Dokter","Poli/Unit","Kode Poli","Jenis Bayar","Tgl.Validasi","Jam Validasi",
-                "Tgl.Penyerahan","Jam Penyerahan", "Jml.Item", "Jenis Resep", "No. Antrian"
+                "Tgl.Penyerahan","Jam Penyerahan", "Jml.Item", "Jenis Resep", "No. Antrian","Prioritas"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
 
@@ -168,6 +170,8 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
         tbResepRalan.moveColumn(tabMode.findColumn("Jml.Item"), tabMode.findColumn("Dokter Peresep"));
         tbResepRalan.moveColumn(tabMode.findColumn("Jenis Resep"), tabMode.findColumn("Tgl.Peresepan"));
         tbResepRalan.setDefaultRenderer(Object.class, new WarnaTable());
+        tbResepRalan.getColumnModel().getColumn(19).setPreferredWidth(110);
+        tbResepRalan.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbResepRalan.getDefaultRenderer(Object.class), 5, 19));
         tbResepRalan.setDefaultRenderer(Integer.class, new WarnaTable());
 
         tabMode2=new DefaultTableModel(null,new Object[]{
@@ -201,7 +205,7 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
 
         tabMode3=new DefaultTableModel(null,new Object[]{
                 "No.Resep","Tgl.Peresepan","Jam Peresepan","No.Rawat","No.RM","Pasien","Dokter Peresep",
-                "Status","Kode Dokter","Ruang/Kamar","Kode Bangsal","Jenis Bayar","Tgl.Validasi","Jam Validasi", "Jml.Item"
+                "Status","Kode Dokter","Ruang/Kamar","Kode Bangsal","Jenis Bayar","Tgl.Validasi","Jam Validasi", "Jml.Item","Prioritas"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
 
@@ -257,6 +261,8 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
         }
         tbResepRanap.moveColumn(tabMode3.findColumn("Jml.Item"), tabMode3.findColumn("Dokter Peresep"));
         tbResepRanap.setDefaultRenderer(Object.class, new WarnaTable());
+        tbResepRanap.getColumnModel().getColumn(15).setPreferredWidth(110);
+        tbResepRanap.setDefaultRenderer(Object.class, new WarnaTablePrioritasSMC(tbResepRanap.getDefaultRenderer(Object.class), 5, 15));
         tbResepRanap.setDefaultRenderer(Integer.class, new WarnaTable());
 
         tabMode4=new DefaultTableModel(null,new Object[]{
@@ -7532,6 +7538,7 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
                         System.out.println("Notif : " + e);
                     }
                     tabMode.fireTableDataChanged();
+                    PrioritasPasienSMC.isi(tabMode, 3, 19);
                     LCount.setText("" + i);
                     DlgDaftarPermintaanResep.this.setCursor(Cursor.getDefaultCursor());
                     ceksukses = false;
@@ -7898,6 +7905,7 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
                         System.out.println("Notif : " + e);
                     }
                     tabMode3.fireTableDataChanged();
+                    PrioritasPasienSMC.isi(tabMode3, 3, 15);
                     LCount.setText("" + i);
                     DlgDaftarPermintaanResep.this.setCursor(Cursor.getDefaultCursor());
                     ceksukses = false;
