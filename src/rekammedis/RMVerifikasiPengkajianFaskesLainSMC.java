@@ -52,6 +52,7 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
     private ResultSet rs;
     private int i = 0;
     private DlgCariPetugas petugas = new DlgCariPetugas(null, false);
+    private String finger = "";
 
     private widget.TextBox AsalFaskes;
     private widget.Button BtnAll;
@@ -75,12 +76,12 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
     private widget.Tanggal DTPCari2;
     private widget.Tanggal DTPTgl;
     private widget.PanelBiasa FormInput;
-    private widget.TextBox HasilAlergiObat;
-    private widget.TextBox HasilAnamnesis;
-    private widget.TextBox HasilDiagnosis;
-    private widget.TextBox HasilPemeriksaanFisik;
-    private widget.TextBox HasilPemeriksaanPenunjang;
-    private widget.TextBox HasilTerapiTindakan;
+    private widget.TextArea HasilAlergiObat;
+    private widget.TextArea HasilAnamnesis;
+    private widget.TextArea HasilDiagnosis;
+    private widget.TextArea HasilPemeriksaanFisik;
+    private widget.TextArea HasilPemeriksaanPenunjang;
+    private widget.TextArea HasilTerapiTindakan;
     private widget.TextBox JK;
     private widget.TextBox KdPetugas;
     private widget.ComboBox Kesimpulan;
@@ -91,6 +92,14 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
     private javax.swing.JPanel jPanel3;
     private widget.ScrollPane scrollInput;    
     private widget.TextBox TCari;
+    private javax.swing.JPanel jPanel3;
+    private widget.ScrollPane scrollInput;
+    private widget.ScrollPane scrollPane1;
+    private widget.ScrollPane scrollPane2;
+    private widget.ScrollPane scrollPane3;
+    private widget.ScrollPane scrollPane4;
+    private widget.ScrollPane scrollPane5;
+    private widget.ScrollPane scrollPane6;
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
@@ -319,27 +328,33 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
         jLabel15 = new widget.Label();
         CmbAnamnesis = new widget.ComboBox();
         jLabel16 = new widget.Label();
-        HasilAnamnesis = new widget.TextBox();
+        scrollPane1 = new widget.ScrollPane();
+        HasilAnamnesis = new widget.TextArea();
         jLabel17 = new widget.Label();
         CmbPemeriksaanFisik = new widget.ComboBox();
         jLabel18 = new widget.Label();
-        HasilPemeriksaanFisik = new widget.TextBox();
+        scrollPane2 = new widget.ScrollPane();
+        HasilPemeriksaanFisik = new widget.TextArea();
         jLabel20 = new widget.Label();
         CmbPemeriksaanPenunjang = new widget.ComboBox();
         jLabel22 = new widget.Label();
-        HasilPemeriksaanPenunjang = new widget.TextBox();
+        scrollPane3 = new widget.ScrollPane();
+        HasilPemeriksaanPenunjang = new widget.TextArea();
         jLabel23 = new widget.Label();
         CmbDiagnosis = new widget.ComboBox();
         jLabel24 = new widget.Label();
-        HasilDiagnosis = new widget.TextBox();
+        scrollPane4 = new widget.ScrollPane();
+        HasilDiagnosis = new widget.TextArea();
         jLabel25 = new widget.Label();
         CmbTerapiTindakan = new widget.ComboBox();
         jLabel26 = new widget.Label();
-        HasilTerapiTindakan = new widget.TextBox();
+        scrollPane5 = new widget.ScrollPane();
+        HasilTerapiTindakan = new widget.TextArea();
         jLabel27 = new widget.Label();
         CmbAlergiObat = new widget.ComboBox();
         jLabel7 = new widget.Label();
-        HasilAlergiObat = new widget.TextBox();
+        scrollPane6 = new widget.ScrollPane();
+        HasilAlergiObat = new widget.TextArea();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -424,7 +439,7 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
         });
         panelGlass8.add(BtnSimpan);
 
-        BtnBatal.setIcon(new ImageIcon(getClass().getResource("/picture/Cancel-1-16x16.png")));
+        BtnBatal.setIcon(new ImageIcon(getClass().getResource("/picture/Cancel-2-16x16.png")));
         BtnBatal.setMnemonic('B');
         BtnBatal.setText("Baru");
         BtnBatal.setToolTipText("Alt+B");
@@ -673,7 +688,7 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
 
         PanelInput.setName("PanelInput");
         PanelInput.setOpaque(false);
-        PanelInput.setPreferredSize(new Dimension(192, 315));
+        PanelInput.setPreferredSize(new Dimension(192, 465));
         PanelInput.setLayout(new BorderLayout(1, 1));
 
         ChkInput.setIcon(new ImageIcon(getClass().getResource("/picture/143.png")));
@@ -697,7 +712,7 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
 
         FormInput.setBackground(new Color(255, 255, 255));
         FormInput.setName("FormInput");
-        FormInput.setPreferredSize(new Dimension(760, 285));
+        FormInput.setPreferredSize(new Dimension(1010, 440));
         FormInput.setLayout(null);
 
         jLabel3.setText("No. Rawat :");
@@ -760,17 +775,17 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
         cmbJam.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"}));
         cmbJam.setName("cmbJam");
         FormInput.add(cmbJam);
-        cmbJam.setBounds(196, 40, 45, 23);
+        cmbJam.setBounds(196, 40, 62, 23);
 
         cmbMnt.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"}));
         cmbMnt.setName("cmbMnt");
         FormInput.add(cmbMnt);
-        cmbMnt.setBounds(244, 40, 45, 23);
+        cmbMnt.setBounds(261, 40, 62, 23);
 
         cmbDtk.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"}));
         cmbDtk.setName("cmbDtk");
         FormInput.add(cmbDtk);
-        cmbDtk.setBounds(292, 40, 45, 23);
+        cmbDtk.setBounds(326, 40, 62, 23);
 
         ChkKejadian.setBorder(null);
         ChkKejadian.setSelected(true);
@@ -779,17 +794,17 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
         ChkKejadian.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ChkKejadian.setName("ChkKejadian");
         FormInput.add(ChkKejadian);
-        ChkKejadian.setBounds(340, 40, 23, 23);
+        ChkKejadian.setBounds(391, 40, 23, 23);
 
         jLabel12.setText("Asal Faskes :");
         jLabel12.setName("jLabel12");
         FormInput.add(jLabel12);
-        jLabel12.setBounds(370, 40, 100, 23);
+        jLabel12.setBounds(420, 40, 80, 23);
 
         AsalFaskes.setHighlighter(null);
         AsalFaskes.setName("AsalFaskes");
         FormInput.add(AsalFaskes);
-        AsalFaskes.setBounds(473, 40, 273, 23);
+        AsalFaskes.setBounds(503, 40, 491, 23);
 
         jLabel13.setText("Petugas :");
         jLabel13.setName("jLabel13");
@@ -847,110 +862,152 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
         FormInput.add(jLabel16);
         jLabel16.setBounds(296, 100, 45, 23);
 
-        HasilAnamnesis.setHighlighter(null);
+        scrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane1.setName("scrollPane1");
+
+        HasilAnamnesis.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        HasilAnamnesis.setColumns(20);
+        HasilAnamnesis.setRows(5);
         HasilAnamnesis.setName("HasilAnamnesis");
-        FormInput.add(HasilAnamnesis);
-        HasilAnamnesis.setBounds(344, 100, 402, 23);
+        scrollPane1.setViewportView(HasilAnamnesis);
+
+        FormInput.add(scrollPane1);
+        scrollPane1.setBounds(344, 100, 650, 48);
 
         jLabel17.setText("2. Pemeriksaan Fisik :");
         jLabel17.setName("jLabel17");
         FormInput.add(jLabel17);
-        jLabel17.setBounds(0, 130, 210, 23);
+        jLabel17.setBounds(0, 155, 210, 23);
 
         CmbPemeriksaanFisik.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Ada", "Tidak Ada"}));
         CmbPemeriksaanFisik.setName("CmbPemeriksaanFisik");
         FormInput.add(CmbPemeriksaanFisik);
-        CmbPemeriksaanFisik.setBounds(213, 130, 80, 23);
+        CmbPemeriksaanFisik.setBounds(213, 155, 80, 23);
 
         jLabel18.setText("Hasil :");
         jLabel18.setName("jLabel18");
         FormInput.add(jLabel18);
-        jLabel18.setBounds(296, 130, 45, 23);
+        jLabel18.setBounds(296, 155, 45, 23);
 
-        HasilPemeriksaanFisik.setHighlighter(null);
+        scrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane2.setName("scrollPane2");
+
+        HasilPemeriksaanFisik.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        HasilPemeriksaanFisik.setColumns(20);
+        HasilPemeriksaanFisik.setRows(5);
         HasilPemeriksaanFisik.setName("HasilPemeriksaanFisik");
-        FormInput.add(HasilPemeriksaanFisik);
-        HasilPemeriksaanFisik.setBounds(344, 130, 402, 23);
+        scrollPane2.setViewportView(HasilPemeriksaanFisik);
+
+        FormInput.add(scrollPane2);
+        scrollPane2.setBounds(344, 155, 650, 48);
 
         jLabel20.setText("3. Hasil Pemeriksaan Penunjang :");
         jLabel20.setName("jLabel20");
         FormInput.add(jLabel20);
-        jLabel20.setBounds(0, 160, 210, 23);
+        jLabel20.setBounds(0, 210, 210, 23);
 
         CmbPemeriksaanPenunjang.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Ada", "Tidak Ada"}));
         CmbPemeriksaanPenunjang.setName("CmbPemeriksaanPenunjang");
         FormInput.add(CmbPemeriksaanPenunjang);
-        CmbPemeriksaanPenunjang.setBounds(213, 160, 80, 23);
+        CmbPemeriksaanPenunjang.setBounds(213, 210, 80, 23);
 
         jLabel22.setText("Hasil :");
         jLabel22.setName("jLabel22");
         FormInput.add(jLabel22);
-        jLabel22.setBounds(296, 160, 45, 23);
+        jLabel22.setBounds(296, 210, 45, 23);
 
-        HasilPemeriksaanPenunjang.setHighlighter(null);
+        scrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane3.setName("scrollPane3");
+
+        HasilPemeriksaanPenunjang.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        HasilPemeriksaanPenunjang.setColumns(20);
+        HasilPemeriksaanPenunjang.setRows(5);
         HasilPemeriksaanPenunjang.setName("HasilPemeriksaanPenunjang");
-        FormInput.add(HasilPemeriksaanPenunjang);
-        HasilPemeriksaanPenunjang.setBounds(344, 160, 402, 23);
+        scrollPane3.setViewportView(HasilPemeriksaanPenunjang);
+
+        FormInput.add(scrollPane3);
+        scrollPane3.setBounds(344, 210, 650, 48);
 
         jLabel23.setText("4. Diagnosis/Masalah Kesehatan :");
         jLabel23.setName("jLabel23");
         FormInput.add(jLabel23);
-        jLabel23.setBounds(0, 190, 210, 23);
+        jLabel23.setBounds(0, 265, 210, 23);
 
         CmbDiagnosis.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Ada", "Tidak Ada"}));
         CmbDiagnosis.setName("CmbDiagnosis");
         FormInput.add(CmbDiagnosis);
-        CmbDiagnosis.setBounds(213, 190, 80, 23);
+        CmbDiagnosis.setBounds(213, 265, 80, 23);
 
         jLabel24.setText("Hasil :");
         jLabel24.setName("jLabel24");
         FormInput.add(jLabel24);
-        jLabel24.setBounds(296, 190, 45, 23);
+        jLabel24.setBounds(296, 265, 45, 23);
 
-        HasilDiagnosis.setHighlighter(null);
+        scrollPane4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane4.setName("scrollPane4");
+
+        HasilDiagnosis.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        HasilDiagnosis.setColumns(20);
+        HasilDiagnosis.setRows(5);
         HasilDiagnosis.setName("HasilDiagnosis");
-        FormInput.add(HasilDiagnosis);
-        HasilDiagnosis.setBounds(344, 190, 402, 23);
+        scrollPane4.setViewportView(HasilDiagnosis);
+
+        FormInput.add(scrollPane4);
+        scrollPane4.setBounds(344, 265, 650, 48);
 
         jLabel25.setText("5. Terapi/Tindakan Diberikan :");
         jLabel25.setName("jLabel25");
         FormInput.add(jLabel25);
-        jLabel25.setBounds(0, 220, 210, 23);
+        jLabel25.setBounds(0, 320, 210, 23);
 
         CmbTerapiTindakan.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Ada", "Tidak Ada"}));
         CmbTerapiTindakan.setName("CmbTerapiTindakan");
         FormInput.add(CmbTerapiTindakan);
-        CmbTerapiTindakan.setBounds(213, 220, 80, 23);
+        CmbTerapiTindakan.setBounds(213, 320, 80, 23);
 
         jLabel26.setText("Hasil :");
         jLabel26.setName("jLabel26");
         FormInput.add(jLabel26);
-        jLabel26.setBounds(296, 220, 45, 23);
+        jLabel26.setBounds(296, 320, 45, 23);
 
-        HasilTerapiTindakan.setHighlighter(null);
+        scrollPane5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane5.setName("scrollPane5");
+
+        HasilTerapiTindakan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        HasilTerapiTindakan.setColumns(20);
+        HasilTerapiTindakan.setRows(5);
         HasilTerapiTindakan.setName("HasilTerapiTindakan");
-        FormInput.add(HasilTerapiTindakan);
-        HasilTerapiTindakan.setBounds(344, 220, 402, 23);
+        scrollPane5.setViewportView(HasilTerapiTindakan);
+
+        FormInput.add(scrollPane5);
+        scrollPane5.setBounds(344, 320, 650, 48);
 
         jLabel27.setText("6. Alergi/Riwayat Penggunaan Obat :");
         jLabel27.setName("jLabel27");
         FormInput.add(jLabel27);
-        jLabel27.setBounds(0, 250, 210, 23);
+        jLabel27.setBounds(0, 375, 210, 23);
 
         CmbAlergiObat.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Ada", "Tidak Ada"}));
         CmbAlergiObat.setName("CmbAlergiObat");
         FormInput.add(CmbAlergiObat);
-        CmbAlergiObat.setBounds(213, 250, 80, 23);
+        CmbAlergiObat.setBounds(213, 375, 80, 23);
 
         jLabel7.setText("Hasil :");
         jLabel7.setName("jLabel7");
         FormInput.add(jLabel7);
-        jLabel7.setBounds(296, 250, 45, 23);
+        jLabel7.setBounds(296, 375, 45, 23);
 
-        HasilAlergiObat.setHighlighter(null);
+        scrollPane6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane6.setName("scrollPane6");
+
+        HasilAlergiObat.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        HasilAlergiObat.setColumns(20);
+        HasilAlergiObat.setRows(5);
         HasilAlergiObat.setName("HasilAlergiObat");
-        FormInput.add(HasilAlergiObat);
-        HasilAlergiObat.setBounds(344, 250, 402, 23);
+        scrollPane6.setViewportView(HasilAlergiObat);
+
+        FormInput.add(scrollPane6);
+        scrollPane6.setBounds(344, 375, 650, 48);
 
         scrollInput.setViewportView(FormInput);
         PanelInput.add(scrollInput, BorderLayout.CENTER);
@@ -1085,6 +1142,8 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
             param.put("kontakrs", akses.getkontakrs());
             param.put("emailrs", akses.getemailrs());
             param.put("logo", Sequel.cariGambar("select logo from setting"));
+            finger = Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?", tbObat.getValueAt(tbObat.getSelectedRow(), 21).toString());
+            param.put("finger", "Dikeluarkan di " + akses.getnamars() + ", Kabupaten/Kota " + akses.getkabupatenrs() + "\nDitandatangani secara elektronik oleh " + tbObat.getValueAt(tbObat.getSelectedRow(), 22).toString() + "\nID " + ("".equals(finger) ? tbObat.getValueAt(tbObat.getSelectedRow(), 21).toString() : finger) + "\n" + Valid.SetTgl3(tbObat.getValueAt(tbObat.getSelectedRow(), 5).toString()));
             Valid.MyReportqry("rptFormulirVerifikasiPengkajianFaskesLainSMC.jasper", "report", "::[ Formulir Verifikasi Pengkajian Dari Faskes Lain ]::",
                     "select verifikasi_pengkajian_faskes_lain_smc.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, "
                     + "pasien.tgl_lahir,pasien.jk,reg_periksa.tgl_registrasi,verifikasi_pengkajian_faskes_lain_smc.tgl_verifikasi, "
@@ -1197,7 +1256,7 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
     private void isForm() {
         if (ChkInput.isSelected()) {
             ChkInput.setVisible(false);
-            PanelInput.setPreferredSize(new Dimension(WIDTH, 315));
+            PanelInput.setPreferredSize(new Dimension(WIDTH, 465));
             FormInput.setVisible(true);
             ChkInput.setVisible(true);
         } else {
