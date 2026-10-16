@@ -682,7 +682,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnSehat = new widget.MenuItem();
         MnStatusRujuk = new widget.MenuItem();
         MnStatusAPS = new widget.MenuItem();
-        MnStatusPlus = new widget.MenuItem();
         MnStatusMeninggal = new widget.MenuItem();
         MnStatusSembuh = new widget.MenuItem();
         MnStatusMembaik = new widget.MenuItem();
@@ -1210,7 +1209,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         internalFrame2.add(jLabel24);
         jLabel24.setBounds(0, 115, 72, 23);
 
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sehat", "Rujuk", "APS", "+", "Meninggal", "Sembuh", "Membaik", "Pulang Paksa", "-", "Pindah Kamar", "Status Belum Lengkap", "Atas Persetujuan Dokter", "Atas Permintaan Sendiri", "Isoman", "Lain-lain" }));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sehat", "Rujuk", "APS", "Meninggal", "Sembuh", "Membaik", "Pulang Paksa", "-", "Pindah Kamar", "Status Belum Lengkap", "Atas Persetujuan Dokter", "Atas Permintaan Sendiri", "Isoman", "Lain-lain" }));
         cmbStatus.setName("cmbStatus"); // NOI18N
         internalFrame2.add(cmbStatus);
         cmbStatus.setBounds(418, 175, 240, 23);
@@ -3468,19 +3467,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         });
         SetStatus.add(MnStatusAPS);
-
-        MnStatusPlus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnStatusPlus.setText("+");
-        MnStatusPlus.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnStatusPlus.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnStatusPlus.setName("MnStatusPlus"); // NOI18N
-        MnStatusPlus.setPreferredSize(new java.awt.Dimension(170, 26));
-        MnStatusPlus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnStatusPlusActionPerformed(evt);
-            }
-        });
-        SetStatus.add(MnStatusPlus);
 
         MnStatusMeninggal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
         MnStatusMeninggal.setText("Meninggal");
@@ -7500,28 +7486,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_MnStatusAPSActionPerformed
-
-    private void MnStatusPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnStatusPlusActionPerformed
-        if(tabMode.getRowCount()==0){
-            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
-            TCari.requestFocus();
-        }else{
-            if(tbKamIn.getSelectedRow()>-1){
-                if(norawat.getText().trim().equals("")){
-                     JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
-                     tbKamIn.requestFocus();
-                }else if(TOut.getText().trim().length()==0){
-                     JOptionPane.showMessageDialog(null,"Maaf, pasien ini belum dipulangkan ...!!!");
-                     emptTeks();
-                     tbKamIn.requestFocus();
-                }else{
-                    Sequel.mengedit("kamar_inap","no_rawat='"+norawat.getText()+"' and kd_kamar='"+kdkamar.getText()+"' and tgl_masuk='"+TIn.getText()+"' and jam_masuk='"+JamMasuk.getText()+"'","stts_pulang='+'");
-                    Sequel.mengedit("kamar","kd_kamar='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),20).toString()+"'","status='KOSONG'");
-                    tbKamIn.setValueAt("+",tbKamIn.getSelectedRow(),16);
-                }
-            }
-        }
-    }//GEN-LAST:event_MnStatusPlusActionPerformed
 
     private void MnStatusMeninggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnStatusMeninggalActionPerformed
         if(tabMode.getRowCount()==0){
@@ -20011,7 +19975,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private widget.MenuItem MnStatusMembaik;
     private widget.MenuItem MnStatusMeninggal;
     private widget.MenuItem MnStatusMin;
-    private widget.MenuItem MnStatusPlus;
     private widget.MenuItem MnStatusPulangPaksa;
     private widget.MenuItem MnStatusRujuk;
     private widget.MenuItem MnStatusSembuh;
@@ -20804,7 +20767,6 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnPenjab.setEnabled(akses.getregistrasi());
         MnStatusRujuk.setEnabled(akses.getkamar_inap());
         MnStatusAPS.setEnabled(akses.getkamar_inap());
-        MnStatusPlus.setEnabled(akses.getkamar_inap());
         MnRanapGabung.setEnabled(akses.getkamar_inap());
         MnGabungkanRanap.setEnabled(akses.getkamar_inap());
         MnStatusMeninggal.setEnabled(akses.getkamar_inap());

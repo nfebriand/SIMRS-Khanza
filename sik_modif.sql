@@ -697,6 +697,9 @@ CREATE TABLE IF NOT EXISTS `jns_perawatan_radiologi_modality_smc`  (
 
 ALTER TABLE `jurnal` DROP INDEX IF EXISTS `no_jurnal`;
 
+UPDATE `kamar_inap` SET `stts_pulang` = 'Meninggal' WHERE `stts_pulang` = '+';
+
+ALTER TABLE `kamar_inap` MODIFY COLUMN IF EXISTS `stts_pulang` enum('Sehat','Rujuk','APS','Meninggal','Sembuh','Membaik','Pulang Paksa','-','Pindah Kamar','Status Belum Lengkap','Atas Persetujuan Dokter','Atas Permintaan Sendiri','Isoman','Lain-lain') NOT NULL AFTER `ttl_biaya`;																	  
 CREATE TABLE IF NOT EXISTS `lis_orderlab`  (
   `vendor` varchar(20) NOT NULL,
   `noorder` varchar(20) NOT NULL,
