@@ -92,8 +92,6 @@ public class RMVerifikasiPengkajianFaskesLainSMC extends JDialog {
     private javax.swing.JPanel jPanel3;
     private widget.ScrollPane scrollInput;    
     private widget.TextBox TCari;
-    private javax.swing.JPanel jPanel3;
-    private widget.ScrollPane scrollInput;
     private widget.ScrollPane scrollPane1;
     private widget.ScrollPane scrollPane2;
     private widget.ScrollPane scrollPane3;
