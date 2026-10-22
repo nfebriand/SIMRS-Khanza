@@ -179,7 +179,7 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new widget.PopupMenu();
         MnSkriningInstrumenESAT = new widget.MenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         LoadHTML = new widget.editorpane();
@@ -291,7 +291,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         Jk.setFocusTraversalPolicyProvider(true);
         Jk.setName("Jk"); // NOI18N
 
-        TanggalRegistrasi.setHighlighter(null);
         TanggalRegistrasi.setName("TanggalRegistrasi"); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -582,7 +581,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         FormInput.add(jLabel4);
         jLabel4.setBounds(0, 10, 75, 23);
 
-        TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
         TNoRw.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -593,7 +591,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         TNoRw.setBounds(79, 10, 141, 23);
 
         TPasien.setEditable(false);
-        TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         TPasien.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -617,7 +614,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         Tanggal.setBounds(79, 40, 90, 23);
 
         TNoRM.setEditable(false);
-        TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
         TNoRM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -678,7 +674,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         jLabel18.setBounds(400, 40, 70, 23);
 
         KdPetugas.setEditable(false);
-        KdPetugas.setHighlighter(null);
         KdPetugas.setName("KdPetugas"); // NOI18N
         KdPetugas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -715,7 +710,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         FormInput.add(jLabel8);
         jLabel8.setBounds(625, 10, 60, 23);
 
-        TglLahir.setHighlighter(null);
         TglLahir.setName("TglLahir"); // NOI18N
         FormInput.add(TglLahir);
         TglLahir.setBounds(689, 10, 100, 23);
@@ -947,7 +941,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         FormInput.add(jLabel161);
         jLabel161.setBounds(0, 410, 140, 23);
 
-        Kesimpulan.setHighlighter(null);
         Kesimpulan.setName("Kesimpulan"); // NOI18N
         Kesimpulan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1043,7 +1036,6 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
         FormInput.add(jLabel162);
         jLabel162.setBounds(44, 440, 100, 23);
 
-        Catatan.setHighlighter(null);
         Catatan.setName("Catatan"); // NOI18N
         Catatan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1605,7 +1597,7 @@ public final class RMSkriningInstrumenESAT extends javax.swing.JDialog {
     private widget.Label jLabel8;
     private widget.Label jLabel99;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.PopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private widget.panelisi panelGlass8;

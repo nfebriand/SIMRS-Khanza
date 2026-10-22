@@ -149,7 +149,7 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new widget.PopupMenu();
         MnCatatanObservasiRuangOK = new widget.MenuItem();
         JK = new widget.TextBox();
         Umur = new widget.TextBox();
@@ -231,13 +231,10 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
         });
         jPopupMenu1.add(MnCatatanObservasiRuangOK);
 
-        JK.setHighlighter(null);
         JK.setName("JK"); // NOI18N
 
-        Umur.setHighlighter(null);
         Umur.setName("Umur"); // NOI18N
 
-        TanggalRegistrasi.setHighlighter(null);
         TanggalRegistrasi.setName("TanggalRegistrasi"); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -503,7 +500,6 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
         FormInput.add(jLabel4);
         jLabel4.setBounds(0, 10, 80, 23);
 
-        TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
         TNoRw.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -514,7 +510,6 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
         TNoRw.setBounds(84, 10, 136, 23);
 
         TPasien.setEditable(false);
-        TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         TPasien.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -538,7 +533,6 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
         Tanggal.setBounds(84, 40, 90, 23);
 
         TNoRM.setEditable(false);
-        TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
         TNoRM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -599,7 +593,6 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
         jLabel18.setBounds(400, 40, 70, 23);
 
         KdPetugas.setEditable(false);
-        KdPetugas.setHighlighter(null);
         KdPetugas.setName("KdPetugas"); // NOI18N
         KdPetugas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -636,7 +629,6 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
         FormInput.add(jLabel8);
         jLabel8.setBounds(625, 10, 60, 23);
 
-        TglLahir.setHighlighter(null);
         TglLahir.setName("TglLahir"); // NOI18N
         FormInput.add(TglLahir);
         TglLahir.setBounds(689, 10, 100, 23);
@@ -1264,7 +1256,7 @@ public final class RMDataCatatanObservasiRuangOperasi extends javax.swing.JDialo
     private widget.Label jLabel7;
     private widget.Label jLabel8;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.PopupMenu jPopupMenu1;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.Table tbObat;

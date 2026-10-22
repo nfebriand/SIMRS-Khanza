@@ -194,7 +194,7 @@ public final class KeuanganPenagihanPiutangPasien extends javax.swing.JDialog {
     private void initComponents() {
 
         TKd = new widget.TextBox();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new widget.PopupMenu();
         MnDetailPiutang = new widget.MenuItem();
         ppPilihSemua = new widget.MenuItem();
         ppBersihkan = new widget.MenuItem();
@@ -324,13 +324,10 @@ public final class KeuanganPenagihanPiutangPasien extends javax.swing.JDialog {
         AtasNama.setName("AtasNama"); // NOI18N
         AtasNama.setPreferredSize(new java.awt.Dimension(170, 23));
 
-        NoTelp.setHighlighter(null);
         NoTelp.setName("NoTelp"); // NOI18N
 
-        Perusahaan.setHighlighter(null);
         Perusahaan.setName("Perusahaan"); // NOI18N
 
-        AlamatAsuransi.setHighlighter(null);
         AlamatAsuransi.setName("AlamatAsuransi"); // NOI18N
 
         Ditujukan.setName("Ditujukan"); // NOI18N
@@ -1691,7 +1688,7 @@ public final class KeuanganPenagihanPiutangPasien extends javax.swing.JDialog {
     private widget.Label jLabel13;
     private widget.Label jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.PopupMenu jPopupMenu1;
     private widget.TextBox kdmenyetujui;
     private widget.TextBox kdpenjab;
     private widget.TextBox kdptg;

@@ -153,7 +153,7 @@ public final class RMMonitoringStewardPascaAnestesi extends javax.swing.JDialog 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new widget.PopupMenu();
         MnMonitoringStewardScore = new widget.MenuItem();
         MnMonitoringStewardScore2 = new widget.MenuItem();
         JK = new widget.TextBox();
@@ -837,7 +837,6 @@ public final class RMMonitoringStewardPascaAnestesi extends javax.swing.JDialog 
         jLabel18.setBounds(0, 40, 70, 23);
 
         KdPetugas.setEditable(false);
-        KdPetugas.setHighlighter(null);
         KdPetugas.setName("KdPetugas"); // NOI18N
         FormInput.add(KdPetugas);
         KdPetugas.setBounds(74, 40, 94, 23);
@@ -1524,7 +1523,7 @@ public final class RMMonitoringStewardPascaAnestesi extends javax.swing.JDialog 
     private widget.Label jLabel7;
     private widget.Label jLabel8;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.PopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;

@@ -24,7 +24,6 @@ import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicPasswordFieldUI;
 
 public class PasswordBox extends JPasswordField {
-
     private static final long serialVersionUID = 3L;
 
     static final Color AKSEN_GELAP  = new Color(0x3DDC84);

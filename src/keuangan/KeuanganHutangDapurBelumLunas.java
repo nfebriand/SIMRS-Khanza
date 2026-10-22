@@ -179,7 +179,7 @@ public final class KeuanganHutangDapurBelumLunas extends javax.swing.JDialog {
     private void initComponents() {
 
         TKd = new widget.TextBox();
-        Popup = new javax.swing.JPopupMenu();
+        Popup = new widget.PopupMenu();
         ppBersihkan = new widget.MenuItem();
         ppSemua = new widget.MenuItem();
         DlgBayarMandiri = new javax.swing.JDialog();
@@ -1664,7 +1664,7 @@ public final class KeuanganHutangDapurBelumLunas extends javax.swing.JDialog {
     private widget.TextBox NoBukti;
     private widget.TextBox NoRekening;
     private widget.PanelBiasa PanelAccor;
-    private javax.swing.JPopupMenu Popup;
+    private widget.PopupMenu Popup;
     private widget.TextBox RekeningAtasNama;
     private widget.ScrollPane Scroll;
     private widget.ScrollPane Scroll4;
@@ -1720,7 +1720,7 @@ public final class KeuanganHutangDapurBelumLunas extends javax.swing.JDialog {
                     "(SELECT ifnull(SUM(besar_bayar),0) FROM bayar_pemesanan_dapur where bayar_pemesanan_dapur.no_faktur=dapurpemesanan.no_faktur) as bayar, "+
                     "dapursuplier.nama_bank,dapursuplier.rekening from dapurpemesanan inner join dapursuplier on dapurpemesanan.kode_suplier=dapursuplier.kode_suplier "+
                     "inner join petugas on dapurpemesanan.nip=petugas.nip where "+
-                    tanggaldatang+tanggaltempo+"(dapurpemesanan.status='Belum Dibayar' or dapurpemesanan.status='Belum Lunas') and dapursuplier.nama_suplier like ? "+
+                    tanggaldatang+tanggaltempo+"dapurpemesanan.status in ('Belum Dibayar','Belum Lunas') and dapursuplier.nama_suplier like ? "+
                     (TCari.getText().trim().equals("")?"":"and (dapurpemesanan.no_faktur like ? or dapurpemesanan.no_order like ? or dapurpemesanan.tgl_tempo like ? or "+
                     "dapursuplier.nama_suplier like ? or petugas.nama like ?)")+" order by dapurpemesanan.tgl_tempo ");
             try {

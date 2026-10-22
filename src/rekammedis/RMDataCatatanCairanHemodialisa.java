@@ -198,7 +198,7 @@ public final class RMDataCatatanCairanHemodialisa extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new widget.PopupMenu();
         MnCatatanCairanHemodialisa = new widget.MenuItem();
         JK = new widget.TextBox();
         Umur = new widget.TextBox();
@@ -653,7 +653,6 @@ public final class RMDataCatatanCairanHemodialisa extends javax.swing.JDialog {
         jLabel18.setBounds(400, 40, 70, 23);
 
         KdPetugas.setEditable(false);
-        KdPetugas.setHighlighter(null);
         KdPetugas.setName("KdPetugas"); // NOI18N
         KdPetugas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1382,7 +1381,7 @@ public final class RMDataCatatanCairanHemodialisa extends javax.swing.JDialog {
     private widget.Label jLabel7;
     private widget.Label jLabel8;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.PopupMenu jPopupMenu1;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.Table tbObat;

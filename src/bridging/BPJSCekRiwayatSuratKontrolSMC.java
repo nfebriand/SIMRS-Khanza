@@ -137,7 +137,7 @@ public final class BPJSCekRiwayatSuratKontrolSMC extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new widget.PopupMenu();
         ppTarikDataSKDP = new widget.MenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
@@ -337,7 +337,16 @@ public final class BPJSCekRiwayatSuratKontrolSMC extends javax.swing.JDialog {
                     (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 12), "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
                     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
                 )) {
-                    JOptionPane.showMessageDialog(null, "Gagal menyimpan data rencana kontrol..!!", "Gagal", JOptionPane.ERROR_MESSAGE);
+                    if (Sequel.cariExistsSmc("select * from bridging_surat_kontrol_bpjs where bridging_surat_kontrol_bpjs.no_surat = ?", (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 0))) {
+                        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Rencana Kontrol " + (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 0) + " sudah ada,\napakah ingin menggunakan data rencana kontrol dari BPJS Kesehatan?", "Konfirmasi", JOptionPane.YES_NO_OPTION)) {
+                            Sequel.mengupdatetfSmc("bridging_surat_kontrol_bpjs", "tgl_surat = ?, tgl_rencana = ?, kd_dokter_bpjs = ?, nm_dokter_bpjs = ?, kd_poli_bpjs = ?, nm_poli_bpjs = ?, no_sep = ?", "no_surat = ?",
+                                (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 5), (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 6), (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 13),
+                                (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 14), (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 11), (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 12),
+                                (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 7), (String) tbKamar.getValueAt(tbKamar.getSelectedRow(), 0));
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada saat menyimpan data rencana kontrol..!!", "Gagal", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         }
@@ -385,7 +394,7 @@ public final class BPJSCekRiwayatSuratKontrolSMC extends javax.swing.JDialog {
     private widget.Label jLabel16;
     private widget.Label jLabel17;
     private widget.Label jLabel18;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.PopupMenu jPopupMenu1;
     private widget.Label label11;
     private widget.panelisi panelGlass6;
     private widget.MenuItem ppTarikDataSKDP;

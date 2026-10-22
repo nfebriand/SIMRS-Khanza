@@ -218,7 +218,7 @@ public final class DlgPeriksaLaboratoriumMB extends javax.swing.JDialog {
         Umur = new widget.TextBox();
         buttonGroup1 = new javax.swing.ButtonGroup();
         Alamat = new widget.TextBox();
-        Popup = new javax.swing.JPopupMenu();
+        Popup = new widget.PopupMenu();
         ppBersihkan = new widget.MenuItem();
         ppSemua = new widget.MenuItem();
         rbDewasa = new widget.RadioButton();
@@ -709,7 +709,6 @@ public final class DlgPeriksaLaboratoriumMB extends javax.swing.JDialog {
         NmPerujuk.setBounds(177, 72, 193, 23);
 
         TUmur.setEditable(false);
-        TUmur.setHighlighter(null);
         TUmur.setName("TUmur"); // NOI18N
         PanelInput.add(TUmur);
         TUmur.setBounds(716, 12, 110, 23);
@@ -1403,7 +1402,7 @@ public final class DlgPeriksaLaboratoriumMB extends javax.swing.JDialog {
     private widget.PanelBiasa PanelInput;
     private widget.TextBox Pemeriksaan;
     private widget.TextBox Penjab;
-    private javax.swing.JPopupMenu Popup;
+    private widget.PopupMenu Popup;
     private widget.ScrollPane Scroll;
     private widget.ScrollPane Scroll1;
     private widget.TextBox TCari;
