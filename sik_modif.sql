@@ -4014,4 +4014,14 @@ CREATE TABLE IF NOT EXISTS `user_password_smc`  (
   PRIMARY KEY (`id_user`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
+CREATE TABLE IF NOT EXISTS `prioritas_pasien_smc`  (
+  `no_rawat` varchar(17) NOT NULL,
+  `jenis` enum('Ibu Hamil') NOT NULL,
+  `dicatat_oleh` varchar(100) NULL DEFAULT NULL,
+  `waktu_catat` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`no_rawat`, `jenis`) USING BTREE,
+  CONSTRAINT `prioritas_pasien_smc_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic; 
+
+
 SET FOREIGN_KEY_CHECKS=1;
