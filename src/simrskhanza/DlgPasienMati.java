@@ -138,9 +138,10 @@ public class DlgPasienMati extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new widget.PopupMenu();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         MnCetakSuratMati = new widget.MenuItem();
         MnCetakSuratMati1 = new widget.MenuItem();
+        MnCetakSuratMati3Smc = new widget.MenuItem();
         MnAngkutJenazah = new widget.MenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
@@ -220,6 +221,20 @@ public class DlgPasienMati extends javax.swing.JDialog {
         });
         jPopupMenu1.add(MnCetakSuratMati1);
 
+        MnCetakSuratMati3Smc.setBackground(new java.awt.Color(255, 255, 254));
+        MnCetakSuratMati3Smc.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnCetakSuratMati3Smc.setForeground(java.awt.Color.darkGray);
+        MnCetakSuratMati3Smc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnCetakSuratMati3Smc.setText("Surat Kematian 3");
+        MnCetakSuratMati3Smc.setName("MnCetakSuratMati3Smc"); // NOI18N
+        MnCetakSuratMati3Smc.setPreferredSize(new java.awt.Dimension(190, 28));
+        MnCetakSuratMati3Smc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCetakSuratMati3SmcActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnCetakSuratMati3Smc);
+
         MnAngkutJenazah.setBackground(new java.awt.Color(255, 255, 254));
         MnAngkutJenazah.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         MnAngkutJenazah.setForeground(java.awt.Color.darkGray);
@@ -251,7 +266,7 @@ public class DlgPasienMati extends javax.swing.JDialog {
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
-        tbMati.setAutoCreateRowSorter(true);
+        tbMati.setAutoCreateRowSorter(false);
         tbMati.setComponentPopupMenu(jPopupMenu1);
         tbMati.setName("tbMati"); // NOI18N
         tbMati.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -495,10 +510,12 @@ public class DlgPasienMati extends javax.swing.JDialog {
         FormInput.add(TPasien);
         TPasien.setBounds(230, 40, 393, 23);
 
+        DTPTgl.setEditable(false);
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-02-2026" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-08-2021" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
+        DTPTgl.setOpaque(false);
         DTPTgl.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 DTPTglKeyPressed(evt);
@@ -1078,6 +1095,41 @@ public class DlgPasienMati extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_MnCetakSuratMati1ActionPerformed
 
+    private void MnCetakSuratMati3SmcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCetakSuratMati3SmcActionPerformed
+        if(TPasien.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
+        }else{
+            Map<String, Object> param = new HashMap<>();
+            param.put("namars",akses.getnamars());
+            param.put("alamatrs",akses.getalamatrs());
+            param.put("kotars",akses.getkabupatenrs());
+            param.put("propinsirs",akses.getpropinsirs());
+            param.put("kontakrs",akses.getkontakrs());
+            param.put("emailrs",akses.getemailrs());
+            param.put("logo",Sequel.cariGambarSmc("select setting.logo from setting"));
+            finger=Sequel.cariIsiSmc("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",KdDokter.getText());
+            param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+NmDokter.getText()+"\nID "+(finger.equals("")?KdDokter.getText():finger)+"\n"+DTPTgl.getSelectedItem());
+            int selisihJam=java.util.TimeZone.getDefault().getRawOffset()/3600000;
+            param.put("zona",selisihJam==7?"WIB":(selisihJam==8?"WITA":(selisihJam==9?"WIT":"")));
+            Valid.reportSmc("rptSuratKematian3SMC.jasper","report","::[ Surat Kematian ]::",param,
+                "select ifnull(pasien.nm_pasien,'') as nm_pasien,pasien.no_rkm_medis,ifnull(pasien.no_ktp,'') as no_ktp," +
+                "if(pasien.jk='L','Laki-Laki','Perempuan') as jk,ifnull(pasien.tmp_lahir,'') as tmp_lahir," +
+                "ifnull(date_format(pasien.tgl_lahir,'%d-%m-%Y'),'') as tgl_lahir,ifnull(pasien.agama,'') as agama,ifnull(pasien.alamat,'') as alamat," +
+                "ifnull(kelurahan.nm_kel,'') as nm_kel,ifnull(kecamatan.nm_kec,'') as nm_kec,ifnull(kabupaten.nm_kab,'') as nm_kab,ifnull(propinsi.nm_prop,'') as nm_prop," +
+                "ifnull(concat(day(pasien_mati.tanggal),' ',elt(month(pasien_mati.tanggal),'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'),' ',year(pasien_mati.tanggal)),'') as tanggal," +
+                "ifnull(time_format(pasien_mati.jam,'%H.%i'),'') as jam," +
+                "ifnull(case when timestampdiff(YEAR,pasien.tgl_lahir,pasien_mati.tanggal)>=1 then concat(timestampdiff(YEAR,pasien.tgl_lahir,pasien_mati.tanggal),' Tahun') " +
+                "when timestampdiff(MONTH,pasien.tgl_lahir,pasien_mati.tanggal)>=1 then concat(timestampdiff(MONTH,pasien.tgl_lahir,pasien_mati.tanggal),' Bulan') " +
+                "else concat(timestampdiff(DAY,pasien.tgl_lahir,pasien_mati.tanggal),' Hari') end,pasien.umur) as umur_meninggal," +
+                "ifnull(pasien_mati.temp_meninggal,'') as temp_meninggal,dokter.nm_dokter " +
+                "from pasien_mati inner join pasien on pasien_mati.no_rkm_medis=pasien.no_rkm_medis inner join dokter on pasien_mati.kd_dokter=dokter.kd_dokter " +
+                "left join kelurahan on pasien.kd_kel=kelurahan.kd_kel left join kecamatan on pasien.kd_kec=kecamatan.kd_kec " +
+                "left join kabupaten on pasien.kd_kab=kabupaten.kd_kab left join propinsi on pasien.kd_prop=propinsi.kd_prop " +
+                "where pasien_mati.no_rkm_medis=?",
+                TNoRM.getText());
+        }
+    }//GEN-LAST:event_MnCetakSuratMati3SmcActionPerformed
+
     private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkInputActionPerformed
         isForm();
     }//GEN-LAST:event_ChkInputActionPerformed
@@ -1154,6 +1206,7 @@ public class DlgPasienMati extends javax.swing.JDialog {
     private widget.MenuItem MnAngkutJenazah;
     private widget.MenuItem MnCetakSuratMati;
     private widget.MenuItem MnCetakSuratMati1;
+    private widget.MenuItem MnCetakSuratMati3Smc;
     private widget.TextBox NmDokter;
     private javax.swing.JPanel PanelInput;
     private widget.ScrollPane Scroll;
@@ -1183,7 +1236,7 @@ public class DlgPasienMati extends javax.swing.JDialog {
     private widget.Label jLabel8;
     private widget.Label jLabel9;
     private javax.swing.JPanel jPanel3;
-    private widget.PopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.Table tbMati;

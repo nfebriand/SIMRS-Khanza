@@ -1307,19 +1307,6 @@ public final class DlgIGD extends javax.swing.JDialog {
         MnPenilaianLain.setName("MnPenilaianLain"); // NOI18N
         MnPenilaianLain.setPreferredSize(new java.awt.Dimension(250, 26));
 
-        MnVerifikasiPengkajianFaskesLain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnVerifikasiPengkajianFaskesLain.setText("Verifikasi Pengkajian Faskes Lain");
-        MnVerifikasiPengkajianFaskesLain.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnVerifikasiPengkajianFaskesLain.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnVerifikasiPengkajianFaskesLain.setName("MnVerifikasiPengkajianFaskesLain"); // NOI18N
-        MnVerifikasiPengkajianFaskesLain.setPreferredSize(new java.awt.Dimension(250, 26));
-        MnVerifikasiPengkajianFaskesLain.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnVerifikasiPengkajianFaskesLainActionPerformed(evt);
-            }
-        });
-        MnPenilaianLain.add(MnVerifikasiPengkajianFaskesLain);
-
         MnPenilaianTambahanGeriatri.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
         MnPenilaianTambahanGeriatri.setText("Pengkajian Tambahan Pasien Geriatri");
         MnPenilaianTambahanGeriatri.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
