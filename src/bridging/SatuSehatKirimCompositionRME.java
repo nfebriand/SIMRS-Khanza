@@ -5587,8 +5587,8 @@ KirimTriaseIGDSekunder();
                         }
                     }
 
-                    /*//Abortus
-                    if(tbAwalKeperawatanIGD.getValueAt(i,24).toString().equals("")&&tbAwalKeperawatanIGD.getValueAt(i,17).toString().equals("Hamil")){
+                    //Abortus
+                    if(tbAwalKeperawatanIGD.getValueAt(i,24).toString().equals("")&&(!tbAwalKeperawatanIGD.getValueAt(i,23).toString().equals(""))){
                         try{
                             headers = new HttpHeaders();
                             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -5608,8 +5608,15 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"11612-9\"," +
+                                                    "\"display\": \"[#] Abortions\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Abortus\"" +
-                                        "}," +
+                                        "},"+
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
                                         "}," +
@@ -5665,8 +5672,15 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"8665-2\"," +
+                                                    "\"display\": \"Last menstrual period start date\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"HPHT\"" +
-                                        "}," +
+                                        "},"+
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
                                         "}," +
@@ -5722,6 +5736,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"10202-0\"," +
+                                                    "\"display\": \"Physical findings of Nervous system Narrative\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Tekanan Intrakranial\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -5779,6 +5800,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"32466-5\"," +
+                                                    "\"display\": \"Physical findings of Pupil\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Pupil\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -5836,6 +5864,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"11410-8\"," +
+                                                    "\"display\": \"Physical findings of Musculoskeletal system Narrative\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Neurosensorik / Muskuloskeletal\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -5893,8 +5928,15 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"29302-7\"," +
+                                                    "\"display\": \"Physical findings of Integumentary system Narrative\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Integumen\"" +
-                                        "}," +
+                                        "},"+
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
                                         "}," +
@@ -5950,8 +5992,15 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"39109-4\"," +
+                                                    "\"display\": \"Turgor [Interpretation] of Skin\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Turgor Kulit\"" +
-                                        "}," +
+                                        "},"+
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
                                         "}," +
@@ -6007,8 +6056,15 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"44966-0\"," +
+                                                    "\"display\": \"Edema\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Edema\"" +
-                                        "}," +
+                                        "},"+
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
                                         "}," +
@@ -6064,6 +6120,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"32454-1\"," +
+                                                    "\"display\": \"Physical findings of Mucous membrane\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Mukosa Mulut\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6121,6 +6184,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://snomed.info/sct\"," +
+                                                    "\"code\": \"131148009\"," +
+                                                    "\"display\": \"Bleeding (finding)\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Perdarahan\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6178,8 +6248,15 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://snomed.info/sct\"," +
+                                                    "\"code\": \"1149322001\"," +
+                                                    "\"display\": \"Intoxication\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Intoksikasi\"" +
-                                        "}," +
+                                        "},"  +
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
                                         "}," +
@@ -6235,6 +6312,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"81677-7\"," +
+                                                    "\"display\": \"Output assessment panel\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Eliminasi\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6250,7 +6334,7 @@ KirimTriaseIGDSekunder();
                                         "}," +
                                         "\"effectiveDateTime\": \""+tbAwalKeperawatanIGD.getValueAt(i,8).toString().replace(" ", "T")+"+07:00\"," +
                                         "\"issued\": \""+tbAwalKeperawatanIGD.getValueAt(i,8).toString().replace(" ", "T")+"+07:00\"," +
-                                        "\"valueString\": \""+"BAB : -Frekuensi : "+tbAwalKeperawatanIGD.getValueAt(i,47).toString()+" x / "+tbAwalKeperawatanIGD.getValueAt(i,48).toString()+" -Konsistensi : "+tbAwalKeperawatanIGD.getValueAt(i,49).toString()+" -Warna : "+tbAwalKeperawatanIGD.getValueAt(i,50).toString()+"; BAK : -Frekuensi : "+tbAwalKeperawatanIGD.getValueAt(i,51).toString()+" x / "+tbAwalKeperawatanIGD.getValueAt(i,52).toString()+" -Warna : "+tbAwalKeperawatanIGD.getValueAt(i,53).toString()+" -Lain-lain : "+tbAwalKeperawatanIGD.getValueAt(i,54).toString()+"\"" +
+                                        "\"valueString\": \"BAB : -Frekuensi : "+tbAwalKeperawatanIGD.getValueAt(i,47).toString()+" x / "+tbAwalKeperawatanIGD.getValueAt(i,48).toString()+" -Konsistensi : "+tbAwalKeperawatanIGD.getValueAt(i,49).toString()+" -Warna : "+tbAwalKeperawatanIGD.getValueAt(i,50).toString()+"; BAK : -Frekuensi : "+tbAwalKeperawatanIGD.getValueAt(i,51).toString()+" x / "+tbAwalKeperawatanIGD.getValueAt(i,52).toString()+" -Warna : "+tbAwalKeperawatanIGD.getValueAt(i,53).toString()+" -Lain-lain : "+tbAwalKeperawatanIGD.getValueAt(i,54).toString()+"\"" +
                                    "}";
                             System.out.println("URL : "+link+"/Observation");
                             System.out.println("Request JSON : "+json);
@@ -6292,6 +6376,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"80296-7\"," +
+                                                    "\"display\": \"Patient Mood\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Kondisi Psikologis\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6349,6 +6440,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"11365-4\"," +
+                                                    "\"display\": \"History of Psychiatric disorders\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Gangguan Jiwa Di Masa Lalu\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6406,6 +6504,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"11452-0\"," +
+                                                    "\"display\": \"Psychiatric findings\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Adakah Perilaku\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6463,6 +6568,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://snomed.info/sct\"," +
+                                                    "\"code\": \"22032002\"," +
+                                                    "\"display\": \"Family-related social factor\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Hubungan Pasien Dengan Anggota Keluarga\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6520,6 +6632,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"46468-5\"," +
+                                                    "\"display\": \"Current living arrangement\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Tinggal Dengan\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6577,6 +6696,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"81364-2\"," +
+                                                    "\"display\": \"Religious or cultural beliefs Narrative - Reported\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Kepercayaan / Budaya / Nilai-nilai Khusus\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6634,7 +6760,14 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
-                                            "\"text\": \"Pendidikan P.J.\"" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"82589-3\"," +
+                                                    "\"display\": \"Highest level of education\"" +
+                                                "}" +
+                                            "]," +
+                                            "\"text\": \"Pendidikan Penanggung Jawab\"" +
                                         "}," +
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
@@ -6691,6 +6824,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://snomed.info/sct\"," +
+                                                    "\"code\": \"311401005\"," +
+                                                    "\"display\": \"Patient education\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Edukasi Diberikan Kepada\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6748,6 +6888,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"75276-6\"," +
+                                                    "\"display\": \"Functional status [Interpretation]\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Kemampuan Aktifitas Sehari-hari\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6805,6 +6952,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://snomed.info/sct\"," +
+                                                    "\"code\": \"301998005\"," +
+                                                    "\"display\": \"Ability to move\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Aktifitas\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6862,6 +7016,13 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"100180-9\"," +
+                                                    "\"display\": \"Assistive mobility devices used\"" +
+                                                "}" +
+                                            "]," +
                                             "\"text\": \"Alat Bantu\"" +
                                         "}," +
                                         "\"subject\": {" +
@@ -6983,7 +7144,14 @@ KirimTriaseIGDSekunder();
                                             "}" +
                                         "]," +
                                         "\"code\": {" +
-                                            "\"text\": \"Pengkajian Resiko Jatuh\"" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://loinc.org\"," +
+                                                    "\"code\": \"73830-2\"," +
+                                                    "\"display\": \"Fall risk assessment\"" +
+                                                "}" +
+                                            "]," +
+                                            "\"text\": \"Pengkajian Resiko Jatuh (Get Up And Go)\"" +
                                         "}," +
                                         "\"subject\": {" +
                                             "\"reference\": \"Patient/"+idpasien+"\"" +
@@ -7029,11 +7197,22 @@ KirimTriaseIGDSekunder();
                                         "\"resourceType\": \"CarePlan\"," +
                                         "\"status\": \"active\"," +
                                         "\"intent\": \"plan\"," +
-                                        "\"title\": \"Rencana Keperawatan IGD\"," +
+                                        "\"title\": \"Rencana Keperawatan Lainnya\"," +
                                         "\"description\": \""+tbAwalKeperawatanIGD.getValueAt(i,106).toString()+"\"," +
                                         "\"subject\": {"+
                                             "\"reference\": \"Patient/" + idpasien + "\""+
                                         "}," +
+                                        "\"category\": [" +
+                                            "{" +
+                                                "\"coding\": [" +
+                                                    "{" +
+                                                        "\"system\": \"http://terminology.kemkes.go.id\"," +
+                                                        "\"code\": \"TK000068\"," +
+                                                        "\"display\": \"Emergency care plan\"" +
+                                                    "}" +
+                                                "]" +
+                                            "}" +
+                                        "]," +
                                         "\"encounter\": {"+
                                             "\"reference\": \"Encounter/" + tbAwalKeperawatanIGD.getValueAt(i,5).toString() + "\""+
                                         "}," +
@@ -7064,7 +7243,7 @@ KirimTriaseIGDSekunder();
                     }
 
                     //Composition Awal Keperawatan IGD
-                    if(!tbAwalKeperawatanIGD.getValueAt(i,10).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,12).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,14).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,16).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,18).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,28).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,30).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,32).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,34).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,36).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,38).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,40).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,44).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,46).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,55).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,57).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,59).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,63).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,65).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,68).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,71).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,74).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,77).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,79).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,81).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,84).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,98).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,105).toString().equals("")&&(!tbAwalKeperawatanIGD.getValueAt(i,17).toString().equals("Hamil")||(!tbAwalKeperawatanIGD.getValueAt(i,20).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,22).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,24).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,26).toString().equals("")))&&(tbAwalKeperawatanIGD.getValueAt(i,106).toString().equals("")||!tbAwalKeperawatanIGD.getValueAt(i,107).toString().equals(""))&&tbAwalKeperawatanIGD.getValueAt(i,108).toString().equals("")){
+                    /*if(!tbAwalKeperawatanIGD.getValueAt(i,10).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,12).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,14).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,16).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,18).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,28).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,30).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,32).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,34).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,36).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,38).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,40).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,44).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,46).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,55).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,57).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,59).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,63).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,65).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,68).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,71).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,74).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,77).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,79).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,81).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,84).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,98).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,105).toString().equals("")&&(!tbAwalKeperawatanIGD.getValueAt(i,17).toString().equals("Hamil")||(!tbAwalKeperawatanIGD.getValueAt(i,20).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,22).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,24).toString().equals("")&&!tbAwalKeperawatanIGD.getValueAt(i,26).toString().equals("")))&&(tbAwalKeperawatanIGD.getValueAt(i,106).toString().equals("")||!tbAwalKeperawatanIGD.getValueAt(i,107).toString().equals(""))&&tbAwalKeperawatanIGD.getValueAt(i,108).toString().equals("")){
                         try{
                             StringBuilder iyembuilder = new StringBuilder();
                             if(tbAwalKeperawatanIGD.getValueAt(i,17).toString().equals("Hamil")){
