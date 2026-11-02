@@ -17025,7 +17025,7 @@ public final class DlgReg extends javax.swing.JDialog {
         }
     }
 
-    private void MnAdmisiSkoringTOLACActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCatatanPersalinanActionPerformed
+    private void MnAdmisiSkoringTOLACActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data registrasi sudah habis...!!!!");
             TNoRM.requestFocus();
@@ -17069,7 +17069,7 @@ public final class DlgReg extends javax.swing.JDialog {
         }
     }
 
-    private void MnHasilPersalinanTOLACActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCatatanPersalinanActionPerformed
+    private void MnHasilPersalinanTOLACActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data registrasi sudah habis...!!!!");
             TNoRM.requestFocus();
@@ -18578,19 +18578,27 @@ public final class DlgReg extends javax.swing.JDialog {
             if(ChkTracker.isSelected()==true){
                 ctk();
             }
+            String noAntrianTersimpan = "";
             if (! TNoAntrian.getText().isBlank()) {
-                if (Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = current_date() and no_rawat != ?", TNoAntrian.getText().trim(), TNoRw.getText())) {
+                final String noAntrian = TNoAntrian.getText().trim(), tglAntrian = Valid.getTglSmc(DTPReg);
+                if (Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = ? and no_rawat != ?", noAntrian, tglAntrian, TNoRw.getText())) {
                     JOptionPane.showMessageDialog(null, "Maaf, no. antrian ini sudah pernah digunakan!\nSilahkan lakukan update no. antrian!");
-                } else if (! Sequel.cariExistsSmc("select * from antriloketcetak_smc where no_rkm_medis = ?", TNoRM.getText().trim())
-                        && Sequel.cariExistsSmc("select * from pasien where no_rkm_medis = ? and tgl_daftar = current_date()", TNoRM.getText().trim())) {
-                    Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = ?, no_rkm_medis = ?", "tanggal = current_date() and nomor = ?", TNoRw.getText(), TNoRM.getText(), TNoAntrian.getText().trim());
+                } else if (! Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = ?", noAntrian, tglAntrian)) {
+                    JOptionPane.showMessageDialog(null, "Maaf, no. antrian " + noAntrian + " tidak ditemukan pada tanggal " + tglAntrian + "!\nNo. antrian tidak tersimpan, silahkan lakukan update no. antrian!");
+                } else {
+                    Sequel.mengupdateSmc("antriloketcetak_smc", "no_rawat = ?, no_rkm_medis = ?", "tanggal = ? and nomor = ?", TNoRw.getText(), TNoRM.getText(), tglAntrian, noAntrian);
+                    if (Sequel.cariExistsSmc("select * from antriloketcetak_smc where nomor = ? and tanggal = ? and no_rawat = ?", noAntrian, tglAntrian, TNoRw.getText())) {
+                        noAntrianTersimpan = noAntrian;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No. antrian gagal disimpan!\nSilahkan lakukan update no. antrian!");
+                    }
                 }
             }
             if(TabRawat.getSelectedIndex()==0){
                 tabMode.addRow(new Object[] {
                     false,TNoReg.getText(),TNoRw.getText(),Valid.SetTgl(DTPReg.getSelectedItem()+""),CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),
                     KdDokter.getText(),TDokter.getText(),TNoRM.getText(),TPasien.getText(),JK.getText(),umur+" "+sttsumur,TPoli.getText(),nmpnj.getText(),TPngJwb.getText(),TAlmt.getText(),
-                    THbngn.getText(),Valid.SetAngka(Double.parseDouble(TBiaya.getText())),TStatus.getText(),NoTelp.getText(),"Belum",status,kdpoli.getText(),kdpnj.getText(),"Belum Bayar",TNoAntrian.getText()
+                    THbngn.getText(),Valid.SetAngka(Double.parseDouble(TBiaya.getText())),TStatus.getText(),NoTelp.getText(),"Belum",status,kdpoli.getText(),kdpnj.getText(),"Belum Bayar",noAntrianTersimpan
                 });
                 LCount.setText(""+tabMode.getRowCount());
             }
