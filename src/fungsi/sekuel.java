@@ -48,7 +48,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
+/*
 import uz.ncipro.calendar.JDateTimePicker;
+*/
+import widget.DateTimePickerSMC;
 
 /**
  *
@@ -91,6 +94,10 @@ public final class sekuel {
     }
 
     public boolean cekTanggalRegistrasiSmc(String noRawat, Date tgl) {
+        if (!sekuel.pemberlakuanBatasEdit) {
+            return true;
+        }
+
         Date tglRegist = cariTglSmc("select concat(tgl_registrasi, ' ', jam_reg) from reg_periksa where no_rawat = ?", noRawat);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -107,6 +114,10 @@ public final class sekuel {
     }
 
     public boolean cekTanggalRegistrasiSmc(String noRawat, String tgl) {
+        if (!sekuel.pemberlakuanBatasEdit) {
+            return true;
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date tglRegist = cariTglSmc("select concat(tgl_registrasi, ' ', jam_reg) from reg_periksa where no_rawat = ?", noRawat),
             tglKegiatan = null;
@@ -2180,7 +2191,7 @@ public final class sekuel {
         }
     }
 
-    public void cariIsi(String sql,JDateTimePicker dtp){
+    public void cariIsi(String sql,DateTimePickerSMC dtp){
         try {
             ps=connect.prepareStatement(sql);
             try{

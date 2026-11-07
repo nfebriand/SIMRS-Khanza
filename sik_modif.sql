@@ -697,9 +697,10 @@ CREATE TABLE IF NOT EXISTS `jns_perawatan_radiologi_modality_smc`  (
 
 ALTER TABLE `jurnal` DROP INDEX IF EXISTS `no_jurnal`;
 
-UPDATE `kamar_inap` SET `stts_pulang` = 'Meninggal' WHERE `stts_pulang` = '+';
-
 ALTER TABLE `kamar_inap` MODIFY COLUMN IF EXISTS `stts_pulang` enum('Sehat','Rujuk','APS','Meninggal','Sembuh','Membaik','Pulang Paksa','-','Pindah Kamar','Status Belum Lengkap','Atas Persetujuan Dokter','Atas Permintaan Sendiri','Isoman','Lain-lain') NOT NULL AFTER `ttl_biaya`;																	  
+
+ALTER TABLE `laporan_tindakan` ADD COLUMN IF NOT EXISTS `waktu_selesai` datetime NULL DEFAULT NULL AFTER `kesimpulan`;
+
 CREATE TABLE IF NOT EXISTS `lis_orderlab`  (
   `vendor` varchar(20) NOT NULL,
   `noorder` varchar(20) NOT NULL,
@@ -787,6 +788,10 @@ ALTER TABLE `pegawai` MODIFY COLUMN IF EXISTS `alamat` varchar(150) NOT NULL AFT
 
 ALTER TABLE `pelaksanaan_informasi_edukasi` ADD COLUMN IF NOT EXISTS `keterbatasan` enum('Tidak Ada','Fisik','Kognitif') NOT NULL DEFAULT 'Tidak Ada' AFTER `kebutuhan_asesmen`;
 
+ALTER TABLE `pemeriksaan_ginekologi_ralan` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `pemeriksaan_ginekologi_ranap` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
 CREATE TABLE IF NOT EXISTS `pemeriksaan_labpk`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `kode_pemeriksaan` varchar(20) NOT NULL,
@@ -813,6 +818,14 @@ CREATE TABLE IF NOT EXISTS `pemeriksaan_labpk_kategori`  (
   PRIMARY KEY (`nama`) USING BTREE,
   INDEX `urut_idx`(`urut`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+ALTER TABLE `pemeriksaan_obstetri_ralan` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `pemeriksaan_obstetri_ranap` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `pemeriksaan_ralan` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `pemeriksaan_ranap` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
 
 ALTER TABLE `pengajuan_cuti` ADD COLUMN IF NOT EXISTS `tmt_kerja` date NOT NULL AFTER `tanggal_akhir`;
 
@@ -1702,6 +1715,16 @@ ALTER TABLE `prosedur_pasien` DROP INDEX IF EXISTS `PRIMARY`;
 
 ALTER TABLE `prosedur_pasien` ADD PRIMARY KEY IF NOT EXISTS (`no_rawat`, `kode`, `status`, `prioritas`) USING BTREE;
 
+ALTER TABLE `rawat_inap_drpr` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `rawat_inap_pr` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `rawat_jl_dr` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `rawat_jl_drpr` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
+ALTER TABLE `rawat_jl_pr` ADD INDEX IF NOT EXISTS `tgl_perawatan`(`tgl_perawatan`) USING BTREE;
+
 ALTER TABLE `referensi_mobilejkn_bpjs` DROP INDEX IF EXISTS `no_rawat`;
 
 CREATE TABLE IF NOT EXISTS `referensi_mobilejkn_bpjs_taskid_response2`  (
@@ -2240,6 +2263,19 @@ CREATE TABLE IF NOT EXISTS `template_paket_mcu_smc_tindakan_pr`  (
   CONSTRAINT `template_paket_mcu_smc_tindakan_pr_ibfk_2` FOREIGN KEY (`kd_jenis_prw`) REFERENCES `jns_perawatan` (`kd_jenis_prw`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
+CREATE TABLE IF NOT EXISTS `template_umum_smc`  (
+  `no_template` varchar(5) NOT NULL,
+  `menu` varchar(50) NOT NULL,
+  `field` varchar(50) NOT NULL,
+  `kd_dokter` varchar(20) NULL DEFAULT NULL,
+  `nama_template` varchar(100) NOT NULL,
+  `isi_template` text NOT NULL,
+  PRIMARY KEY (`no_template`,`menu`,`field`) USING BTREE,
+  INDEX `menu`(`menu`,`field`) USING BTREE,
+  INDEX `kd_dokter`(`kd_dokter`) USING BTREE,
+  CONSTRAINT `template_umum_smc_ibfk_1` FOREIGN KEY (`kd_dokter`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
 ALTER TABLE `temporary` DROP INDEX IF EXISTS `no`;
 
 ALTER TABLE `temporary_bayar_ralan` DROP INDEX IF EXISTS `no`;
@@ -2392,6 +2428,8 @@ ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `master_template_paket_mcu_smc` enum
 ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `hapus_permintaan_lab_smc` enum('true','false') NULL DEFAULT NULL AFTER `master_template_paket_mcu_smc`;
 
 ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `hapus_permintaan_radiologi_smc` enum('true','false') NULL DEFAULT NULL AFTER `hapus_permintaan_lab_smc`;
+
+ALTER TABLE `user` ADD COLUMN IF NOT EXISTS `template_umum_smc` enum('true','false') NULL DEFAULT NULL AFTER `hapus_permintaan_radiologi_smc`;
 
 ALTER TABLE `user` MODIFY COLUMN IF EXISTS `penyakit` enum('true','false') NULL DEFAULT NULL AFTER `password`;
 

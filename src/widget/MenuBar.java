@@ -1,5 +1,6 @@
 package widget;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -26,7 +27,7 @@ public class MenuBar extends JMenuBar {
         HIJAU(new Color(0x1CB06C), new Color(0x0B8A4F), new Color(0x077242), Color.WHITE, 45),
         BIRU (new Color(0x3C8FF0), new Color(0x1D6DCE), new Color(0x165AAD), Color.WHITE, 45),
         UNGU (new Color(0x8C5FF6), new Color(0x6A40DA), new Color(0x5530B8), Color.WHITE, 45),
-        GELAP(new Color(0x2D323A), new Color(0x1E2127), new Color(0x3DDC84), new Color(0xE8ECF1), 20);
+        GELAP(new Color(0x2D323A), new Color(0x1E2127), LookAndFeelSMC.BRIGHT_GREEN, new Color(0xE8ECF1), 20);
 
         final Color atas, bawah, garis, teks;
         final int kilau;   // intensitas efek glass (0 = flat)
@@ -40,7 +41,8 @@ public class MenuBar extends JMenuBar {
         }
     }
 
-    private static final int ARC = 10;
+    // private static final int ARC = 10;
+    private static final int ARC = 8;
     private static final int INSET = 2;
 
     private Color warnaAtas, warnaBawah, warnaGaris, warnaTeks;
@@ -167,6 +169,8 @@ public class MenuBar extends JMenuBar {
                 c.setForeground(warnaTeks);
             }
         }
+        setForeground(warnaTeks);
+        putClientProperty(FlatClientProperties.STYLE, String.format("hoverBackground: #0000; selectionBackground: #0000; selectionForeground: #%06x", warnaTeks.getRGB() & 0xFFFFFF));
         repaint();
     }
 

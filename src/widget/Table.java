@@ -1,5 +1,5 @@
 package widget;
-
+/*
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,6 +11,8 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -24,8 +26,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-
-public class Table extends JTable {
+*/
+public class Table extends TableSMC {
+    /*
     private static final long serialVersionUID = 3L;
     static final Color AKSEN        = new Color(22, 160, 93);
     static final Color PILIH_PASIF  = new Color(220, 234, 226);
@@ -272,6 +275,50 @@ public class Table extends JTable {
         return false;
     }
 
+    @Override
+    public Point getPopupLocation(MouseEvent e) {
+        if (null != e) {
+            selectCellAt(e.getPoint());
+            super.processMouseEvent(e);
+            super.processMouseEvent(new MouseEvent(this, MouseEvent.MOUSE_CLICKED, e.getWhen(), e.getModifiersEx() & ~InputEvent.BUTTON3_DOWN_MASK, e.getX(), e.getY(), e.getXOnScreen(), e.getYOnScreen(), e.getClickCount(), false, MouseEvent.BUTTON3));
+        }
+        return super.getPopupLocation(e);
+    }
+
+    @Override
+    protected void processMouseEvent(MouseEvent e) {
+        if (MouseEvent.BUTTON3 == e.getButton()) {
+            if (MouseEvent.MOUSE_PRESSED == e.getID()) {
+                selectCellAt(e.getPoint());
+            }
+            if (null != getComponentPopupMenu()) {
+                if (MouseEvent.MOUSE_CLICKED == e.getID()) {
+                    return;
+                }
+                if (e.isPopupTrigger()) {
+                    if (!e.isConsumed()) {
+                        Point pt = getPopupLocation(e);
+                        if (null == pt) {
+                            pt = e.getPoint();
+                        }
+                        getComponentPopupMenu().show(this, pt.x, pt.y);
+                        e.consume();
+                    }
+                    return;
+                }
+            }
+        }
+        super.processMouseEvent(e);
+    }
+
+    private void selectCellAt(Point p) {
+        int r = rowAtPoint(p);
+        int c = columnAtPoint(p);
+        if (r != -1 && c != -1) {
+            changeSelection(r, c, false, false);
+        }
+    }
+
     private static class HeaderFlat extends DefaultTableCellRenderer {
 
         private static final long serialVersionUID = 1L;
@@ -327,4 +374,5 @@ public class Table extends JTable {
             super.paintComponent(g);
         }
     }
+    */
 }

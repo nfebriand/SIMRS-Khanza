@@ -25,6 +25,8 @@ report/.project
 
 *.DS_Store
 *.*~*
+*.doc
+*.docx
 *.csv
 *.exe
 *.jar
@@ -33,6 +35,7 @@ report/.project
 *.py
 *.sql
 *.txt
+*.tsv
 *.wps
 *.xls
 *.xlsx
