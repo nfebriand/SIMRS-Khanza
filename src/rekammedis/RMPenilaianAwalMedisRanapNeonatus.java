@@ -768,6 +768,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         jLabel15 = new widget.Label();
         NIKIbu = new widget.TextBox();
         KeteranganDownScore = new widget.TextBox();
+        BtnAmbilTTVSmc = new widget.Button();
         internalFrame3 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -798,7 +799,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         panelBiasa2.setLayout(null);
 
         TanggalPersalinan.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalPersalinan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TanggalPersalinan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TanggalPersalinan.setDisplayFormat("dd-MM-yyyy");
         TanggalPersalinan.setName("TanggalPersalinan"); // NOI18N
         TanggalPersalinan.setOpaque(false);
@@ -1245,7 +1246,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         label11.setBounds(668, 40, 52, 23);
 
         TglAsuhan.setForeground(new java.awt.Color(50, 70, 50));
-        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026 20:15:28" }));
+        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026 08:47:59" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
         TglAsuhan.setOpaque(false);
@@ -1516,7 +1517,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         label12.setBounds(44, 400, 150, 23);
 
         TglJamPersalinan.setForeground(new java.awt.Color(50, 70, 50));
-        TglJamPersalinan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026 20:15:29" }));
+        TglJamPersalinan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026 08:47:59" }));
         TglJamPersalinan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglJamPersalinan.setName("TglJamPersalinan"); // NOI18N
         TglJamPersalinan.setOpaque(false);
@@ -2833,6 +2834,19 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         FormInput.add(KeteranganDownScore);
         KeteranganDownScore.setBounds(576, 760, 230, 23);
 
+        BtnAmbilTTVSmc.setBackground(new java.awt.Color(255, 255, 102));
+        BtnAmbilTTVSmc.setText("Ambil TTV");
+        BtnAmbilTTVSmc.setToolTipText("Ambil TTV dari SOAP terakhir pasien");
+        BtnAmbilTTVSmc.setName("BtnAmbilTTVSmc"); // NOI18N
+        BtnAmbilTTVSmc.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnAmbilTTVSmc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilTTVSmcActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnAmbilTTVSmc);
+        BtnAmbilTTVSmc.setBounds(880, 810, 100, 30);
+
         scrollInput.setViewportView(FormInput);
 
         internalFrame2.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -2873,7 +2887,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2887,7 +2901,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -3777,6 +3791,10 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
         });
     }
 
+    private void BtnAmbilTTVSmcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAmbilTTVSmcActionPerformed
+        AmbilTTVSOAPSMC.ambil(this, TNoRw.getText(), null, Nadi, RR, Suhu, null, null, null, null, null);
+    }//GEN-LAST:event_BtnAmbilTTVSmcActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.TextBox A;
     private widget.ComboBox Abdomen;
@@ -3787,6 +3805,7 @@ public final class RMPenilaianAwalMedisRanapNeonatus extends javax.swing.JDialog
     private widget.ComboBox Bernafas;
     private widget.TextBox BersalinDi;
     private widget.Button BtnAll;
+    private widget.Button BtnAmbilTTVSmc;
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
     private widget.Button BtnDokter;

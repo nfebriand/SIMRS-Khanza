@@ -352,7 +352,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
     private void initComponents() {
 
         LoadHTML = new widget.editorpane();
-        jPopupMenu1 = new widget.PopupMenu();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         MnPenilaianMedis = new widget.MenuItem();
         TanggalRegistrasi = new widget.TextBox();
         internalFrame1 = new widget.InternalFrame();
@@ -560,6 +560,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jLabel96 = new widget.Label();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel102 = new widget.Label();
+        BtnAmbilTTVSmc = new widget.Button();
         internalFrame3 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -1091,7 +1092,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         label11.setBounds(380, 40, 52, 23);
 
         TglAsuhan.setForeground(new java.awt.Color(50, 70, 50));
-        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026 19:04:35" }));
+        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026 08:00:46" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
         TglAsuhan.setOpaque(false);
@@ -1471,7 +1472,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jLabel73.setBounds(44, 620, 100, 23);
 
         TglThorax.setForeground(new java.awt.Color(50, 70, 50));
-        TglThorax.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglThorax.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglThorax.setDisplayFormat("dd-MM-yyyy");
         TglThorax.setEnabled(false);
         TglThorax.setName("TglThorax"); // NOI18N
@@ -1485,7 +1486,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglThorax.setBounds(161, 620, 90, 23);
 
         TglDialisis.setForeground(new java.awt.Color(50, 70, 50));
-        TglDialisis.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglDialisis.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglDialisis.setDisplayFormat("dd-MM-yyyy");
         TglDialisis.setName("TglDialisis"); // NOI18N
         TglDialisis.setOpaque(false);
@@ -1504,7 +1505,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jLabel74.setBounds(44, 650, 100, 23);
 
         TglEKG.setForeground(new java.awt.Color(50, 70, 50));
-        TglEKG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglEKG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglEKG.setDisplayFormat("dd-MM-yyyy");
         TglEKG.setEnabled(false);
         TglEKG.setName("TglEKG"); // NOI18N
@@ -1524,7 +1525,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jLabel75.setBounds(44, 680, 100, 23);
 
         TglBNO.setForeground(new java.awt.Color(50, 70, 50));
-        TglBNO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglBNO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglBNO.setDisplayFormat("dd-MM-yyyy");
         TglBNO.setEnabled(false);
         TglBNO.setName("TglBNO"); // NOI18N
@@ -1538,7 +1539,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglBNO.setBounds(161, 680, 90, 23);
 
         TglUSG.setForeground(new java.awt.Color(50, 70, 50));
-        TglUSG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglUSG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglUSG.setDisplayFormat("dd-MM-yyyy");
         TglUSG.setEnabled(false);
         TglUSG.setName("TglUSG"); // NOI18N
@@ -1564,7 +1565,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jLabel77.setBounds(345, 620, 105, 23);
 
         TglRenogram.setForeground(new java.awt.Color(50, 70, 50));
-        TglRenogram.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglRenogram.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglRenogram.setDisplayFormat("dd-MM-yyyy");
         TglRenogram.setEnabled(false);
         TglRenogram.setName("TglRenogram"); // NOI18N
@@ -1578,7 +1579,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglRenogram.setBounds(470, 620, 90, 23);
 
         TglLaboratorium.setForeground(new java.awt.Color(50, 70, 50));
-        TglLaboratorium.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglLaboratorium.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglLaboratorium.setDisplayFormat("dd-MM-yyyy");
         TglLaboratorium.setEnabled(false);
         TglLaboratorium.setName("TglLaboratorium"); // NOI18N
@@ -1610,7 +1611,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jLabel80.setBounds(345, 710, 105, 23);
 
         TglKultururin.setForeground(new java.awt.Color(50, 70, 50));
-        TglKultururin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglKultururin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglKultururin.setDisplayFormat("dd-MM-yyyy");
         TglKultururin.setEnabled(false);
         TglKultururin.setName("TglKultururin"); // NOI18N
@@ -1624,7 +1625,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglKultururin.setBounds(764, 620, 90, 23);
 
         TglArteriografi.setForeground(new java.awt.Color(50, 70, 50));
-        TglArteriografi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglArteriografi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglArteriografi.setDisplayFormat("dd-MM-yyyy");
         TglArteriografi.setEnabled(false);
         TglArteriografi.setName("TglArteriografi"); // NOI18N
@@ -1638,7 +1639,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglArteriografi.setBounds(470, 710, 90, 23);
 
         TglCTscan.setForeground(new java.awt.Color(50, 70, 50));
-        TglCTscan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglCTscan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglCTscan.setDisplayFormat("dd-MM-yyyy");
         TglCTscan.setEnabled(false);
         TglCTscan.setName("TglCTscan"); // NOI18N
@@ -1652,7 +1653,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglCTscan.setBounds(470, 680, 90, 23);
 
         TglBiopsi.setForeground(new java.awt.Color(50, 70, 50));
-        TglBiopsi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglBiopsi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglBiopsi.setDisplayFormat("dd-MM-yyyy");
         TglBiopsi.setEnabled(false);
         TglBiopsi.setName("TglBiopsi"); // NOI18N
@@ -2054,7 +2055,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         jSeparator3.setBounds(0, 310, 880, 1);
 
         TglCAPD.setForeground(new java.awt.Color(50, 70, 50));
-        TglCAPD.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglCAPD.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglCAPD.setDisplayFormat("dd-MM-yyyy");
         TglCAPD.setEnabled(false);
         TglCAPD.setName("TglCAPD"); // NOI18N
@@ -2068,7 +2069,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         TglCAPD.setBounds(414, 330, 90, 23);
 
         TglTransplantasi.setForeground(new java.awt.Color(50, 70, 50));
-        TglTransplantasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglTransplantasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglTransplantasi.setDisplayFormat("dd-MM-yyyy");
         TglTransplantasi.setEnabled(false);
         TglTransplantasi.setName("TglTransplantasi"); // NOI18N
@@ -2339,6 +2340,19 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         FormInput.add(jLabel102);
         jLabel102.setBounds(10, 880, 190, 23);
 
+        BtnAmbilTTVSmc.setBackground(new java.awt.Color(255, 255, 102));
+        BtnAmbilTTVSmc.setText("Ambil TTV");
+        BtnAmbilTTVSmc.setToolTipText("Ambil TTV dari SOAP terakhir pasien");
+        BtnAmbilTTVSmc.setName("BtnAmbilTTVSmc"); // NOI18N
+        BtnAmbilTTVSmc.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnAmbilTTVSmc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilTTVSmcActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnAmbilTTVSmc);
+        BtnAmbilTTVSmc.setBounds(870, 380, 100, 30);
+
         scrollInput.setViewportView(FormInput);
 
         internalFrame2.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -2380,7 +2394,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2394,7 +2408,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -3223,6 +3237,10 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
         });
     }
 
+    private void BtnAmbilTTVSmcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAmbilTTVSmcActionPerformed
+        AmbilTTVSOAPSMC.ambil(this, TNoRw.getText(), TD, Nadi, null, Suhu, null, BB, TB, null, Kesadaran);
+    }//GEN-LAST:event_BtnAmbilTTVSmcActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.TextBox Alergi;
     private widget.ComboBox Anamnesis;
@@ -3235,6 +3253,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
     private widget.ComboBox BengkakSeluruhTubuh;
     private widget.ComboBox Bising;
     private widget.Button BtnAll;
+    private widget.Button BtnAmbilTTVSmc;
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
     private widget.Button BtnDokter;
@@ -3432,7 +3451,7 @@ public final class RMPenilaianAwalMedisHemodialisa extends javax.swing.JDialog {
     private widget.Label jLabel94;
     private widget.Label jLabel95;
     private widget.Label jLabel96;
-    private widget.PopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

@@ -301,7 +301,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
     private void initComponents() {
 
         LoadHTML = new widget.editorpane();
-        jPopupMenu1 = new widget.PopupMenu();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         MnPenilaianMedis = new widget.MenuItem();
         TanggalRegistrasi = new widget.TextBox();
         internalFrame1 = new widget.InternalFrame();
@@ -477,6 +477,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
         jLabel14 = new widget.Label();
         jLabel24 = new widget.Label();
         jLabel39 = new widget.Label();
+        BtnAmbilTTVSmc = new widget.Button();
         internalFrame3 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -953,7 +954,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
         label11.setBounds(380, 40, 52, 23);
 
         TglAsuhan.setForeground(new java.awt.Color(50, 70, 50));
-        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026 19:49:35" }));
+        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026 08:13:55" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
         TglAsuhan.setOpaque(false);
@@ -1342,7 +1343,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
             }
         });
         FormInput.add(Papilkiri);
-        Papilkiri.setBounds(520, 790, 300, 24);
+        Papilkiri.setBounds(520, 790, 300, 20);
 
         Retinakanan.setFocusTraversalPolicyProvider(true);
         Retinakanan.setName("Retinakanan"); // NOI18N
@@ -1907,6 +1908,19 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
         FormInput.add(jLabel39);
         jLabel39.setBounds(44, 270, 50, 23);
 
+        BtnAmbilTTVSmc.setBackground(new java.awt.Color(255, 255, 102));
+        BtnAmbilTTVSmc.setText("Ambil TTV");
+        BtnAmbilTTVSmc.setToolTipText("Ambil TTV dari SOAP terakhir pasien");
+        BtnAmbilTTVSmc.setName("BtnAmbilTTVSmc"); // NOI18N
+        BtnAmbilTTVSmc.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnAmbilTTVSmc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilTTVSmcActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnAmbilTTVSmc);
+        BtnAmbilTTVSmc.setBounds(870, 240, 100, 30);
+
         scrollInput.setViewportView(FormInput);
 
         internalFrame2.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -1948,7 +1962,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1962,7 +1976,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2601,11 +2615,16 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
         });
     }
 
+    private void BtnAmbilTTVSmcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAmbilTTVSmcActionPerformed
+        AmbilTTVSOAPSMC.ambil(this, TNoRw.getText(), TD, Nadi, RR, Suhu, null, BB, null, null, null);
+    }//GEN-LAST:event_BtnAmbilTTVSmcActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.TextBox Alergi;
     private widget.ComboBox Anamnesis;
     private widget.TextBox BB;
     private widget.Button BtnAll;
+    private widget.Button BtnAmbilTTVSmc;
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
     private widget.Button BtnDokter;
@@ -2749,7 +2768,7 @@ public final class RMPenilaianAwalMedisRalanMata extends javax.swing.JDialog {
     private widget.Label jLabel9;
     private widget.Label jLabel94;
     private widget.Label jLabel99;
-    private widget.PopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;

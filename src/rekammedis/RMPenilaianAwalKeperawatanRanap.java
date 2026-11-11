@@ -1335,6 +1335,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
         internalFrame1.add(panelGlass8, java.awt.BorderLayout.PAGE_END);
 
         TabRawat.setBackground(new java.awt.Color(254, 255, 254));
+        TabRawat.setForeground(new java.awt.Color(50, 50, 50));
         TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawat.setName("TabRawat"); // NOI18N
 
@@ -1461,6 +1462,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
         TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-08-2026 11:55:17" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
+        TglAsuhan.setOpaque(false);
         TglAsuhan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TglAsuhanKeyPressed(evt);
@@ -2138,7 +2140,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
             }
         });
         FormInput.add(SistemSarafKepala);
-        SistemSarafKepala.setBounds(113, 490, 112, 23);
+        SistemSarafKepala.setBounds(113, 490, 105, 23);
 
         KetSistemSarafKepala.setFocusTraversalPolicyProvider(true);
         KetSistemSarafKepala.setName("KetSistemSarafKepala"); // NOI18N
@@ -4716,6 +4718,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
 
         TabRencanaKeperawatan.setBackground(new java.awt.Color(255, 255, 254));
         TabRencanaKeperawatan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        TabRencanaKeperawatan.setForeground(new java.awt.Color(50, 50, 50));
         TabRencanaKeperawatan.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRencanaKeperawatan.setName("TabRencanaKeperawatan"); // NOI18N
 
@@ -4740,7 +4743,6 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
         Rencana.setColumns(20);
         Rencana.setRows(5);
         Rencana.setName("Rencana"); // NOI18N
-        Rencana.setOpaque(true);
         Rencana.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 RencanaKeyPressed(evt);
@@ -4980,9 +4982,9 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
         FormInput.add(jLabel65);
         jLabel65.setBounds(0, 150, 175, 23);
 
+        BtnAmbilTTVSmc.setBackground(new java.awt.Color(255, 255, 102));
         BtnAmbilTTVSmc.setText("Ambil TTV");
         BtnAmbilTTVSmc.setToolTipText("Ambil TTV dari SOAP terakhir pasien");
-        BtnAmbilTTVSmc.setGlassColor(new java.awt.Color(255, 204, 255));
         BtnAmbilTTVSmc.setName("BtnAmbilTTVSmc"); // NOI18N
         BtnAmbilTTVSmc.setPreferredSize(new java.awt.Dimension(100, 30));
         BtnAmbilTTVSmc.addActionListener(new java.awt.event.ActionListener() {
@@ -4991,7 +4993,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnAmbilTTVSmc);
-        BtnAmbilTTVSmc.setBounds(870, 410, 100, 30);
+        BtnAmbilTTVSmc.setBounds(890, 410, 100, 30);
 
         scrollInput.setViewportView(FormInput);
 
@@ -5036,6 +5038,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
         DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-08-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
+        DTPCari1.setOpaque(false);
         DTPCari1.setPreferredSize(new java.awt.Dimension(90, 23));
         panelGlass9.add(DTPCari1);
 
@@ -5049,6 +5052,7 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
         DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-08-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
+        DTPCari2.setOpaque(false);
         DTPCari2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelGlass9.add(DTPCari2);
 

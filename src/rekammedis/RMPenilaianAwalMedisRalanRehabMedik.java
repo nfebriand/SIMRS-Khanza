@@ -252,7 +252,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
     private void initComponents() {
 
         LoadHTML = new widget.editorpane();
-        jPopupMenu1 = new widget.PopupMenu();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         MnPenilaianMedis = new widget.MenuItem();
         internalFrame1 = new widget.InternalFrame();
         panelGlass8 = new widget.panelisi();
@@ -390,6 +390,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         ChkWicara = new widget.CekBox();
         ChkAkupungtur = new widget.CekBox();
         jSeparator16 = new javax.swing.JSeparator();
+        BtnAmbilTTVSmc = new widget.Button();
         internalFrame3 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -896,7 +897,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         label11.setBounds(380, 40, 52, 23);
 
         TglAsuhan.setForeground(new java.awt.Color(50, 70, 50));
-        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026 19:50:11" }));
+        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026 08:18:18" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
         TglAsuhan.setOpaque(false);
@@ -1398,7 +1399,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         jLabel113.setBounds(0, 760, 135, 23);
 
         TglFisioterapi.setForeground(new java.awt.Color(50, 70, 50));
-        TglFisioterapi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglFisioterapi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglFisioterapi.setDisplayFormat("dd-MM-yyyy");
         TglFisioterapi.setEnabled(false);
         TglFisioterapi.setName("TglFisioterapi"); // NOI18N
@@ -1407,7 +1408,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         TglFisioterapi.setBounds(764, 640, 90, 23);
 
         TglOkupasi.setForeground(new java.awt.Color(50, 70, 50));
-        TglOkupasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglOkupasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglOkupasi.setDisplayFormat("dd-MM-yyyy");
         TglOkupasi.setEnabled(false);
         TglOkupasi.setName("TglOkupasi"); // NOI18N
@@ -1416,7 +1417,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         TglOkupasi.setBounds(764, 670, 90, 23);
 
         TglWicara.setForeground(new java.awt.Color(50, 70, 50));
-        TglWicara.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglWicara.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglWicara.setDisplayFormat("dd-MM-yyyy");
         TglWicara.setEnabled(false);
         TglWicara.setName("TglWicara"); // NOI18N
@@ -1425,7 +1426,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         TglWicara.setBounds(764, 700, 90, 23);
 
         TglAkupuntur.setForeground(new java.awt.Color(50, 70, 50));
-        TglAkupuntur.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglAkupuntur.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglAkupuntur.setDisplayFormat("dd-MM-yyyy");
         TglAkupuntur.setEnabled(false);
         TglAkupuntur.setName("TglAkupuntur"); // NOI18N
@@ -1434,7 +1435,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         TglAkupuntur.setBounds(764, 730, 90, 23);
 
         TglTerapilainnya.setForeground(new java.awt.Color(50, 70, 50));
-        TglTerapilainnya.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        TglTerapilainnya.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TglTerapilainnya.setDisplayFormat("dd-MM-yyyy");
         TglTerapilainnya.setEnabled(false);
         TglTerapilainnya.setName("TglTerapilainnya"); // NOI18N
@@ -1564,6 +1565,19 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         FormInput.add(jSeparator16);
         jSeparator16.setBounds(0, 820, 880, 1);
 
+        BtnAmbilTTVSmc.setBackground(new java.awt.Color(255, 255, 102));
+        BtnAmbilTTVSmc.setText("Ambil TTV");
+        BtnAmbilTTVSmc.setToolTipText("Ambil TTV dari SOAP terakhir pasien");
+        BtnAmbilTTVSmc.setName("BtnAmbilTTVSmc"); // NOI18N
+        BtnAmbilTTVSmc.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnAmbilTTVSmc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilTTVSmcActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnAmbilTTVSmc);
+        BtnAmbilTTVSmc.setBounds(870, 210, 100, 30);
+
         scrollInput.setViewportView(FormInput);
 
         internalFrame2.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -1605,7 +1619,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1619,7 +1633,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2232,6 +2246,10 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
         });
     }
 
+    private void BtnAmbilTTVSmcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAmbilTTVSmcActionPerformed
+        AmbilTTVSOAPSMC.ambil(this, TNoRw.getText(), TD, Nadi, RR, Suhu, null, BB, null, null, Kesadaran);
+    }//GEN-LAST:event_BtnAmbilTTVSmcActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.ComboBox Abdomen;
     private widget.TextBox Akupuntur;
@@ -2239,6 +2257,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
     private widget.ComboBox Anamnesis;
     private widget.TextBox BB;
     private widget.Button BtnAll;
+    private widget.Button BtnAmbilTTVSmc;
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
     private widget.Button BtnDokter;
@@ -2363,7 +2382,7 @@ public final class RMPenilaianAwalMedisRalanRehabMedik extends javax.swing.JDial
     private widget.Label jLabel94;
     private widget.Label jLabel95;
     private widget.Label jLabel99;
-    private widget.PopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;

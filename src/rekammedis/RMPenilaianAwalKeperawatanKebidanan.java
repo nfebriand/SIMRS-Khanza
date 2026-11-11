@@ -942,6 +942,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         TanggalPersalinan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TanggalPersalinan.setDisplayFormat("dd-MM-yyyy");
         TanggalPersalinan.setName("TanggalPersalinan"); // NOI18N
+        TanggalPersalinan.setOpaque(false);
         panelBiasa2.add(TanggalPersalinan);
         TanggalPersalinan.setBounds(530, 10, 95, 23);
 
@@ -1243,6 +1244,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         internalFrame1.add(panelGlass8, java.awt.BorderLayout.PAGE_END);
 
         TabRawat.setBackground(new java.awt.Color(254, 255, 254));
+        TabRawat.setForeground(new java.awt.Color(50, 50, 50));
         TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawat.setName("TabRawat"); // NOI18N
 
@@ -1522,6 +1524,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026 06:31:15" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
+        TglAsuhan.setOpaque(false);
         TglAsuhan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TglAsuhanKeyPressed(evt);
@@ -2330,6 +2333,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         HPHT.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         HPHT.setDisplayFormat("dd-MM-yyyy");
         HPHT.setName("HPHT"); // NOI18N
+        HPHT.setOpaque(false);
         HPHT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 HPHTKeyPressed(evt);
@@ -2368,6 +2372,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         TP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         TP.setDisplayFormat("dd-MM-yyyy");
         TP.setName("TP"); // NOI18N
+        TP.setOpaque(false);
         TP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TPKeyPressed(evt);
@@ -3479,9 +3484,9 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         FormInput.add(scrollPane8);
         scrollPane8.setBounds(10, 1610, 400, 143);
 
+        BtnAmbilTTVSmc.setBackground(new java.awt.Color(255, 255, 102));
         BtnAmbilTTVSmc.setText("Ambil TTV");
         BtnAmbilTTVSmc.setToolTipText("Ambil TTV dari SOAP terakhir pasien");
-        BtnAmbilTTVSmc.setGlassColor(new java.awt.Color(255, 204, 255));
         BtnAmbilTTVSmc.setName("BtnAmbilTTVSmc"); // NOI18N
         BtnAmbilTTVSmc.setPreferredSize(new java.awt.Dimension(100, 30));
         BtnAmbilTTVSmc.addActionListener(new java.awt.event.ActionListener() {
@@ -3490,7 +3495,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
             }
         });
         FormInput.add(BtnAmbilTTVSmc);
-        BtnAmbilTTVSmc.setBounds(860, 90, 100, 30);
+        BtnAmbilTTVSmc.setBounds(890, 90, 100, 30);
 
         scrollInput.setViewportView(FormInput);
 
@@ -3535,6 +3540,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
+        DTPCari1.setOpaque(false);
         DTPCari1.setPreferredSize(new java.awt.Dimension(90, 23));
         panelGlass9.add(DTPCari1);
 
@@ -3548,6 +3554,7 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-06-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
+        DTPCari2.setOpaque(false);
         DTPCari2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelGlass9.add(DTPCari2);
 
@@ -5215,10 +5222,10 @@ public final class RMPenilaianAwalKeperawatanKebidanan extends javax.swing.JDial
         });
     }
 
-    private void BtnAmbilTTVSmcActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void BtnAmbilTTVSmcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAmbilTTVSmcActionPerformed
         AmbilTTVSOAPSMC.ambil(this, TNoRw.getText(), TD, Nadi, RR, Suhu, null, BB, TB, GCS, null);
-    }
-	
+    }//GEN-LAST:event_BtnAmbilTTVSmcActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.TextBox A;
     private widget.ComboBox ADL;
