@@ -46,6 +46,7 @@ import java.io.UncheckedIOException;
 import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -55,7 +56,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JWindow;
 import javax.swing.ListCellRenderer;
 import javax.swing.LookAndFeel;
@@ -89,8 +89,9 @@ import javax.swing.text.JTextComponent;
  *   <li>popup menus with rounded corners on every platform, and popup menu
  *       separators that stop short of the popup edges;</li>
  *   <li>dialog components, such as the choice list of an input dialog or a check
- *       box in an {@code Object[]} message, drawn in the message font, and custom
- *       option buttons drawn in the button font;</li>
+ *       box in an {@code Object[]} message, drawn in the message font, custom
+ *       option buttons drawn in the button font, and dialog buttons drawn as stock
+ *       FlatLaf buttons;</li>
  *   <li>the selected tab keeping its background while hovered, and unselected tabs
  *       drawn with their own background and outline;</li>
  *   <li>a scroll bar thumb that thickens while hovered or dragged, beside a
@@ -725,8 +726,14 @@ public class LookAndFeelSMC extends FlatLightLaf {
      * {@code OptionPane.buttonFont}, like the buttons the option pane creates.
      * A component keeps a font that the caller set explicitly; only the look and
      * feel default is replaced.
+     * <p>
+     * Every button in the button row gets the {@value #BUTTON_STYLE_CLASS} style
+     * class, which gives it the stock FlatLaf button look in place of the
+     * transparent buttons of the forms, unless the caller gave it a style class.
      */
     public static class OptionPaneUI extends FlatOptionPaneUI {
+
+        public static final String BUTTON_STYLE_CLASS = "optionPane";
 
         private Font messageFont;
         private Font buttonFont;
@@ -770,6 +777,13 @@ public class LookAndFeelSMC extends FlatLightLaf {
             }
 
             super.addButtonComponents(container, buttons, initialIndex);
+
+            for (Component c : container.getComponents()) {
+                if (c instanceof JButton && null == ((JButton) c).getClientProperty(FlatClientProperties.STYLE_CLASS)) {
+                    ((JButton) c).putClientProperty(FlatClientProperties.STYLE_CLASS, BUTTON_STYLE_CLASS);
+                    applyFont(c, buttonFont);
+                }
+            }
         }
 
         private static void applyFont(Component c, Font font) {
