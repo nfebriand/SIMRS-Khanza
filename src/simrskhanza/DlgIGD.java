@@ -12219,7 +12219,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         }
     }
 
-    private void MnSuratPernyataanBersediaDirujukActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+    private void MnSuratPernyataanBersediaDirujukActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data registrasi sudah habis...!!!!");
             TNoRM.requestFocus();
@@ -12241,7 +12241,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         }
     }
 
-    private void MnSuratPernyataanBersediaMenungguDiIGDActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+    private void MnSuratPernyataanBersediaMenungguDiIGDActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data registrasi sudah habis...!!!!");
             TNoRM.requestFocus();

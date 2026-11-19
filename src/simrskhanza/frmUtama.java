@@ -1054,6 +1054,7 @@ import rekammedis.RMPenilaianAwalMedisRalanBedah;
 import rekammedis.RMPenilaianAwalMedisRalanBedahMulut;
 import rekammedis.RMPenilaianAwalMedisRalanDewasa;
 import rekammedis.RMPenilaianAwalMedisRalanGeriatri;
+import rekammedis.RMPenilaianAwalMedisRalanGigi;
 import rekammedis.RMPenilaianAwalMedisRalanJantung;
 import rekammedis.RMPenilaianAwalMedisRalanKandungan;
 import rekammedis.RMPenilaianAwalMedisRalanKulitDanKelamin;
@@ -23828,6 +23829,20 @@ public class frmUtama extends javax.swing.JFrame {
         this.setCursor(Cursor.getDefaultCursor());
     }
 
+    private void btnPenilaianAwalMedisRalanGigiActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        RMPenilaianAwalMedisRalanGigi aplikasi=new RMPenilaianAwalMedisRalanGigi(this,false);
+        aplikasi.isCek();
+        aplikasi.emptTeks();
+        aplikasi.setTampil();
+        aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        aplikasi.setLocationRelativeTo(PanelUtama);
+        aplikasi.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
     /**
     * @param args the command line arguments
     */
@@ -24555,7 +24570,7 @@ public class frmUtama extends javax.swing.JFrame {
             btnMapingTarifTindakanRanapKPTLSatuSehat,btnMapingTarifTindakanRadiologiKPTLSatuSehat,btnMapingTarifTindakanLabKPTLSatuSehat,btnMapingTarifTindakanOperasiKPTLSatuSehat,btnMapingTarifKamarKPTLSatuSehat,
             btnChecklistKriteriaKeluarIsolasi,btnBridgingTTESatuSehat,btnBridgingCompositionRMESatuSehat,btnRingkasanHutangVendorAsetInventaris,btnRingkasanBebanHutangLain,btnSetResepPerCaraBayar,
             btnSkriningTOLAC,btnAdmisiSkoringTOLAC,btnMonitoringTOLAC,btnHasilPersalinanTOLAC,btnLaporanReaksiTranfusi,btnPenilaianGRACEScore,btnPenilaianBISHOPScore,btnProfilRingkasRawatJalan,
-            btnHasilUSGTestis,btnHasilUSGKepala,btnHasilUSGMammae,btnHasilPemeriksaanSpirometri,btnSuratPernyataanBersediaDirujuk,btnSuratPernyataanBersediaMenungguDiIGD;
+            btnHasilUSGTestis,btnHasilUSGKepala,btnHasilUSGMammae,btnHasilPemeriksaanSpirometri,btnSuratPernyataanBersediaDirujuk,btnSuratPernyataanBersediaMenungguDiIGD,btnPenilaianAwalMedisRalanGigi;
 
     public void isWall(){
         try{
@@ -28680,6 +28695,11 @@ public class frmUtama extends javax.swing.JFrame {
 
             if(akses.getpenilaian_awal_medis_ralan_urologi()==true){
                 Panelmenu.add(btnPenilaianAwalMedisRalanUrologi);
+                jmlmenu++;
+            }
+
+            if(akses.getpenilaian_awal_medis_gigi_mulut()==true){
+                Panelmenu.add(btnPenilaianAwalMedisRalanGigi);
                 jmlmenu++;
             }
 
@@ -34807,6 +34827,11 @@ public class frmUtama extends javax.swing.JFrame {
 
         if(akses.getpenilaian_awal_medis_ralan_urologi()==true){
             Panelmenu.add(btnPenilaianAwalMedisRalanUrologi);
+            jmlmenu++;
+        }
+
+        if(akses.getpenilaian_awal_medis_gigi_mulut()==true){
+            Panelmenu.add(btnPenilaianAwalMedisRalanGigi);
             jmlmenu++;
         }
 
@@ -42510,6 +42535,13 @@ public class frmUtama extends javax.swing.JFrame {
         if(akses.getpenilaian_awal_medis_ralan_urologi()==true){
             if(btnPenilaianAwalMedisRalanUrologi.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
                 Panelmenu.add(btnPenilaianAwalMedisRalanUrologi);
+                jmlmenu++;
+            }
+        }
+
+        if(akses.getpenilaian_awal_medis_gigi_mulut()==true){
+            if(btnPenilaianAwalMedisRalanGigi.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
+                Panelmenu.add(btnPenilaianAwalMedisRalanGigi);
                 jmlmenu++;
             }
         }
@@ -50972,6 +51004,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnSuratPernyataanBersediaMenungguDiIGD.setName("btnSuratPernyataanBersediaMenungguDiIGD");
         btnSuratPernyataanBersediaMenungguDiIGD.setPreferredSize(new java.awt.Dimension(200, 90));
         btnSuratPernyataanBersediaMenungguDiIGD.addActionListener(this::btnSuratPernyataanBersediaMenungguDiIGDActionPerformed);
+
+        btnPenilaianAwalMedisRalanGigi = new widget.ButtonBig();
+        btnPenilaianAwalMedisRalanGigi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/tooth_1225584.png")));
+        btnPenilaianAwalMedisRalanGigi.setText("Awal Medis Ralan Gigi");
+        btnPenilaianAwalMedisRalanGigi.setIconTextGap(0);
+        btnPenilaianAwalMedisRalanGigi.setName("btnPenilaianAwalMedisRalanGigi");
+        btnPenilaianAwalMedisRalanGigi.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnPenilaianAwalMedisRalanGigi.addActionListener(this::btnPenilaianAwalMedisRalanGigiActionPerformed);
     }
 
     private widget.ButtonBig btnBPJSKompilasiBerkasKlaimSmc, btnUserSmc, btnSetAksesEditSementaraSmc, btnBPJSAntreanPerKodebookingMobileJKNSmc, btnSetTampilJenisObatResepSmc, btnSetPintuPoliSmc,
