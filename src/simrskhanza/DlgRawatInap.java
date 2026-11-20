@@ -203,6 +203,16 @@ import surat.SuratKontrol;
  * @author perpustakaan
  */
 public final class DlgRawatInap extends javax.swing.JDialog {
+    private javax.swing.Timer timerJam;
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
+    }
+
     private final DefaultTableModel tabModeDr,tabModePr,tabModeDrPr,
             tabModePemeriksaan,tabModeObstetri,tabModeGinekologi;
     private sekuel Sequel=new sekuel();
@@ -10708,7 +10718,8 @@ public final class DlgRawatInap extends javax.swing.JDialog {
             }
         };
         // Timer
-        new Timer(1000, taskPerformer).start();
+        timerJam = new javax.swing.Timer(1000, taskPerformer);
+        timerJam.start();
     }
 
     private void tampilPemeriksaan() {
@@ -12994,6 +13005,9 @@ public final class DlgRawatInap extends javax.swing.JDialog {
 
     @Override
     public void dispose() {
+        if (timerJam != null) {
+            timerJam.stop();
+        }
         executor.shutdownNow();
         super.dispose();
     }

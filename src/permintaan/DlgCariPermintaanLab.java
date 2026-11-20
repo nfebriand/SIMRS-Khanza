@@ -54,7 +54,6 @@ import javafx.util.Callback;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -64,6 +63,16 @@ import simrskhanza.DlgCariPoli;
 import simrskhanza.DlgPeriksaLaboratorium;
 
 public class DlgCariPermintaanLab extends javax.swing.JDialog {
+    private javax.swing.Timer timerJam;
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
+    }
+
     private final DefaultTableModel tabMode,tabMode2,tabMode3,tabMode4;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
@@ -5278,7 +5287,8 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
             }
         };
         // Timer
-        new Timer(1000, taskPerformer).start();
+        timerJam = new javax.swing.Timer(1000, taskPerformer);
+        timerJam.start();
     }
 
     public void loadURL(String url) {
@@ -5420,6 +5430,9 @@ public class DlgCariPermintaanLab extends javax.swing.JDialog {
 
     @Override
     public void dispose() {
+        if (timerJam != null) {
+            timerJam.stop();
+        }
         executor.shutdownNow();
         super.dispose();
     }
