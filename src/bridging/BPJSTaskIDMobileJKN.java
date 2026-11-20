@@ -394,7 +394,8 @@ public final class BPJSTaskIDMobileJKN extends javax.swing.JDialog {
                    "FROM reg_periksa INNER JOIN pasien ON reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "INNER JOIN poliklinik ON reg_periksa.kd_poli=poliklinik.kd_poli "+
                    "INNER JOIN dokter ON reg_periksa.kd_dokter=dokter.kd_dokter "+
-                   "WHERE reg_periksa.tgl_registrasi BETWEEN ? AND ? "+(TCari.getText().equals("")?"":
+                   "WHERE reg_periksa.tgl_registrasi BETWEEN ? AND ? "+
+                   "and exists(select * from password_asuransi where password_asuransi.kd_pj=reg_periksa.kd_pj) "+(TCari.getText().equals("")?"":
                    "and (reg_periksa.no_rawat LIKE ? OR reg_periksa.no_rkm_medis LIKE ? OR pasien.nm_pasien LIKE ? OR "+
                    "pasien.no_tlp LIKE ? OR pasien.no_peserta LIKE ? OR pasien.no_ktp LIKE ? OR "+
                    "poliklinik.nm_poli LIKE ? OR dokter.nm_dokter LIKE ?) ")+
