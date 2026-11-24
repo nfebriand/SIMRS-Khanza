@@ -45,6 +45,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
@@ -56,16 +57,7 @@ import kepegawaian.DlgCariDokter;
  * @author dosen
  */
 public final class DlgPermintaanRadiologi extends javax.swing.JDialog {
-    private javax.swing.Timer timerJam;
-
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        if (timerJam != null && !timerJam.isRunning()) {
-            timerJam.start();
-        }
-    }
-
+    private Timer timerJam;
     private DefaultTableModel tabMode;
     private sekuel Sequel=new sekuel();
     private AccessionRadiologiSMC accession=new AccessionRadiologiSMC();
@@ -1015,7 +1007,6 @@ public final class DlgPermintaanRadiologi extends javax.swing.JDialog {
     private widget.Table tbPemeriksaan;
     // End of variables declaration//GEN-END:variables
 
-
     private void tampil() {
         try{
             file=new File("./cache/permintaanradiologi.iyem");
@@ -1488,5 +1479,13 @@ public final class DlgPermintaanRadiologi extends javax.swing.JDialog {
     private void LoadData() {
         tampil();
         tampil2();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
     }
 }

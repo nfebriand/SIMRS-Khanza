@@ -5,7 +5,6 @@
 
 package fungsi;
 
-
 import java.awt.Desktop;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
@@ -1634,7 +1633,6 @@ public final class validasi {
         }
     }
 
-
     public void MyReport(String reportName,Map parameters,String title){
         try {
                 JasperViewer jasperViewer =new JasperViewer(JasperFillManager.fillReport("./report/"+reportName,parameters,connect), false);
@@ -1649,6 +1647,22 @@ public final class validasi {
 
     public void pindah(java.awt.event.KeyEvent evt,JCheckBox kiri,JTextField kanan){
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            kanan.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            kiri.requestFocus();
+        }
+    }
+
+    public void pindah(java.awt.event.KeyEvent evt,java.awt.Component kiri,java.awt.Component kanan){
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            kanan.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            kiri.requestFocus();
+        }
+    }
+
+    public void pindah2(java.awt.event.KeyEvent evt,java.awt.Component kiri,java.awt.Component kanan){
+        if(evt.getKeyCode()==KeyEvent.VK_TAB){
             kanan.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
             kiri.requestFocus();

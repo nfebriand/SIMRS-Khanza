@@ -39,6 +39,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
@@ -48,16 +49,7 @@ import keuangan.Jurnal;
  * @author dosen
  */
 public final class LabKeslingBayarTagihanPengujianSampel extends javax.swing.JDialog {
-    private javax.swing.Timer timerJam;
-
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        if (timerJam != null && !timerJam.isRunning()) {
-            timerJam.start();
-        }
-    }
-
+    private Timer timerJam;
     private final DefaultTableModel tabMode,tabModeAkunBayar;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
@@ -1007,7 +999,6 @@ public final class LabKeslingBayarTagihanPengujianSampel extends javax.swing.JDi
     private widget.Table tbValidasi;
     // End of variables declaration//GEN-END:variables
 
-
     private void tampil() {
         try {
             Valid.tabelKosong(tabMode);
@@ -1359,5 +1350,13 @@ public final class LabKeslingBayarTagihanPengujianSampel extends javax.swing.JDi
         }
         executor.shutdownNow();
         super.dispose();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
     }
 }

@@ -41,7 +41,6 @@ import javax.swing.text.html.StyleSheet;
 import kepegawaian.DlgCariDokter;
 import kepegawaian.DlgCariPetugas;
 
-
 /**
  *
  * @author perpustakaan
@@ -796,7 +795,6 @@ public final class RMPenilaianAwalKeperawatanRanapBayiAnak extends javax.swing.J
         ChkAccor.setSelected(false);
         isMenu();
     }
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -8055,7 +8053,6 @@ public final class RMPenilaianAwalKeperawatanRanapBayiAnak extends javax.swing.J
         isRawat();
     }
 
-
     public void isCek(){
         BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap_bayi());
         BtnHapus.setEnabled(akses.getpenilaian_awal_keperawatan_ranap_bayi());
@@ -8493,7 +8490,6 @@ public final class RMPenilaianAwalKeperawatanRanapBayiAnak extends javax.swing.J
                 TabRawat.setSelectedIndex(1);
         }
     }
-
 
     private void tampilMasalah() {
         try{

@@ -39,6 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -49,16 +50,7 @@ import laporan.DlgCariPenyakit;
  * @author dosen
  */
 public final class DlgCariObatPenyakit extends javax.swing.JDialog {
-    private javax.swing.Timer timerJam;
-
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        if (timerJam != null && !timerJam.isRunning()) {
-            timerJam.start();
-        }
-    }
-
+    private Timer timerJam;
     private final DefaultTableModel tabMode;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
@@ -164,7 +156,6 @@ public final class DlgCariObatPenyakit extends javax.swing.JDialog {
     }
 
     private String[] hlm;
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -471,7 +462,6 @@ public final class DlgCariObatPenyakit extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
         runBackground(() ->tampil());
@@ -835,7 +825,6 @@ public final class DlgCariObatPenyakit extends javax.swing.JDialog {
                         }
                     }
 
-
                     cmbHlm.removeAllItems();
                     rs.last();
                     jumlah=rs.getRow();
@@ -914,7 +903,6 @@ public final class DlgCariObatPenyakit extends javax.swing.JDialog {
                             });
                         }
                     }
-
 
                     cmbHlm.removeAllItems();
                     rs.last();
@@ -1149,4 +1137,11 @@ public final class DlgCariObatPenyakit extends javax.swing.JDialog {
         super.dispose();
     }
 
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
+    }
 }

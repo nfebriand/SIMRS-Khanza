@@ -38,6 +38,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
@@ -53,16 +54,7 @@ import simrskhanza.DlgReg;
  * @author dosen
  */
 public class RMSKriningRawatJalan extends javax.swing.JDialog {
-    private javax.swing.Timer timerJam;
-
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        if (timerJam != null && !timerJam.isRunning()) {
-            timerJam.start();
-        }
-    }
-
+    private Timer timerJam;
     private final DefaultTableModel tabMode;
     private Connection koneksi=koneksiDB.condb();
     private sekuel Sequel=new sekuel();
@@ -75,7 +67,6 @@ public class RMSKriningRawatJalan extends javax.swing.JDialog {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private volatile boolean ceksukses = false;
     private String pilihan="",nokartu="",finger="";
-
 
     /** Creates new form DlgPemberianInfus
      * @param parent
@@ -136,7 +127,6 @@ public class RMSKriningRawatJalan extends javax.swing.JDialog {
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
-
 
         TNoRM.setDocument(new batasInput((byte)17).getKata(TNoRM));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
@@ -1579,7 +1569,6 @@ public class RMSKriningRawatJalan extends javax.swing.JDialog {
         }
     }
 
-
     public void emptTeks() {
         TNoRM.setText("");
         TPasien.setText("");
@@ -1596,8 +1585,6 @@ public class RMSKriningRawatJalan extends javax.swing.JDialog {
         Lahir.setText("");
         TNoRM.requestFocus();
     }
-
-
 
     private void getData() {
         if(tbObat.getSelectedRow()!= -1){
@@ -1811,5 +1798,13 @@ public class RMSKriningRawatJalan extends javax.swing.JDialog {
         }
         executor.shutdownNow();
         super.dispose();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
     }
 }

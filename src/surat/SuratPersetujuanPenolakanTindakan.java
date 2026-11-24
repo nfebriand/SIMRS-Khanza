@@ -2,7 +2,6 @@
  * By Mas Khanza
  */
 
-
 package surat;
 
 import fungsi.WarnaTable;
@@ -25,9 +24,13 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -35,11 +38,6 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import kepegawaian.DlgCariDokter;
 import kepegawaian.DlgCariPetugas;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
-import javax.swing.WindowConstants;
-
 
 /**
  *
@@ -239,7 +237,6 @@ public final class SuratPersetujuanPenolakanTindakan extends javax.swing.JDialog
         LoadHTML2.setDocument(kit.createDefaultDocument());
         LoadHTML3.setDocument(kit.createDefaultDocument());
     }
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -2461,7 +2458,7 @@ public final class SuratPersetujuanPenolakanTindakan extends javax.swing.JDialog
             ceksukses = false;
         }
     }
-    
+
     @Override
     public void dispose() {
     executor.shutdownNow();

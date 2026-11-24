@@ -37,6 +37,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
@@ -48,16 +49,7 @@ import kepegawaian.DlgCariPetugas;
  * @author dosen
  */
 public final class LabKeslingPenugasanPengujianSampel extends javax.swing.JDialog {
-    private javax.swing.Timer timerJam;
-
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        if (timerJam != null && !timerJam.isRunning()) {
-            timerJam.start();
-        }
-    }
-
+    private Timer timerJam;
     private final DefaultTableModel tabMode;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
@@ -1154,7 +1146,6 @@ public final class LabKeslingPenugasanPengujianSampel extends javax.swing.JDialo
     private widget.Table tbPermintaan;
     // End of variables declaration//GEN-END:variables
 
-
     private void tampil() {
         try {
             jml=0;
@@ -1390,5 +1381,13 @@ public final class LabKeslingPenugasanPengujianSampel extends javax.swing.JDialo
         }
         executor.shutdownNow();
         super.dispose();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
     }
 }

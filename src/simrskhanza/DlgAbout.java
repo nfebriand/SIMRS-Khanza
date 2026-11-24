@@ -20,7 +20,6 @@ import java.util.Properties;
  */
 public class DlgAbout extends javax.swing.JDialog {
 
-
     public DlgAbout(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -102,7 +101,7 @@ public class DlgAbout extends javax.swing.JDialog {
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel17.setText("2026-11-05 Patch 2");
+        jLabel17.setText("2026-11-05 Patch 4");
         jLabel17.setName("jLabel17"); // NOI18N
         panelGlass1.add(jLabel17);
         jLabel17.setBounds(107, 8, 330, 17);

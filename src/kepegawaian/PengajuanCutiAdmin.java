@@ -43,7 +43,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-
 /**
  *
  * @author perpustakaan
@@ -1566,6 +1565,29 @@ public final class PengajuanCutiAdmin extends javax.swing.JDialog {
         BtnSimpan.setEnabled(akses.getpengajuan_cuti());
         BtnHapus.setEnabled(akses.getpengajuan_cuti());
         BtnEdit.setEnabled(akses.getpengajuan_cuti());
+    }
+
+    public void setPegawaiSmc(String nik, Date tanggal) {
+        try (PreparedStatement ps = koneksi.prepareStatement("select pegawai.nama, pegawai.bidang, pegawai.departemen from pegawai where pegawai.nik = ?")) {
+            ps.setString(1, nik);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    KdPetugas.setText(nik);
+                    NmPetugas.setText(rs.getString("nama"));
+                    Bidang.setText(rs.getString("bidang"));
+                    Departemen.setText(rs.getString("departemen"));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif : " + e);
+        }
+
+        Tgl1.setDate(tanggal);
+        Tgl2.setDate(tanggal);
+        ChkInput.setSelected(true);
+        isForm();
+        hitungSisaCuti();
+        hitungHari();
     }
 
     private void autoNomor() {

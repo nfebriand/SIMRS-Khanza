@@ -841,7 +841,6 @@ public final class RMPenilaianAwalKeperawatanRanapNeonatus extends javax.swing.J
         isMenu();
     }
 
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -9057,7 +9056,6 @@ public final class RMPenilaianAwalKeperawatanRanapNeonatus extends javax.swing.J
         isRawat();
     }
 
-
     public void isCek(){
         BtnSimpan.setEnabled(akses.getpenilaian_awal_keperawatan_ranap_neonatus());
         BtnHapus.setEnabled(akses.getpenilaian_awal_keperawatan_ranap_neonatus());
@@ -9162,8 +9160,6 @@ public final class RMPenilaianAwalKeperawatanRanapNeonatus extends javax.swing.J
             }
         }
     }
-
-
 
     private void hapus() {
         if(Sequel.queryu2tf("delete from penilaian_awal_keperawatan_ranap_neonatus where no_rawat=?",1,new String[]{

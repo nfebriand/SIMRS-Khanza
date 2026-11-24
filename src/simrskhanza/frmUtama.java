@@ -1023,6 +1023,7 @@ import rekammedis.RMHasilPersalinanTOLAC;
 import rekammedis.RMHasilTindakanESWL;
 import rekammedis.RMHemodialisa;
 import rekammedis.RMKonselingFarmasi;
+import rekammedis.RMLaporanMESO;
 import rekammedis.RMLaporanTindakan;
 import rekammedis.RMLayananKedokteranFisikRehabilitasi;
 import rekammedis.RMLayananProgramKFR;
@@ -1301,7 +1302,6 @@ import ziscsr.ZISPenghasilanPenerimaDankes;
 import ziscsr.ZISTernakPenerimaDankes;
 import ziscsr.ZISUkuranRumahPenerimaDankes;
 
-
 /**
  *
  * @author perpustakaan
@@ -1402,7 +1402,6 @@ public class frmUtama extends javax.swing.JFrame {
 
         return myInstance;
     }
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -20652,7 +20651,6 @@ public class frmUtama extends javax.swing.JFrame {
         this.setCursor(Cursor.getDefaultCursor());
     }
 
-
     private void btnPenilaianAwalMedisHemodialisaActionPerformed(java.awt.event.ActionEvent evt) {
         isTutup();
         DlgHome.dispose();
@@ -23846,6 +23844,20 @@ public class frmUtama extends javax.swing.JFrame {
         this.setCursor(Cursor.getDefaultCursor());
     }
 
+    private void btnLaporanMESOActionPerformed(java.awt.event.ActionEvent evt) {
+        isTutup();
+        DlgHome.dispose();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        RMLaporanMESO aplikasi=new RMLaporanMESO(this,false);
+        aplikasi.isCek();
+        aplikasi.emptTeks();
+        aplikasi.setTampil();
+        aplikasi.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        aplikasi.setLocationRelativeTo(PanelUtama);
+        aplikasi.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
     /**
     * @param args the command line arguments
     */
@@ -24573,7 +24585,8 @@ public class frmUtama extends javax.swing.JFrame {
             btnMapingTarifTindakanRanapKPTLSatuSehat,btnMapingTarifTindakanRadiologiKPTLSatuSehat,btnMapingTarifTindakanLabKPTLSatuSehat,btnMapingTarifTindakanOperasiKPTLSatuSehat,btnMapingTarifKamarKPTLSatuSehat,
             btnChecklistKriteriaKeluarIsolasi,btnBridgingTTESatuSehat,btnBridgingCompositionRMESatuSehat,btnRingkasanHutangVendorAsetInventaris,btnRingkasanBebanHutangLain,btnSetResepPerCaraBayar,
             btnSkriningTOLAC,btnAdmisiSkoringTOLAC,btnMonitoringTOLAC,btnHasilPersalinanTOLAC,btnLaporanReaksiTranfusi,btnPenilaianGRACEScore,btnPenilaianBISHOPScore,btnProfilRingkasRawatJalan,
-            btnHasilUSGTestis,btnHasilUSGKepala,btnHasilUSGMammae,btnHasilPemeriksaanSpirometri,btnSuratPernyataanBersediaDirujuk,btnSuratPernyataanBersediaMenungguDiIGD,btnPenilaianAwalMedisRalanGigi;
+            btnHasilUSGTestis,btnHasilUSGKepala,btnHasilUSGMammae,btnHasilPemeriksaanSpirometri,btnSuratPernyataanBersediaDirujuk,btnSuratPernyataanBersediaMenungguDiIGD,btnPenilaianAwalMedisRalanGigi,
+            btnLaporanMESO;
 
     public void isWall(){
         try{
@@ -29331,6 +29344,11 @@ public class frmUtama extends javax.swing.JFrame {
                 jmlmenu++;
             }
 
+            if(akses.getlaporan_meso()==true){
+                Panelmenu.add(btnLaporanMESO);
+                jmlmenu++;
+            }
+
             if(akses.getchecklist_pemberian_fibrinolitik()==true){
                 Panelmenu.add(btnChecklistPemberianFibrinolitik);
                 jmlmenu++;
@@ -31043,7 +31061,6 @@ public class frmUtama extends javax.swing.JFrame {
            Panelmenu.add(btnLihatPiutang);
            jmlmenu++;
         }
-
 
         if(akses.getbarcoderalan()==true){
             Panelmenu.add(btnBarcodeRalan);
@@ -33436,7 +33453,6 @@ public class frmUtama extends javax.swing.JFrame {
             jmlmenu++;
         }
 
-
         if(akses.getbpjs_cek_kartu()==true){
             Panelmenu.add(btnCekBPJSKartu);
             jmlmenu++;
@@ -35463,6 +35479,11 @@ public class frmUtama extends javax.swing.JFrame {
             jmlmenu++;
         }
 
+        if(akses.getlaporan_meso()==true){
+            Panelmenu.add(btnLaporanMESO);
+            jmlmenu++;
+        }
+
         if(akses.getchecklist_pemberian_fibrinolitik()==true){
             Panelmenu.add(btnChecklistPemberianFibrinolitik);
             jmlmenu++;
@@ -37228,7 +37249,6 @@ public class frmUtama extends javax.swing.JFrame {
                 jmlmenu++;
             }
         }
-
 
         if(akses.getbarcoderalan()==true){
             if(btnBarcodeRalan.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
@@ -43424,6 +43444,13 @@ public class frmUtama extends javax.swing.JFrame {
             }
         }
 
+        if(akses.getlaporan_meso()==true){
+            if(btnLaporanMESO.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
+                Panelmenu.add(btnLaporanMESO);
+                jmlmenu++;
+            }
+        }
+
         if(akses.getskrining_instrumen_srq()==true){
             if(btnSkriningInstrumenSRQ.getText().toLowerCase().trim().contains(TCari.getText().toLowerCase().trim())){
                 Panelmenu.add(btnSkriningInstrumenSRQ);
@@ -46608,7 +46635,6 @@ public class frmUtama extends javax.swing.JFrame {
         btnPenerimaanBarangToko.setName("btnPenerimaanBarangToko");
         btnPenerimaanBarangToko.setPreferredSize(new java.awt.Dimension(200, 90));
         btnPenerimaanBarangToko.addActionListener(this::btnPenerimaanBarangTokoActionPerformed);
-
 
         btnPengadaanBarangToko = new widget.ButtonBig();
         btnPengadaanBarangToko.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/iconfinder_Notebook_3387299.png")));
@@ -51015,6 +51041,14 @@ public class frmUtama extends javax.swing.JFrame {
         btnPenilaianAwalMedisRalanGigi.setName("btnPenilaianAwalMedisRalanGigi");
         btnPenilaianAwalMedisRalanGigi.setPreferredSize(new java.awt.Dimension(200, 90));
         btnPenilaianAwalMedisRalanGigi.addActionListener(this::btnPenilaianAwalMedisRalanGigiActionPerformed);
+
+        btnLaporanMESO = new widget.ButtonBig();
+        btnLaporanMESO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/medicine_5793723.png")));
+        btnLaporanMESO.setText("Laporan Monitoring Efek Samping Obat");
+        btnLaporanMESO.setIconTextGap(0);
+        btnLaporanMESO.setName("btnLaporanMESO");
+        btnLaporanMESO.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnLaporanMESO.addActionListener(this::btnLaporanMESOActionPerformed);
     }
 
     private widget.ButtonBig btnBPJSKompilasiBerkasKlaimSmc, btnUserSmc, btnSetAksesEditSementaraSmc, btnBPJSAntreanPerKodebookingMobileJKNSmc, btnSetTampilJenisObatResepSmc, btnSetPintuPoliSmc,

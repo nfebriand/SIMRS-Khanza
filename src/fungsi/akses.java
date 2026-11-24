@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
 /**
  *
  * @author Owner
@@ -275,7 +274,7 @@ public final class akses {
             ringkasan_hutang_vendor_inventaris=false,ringkasan_beban_hutang_lain=false,set_resep_per_cara_bayar=false,skrining_tolac=false,admisi_skoring_tolac=false,
             monitoring_tolac=false,hasil_persalinan_tolac=false,laporan_reaksi_transfusi=false,penilaian_grace_scor=false,penilaian_bishop_scor=false,profil_ringkas_rawat_jalan=false,
             hasil_usg_testis=false,hasil_usg_kepala=false,hasil_usg_mammae=false,hasil_spirometri=false,surat_pernyataan_bersedia_dirujuk=false,surat_kesediaan_menunggu_igd=false,
-            penilaian_awal_medis_gigi_mulut=false;
+            penilaian_awal_medis_gigi_mulut=false,laporan_meso=false;
 
     private static boolean edit_hapus_spo_medis = false,
         edit_hapus_spo_nonmedis = false,
@@ -1602,6 +1601,7 @@ public final class akses {
                         akses.surat_pernyataan_bersedia_dirujuk=akses.getBoolean(rs2, "surat_pernyataan_bersedia_dirujuk");
                         akses.surat_kesediaan_menunggu_igd=akses.getBoolean(rs2, "surat_kesediaan_menunggu_igd");
                         akses.penilaian_awal_medis_gigi_mulut=akses.getBoolean(rs2, "penilaian_awal_medis_gigi_mulut");
+                        akses.laporan_meso=akses.getBoolean(rs2, "laporan_meso");
                         try (PreparedStatement psx = koneksi.prepareStatement("select * from set_akses_edit_sementara where id_user = ? and now() < tgl_selesai")) {
                             psx.setString(1, user);
                             try (ResultSet rsx = psx.executeQuery()) {
@@ -2906,6 +2906,7 @@ public final class akses {
         akses.surat_pernyataan_bersedia_dirujuk=isadmin;
         akses.surat_kesediaan_menunggu_igd=isadmin;
         akses.penilaian_awal_medis_gigi_mulut=isadmin;
+        akses.laporan_meso=isadmin;
         akses.edit=isadmin;
         akses.tglSelesai=-1;
     }
@@ -4213,6 +4214,7 @@ public final class akses {
     public static boolean getsurat_pernyataan_bersedia_dirujuk(){return akses.surat_pernyataan_bersedia_dirujuk;}
     public static boolean getsurat_kesediaan_menunggu_igd(){return akses.surat_kesediaan_menunggu_igd;}
     public static boolean getpenilaian_awal_medis_gigi_mulut(){return akses.penilaian_awal_medis_gigi_mulut;}
+    public static boolean getlaporan_meso(){return akses.laporan_meso;}
     public static boolean getakses_edit_sementara() {akses.setEdit();return akses.edit;}
     public static void resetEdit() {
         akses.edit = false;

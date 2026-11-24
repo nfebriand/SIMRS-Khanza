@@ -44,6 +44,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -60,16 +61,7 @@ import org.springframework.http.MediaType;
  * @author dosen
  */
 public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
-    private javax.swing.Timer timerJam;
-
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        if (timerJam != null && !timerJam.isRunning()) {
-            timerJam.start();
-        }
-    }
-
+    private Timer timerJam;
     private final DefaultTableModel TabModeTindakan;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
@@ -578,7 +570,6 @@ public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
     private void TCariTindakanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariTindakanKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -1429,7 +1420,6 @@ public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
         return tbTindakan;
     }
 
-
     public void isCek(){
         BtnTambahTindakan.setEnabled(akses.gettarif_ralan());
     }
@@ -1626,5 +1616,13 @@ public final class DlgCariPerawatanRalan extends javax.swing.JDialog {
         }
         executor.shutdownNow();
         super.dispose();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (timerJam != null && !timerJam.isRunning()) {
+            timerJam.start();
+        }
     }
 }
