@@ -42,6 +42,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
+import javax.swing.text.Document;
 import kepegawaian.DlgCariPegawai;
 
 /**
