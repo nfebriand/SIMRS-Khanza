@@ -25,8 +25,6 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -550,8 +548,8 @@ public final class DlgPintuSMC extends javax.swing.JDialog {
                     bw.flush();
                 }
                 String pilihan = (String) JOptionPane.showInputDialog(null, "Silahkan pilih laporan..!", "Pilihan Cetak", JOptionPane.QUESTION_MESSAGE, null, new Object[] {
-                    "Laporan 1 (HTML)", "Laporan 2 (WPS)", "Laporan 3 (CSV)", "Laporan 4 (XLSX)", "Laporan 5 (Jasper)"
-                }, "Laporan 5 (Jasper)");
+                    "Laporan 1 (HTML)", "Laporan 2 (WPS)", "Laporan 3 (CSV)", "Laporan 4 (XLSX)"
+                }, "Laporan 4 (XLSX)");
                 switch (pilihan) {
                     case "Laporan 1 (HTML)":
                         Valid.exportHtmlSmc("Pintu.html", "Data Pintu", tbKamar);
@@ -565,6 +563,7 @@ public final class DlgPintuSMC extends javax.swing.JDialog {
                     case "Laporan 4 (XLSX)":
                         Valid.exportXlsxSmc("Pintu.xlsx", tbKamar);
                         break;
+                    /*
                     case "Laporan 5 (Jasper)":
                         Map<String, Object> param = new HashMap<>();
                         param.put("namars", akses.getnamars());
@@ -578,6 +577,7 @@ public final class DlgPintuSMC extends javax.swing.JDialog {
                             " from pintu_smc where status='1' and kd_pintu like '%" + TCari.getText().trim() + "%' or " +
                             " status='1' and nm_pintu like '%" + TCari.getText().trim() + "%' order by kd_pintu", param);
                         break;
+                    */
                 }
             } catch (Exception e) {
                 System.out.println("Notifikasi : "+e);
